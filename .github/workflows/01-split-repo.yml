@@ -1,0 +1,52 @@
+name: 'Split Repository'
+
+on:
+  push:
+    branches:
+      - 'trunk'
+    paths:
+      - src/Administration/**/*
+      - src/Core/**/*
+      - src/Storefront/**/*
+      - src/Elasticsearch/**/*
+
+env:
+  GITHUB_TOKEN: ${{ secrets.TOKEN }}
+
+jobs:
+  packages_split:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        package:
+          -
+            local_path: 'Administration'
+            split_repository: 'administration'
+          -
+            local_path: 'Core'
+            split_repository: 'core'
+          -
+            local_path: 'Elasticsearch'
+            split_repository: 'elasticsearch'
+          -
+            local_path: 'Storefront'
+            split_repository: 'storefront'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Fix Git safe.directory (universal solution)
+        run: git config --global --add safe.directory '*'
+
+      - name: Split package
+        uses: danharrin/monorepo-split-github-action@v2.3.0
+        with:
+          package_directory: 'src/${{ matrix.package.local_path }}'
+          repository_organization: 'shopwell-cn'
+          repository_name: '${{ matrix.package.split_repository }}'
+          branch: '${{ github.ref_name }}'
+          user_name: "gxiaosong"
+          user_email: "lyricsong47@gmail.com"
