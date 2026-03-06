@@ -27,7 +27,7 @@ class UserProvisioner
     }
 
     /**
-     * @param array{firstName?: string, lastName?: string, email?: string, localeId?: string, admin?: bool} $additionalData
+     * @param array{name?: string, email?: string, localeId?: string, admin?: bool} $additionalData
      */
     public function provision(string $username, ?string $password = null, array $additionalData = []): string
     {
@@ -45,8 +45,7 @@ class UserProvisioner
 
         $userPayload = [
             'id' => Uuid::randomBytes(),
-            'first_name' => $additionalData['firstName'] ?? '',
-            'last_name' => $additionalData['lastName'] ?? $username,
+            'name' => $additionalData['lastName'] ?? $username,
             'email' => $additionalData['email'] ?? self::USER_EMAIL_FALLBACK,
             'username' => $username,
             'password' => password_hash($password, \PASSWORD_BCRYPT),
