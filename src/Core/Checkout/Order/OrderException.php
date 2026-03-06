@@ -6,8 +6,6 @@ use Shopwell\Core\Checkout\Customer\Exception\CustomerAuthThrottledException;
 use Shopwell\Core\Checkout\Order\Exception\GuestNotAuthenticatedException;
 use Shopwell\Core\Checkout\Order\Exception\WrongGuestCredentialsException;
 use Shopwell\Core\Content\Flow\Exception\CustomerDeletedException;
-use Shopwell\Core\Framework\DataAbstractionLayer\Exception\AssociationNotFoundException;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\HttpException;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\ShopwellHttpException;
@@ -230,15 +228,8 @@ class OrderException extends HttpException
         );
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - reason:return-type-change - Will return self
-     */
-    public static function associationNotFound(string $association): self|AssociationNotFoundException
+    public static function associationNotFound(string $association): self
     {
-        if (!Feature::isActive('v6.8.0.0')) {
-            return new AssociationNotFoundException($association);
-        }
-
         return new self(
             Response::HTTP_NOT_FOUND,
             self::ASSOCIATION_NOT_FOUND,

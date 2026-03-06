@@ -2,15 +2,11 @@
 
 namespace Shopwell\Core\Framework\Plugin;
 
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\HttpException;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Plugin;
-use Shopwell\Core\Framework\Plugin\Exception\KernelPluginLoaderException;
 use Shopwell\Core\Framework\Plugin\Exception\PluginBaseClassNotFoundException;
 use Shopwell\Core\Framework\Plugin\Exception\PluginComposerJsonInvalidException;
-use Shopwell\Core\Framework\Plugin\Exception\PluginComposerRemoveException;
-use Shopwell\Core\Framework\Plugin\Exception\PluginComposerRequireException;
 use Shopwell\Core\Framework\Plugin\Exception\PluginExtractionException;
 use Shopwell\Core\Framework\Plugin\Exception\PluginHasActiveDependantsException;
 use Shopwell\Core\Framework\Plugin\Exception\PluginNotActivatedException;
@@ -28,11 +24,6 @@ class PluginException extends HttpException
     public const NO_PLUGIN_IN_ZIP = 'FRAMEWORK__PLUGIN_NO_PLUGIN_FOUND_IN_ZIP';
     public const STORE_NOT_AVAILABLE = 'FRAMEWORK__STORE_NOT_AVAILABLE';
     public const CANNOT_CREATE_TEMPORARY_DIRECTORY = 'FRAMEWORK__PLUGIN_CANNOT_CREATE_TEMPORARY_DIRECTORY';
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed with the next major, as it is unused
-     */
-    public const PROJECT_DIR_IS_NOT_A_STRING = 'FRAMEWORK__PROJECT_DIR_IS_NOT_A_STRING';
-
     public const CANNOT_DELETE_SHOPWELL_MIGRATIONS = 'FRAMEWORK__PLUGIN_CANNOT_DELETE_SHOPWELL_MIGRATIONS';
     public const PLUGIN_INVALID_CONTAINER_PARAMETER = 'FRAMEWORK__PLUGIN_INVALID_CONTAINER_PARAMETER';
     public const PLUGIN_KERNEL_REBOOT_FAILED = 'FRAMEWORK__PLUGIN_KERNEL_REBOOT_FAILED';
@@ -40,10 +31,6 @@ class PluginException extends HttpException
     public const COULD_NOT_DETECT_COMPOSER_VERSION = 'FRAMEWORK__PLUGIN_COULD_NOT_DETECT_COMPOSER_VERSION';
     public const PLUGIN_COMPOSER_REQUIRE = 'FRAMEWORK__PLUGIN_COMPOSER_REQUIRE';
     public const PLUGIN_COMPOSER_REMOVE = 'FRAMEWORK__PLUGIN_COMPOSER_REMOVE';
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed with the next major, as it is unused
-     */
-    public const KERNEL_PLUGIN_LOADER_ERROR = 'FRAMEWORK__KERNEL_PLUGIN_LOADER_ERROR';
     public const PLUGIN_EXTRACTION_FAILED = 'FRAMEWORK__PLUGIN_EXTRACTION_FAILED';
     public const PLUGIN_CREATION_INVALID_ENTRY = 'FRAMEWORK__PLUGIN_CREATION_INVALID_ENTRY';
 
@@ -116,27 +103,6 @@ class PluginException extends HttpException
             'Could not create temporary directory in "{{ targetDirectory }}" with prefix "{{ prefix }}"',
             ['targetDirectory' => $targetDirectory, 'prefix' => $prefix]
         );
-    }
-
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed with next major. Use PluginException::invalidContainerParameter instead
-     */
-    public static function projectDirNotInContainer(): self
-    {
-        if (!Feature::isActive('v6.8.0.0')) {
-            Feature::triggerDeprecationOrThrow(
-                'v6.8.0.0',
-                Feature::deprecatedMethodMessage(self::class, __METHOD__, 'v6.8.0.0', 'PluginException::invalidContainerParameter')
-            );
-
-            return new self(
-                Response::HTTP_INTERNAL_SERVER_ERROR,
-                self::PROJECT_DIR_IS_NOT_A_STRING,
-                'Container parameter "kernel.project_dir" needs to be a string'
-            );
-        }
-
-        return self::invalidContainerParameter('kernel.project_dir', 'string');
     }
 
     public static function invalidContainerParameter(string $name, string $expectedType): self
@@ -231,15 +197,8 @@ class PluginException extends HttpException
         );
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - reason:return-type-change - Will only return `self` in the future
-     */
-    public static function pluginComposerRequire(string $pluginName, string $pluginComposerName, string $output): self|PluginComposerRequireException
+    public static function pluginComposerRequire(string $pluginName, string $pluginComposerName, string $output): self
     {
-        if (!Feature::isActive('v6.8.0.0')) {
-            return new PluginComposerRequireException($pluginName, $pluginComposerName, $output);
-        }
-
         return new self(
             Response::HTTP_BAD_REQUEST,
             self::PLUGIN_COMPOSER_REQUIRE,
@@ -252,15 +211,8 @@ class PluginException extends HttpException
         );
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - reason:return-type-change - Will only return `self` in the future
-     */
-    public static function pluginComposerRemove(string $pluginName, string $pluginComposerName, string $output): self|PluginComposerRemoveException
+    public static function pluginComposerRemove(string $pluginName, string $pluginComposerName, string $output): self
     {
-        if (!Feature::isActive('v6.8.0.0')) {
-            return new PluginComposerRemoveException($pluginName, $pluginComposerName, $output);
-        }
-
         return new self(
             Response::HTTP_BAD_REQUEST,
             self::PLUGIN_COMPOSER_REMOVE,
@@ -273,15 +225,8 @@ class PluginException extends HttpException
         );
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - reason:return-type-change - Will only return `self` in the future
-     */
-    public static function kernelPluginLoaderError(string $pluginName, string $reason): self|KernelPluginLoaderException
+    public static function kernelPluginLoaderError(string $pluginName, string $reason): self
     {
-        if (!Feature::isActive('v6.8.0.0')) {
-            return new KernelPluginLoaderException($pluginName, $reason);
-        }
-
         return new self(
             Response::HTTP_BAD_REQUEST,
             self::PLUGIN_COMPOSER_REMOVE,

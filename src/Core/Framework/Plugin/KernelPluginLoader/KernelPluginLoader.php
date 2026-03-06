@@ -6,7 +6,6 @@ use Composer\Autoload\ClassLoader;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Parameter\AdditionalBundleParameters;
 use Shopwell\Core\Framework\Plugin;
-use Shopwell\Core\Framework\Plugin\Exception\KernelPluginLoaderException;
 use Shopwell\Core\Framework\Plugin\KernelPluginCollection;
 use Shopwell\Core\Framework\Plugin\PluginException;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -102,9 +101,6 @@ abstract class KernelPluginLoader extends Bundle
         }
     }
 
-    /**
-     * @throws KernelPluginLoaderException
-     */
     final public function initializePlugins(string $projectDir): void
     {
         if ($this->initialized) {

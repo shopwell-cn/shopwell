@@ -91,11 +91,6 @@
             <argument type="service" id="Shopwell\Storefront\Theme\ThemeRuntimeConfigService"/>
         </service>
 
-        <service id="Shopwell\Storefront\Theme\CachedResolvedConfigLoader">
-            <argument type="service" id="Shopwell\Storefront\Theme\ResolvedConfigLoader"/>
-            <deprecated package="shopwell/core" version="6.8.0">tag:v6.8.0 - The %service_id% service will be removed in v6.8.0.0 without replacement</deprecated>
-        </service>
-
         <service id="Shopwell\Storefront\Theme\ThemeConfigCacheInvalidator">
             <argument type="service" id="Shopwell\Core\Framework\Adapter\Cache\CacheInvalidator"/>
 

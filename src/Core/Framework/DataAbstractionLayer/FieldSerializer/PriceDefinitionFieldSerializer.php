@@ -2,6 +2,7 @@
 
 namespace Shopwell\Core\Framework\DataAbstractionLayer\FieldSerializer;
 
+use Shopwell\Core\Checkout\Cart\CartException;
 use Shopwell\Core\Checkout\Cart\Price\Struct\AbsolutePriceDefinition;
 use Shopwell\Core\Checkout\Cart\Price\Struct\CurrencyPriceDefinition;
 use Shopwell\Core\Checkout\Cart\Price\Struct\PercentagePriceDefinition;
@@ -10,7 +11,6 @@ use Shopwell\Core\Checkout\Cart\Price\Struct\QuantityPriceDefinition;
 use Shopwell\Core\Checkout\Cart\Tax\Struct\TaxRule;
 use Shopwell\Core\Content\Rule\DataAbstractionLayer\Indexing\ConditionTypeNotFound;
 use Shopwell\Core\Framework\DataAbstractionLayer\DefinitionInstanceRegistry;
-use Shopwell\Core\Framework\DataAbstractionLayer\Exception\InvalidPriceFieldTypeException;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\Field;
 use Shopwell\Core\Framework\DataAbstractionLayer\Pricing\Price;
 use Shopwell\Core\Framework\DataAbstractionLayer\Pricing\PriceCollection;
@@ -53,7 +53,7 @@ class PriceDefinitionFieldSerializer extends JsonFieldSerializer
 
         if ($value !== null) {
             if (!\array_key_exists('type', $value)) {
-                throw new InvalidPriceFieldTypeException('none');
+                throw CartException::invalidPriceFieldTypeException('none');
             }
 
             switch ($value['type']) {
@@ -121,7 +121,7 @@ class PriceDefinitionFieldSerializer extends JsonFieldSerializer
 
                     break;
                 default:
-                    throw new InvalidPriceFieldTypeException($value['type']);
+                    throw CartException::invalidPriceFieldTypeException($value['type']);
             }
 
             unset($value['extensions']);
@@ -144,7 +144,7 @@ class PriceDefinitionFieldSerializer extends JsonFieldSerializer
         }
 
         if (!\array_key_exists('type', $decoded)) {
-            throw new InvalidPriceFieldTypeException('none');
+            throw CartException::invalidPriceFieldTypeException('none');
         }
 
         switch ($decoded['type']) {
@@ -169,7 +169,7 @@ class PriceDefinitionFieldSerializer extends JsonFieldSerializer
                 return new PercentagePriceDefinition($decoded['percentage'], $rules);
         }
 
-        throw new InvalidPriceFieldTypeException($decoded['type']);
+        throw CartException::invalidPriceFieldTypeException($decoded['type']);
     }
 
     private function validateRules(array $data, string $basePath): ConstraintViolationList

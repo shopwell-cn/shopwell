@@ -3,12 +3,10 @@
 namespace Shopwell\Core\Framework\Store;
 
 use GuzzleHttp\Exception\ClientException;
-use Shopwell\Core\Framework\Api\Context\Exception\InvalidContextSourceUserException;
 use Shopwell\Core\Framework\App\AppException;
 use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\HttpException;
 use Shopwell\Core\Framework\Log\Package;
-use Shopwell\Core\Framework\Plugin\Exception\PluginNotAZipFileException;
 use Shopwell\Core\Framework\Store\Exception\ExtensionNotFoundException;
 use Shopwell\Core\Framework\Store\Exception\ExtensionUpdateRequiresConsentAffirmationException;
 use Shopwell\Core\Framework\Store\Exception\StoreApiException;
@@ -177,15 +175,8 @@ class StoreException extends HttpException
         return new StoreApiException($exception);
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - reason:return-type-change - Will return self
-     */
-    public static function pluginNotAZipFile(string $mimeType): self|PluginNotAZipFileException
+    public static function pluginNotAZipFile(string $mimeType): self
     {
-        if (!Feature::isActive('v6.8.0.0')) {
-            return new PluginNotAZipFileException($mimeType);
-        }
-
         return new self(
             Response::HTTP_BAD_REQUEST,
             self::PLUGIN_NOT_A_ZIP_FILE,
@@ -194,15 +185,8 @@ class StoreException extends HttpException
         );
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - reason:return-type-change - Will only return self
-     */
-    public static function invalidContextSourceUser(string $contextSource): self|InvalidContextSourceUserException
+    public static function invalidContextSourceUser(string $contextSource): self
     {
-        if (!Feature::isActive('v6.8.0.0')) {
-            return new InvalidContextSourceUserException($contextSource);
-        }
-
         return new self(
             Response::HTTP_INTERNAL_SERVER_ERROR,
             self::INVALID_CONTEXT_SOURCE_USER,

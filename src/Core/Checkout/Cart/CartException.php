@@ -10,7 +10,6 @@ use Shopwell\Core\Checkout\Cart\Exception\LineItemNotFoundException;
 use Shopwell\Core\Checkout\Customer\Exception\AddressNotFoundException;
 use Shopwell\Core\Checkout\Order\Exception\EmptyCartException;
 use Shopwell\Core\Content\Flow\Exception\CustomerDeletedException;
-use Shopwell\Core\Framework\DataAbstractionLayer\Exception\InvalidPriceFieldTypeException;
 use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\HttpException;
 use Shopwell\Core\Framework\Log\Package;
@@ -606,15 +605,8 @@ class CartException extends HttpException
         );
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - reason:return-type-change - Will return self
-     */
-    public static function invalidPriceFieldTypeException(string $type): self|InvalidPriceFieldTypeException
+    public static function invalidPriceFieldTypeException(string $type): self
     {
-        if (!Feature::isActive('v6.8.0.0')) {
-            return new InvalidPriceFieldTypeException($type);
-        }
-
         return new self(
             Response::HTTP_INTERNAL_SERVER_ERROR,
             self::INVALID_PRICE_FIELD_TYPE,

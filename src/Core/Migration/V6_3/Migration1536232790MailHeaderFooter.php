@@ -35,21 +35,20 @@ class Migration1536232790MailHeaderFooter extends MigrationStep
 
         $connection->executeStatement('
             CREATE TABLE `mail_header_footer_translation` (
-              `mail_header_footer_id`   BINARY(16)      NOT NULL,
-              `language_id`             BINARY(16)      NOT NULL,
-              `name`                    VARCHAR(255)    NULL,
-              `description`             LONGTEXT        NULL,
-              `header_html`             LONGTEXT        NULL,
-              `header_plain`            LONGTEXT        NULL,
-              `footer_html`             LONGTEXT        NULL,
-              `footer_plain`            LONGTEXT        NULL,
-              `created_at`              DATETIME(3)     NOT NULL,
-              `updated_at`              DATETIME(3)     NULL,
-              PRIMARY KEY (`mail_header_footer_id`, `language_id`),
-              CONSTRAINT `fk.mail_header_footer_translation.mail_header_footer_id` FOREIGN KEY (`mail_header_footer_id`)
-                REFERENCES `mail_header_footer` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-              CONSTRAINT `fk.mail_header_footer_translation.language_id` FOREIGN KEY (`language_id`)
-                REFERENCES `language` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+              `mail_header_footer_id` binary(16) NOT NULL,
+              `language_id` binary(16) NOT NULL,
+              `name` varchar(255) DEFAULT NULL,
+              `description` longtext DEFAULT NULL,
+              `header_html` longtext DEFAULT NULL,
+              `header_plain` longtext DEFAULT NULL,
+              `footer_html` longtext DEFAULT NULL,
+              `footer_plain` longtext DEFAULT NULL,
+              `created_at` datetime(3) NOT NULL,
+              `updated_at` datetime(3) DEFAULT NULL,
+              PRIMARY KEY (`mail_header_footer_id`,`language_id`),
+              KEY `fk.mail_header_footer_translation.language_id` (`language_id`),
+              CONSTRAINT `fk.mail_header_footer_translation.language_id` FOREIGN KEY (`language_id`) REFERENCES `language` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+              CONSTRAINT `fk.mail_header_footer_translation.mail_header_footer_id` FOREIGN KEY (`mail_header_footer_id`) REFERENCES `mail_header_footer` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
         ');
     }

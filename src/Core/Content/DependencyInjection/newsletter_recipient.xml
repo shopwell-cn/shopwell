@@ -28,10 +28,6 @@
             <tag name="messenger.message_handler" />
         </service>
 
-        <service id="Shopwell\Core\Content\Newsletter\NewsletterExceptionHandler">
-            <tag name="shopwell.dal.exception_handler"/>
-        </service>
-
         <service id="Shopwell\Core\Content\Newsletter\SalesChannel\NewsletterSubscribeRoute" public="true">
             <argument type="service" id="newsletter_recipient.repository" />
             <argument type="service" id="Shopwell\Core\Framework\Validation\DataValidator"/>
