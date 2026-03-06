@@ -12,9 +12,6 @@ use Shopwell\Core\Framework\Routing\RoutingException;
 use Shopwell\Core\System\Country\CountryCollection;
 use Shopwell\Core\System\Country\SalesChannel\AbstractCountryRoute;
 use Shopwell\Core\System\SalesChannel\SalesChannelContext;
-use Shopwell\Core\System\Salutation\AbstractSalutationsSorter;
-use Shopwell\Core\System\Salutation\SalesChannel\AbstractSalutationRoute;
-use Shopwell\Core\System\Salutation\SalutationCollection;
 use Shopwell\Storefront\Page\GenericPageLoaderInterface;
 use Shopwell\Storefront\Page\MetaInformation;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,8 +30,6 @@ class AccountLoginPageLoader
         private readonly GenericPageLoaderInterface $genericLoader,
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly AbstractCountryRoute $countryRoute,
-        private readonly AbstractSalutationRoute $salutationRoute,
-        private readonly AbstractSalutationsSorter $salutationsSorter,
         private readonly AbstractTranslator $translator
     ) {
     }
@@ -52,8 +47,6 @@ class AccountLoginPageLoader
         $this->setMetaInformation($page);
 
         $page->setCountries($this->getCountries($salesChannelContext));
-
-        $page->setSalutations($this->getSalutations($salesChannelContext));
 
         $this->eventDispatcher->dispatch(
             new AccountLoginPageLoadedEvent($page, $salesChannelContext, $request)
@@ -73,16 +66,6 @@ class AccountLoginPageLoader
         $page->getMetaInformation()?->setMetaTitle(
             $this->translator->trans('account.registerMetaTitle') . ' | ' . $page->getMetaInformation()->getMetaTitle()
         );
-    }
-
-    /**
-     * @throws InconsistentCriteriaIdsException
-     */
-    private function getSalutations(SalesChannelContext $salesChannelContext): SalutationCollection
-    {
-        $salutations = $this->salutationRoute->load(new Request(), $salesChannelContext, new Criteria())->getSalutations();
-
-        return $this->salutationsSorter->sort($salutations);
     }
 
     private function getCountries(SalesChannelContext $salesChannelContext): CountryCollection

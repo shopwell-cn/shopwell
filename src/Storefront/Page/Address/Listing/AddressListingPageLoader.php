@@ -17,9 +17,6 @@ use Shopwell\Core\Framework\Routing\RoutingException;
 use Shopwell\Core\System\Country\CountryCollection;
 use Shopwell\Core\System\Country\SalesChannel\AbstractCountryRoute;
 use Shopwell\Core\System\SalesChannel\SalesChannelContext;
-use Shopwell\Core\System\Salutation\SalesChannel\AbstractSalutationRoute;
-use Shopwell\Core\System\Salutation\SalutationCollection;
-use Shopwell\Core\System\Salutation\SalutationEntity;
 use Shopwell\Storefront\Page\GenericPageLoaderInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,7 +30,6 @@ class AddressListingPageLoader
     public function __construct(
         private readonly GenericPageLoaderInterface $genericLoader,
         private readonly AbstractCountryRoute $countryRoute,
-        private readonly AbstractSalutationRoute $salutationRoute,
         private readonly AbstractListAddressRoute $listAddressRoute,
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly CartService $cartService,
@@ -53,8 +49,6 @@ class AddressListingPageLoader
 
         $page = AddressListingPage::createFrom($page);
         $this->setMetaInformation($page);
-
-        $page->setSalutations($this->getSalutations($salesChannelContext));
 
         $page->setCountries($this->getCountries($salesChannelContext));
 
@@ -81,18 +75,6 @@ class AddressListingPageLoader
         $page->getMetaInformation()?->setMetaTitle(
             $this->translator->trans('account.addressMetaTitle') . ' | ' . $page->getMetaInformation()->getMetaTitle()
         );
-    }
-
-    /**
-     * @throws InconsistentCriteriaIdsException
-     */
-    private function getSalutations(SalesChannelContext $context): SalutationCollection
-    {
-        $salutations = $this->salutationRoute->load(new Request(), $context, new Criteria())->getSalutations();
-
-        $salutations->sort(fn (SalutationEntity $a, SalutationEntity $b) => $b->getSalutationKey() <=> $a->getSalutationKey());
-
-        return $salutations;
     }
 
     /**

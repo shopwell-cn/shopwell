@@ -41,7 +41,6 @@ class System extends Bundle
         $loader->load('custom_entity.xml');
         $loader->load('locale.xml');
         $loader->load('snippet.xml');
-        $loader->load('salutation.xml');
         $loader->load('tax.xml');
         $loader->load('tax_provider.xml');
         $loader->load('unit.xml');
@@ -54,7 +53,6 @@ class System extends Bundle
 
         $phpLoader = new PhpFileLoader($container, $configLocator);
         $phpLoader->load('consent.php');
-        $phpLoader->load('usage_data.php');
 
         $container->addCompilerPass(new SalesChannelEntityCompilerPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION, 0);
         $container->addCompilerPass(new NumberRangeIncrementerCompilerPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION, 0);

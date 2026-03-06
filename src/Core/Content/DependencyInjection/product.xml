@@ -495,7 +495,6 @@
             <argument type="service" id="Doctrine\DBAL\Connection"/>
             <argument type="service" id="Shopwell\Core\Content\Product\SalesChannel\Detail\ProductConfiguratorLoader"/>
             <argument type="service" id="Shopwell\Core\Content\Category\Service\CategoryBreadcrumbBuilder"/>
-            <argument type="service" id="Shopwell\Core\Content\Cms\SalesChannel\SalesChannelCmsPageLoader"/>
             <argument type="service" id="Shopwell\Core\Content\Product\SalesChannel\SalesChannelProductDefinition"/>
             <argument type="service" id="Shopwell\Core\Content\Product\SalesChannel\ProductCloseoutFilterFactory"/>
             <argument type="service" id="event_dispatcher"/>

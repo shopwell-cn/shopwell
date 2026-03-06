@@ -2,7 +2,6 @@
 
 namespace Shopwell\Core\Content\LandingPage;
 
-use Shopwell\Core\Content\Cms\CmsPageEntity;
 use Shopwell\Core\Content\LandingPage\Aggregate\LandingPageTranslation\LandingPageTranslationCollection;
 use Shopwell\Core\Content\Seo\SeoUrl\SeoUrlCollection;
 use Shopwell\Core\Framework\DataAbstractionLayer\Entity;
@@ -24,12 +23,6 @@ class LandingPageEntity extends Entity
 
     protected ?TagCollection $tags = null;
 
-    protected ?string $cmsPageId = null;
-
-    protected ?string $cmsPageVersionId = null;
-
-    protected ?CmsPageEntity $cmsPage = null;
-
     protected ?SalesChannelCollection $salesChannels = null;
 
     protected ?string $name = null;
@@ -41,8 +34,6 @@ class LandingPageEntity extends Entity
     protected ?string $keywords = null;
 
     protected ?string $url = null;
-
-    protected ?array $slotConfig = null;
 
     protected ?SeoUrlCollection $seoUrls = null;
 
@@ -74,26 +65,6 @@ class LandingPageEntity extends Entity
     public function setTags(TagCollection $tags): void
     {
         $this->tags = $tags;
-    }
-
-    public function getCmsPageId(): ?string
-    {
-        return $this->cmsPageId;
-    }
-
-    public function setCmsPageId(?string $cmsPageId): void
-    {
-        $this->cmsPageId = $cmsPageId;
-    }
-
-    public function getCmsPage(): ?CmsPageEntity
-    {
-        return $this->cmsPage;
-    }
-
-    public function setCmsPage(CmsPageEntity $cmsPage): void
-    {
-        $this->cmsPage = $cmsPage;
     }
 
     public function getSalesChannels(): ?SalesChannelCollection
@@ -156,16 +127,6 @@ class LandingPageEntity extends Entity
         $this->url = $url;
     }
 
-    public function getSlotConfig(): ?array
-    {
-        return $this->slotConfig;
-    }
-
-    public function setSlotConfig(?array $slotConfig): void
-    {
-        $this->slotConfig = $slotConfig;
-    }
-
     public function getSeoUrls(): ?SeoUrlCollection
     {
         return $this->seoUrls;
@@ -174,15 +135,5 @@ class LandingPageEntity extends Entity
     public function setSeoUrls(SeoUrlCollection $seoUrls): void
     {
         $this->seoUrls = $seoUrls;
-    }
-
-    public function getCmsPageVersionId(): ?string
-    {
-        return $this->cmsPageVersionId;
-    }
-
-    public function setCmsPageVersionId(?string $cmsPageVersionId): void
-    {
-        $this->cmsPageVersionId = $cmsPageVersionId;
     }
 }

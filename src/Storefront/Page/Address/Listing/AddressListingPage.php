@@ -7,15 +7,12 @@ use Shopwell\Core\Checkout\Customer\Aggregate\CustomerAddress\CustomerAddressCol
 use Shopwell\Core\Checkout\Customer\Aggregate\CustomerAddress\CustomerAddressEntity;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\System\Country\CountryCollection;
-use Shopwell\Core\System\Salutation\SalutationCollection;
 use Shopwell\Storefront\Page\Page;
 
 #[Package('framework')]
 class AddressListingPage extends Page
 {
     protected CustomerAddressCollection $addresses;
-
-    protected SalutationCollection $salutations;
 
     protected CountryCollection $countries;
 
@@ -31,16 +28,6 @@ class AddressListingPage extends Page
     public function setAddresses(CustomerAddressCollection $addresses): void
     {
         $this->addresses = $addresses;
-    }
-
-    public function getSalutations(): SalutationCollection
-    {
-        return $this->salutations;
-    }
-
-    public function setSalutations(SalutationCollection $salutations): void
-    {
-        $this->salutations = $salutations;
     }
 
     public function getCountries(): CountryCollection

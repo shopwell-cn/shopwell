@@ -7,8 +7,6 @@ use Shopwell\Core\Content\Category\CategoryCollection;
 use Shopwell\Core\Content\Category\CategoryDefinition;
 use Shopwell\Core\Content\Category\CategoryEntity;
 use Shopwell\Core\Content\Category\CategoryException;
-use Shopwell\Core\Content\Cms\DataResolver\ResolverContext\EntityResolverContext;
-use Shopwell\Core\Content\Cms\SalesChannel\SalesChannelCmsPageLoaderInterface;
 use Shopwell\Core\Framework\Adapter\Cache\CacheTagCollector;
 use Shopwell\Core\Framework\Adapter\Request\RequestParamHelper;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Criteria;
@@ -35,7 +33,6 @@ class CategoryRoute extends AbstractCategoryRoute
      */
     public function __construct(
         private readonly SalesChannelRepository $categoryRepository,
-        private readonly SalesChannelCmsPageLoaderInterface $cmsPageLoader,
         private readonly CategoryDefinition $categoryDefinition,
         private readonly CacheTagCollector $cacheTagCollector,
     ) {
@@ -96,19 +93,6 @@ class CategoryRoute extends AbstractCategoryRoute
         }
 
         $resolverContext = new EntityResolverContext($context, $request, $this->categoryDefinition, $category);
-
-        $pages = $this->cmsPageLoader->load(
-            $request,
-            $this->createCriteria($pageId, $request),
-            $context,
-            $slotConfig,
-            $resolverContext,
-        );
-
-        $cmsPage = $pages->first();
-        if ($cmsPage === null) {
-            throw CategoryException::pageNotFound($pageId);
-        }
 
         $category->setCmsPage($cmsPage);
         $category->setCmsPageId($pageId);

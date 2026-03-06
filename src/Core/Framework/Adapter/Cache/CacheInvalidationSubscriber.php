@@ -15,7 +15,6 @@ use Shopwell\Core\Content\Category\CategoryDefinition;
 use Shopwell\Core\Content\Category\Event\CategoryIndexerEvent;
 use Shopwell\Core\Content\Category\SalesChannel\CategoryRoute;
 use Shopwell\Core\Content\Category\SalesChannel\NavigationRoute;
-use Shopwell\Core\Content\Cms\CmsPageDefinition;
 use Shopwell\Core\Content\LandingPage\Event\LandingPageIndexerEvent;
 use Shopwell\Core\Content\LandingPage\SalesChannel\LandingPageRoute;
 use Shopwell\Core\Content\Media\Event\MediaIndexerEvent;
@@ -52,8 +51,6 @@ use Shopwell\Core\System\SalesChannel\Aggregate\SalesChannelShippingMethod\Sales
 use Shopwell\Core\System\SalesChannel\Context\CachedBaseSalesChannelContextFactory;
 use Shopwell\Core\System\SalesChannel\Context\CachedSalesChannelContextFactory;
 use Shopwell\Core\System\SalesChannel\SalesChannelDefinition;
-use Shopwell\Core\System\Salutation\SalesChannel\SalutationRoute;
-use Shopwell\Core\System\Salutation\SalutationDefinition;
 use Shopwell\Core\System\Snippet\SnippetDefinition;
 use Shopwell\Core\System\StateMachine\Loader\InitialStateIdLoader;
 use Shopwell\Core\System\StateMachine\StateMachineDefinition;
@@ -140,13 +137,6 @@ class CacheInvalidationSubscriber
         $this->cacheInvalidator->invalidate([CachedRuleLoader::CACHE_KEY], true);
     }
 
-    public function invalidateCmsPageIds(EntityWrittenContainerEvent $event): void
-    {
-        // invalidates all routes and http cache pages where a cms page was loaded, the id is assigned as tag
-        $ids = array_map(EntityCacheKeyGenerator::buildCmsTag(...), $event->getPrimaryKeys(CmsPageDefinition::ENTITY_NAME));
-        $this->cacheInvalidator->invalidate($ids);
-    }
-
     public function invalidateProduct(InvalidateProductCache $event): void
     {
         $listing = array_map(ProductListingRoute::buildName(...), $this->getProductCategoryIds($event->getIds()));
@@ -226,12 +216,6 @@ class CacheInvalidationSubscriber
         }
 
         $this->cacheInvalidator->invalidate($tags);
-    }
-
-    public function invalidateSalutationRoute(EntityWrittenContainerEvent $event): void
-    {
-        // invalidates the salutation route when a salutation changed
-        $this->cacheInvalidator->invalidate([...$this->getChangedSalutations($event)]);
     }
 
     public function invalidateNavigationRoute(EntityWrittenContainerEvent $event): void
@@ -561,19 +545,6 @@ class CacheInvalidationSubscriber
         $ids = array_column($ids, 'salesChannelId');
 
         return array_map(CountryRoute::buildName(...), $ids);
-    }
-
-    /**
-     * @return list<string>
-     */
-    private function getChangedSalutations(EntityWrittenContainerEvent $event): array
-    {
-        $ids = $event->getPrimaryKeys(SalutationDefinition::ENTITY_NAME);
-        if ($ids === []) {
-            return [];
-        }
-
-        return [SalutationRoute::buildName()];
     }
 
     /**

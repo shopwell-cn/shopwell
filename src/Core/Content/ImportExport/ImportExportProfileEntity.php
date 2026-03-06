@@ -54,8 +54,6 @@ class ImportExportProfileEntity extends Entity
      */
     protected array $config;
 
-    protected ?ImportExportProfileTranslationCollection $translations = null;
-
     public function getTechnicalName(): string
     {
         return $this->technicalName;
@@ -198,32 +196,6 @@ class ImportExportProfileEntity extends Entity
     public function setConfig(array $config): void
     {
         $this->config = $config;
-    }
-
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed
-     */
-    public function getTranslations(): ?ImportExportProfileTranslationCollection
-    {
-        Feature::triggerDeprecationOrThrow(
-            'v6.8.0.0',
-            Feature::deprecatedMethodMessage(self::class, __METHOD__, 'v6.8.0.0')
-        );
-
-        return $this->translations;
-    }
-
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed
-     */
-    public function setTranslations(ImportExportProfileTranslationCollection $translations): void
-    {
-        Feature::triggerDeprecationOrThrow(
-            'v6.8.0.0',
-            Feature::deprecatedMethodMessage(self::class, __METHOD__, 'v6.8.0.0')
-        );
-
-        $this->translations = $translations;
     }
 
     public function getType(): string

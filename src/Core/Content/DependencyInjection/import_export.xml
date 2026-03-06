@@ -29,11 +29,6 @@
             <tag name="shopwell.entity.definition"/>
         </service>
 
-        <!-- @deprecated tag:v6.8.0 Will be removed -->
-        <service id="Shopwell\Core\Content\ImportExport\ImportExportProfileTranslationDefinition">
-            <tag name="shopwell.entity.definition"/>
-        </service>
-
         <service id="Shopwell\Core\Content\ImportExport\DataAbstractionLayer\SystemDefaultValidator">
             <argument type="service" id="Doctrine\DBAL\Connection"/>
 
@@ -143,13 +138,6 @@
         <service id="Shopwell\Core\Content\ImportExport\DataAbstractionLayer\Serializer\Entity\MediaSerializerSubscriber">
             <argument type="service" id="Shopwell\Core\Content\ImportExport\DataAbstractionLayer\Serializer\Entity\MediaSerializer"/>
             <tag name="kernel.event_subscriber"/>
-        </service>
-
-        <service id="Shopwell\Core\Content\ImportExport\DataAbstractionLayer\Serializer\Entity\SalutationSerializer">
-            <argument type="service" id="salutation.repository"/>
-
-            <tag name="shopwell.import_export.entity_serializer" priority="-400"/>
-            <tag name="kernel.reset" method="reset"/>
         </service>
 
         <service id="Shopwell\Core\Content\ImportExport\DataAbstractionLayer\Serializer\Entity\CountrySerializer">

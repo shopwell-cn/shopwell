@@ -4,8 +4,6 @@ namespace Shopwell\Core\Content\Product\SalesChannel\Detail;
 
 use Doctrine\DBAL\Connection;
 use Shopwell\Core\Content\Category\Service\CategoryBreadcrumbBuilder;
-use Shopwell\Core\Content\Cms\DataResolver\ResolverContext\EntityResolverContext;
-use Shopwell\Core\Content\Cms\SalesChannel\SalesChannelCmsPageLoaderInterface;
 use Shopwell\Core\Content\Product\Aggregate\ProductVisibility\ProductVisibilityDefinition;
 use Shopwell\Core\Content\Product\ProductDefinition;
 use Shopwell\Core\Content\Product\ProductException;
@@ -41,7 +39,6 @@ use Symfony\Component\Routing\Attribute\Route;
 class ProductDetailRoute extends AbstractProductDetailRoute
 {
     private const SKIP_CONFIGURATOR = 'skipConfigurator';
-    private const SKIP_CMS_PAGE = 'skipCmsPage';
 
     /**
      * @internal
@@ -54,7 +51,6 @@ class ProductDetailRoute extends AbstractProductDetailRoute
         private readonly Connection $connection,
         private readonly ProductConfiguratorLoader $configuratorLoader,
         private readonly CategoryBreadcrumbBuilder $breadcrumbBuilder,
-        private readonly SalesChannelCmsPageLoaderInterface $cmsPageLoader,
         private readonly SalesChannelProductDefinition $productDefinition,
         private readonly AbstractProductCloseoutFilterFactory $productCloseoutFilterFactory,
         private readonly EventDispatcherInterface $dispatcher,
@@ -119,26 +115,6 @@ class ProductDetailRoute extends AbstractProductDetailRoute
 
             $loadConfigurator = !$request->query->getBoolean(self::SKIP_CONFIGURATOR);
             $configurator = $loadConfigurator ? $this->configuratorLoader->load($product, $context) : null;
-
-            $loadCmsPage = !$request->query->getBoolean(self::SKIP_CMS_PAGE);
-            $pageId = $product->getCmsPageId();
-            if ($loadCmsPage && $pageId) {
-                // clone product to prevent recursion encoding (see NEXT-17603)
-                $resolverContext = new EntityResolverContext($context, $request, $this->productDefinition, clone $product);
-
-                $pages = $this->cmsPageLoader->load(
-                    $request,
-                    $this->createCriteria($pageId, $request),
-                    $context,
-                    $product->getTranslation('slotConfig'),
-                    $resolverContext
-                );
-
-                $cmsPage = $pages->first();
-                if ($cmsPage !== null) {
-                    $product->setCmsPage($cmsPage);
-                }
-            }
 
             return new ProductDetailRouteResponse($product, $configurator);
         });

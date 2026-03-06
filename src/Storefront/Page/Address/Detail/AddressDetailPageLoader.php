@@ -21,9 +21,6 @@ use Shopwell\Core\Framework\Uuid\UuidException;
 use Shopwell\Core\System\Country\CountryCollection;
 use Shopwell\Core\System\Country\SalesChannel\AbstractCountryRoute;
 use Shopwell\Core\System\SalesChannel\SalesChannelContext;
-use Shopwell\Core\System\Salutation\AbstractSalutationsSorter;
-use Shopwell\Core\System\Salutation\SalesChannel\AbstractSalutationRoute;
-use Shopwell\Core\System\Salutation\SalutationCollection;
 use Shopwell\Storefront\Page\GenericPageLoaderInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -40,10 +37,8 @@ class AddressDetailPageLoader
     public function __construct(
         private readonly GenericPageLoaderInterface $genericLoader,
         private readonly AbstractCountryRoute $countryRoute,
-        private readonly AbstractSalutationRoute $salutationRoute,
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly AbstractListAddressRoute $listAddressRoute,
-        private readonly AbstractSalutationsSorter $salutationsSorter,
         private readonly AbstractTranslator $translator
     ) {
     }
@@ -61,8 +56,6 @@ class AddressDetailPageLoader
 
         $page = AddressDetailPage::createFrom($page);
         $this->setMetaInformation($page, $request);
-
-        $page->setSalutations($this->getSalutations($salesChannelContext));
 
         $page->setCountries($this->getCountries($salesChannelContext));
 
@@ -88,16 +81,6 @@ class AddressDetailPageLoader
                 $this->translator->trans('account.addressEditMetaTitle') . ' | ' . $page->getMetaInformation()->getMetaTitle()
             );
         }
-    }
-
-    /**
-     * @throws InconsistentCriteriaIdsException
-     */
-    private function getSalutations(SalesChannelContext $salesChannelContext): SalutationCollection
-    {
-        $salutations = $this->salutationRoute->load(new Request(), $salesChannelContext, new Criteria())->getSalutations();
-
-        return $this->salutationsSorter->sort($salutations);
     }
 
     /**

@@ -4,7 +4,6 @@ namespace Shopwell\Core\Content\Category;
 
 use Shopwell\Core\Content\Category\Aggregate\CategoryTag\CategoryTagDefinition;
 use Shopwell\Core\Content\Category\Aggregate\CategoryTranslation\CategoryTranslationDefinition;
-use Shopwell\Core\Content\Cms\CmsPageDefinition;
 use Shopwell\Core\Content\Media\MediaDefinition;
 use Shopwell\Core\Content\Product\Aggregate\ProductCategory\ProductCategoryDefinition;
 use Shopwell\Core\Content\Product\Aggregate\ProductCategoryTree\ProductCategoryTreeDefinition;
@@ -69,8 +68,6 @@ class CategoryDefinition extends EntityDefinition
     final public const PRODUCT_ASSIGNMENT_TYPE_PRODUCT = 'product';
 
     final public const PRODUCT_ASSIGNMENT_TYPE_PRODUCT_STREAM = 'product_stream';
-
-    final public const CONFIG_KEY_DEFAULT_CMS_PAGE_CATEGORY = 'core.cms.default_category_cms_page';
 
     public function getEntityName(): string
     {
@@ -137,7 +134,6 @@ class CategoryDefinition extends EntityDefinition
             (new BoolField('visible', 'visible'))->addFlags(new ApiAware())->setDescription('Displays categories on category page when true.'),
             (new BoolField('active', 'active'))->addFlags(new ApiAware())->setDescription('When boolean value is `true`, the category is listed for selection.'),
 
-            (new BoolField('cms_page_id_switched', 'cmsPageIdSwitched'))->addFlags(new Runtime(), new ApiAware()),
             (new IntField('visible_child_count', 'visibleChildCount'))->addFlags(new Runtime(), new ApiAware()),
 
             (new TranslatedField('name'))->addFlags(new ApiAware(), new SearchRanking(SearchRanking::HIGH_SEARCH_RANKING)),
@@ -161,9 +157,6 @@ class CategoryDefinition extends EntityDefinition
             (new ManyToManyAssociationField('nestedProducts', ProductDefinition::class, ProductCategoryTreeDefinition::class, 'category_id', 'product_id'))->addFlags(new CascadeDelete(), new WriteProtected()),
             (new ManyToManyAssociationField('tags', TagDefinition::class, CategoryTagDefinition::class, 'category_id', 'tag_id'))->addFlags(new ApiAware())->setDescription('Tags for organizing and filtering categories'),
 
-            (new FkField('cms_page_id', 'cmsPageId', CmsPageDefinition::class))->addFlags(new ApiAware())->setDescription('Unique identity of CMS page.'),
-            (new ReferenceVersionField(CmsPageDefinition::class))->addFlags(new Required(), new ApiAware()),
-            (new ManyToOneAssociationField('cmsPage', 'cms_page_id', CmsPageDefinition::class, 'id', false))->addFlags(new ApiAware())->setDescription('CMS page layout for the category'),
             (new FkField('product_stream_id', 'productStreamId', ProductStreamDefinition::class))->setDescription('Unique identity of product stream.'),
             new ManyToOneAssociationField('productStream', 'product_stream_id', ProductStreamDefinition::class, 'id', false),
 

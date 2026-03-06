@@ -22,9 +22,6 @@ use Shopwell\Core\Framework\Uuid\UuidException;
 use Shopwell\Core\System\Country\CountryCollection;
 use Shopwell\Core\System\Country\SalesChannel\AbstractCountryRoute;
 use Shopwell\Core\System\SalesChannel\SalesChannelContext;
-use Shopwell\Core\System\Salutation\SalesChannel\AbstractSalutationRoute;
-use Shopwell\Core\System\Salutation\SalutationCollection;
-use Shopwell\Core\System\Salutation\SalutationEntity;
 use Shopwell\Storefront\Page\GenericPageLoaderInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -43,7 +40,6 @@ class CheckoutRegisterPageLoader
         private readonly AbstractListAddressRoute $listAddressRoute,
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly CartService $cartService,
-        private readonly AbstractSalutationRoute $salutationRoute,
         private readonly AbstractCountryRoute $countryRoute,
         private readonly AbstractTranslator $translator
     ) {
@@ -110,18 +106,6 @@ class CheckoutRegisterPageLoader
         }
 
         return $address;
-    }
-
-    /**
-     * @throws InconsistentCriteriaIdsException
-     */
-    private function getSalutations(SalesChannelContext $salesChannelContext): SalutationCollection
-    {
-        $salutations = $this->salutationRoute->load(new Request(), $salesChannelContext, new Criteria())->getSalutations();
-
-        $salutations->sort(fn (SalutationEntity $a, SalutationEntity $b) => $b->getSalutationKey() <=> $a->getSalutationKey());
-
-        return $salutations;
     }
 
     private function getCountries(SalesChannelContext $salesChannelContext): CountryCollection

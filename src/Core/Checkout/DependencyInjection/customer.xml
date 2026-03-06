@@ -205,7 +205,6 @@
             <argument type="service" id="Shopwell\Core\Framework\Validation\DataValidator"/>
             <argument type="service" id="Shopwell\Core\Checkout\Customer\Validation\CustomerProfileValidationFactory"/>
             <argument type="service" id="Shopwell\Core\System\SalesChannel\StoreApiCustomFieldMapper"/>
-            <argument type="service" id="salutation.repository"/>
         </service>
 
         <service id="Shopwell\Core\Checkout\Customer\SalesChannel\ChangePasswordRoute" public="true">
@@ -256,7 +255,6 @@
             <argument type="service" id="Doctrine\DBAL\Connection"/>
             <argument type="service" id="Shopwell\Core\System\SalesChannel\Context\SalesChannelContextService"/>
             <argument type="service" id="Shopwell\Core\System\SalesChannel\StoreApiCustomFieldMapper"/>
-            <argument type="service" id="salutation.repository"/>
             <argument type="service" id="Shopwell\Core\Checkout\Customer\Validation\PasswordValidationFactory"/>
         </service>
 
@@ -281,7 +279,6 @@
             <argument type="service" id="Shopwell\Core\Checkout\Customer\Validation\AddressValidationFactory"/>
             <argument type="service" id="Shopwell\Core\System\SystemConfig\SystemConfigService"/>
             <argument type="service" id="Shopwell\Core\System\SalesChannel\StoreApiCustomFieldMapper"/>
-            <argument type="service" id="salutation.repository"/>
         </service>
 
         <service id="Shopwell\Core\Checkout\Customer\SalesChannel\DeleteAddressRoute" public="true">

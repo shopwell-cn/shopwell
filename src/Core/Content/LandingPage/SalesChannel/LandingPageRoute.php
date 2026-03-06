@@ -2,8 +2,6 @@
 
 namespace Shopwell\Core\Content\LandingPage\SalesChannel;
 
-use Shopwell\Core\Content\Cms\DataResolver\ResolverContext\EntityResolverContext;
-use Shopwell\Core\Content\Cms\SalesChannel\SalesChannelCmsPageLoaderInterface;
 use Shopwell\Core\Content\LandingPage\LandingPageCollection;
 use Shopwell\Core\Content\LandingPage\LandingPageDefinition;
 use Shopwell\Core\Content\LandingPage\LandingPageEntity;
@@ -33,7 +31,6 @@ class LandingPageRoute extends AbstractLandingPageRoute
      */
     public function __construct(
         private readonly SalesChannelRepository $landingPageRepository,
-        private readonly SalesChannelCmsPageLoaderInterface $cmsPageLoader,
         private readonly LandingPageDefinition $landingPageDefinition,
         private readonly CacheTagCollector $cacheTagCollector,
     ) {
@@ -65,21 +62,6 @@ class LandingPageRoute extends AbstractLandingPageRoute
 
         if (!$pageId) {
             return new LandingPageRouteResponse($landingPage);
-        }
-
-        $resolverContext = new EntityResolverContext($context, $request, $this->landingPageDefinition, $landingPage);
-
-        $pages = $this->cmsPageLoader->load(
-            $request,
-            $this->createCriteria($pageId, $request),
-            $context,
-            $landingPage->getTranslation('slotConfig'),
-            $resolverContext
-        );
-
-        $cmsPage = $pages->first();
-        if ($cmsPage === null) {
-            throw LandingPageException::notFound($pageId);
         }
 
         $landingPage->setCmsPage($cmsPage);

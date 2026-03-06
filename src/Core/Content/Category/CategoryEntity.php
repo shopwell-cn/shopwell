@@ -3,7 +3,6 @@
 namespace Shopwell\Core\Content\Category;
 
 use Shopwell\Core\Content\Category\Aggregate\CategoryTranslation\CategoryTranslationCollection;
-use Shopwell\Core\Content\Cms\CmsPageEntity;
 use Shopwell\Core\Content\Media\MediaEntity;
 use Shopwell\Core\Content\Product\ProductCollection;
 use Shopwell\Core\Content\ProductStream\ProductStreamEntity;
@@ -62,12 +61,6 @@ class CategoryEntity extends Entity
     protected ?ProductCollection $nestedProducts = null;
 
     protected ?TagCollection $tags = null;
-
-    protected ?string $cmsPageId = null;
-
-    protected bool $cmsPageIdSwitched = false;
-
-    protected ?CmsPageEntity $cmsPage = null;
 
     protected ?string $productStreamId = null;
 
@@ -290,36 +283,6 @@ class CategoryEntity extends Entity
     public function setTags(TagCollection $tags): void
     {
         $this->tags = $tags;
-    }
-
-    public function getCmsPage(): ?CmsPageEntity
-    {
-        return $this->cmsPage;
-    }
-
-    public function setCmsPage(CmsPageEntity $cmsPage): void
-    {
-        $this->cmsPage = $cmsPage;
-    }
-
-    public function getCmsPageId(): ?string
-    {
-        return $this->cmsPageId;
-    }
-
-    public function setCmsPageId(string $cmsPageId): void
-    {
-        $this->cmsPageId = $cmsPageId;
-    }
-
-    public function getCmsPageIdSwitched(): bool
-    {
-        return $this->cmsPageIdSwitched;
-    }
-
-    public function setCmsPageIdSwitched(bool $switched): void
-    {
-        $this->cmsPageIdSwitched = $switched;
     }
 
     public function getProductStream(): ?ProductStreamEntity

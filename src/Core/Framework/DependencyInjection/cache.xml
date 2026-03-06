@@ -123,7 +123,6 @@
 
             <tag name="kernel.event_listener" event="Shopwell\Core\Content\Product\Events\InvalidateProductCache" method="invalidateProduct" priority="2001" />
 
-            <tag name="kernel.event_listener" event="Shopwell\Core\Framework\DataAbstractionLayer\Event\EntityWrittenContainerEvent" method="invalidateCmsPageIds" priority="2001" />
             <tag name="kernel.event_listener" event="Shopwell\Core\Framework\DataAbstractionLayer\Event\EntityWrittenContainerEvent" method="invalidateCurrencyRoute" priority="2002" />
             <tag name="kernel.event_listener" event="Shopwell\Core\Framework\DataAbstractionLayer\Event\EntityWrittenContainerEvent" method="invalidateLanguageRoute" priority="2003" />
             <tag name="kernel.event_listener" event="Shopwell\Core\Framework\DataAbstractionLayer\Event\EntityWrittenContainerEvent" method="invalidateNavigationRoute" priority="2004" />
@@ -136,7 +135,6 @@
             <tag name="kernel.event_listener" event="Shopwell\Core\Framework\DataAbstractionLayer\Event\EntityWrittenContainerEvent" method="invalidateStreamsBeforeIndexing" priority="2013" />
             <tag name="kernel.event_listener" event="Shopwell\Core\Framework\DataAbstractionLayer\Event\EntityWrittenContainerEvent" method="invalidateStreamIds" priority="2014" />
             <tag name="kernel.event_listener" event="Shopwell\Core\Framework\DataAbstractionLayer\Event\EntityWrittenContainerEvent" method="invalidateCountryRoute" priority="2015" />
-            <tag name="kernel.event_listener" event="Shopwell\Core\Framework\DataAbstractionLayer\Event\EntityWrittenContainerEvent" method="invalidateSalutationRoute" priority="2016" />
             <tag name="kernel.event_listener" event="Shopwell\Core\Framework\DataAbstractionLayer\Event\EntityWrittenContainerEvent" method="invalidateInitialStateIdLoader" priority="2017" />
             <tag name="kernel.event_listener" event="Shopwell\Core\Framework\DataAbstractionLayer\Event\EntityWrittenContainerEvent" method="invalidateCountryStateRoute" priority="2018" />
             <tag name="kernel.event_listener" event="Shopwell\Core\Content\Rule\Event\RuleIndexerEvent" method="invalidateRules" priority="2000" />

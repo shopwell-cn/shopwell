@@ -17,7 +17,6 @@
             <argument type="service" id="shopwell.rate_limiter" />
             <argument type="service" id="event_dispatcher"/>
             <argument type="service" id="Shopwell\Core\System\SystemConfig\SystemConfigService"/>
-            <argument type="service" id="cms_slot.repository" />
             <argument type="service" id="category.repository" />
         </service>
     </services>

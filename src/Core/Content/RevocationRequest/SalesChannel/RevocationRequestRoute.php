@@ -5,7 +5,6 @@ namespace Shopwell\Core\Content\RevocationRequest\SalesChannel;
 use Shopwell\Core\Checkout\Customer\Service\EmailIdnConverter;
 use Shopwell\Core\Content\Category\CategoryCollection;
 use Shopwell\Core\Content\Category\CategoryEntity;
-use Shopwell\Core\Content\Cms\Aggregate\CmsSlot\CmsSlotCollection;
 use Shopwell\Core\Content\RevocationRequest\Event\RevocationRequestEvent;
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Criteria;
@@ -32,7 +31,6 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 class RevocationRequestRoute extends AbstractRevocationRequestRoute
 {
     /**
-     * @param EntityRepository<CmsSlotCollection> $cmsSlotRepository
      * @param EntityRepository<CategoryCollection> $categoryRepository
      *
      * @internal
@@ -44,7 +42,6 @@ class RevocationRequestRoute extends AbstractRevocationRequestRoute
         private readonly RateLimiter $rateLimiter,
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly SystemConfigService $systemConfigService,
-        private readonly EntityRepository $cmsSlotRepository,
         private readonly EntityRepository $categoryRepository,
     ) {
     }
@@ -113,22 +110,7 @@ class RevocationRequestRoute extends AbstractRevocationRequestRoute
             return $mailConfig;
         }
 
-        $criteria = new Criteria([$slotId]);
-        $slotEntity = $this->cmsSlotRepository->search($criteria, $context->getContext())->getEntities()->first();
-
-        if (!$slotEntity) {
-            return $this->createDefaultConfig($context, $mailConfig);
-        }
-
-        $slotConfig = $slotEntity->getTranslated()['config'];
-        $this->addReceivers($mailConfig, $slotConfig);
-        $mailConfig['message'] = $this->getStringMessage($slotConfig['confirmationText']['value']);
-
-        if (empty($mailConfig['receivers'])) {
-            return $this->createDefaultConfig($context, $mailConfig);
-        }
-
-        return $mailConfig;
+        return $this->createDefaultConfig($context, $mailConfig);
     }
 
     /**

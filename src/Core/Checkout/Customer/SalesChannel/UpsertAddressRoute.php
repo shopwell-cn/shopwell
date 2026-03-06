@@ -9,7 +9,6 @@ use Shopwell\Core\Checkout\Customer\CustomerEvents;
 use Shopwell\Core\Checkout\Customer\Validation\Constraint\CustomerZipCode;
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Criteria;
-use Shopwell\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopwell\Core\Framework\Event\DataMappingEvent;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Plugin\Exception\DecorationPatternException;
@@ -25,8 +24,6 @@ use Shopwell\Core\PlatformRequest;
 use Shopwell\Core\System\SalesChannel\Entity\SalesChannelRepository;
 use Shopwell\Core\System\SalesChannel\SalesChannelContext;
 use Shopwell\Core\System\SalesChannel\StoreApiCustomFieldMapper;
-use Shopwell\Core\System\Salutation\SalutationCollection;
-use Shopwell\Core\System\Salutation\SalutationDefinition;
 use Shopwell\Core\System\SystemConfig\SystemConfigService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
@@ -44,7 +41,6 @@ class UpsertAddressRoute extends AbstractUpsertAddressRoute
      *
      * @param EntityRepository<CustomerAddressCollection> $addressRepository
      * @param SalesChannelRepository<CustomerAddressCollection> $salesChannelAddressRepository
-     * @param EntityRepository<SalutationCollection> $salutationRepository
      */
     public function __construct(
         private readonly EntityRepository $addressRepository,
@@ -54,7 +50,6 @@ class UpsertAddressRoute extends AbstractUpsertAddressRoute
         private readonly DataValidationFactoryInterface $addressValidationFactory,
         private readonly SystemConfigService $systemConfigService,
         private readonly StoreApiCustomFieldMapper $storeApiCustomFieldMapper,
-        private readonly EntityRepository $salutationRepository,
     ) {
     }
 
@@ -94,10 +89,6 @@ class UpsertAddressRoute extends AbstractUpsertAddressRoute
         } else {
             $this->validateAddress($addressId, $context, $customer);
             $isCreate = false;
-        }
-
-        if (!$data->get('salutationId')) {
-            $data->set('salutationId', $this->getDefaultSalutationId($context));
         }
 
         $accountType = $data->get('accountType', CustomerEntity::ACCOUNT_TYPE_PRIVATE);
@@ -170,14 +161,5 @@ class UpsertAddressRoute extends AbstractUpsertAddressRoute
         $this->eventDispatcher->dispatch($validationEvent, $validationEvent->getName());
 
         return $validation;
-    }
-
-    private function getDefaultSalutationId(SalesChannelContext $context): ?string
-    {
-        $criteria = (new Criteria())
-            ->setLimit(1)
-            ->addFilter(new EqualsFilter('salutationKey', SalutationDefinition::NOT_SPECIFIED));
-
-        return $this->salutationRepository->searchIds($criteria, $context->getContext())->firstId();
     }
 }

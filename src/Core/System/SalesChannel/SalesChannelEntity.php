@@ -69,6 +69,7 @@ class SalesChannelEntity extends Entity
      * @var array<string, mixed>|null
      */
     protected ?array $homeSlotConfig = null;
+
     protected bool $homeEnabled;
 
     protected ?string $homeName = null;
@@ -635,6 +636,7 @@ class SalesChannelEntity extends Entity
     {
         $this->customerGroup = $customerGroup;
     }
+
     public function getPromotionSalesChannels(): ?PromotionSalesChannelCollection
     {
         return $this->promotionSalesChannels;

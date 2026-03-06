@@ -5,15 +5,12 @@ namespace Shopwell\Storefront\Page\Address\Detail;
 use Shopwell\Core\Checkout\Customer\Aggregate\CustomerAddress\CustomerAddressEntity;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\System\Country\CountryCollection;
-use Shopwell\Core\System\Salutation\SalutationCollection;
 use Shopwell\Storefront\Page\Page;
 
 #[Package('framework')]
 class AddressDetailPage extends Page
 {
     protected ?CustomerAddressEntity $address = null;
-
-    protected SalutationCollection $salutations;
 
     protected CountryCollection $countries;
 
@@ -25,16 +22,6 @@ class AddressDetailPage extends Page
     public function setAddress(?CustomerAddressEntity $address): void
     {
         $this->address = $address;
-    }
-
-    public function getSalutations(): SalutationCollection
-    {
-        return $this->salutations;
-    }
-
-    public function setSalutations(SalutationCollection $salutations): void
-    {
-        $this->salutations = $salutations;
     }
 
     public function getCountries(): CountryCollection

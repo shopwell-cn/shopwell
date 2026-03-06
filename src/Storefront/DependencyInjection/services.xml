@@ -152,8 +152,6 @@
             <tag name="twig.extension"/>
         </service>
 
-        <service id="Shopwell\Core\System\Salutation\AbstractSalutationsSorter" class="Shopwell\Core\System\Salutation\SalutationSorter"/>
-
         <service id="Shopwell\Storefront\Framework\Media\StorefrontMediaUploader">
             <argument type="service" id="Shopwell\Core\Content\Media\MediaService"/>
             <argument type="service" id="Shopwell\Core\Content\Media\File\FileSaver"/>
@@ -220,13 +218,6 @@
         </service>
 
         <service id="Shopwell\Storefront\Page\Navigation\Error\ErrorPageLoader">
-            <argument type="service" id="Shopwell\Core\Content\Cms\SalesChannel\SalesChannelCmsPageLoader"/>
-            <argument type="service" id="Shopwell\Storefront\Page\GenericPageLoader"/>
-            <argument type="service" id="event_dispatcher"/>
-        </service>
-
-        <service id="Shopwell\Storefront\Page\Maintenance\MaintenancePageLoader">
-            <argument type="service" id="Shopwell\Core\Content\Cms\SalesChannel\SalesChannelCmsPageLoader"/>
             <argument type="service" id="Shopwell\Storefront\Page\GenericPageLoader"/>
             <argument type="service" id="event_dispatcher"/>
         </service>
@@ -339,8 +330,6 @@
         <service id="Shopwell\Storefront\Page\Account\Profile\AccountProfilePageLoader">
             <argument type="service" id="Shopwell\Storefront\Page\GenericPageLoader"/>
             <argument type="service" id="event_dispatcher"/>
-            <argument type="service" id="Shopwell\Core\System\Salutation\SalesChannel\SalutationRoute"/>
-            <argument type="service" id="Shopwell\Core\System\Salutation\AbstractSalutationsSorter"/>
             <argument type="service" id="Shopwell\Core\Framework\Adapter\Translation\Translator"/>
         </service>
 
@@ -380,8 +369,6 @@
             <argument type="service" id="Shopwell\Storefront\Page\GenericPageLoader"/>
             <argument type="service" id="event_dispatcher"/>
             <argument type="service" id="Shopwell\Core\System\Country\SalesChannel\CountryRoute"/>
-            <argument type="service" id="Shopwell\Core\System\Salutation\SalesChannel\SalutationRoute"/>
-            <argument type="service" id="Shopwell\Core\System\Salutation\AbstractSalutationsSorter"/>
             <argument type="service" id="Shopwell\Core\Framework\Adapter\Translation\Translator"/>
         </service>
 
@@ -402,30 +389,21 @@
             <argument type="service" id="Shopwell\Core\Checkout\Customer\SalesChannel\ListAddressRoute"/>
             <argument type="service" id="event_dispatcher"/>
             <argument type="service" id="Shopwell\Core\Checkout\Cart\SalesChannel\CartService"/>
-            <argument type="service" id="Shopwell\Core\System\Salutation\SalesChannel\SalutationRoute"/>
             <argument type="service" id="Shopwell\Core\System\Country\SalesChannel\CountryRoute"/>
             <argument type="service" id="Shopwell\Core\Framework\Adapter\Translation\Translator"/>
-        </service>
-
-        <service id="Shopwell\Storefront\Page\Newsletter\Subscribe\NewsletterSubscribePageLoader">
-            <argument type="service" id="Shopwell\Storefront\Page\GenericPageLoader"/>
-            <argument type="service" id="event_dispatcher"/>
         </service>
 
         <service id="Shopwell\Storefront\Page\Address\Detail\AddressDetailPageLoader">
             <argument type="service" id="Shopwell\Storefront\Page\GenericPageLoader"/>
             <argument type="service" id="Shopwell\Core\System\Country\SalesChannel\CountryRoute"/>
-            <argument type="service" id="Shopwell\Core\System\Salutation\SalesChannel\SalutationRoute"/>
             <argument type="service" id="event_dispatcher"/>
             <argument type="service" id="Shopwell\Core\Checkout\Customer\SalesChannel\ListAddressRoute"/>
-            <argument type="service" id="Shopwell\Core\System\Salutation\AbstractSalutationsSorter"/>
             <argument type="service" id="Shopwell\Core\Framework\Adapter\Translation\Translator"/>
         </service>
 
         <service id="Shopwell\Storefront\Page\Address\Listing\AddressListingPageLoader">
             <argument type="service" id="Shopwell\Storefront\Page\GenericPageLoader"/>
             <argument type="service" id="Shopwell\Core\System\Country\SalesChannel\CountryRoute"/>
-            <argument type="service" id="Shopwell\Core\System\Salutation\SalesChannel\SalutationRoute"/>
             <argument type="service" id="Shopwell\Core\Checkout\Customer\SalesChannel\ListAddressRoute"/>
             <argument type="service" id="event_dispatcher"/>
             <argument type="service" id="Shopwell\Core\Checkout\Cart\SalesChannel\CartService"/>

@@ -12,7 +12,6 @@ use Shopwell\Core\Checkout\Payment\PaymentMethodDefinition;
 use Shopwell\Core\Checkout\Promotion\Aggregate\PromotionSalesChannel\PromotionSalesChannelDefinition;
 use Shopwell\Core\Checkout\Shipping\ShippingMethodDefinition;
 use Shopwell\Core\Content\Category\CategoryDefinition;
-use Shopwell\Core\Content\Cms\CmsPageDefinition;
 use Shopwell\Core\Content\LandingPage\Aggregate\LandingPageSalesChannel\LandingPageSalesChannelDefinition;
 use Shopwell\Core\Content\LandingPage\LandingPageDefinition;
 use Shopwell\Core\Content\MailTemplate\Aggregate\MailHeaderFooter\MailHeaderFooterDefinition;

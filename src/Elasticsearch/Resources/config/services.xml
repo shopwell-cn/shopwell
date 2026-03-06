@@ -447,16 +447,6 @@
             <tag name="messenger.message_handler"/>
         </service>
 
-        <service id="Shopwell\Elasticsearch\Admin\Indexer\CmsPageAdminSearchIndexer">
-            <argument type="service" id="Doctrine\DBAL\Connection"/>
-            <argument type="service" id="Shopwell\Core\Framework\DataAbstractionLayer\Dbal\Common\IteratorFactory" />
-            <argument type="service" id="cms_page.repository"/>
-            <argument type="service" id="Shopwell\Elasticsearch\Framework\ElasticsearchFieldBuilder" />
-            <argument>%elasticsearch.administration.indexing_batch_size%</argument>
-
-            <tag name="shopwell.elastic.admin-searcher-index" key="cms_page"/>
-        </service>
-
         <service id="Shopwell\Elasticsearch\Admin\Indexer\CustomerAdminSearchIndexer">
             <argument type="service" id="Doctrine\DBAL\Connection"/>
             <argument type="service" id="Shopwell\Core\Framework\DataAbstractionLayer\Dbal\Common\IteratorFactory" />

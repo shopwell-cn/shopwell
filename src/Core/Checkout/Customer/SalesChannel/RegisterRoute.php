@@ -51,8 +51,6 @@ use Shopwell\Core\System\SalesChannel\Context\SalesChannelContextServiceParamete
 use Shopwell\Core\System\SalesChannel\Entity\SalesChannelRepository;
 use Shopwell\Core\System\SalesChannel\SalesChannelContext;
 use Shopwell\Core\System\SalesChannel\StoreApiCustomFieldMapper;
-use Shopwell\Core\System\Salutation\SalutationCollection;
-use Shopwell\Core\System\Salutation\SalutationDefinition;
 use Shopwell\Core\System\SystemConfig\SystemConfigService;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Validator\Constraints\AtLeastOneOf;
@@ -73,7 +71,6 @@ class RegisterRoute extends AbstractRegisterRoute
      *
      * @param EntityRepository<CustomerCollection> $customerRepository
      * @param SalesChannelRepository<CountryCollection> $countryRepository
-     * @param EntityRepository<SalutationCollection> $salutationRepository
      */
     public function __construct(
         private readonly EventDispatcherInterface $eventDispatcher,
@@ -88,7 +85,6 @@ class RegisterRoute extends AbstractRegisterRoute
         protected Connection $connection,
         private readonly SalesChannelContextServiceInterface $contextService,
         private readonly StoreApiCustomFieldMapper $customFieldMapper,
-        private readonly EntityRepository $salutationRepository,
         private readonly DataValidationFactoryInterface $passwordValidationFactory,
     ) {
     }
@@ -111,10 +107,6 @@ class RegisterRoute extends AbstractRegisterRoute
 
         if ($data->has('accountType') && $data->getString('accountType') === '') {
             $data->remove('accountType');
-        }
-
-        if (!$data->get('salutationId')) {
-            $data->set('salutationId', $this->getDefaultSalutationId($context));
         }
 
         $billing = $data->get('billingAddress');
@@ -636,14 +628,5 @@ class RegisterRoute extends AbstractRegisterRoute
             [$emailHash, (string) $customer->getHash()],
             $urlEvent->getConfirmUrl()
         );
-    }
-
-    private function getDefaultSalutationId(SalesChannelContext $context): ?string
-    {
-        $criteria = (new Criteria())
-            ->setLimit(1)
-            ->addFilter(new EqualsFilter('salutationKey', SalutationDefinition::NOT_SPECIFIED));
-
-        return $this->salutationRepository->searchIds($criteria, $context->getContext())->firstId();
     }
 }
