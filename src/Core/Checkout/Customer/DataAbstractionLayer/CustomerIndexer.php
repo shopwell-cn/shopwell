@@ -5,7 +5,6 @@ namespace Shopwell\Core\Checkout\Customer\DataAbstractionLayer;
 use Shopwell\Core\Checkout\Customer\CustomerCollection;
 use Shopwell\Core\Checkout\Customer\CustomerDefinition;
 use Shopwell\Core\Checkout\Customer\Event\CustomerIndexerEvent;
-use Shopwell\Core\Content\Newsletter\DataAbstractionLayer\Indexing\CustomerNewsletterSalesChannelsUpdater;
 use Shopwell\Core\Framework\DataAbstractionLayer\Dbal\Common\IteratorFactory;
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopwell\Core\Framework\DataAbstractionLayer\Event\EntityWrittenContainerEvent;
@@ -20,7 +19,6 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 class CustomerIndexer extends EntityIndexer
 {
     final public const MANY_TO_MANY_ID_FIELD_UPDATER = 'customer.many-to-many-id-field';
-    final public const NEWSLETTER_SALES_CHANNELS_UPDATER = 'customer.newsletter-sales-channels';
 
     private const PRIMARY_KEYS_WITH_PROPERTY_CHANGE = ['email', 'firstName', 'lastName'];
 
@@ -33,7 +31,6 @@ class CustomerIndexer extends EntityIndexer
         private readonly IteratorFactory $iteratorFactory,
         private readonly EntityRepository $repository,
         private readonly ManyToManyIdFieldUpdater $manyToManyIdFieldUpdater,
-        private readonly CustomerNewsletterSalesChannelsUpdater $customerNewsletterSalesChannelsUpdater,
         private readonly EventDispatcherInterface $eventDispatcher
     ) {
     }
@@ -90,16 +87,8 @@ class CustomerIndexer extends EntityIndexer
 
         $context = $message->getContext();
 
-        if ($message->getIds() !== []) {
-            $this->customerNewsletterSalesChannelsUpdater->updateCustomersRecipient($message->getIds());
-        }
-
         if ($message->allow(self::MANY_TO_MANY_ID_FIELD_UPDATER)) {
             $this->manyToManyIdFieldUpdater->update(CustomerDefinition::ENTITY_NAME, $ids, $context);
-        }
-
-        if ($message->allow(self::NEWSLETTER_SALES_CHANNELS_UPDATER)) {
-            $this->customerNewsletterSalesChannelsUpdater->update($ids, true);
         }
 
         $this->eventDispatcher->dispatch(new CustomerIndexerEvent($ids, $context, $message->getSkip()));
@@ -109,7 +98,6 @@ class CustomerIndexer extends EntityIndexer
     {
         return [
             self::MANY_TO_MANY_ID_FIELD_UPDATER,
-            self::NEWSLETTER_SALES_CHANNELS_UPDATER,
         ];
     }
 

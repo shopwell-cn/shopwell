@@ -349,7 +349,6 @@
             <argument type="service" id="event_dispatcher"/>
             <argument type="service" id="Shopwell\Core\Checkout\Order\SalesChannel\OrderRoute"/>
             <argument type="service" id="Shopwell\Core\Checkout\Customer\SalesChannel\CustomerRoute"/>
-            <argument type="service" id="Shopwell\Storefront\Pagelet\Newsletter\Account\NewsletterAccountPageletLoader"/>
             <argument type="service" id="Shopwell\Core\Framework\Adapter\Translation\Translator"/>
         </service>
 
@@ -411,15 +410,6 @@
         <service id="Shopwell\Storefront\Page\Newsletter\Subscribe\NewsletterSubscribePageLoader">
             <argument type="service" id="Shopwell\Storefront\Page\GenericPageLoader"/>
             <argument type="service" id="event_dispatcher"/>
-        </service>
-
-        <service id="Shopwell\Storefront\Pagelet\Newsletter\Account\NewsletterAccountPageletLoader">
-            <argument type="service" id="event_dispatcher"/>
-            <argument type="service" id="Shopwell\Core\Content\Newsletter\SalesChannel\NewsletterSubscribeRoute"/>
-            <argument type="service" id="Shopwell\Core\Content\Newsletter\SalesChannel\NewsletterUnsubscribeRoute"/>
-            <argument type="service" id="Shopwell\Core\Checkout\Customer\SalesChannel\AccountNewsletterRecipientRoute"/>
-            <argument type="service" id="Shopwell\Core\Framework\Adapter\Translation\Translator"/>
-            <argument type="service" id="Shopwell\Core\System\SystemConfig\SystemConfigService"/>
         </service>
 
         <service id="Shopwell\Storefront\Page\Address\Detail\AddressDetailPageLoader">

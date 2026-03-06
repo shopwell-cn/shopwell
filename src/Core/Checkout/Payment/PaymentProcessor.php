@@ -37,7 +37,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 
 /**
- * @deprecated tag:v6.8.0 - reason:becomes-final - will be final (with @final, not actual final, for testing purposes)
+ * @final
  */
 #[Package('checkout')]
 class PaymentProcessor

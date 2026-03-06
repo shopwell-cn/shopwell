@@ -19,7 +19,6 @@ use Shopwell\Core\System\SalesChannel\SalesChannelContext;
 use Shopwell\Storefront\Event\RouteRequest\OrderRouteRequestEvent;
 use Shopwell\Storefront\Page\GenericPageLoaderInterface;
 use Shopwell\Storefront\Page\MetaInformation;
-use Shopwell\Storefront\Pagelet\Newsletter\Account\NewsletterAccountPageletLoader;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
@@ -37,7 +36,6 @@ class AccountOverviewPageLoader
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly AbstractOrderRoute $orderRoute,
         private readonly AbstractCustomerRoute $customerRoute,
-        private readonly NewsletterAccountPageletLoader $newsletterAccountPageletLoader,
         private readonly AbstractTranslator $translator
     ) {
     }
@@ -61,10 +59,6 @@ class AccountOverviewPageLoader
         if ($order !== null) {
             $page->setNewestOrder($order);
         }
-
-        $newslAccountPagelet = $this->newsletterAccountPageletLoader->load($request, $salesChannelContext, $customer);
-
-        $page->setNewsletterAccountPagelet($newslAccountPagelet);
 
         $this->eventDispatcher->dispatch(
             new AccountOverviewPageLoadedEvent($page, $salesChannelContext, $request)

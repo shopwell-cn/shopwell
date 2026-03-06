@@ -30,7 +30,6 @@ class Content extends Bundle
         $loader->load('media.xml');
         $loader->load('media_path.xml');
         $loader->load('product.xml');
-        $loader->load('newsletter_recipient.xml');
         $loader->load('rule.xml');
         $loader->load('product_stream.xml');
         $loader->load('product_export.xml');
@@ -39,7 +38,6 @@ class Content extends Bundle
         $loader->load('mail_template.xml');
         $loader->load('delivery_time.xml');
         $loader->load('import_export.xml');
-        $loader->load('contact_form.xml');
         $loader->load('revocation_request_form.xml');
         $loader->load('sitemap.xml');
         $loader->load('landing_page.xml');

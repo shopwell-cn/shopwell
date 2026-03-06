@@ -142,17 +142,6 @@
             </call>
         </service>
 
-        <service id="Shopwell\Storefront\Controller\FormController">
-            <argument type="service" id="Shopwell\Core\Content\ContactForm\SalesChannel\ContactFormRoute"/>
-            <argument type="service" id="Shopwell\Core\Content\Newsletter\SalesChannel\NewsletterSubscribeRoute"/>
-            <argument type="service" id="Shopwell\Core\Content\Newsletter\SalesChannel\NewsletterUnsubscribeRoute"/>
-            <argument type="service" id="Shopwell\Core\Content\RevocationRequest\SalesChannel\RevocationRequestRoute"/>
-
-            <call method="setContainer">
-                <argument type="service" id="service_container"/>
-            </call>
-        </service>
-
         <service id="Shopwell\Storefront\Controller\ContextController">
             <argument type="service" id="Shopwell\Core\System\SalesChannel\SalesChannel\ContextSwitchRoute"/>
             <argument type="service" id="request_stack"/>
@@ -190,16 +179,6 @@
             <argument type="service" id="Shopwell\Storefront\Pagelet\Footer\FooterPageletLoader"/>
             <argument type="service" id="Shopwell\Core\Content\Category\Service\CategoryUrlGenerator"/>
             <argument type="service" id="Shopwell\Core\Content\Seo\SeoUrlPlaceholderHandlerInterface"/>
-
-            <call method="setContainer">
-                <argument type="service" id="service_container"/>
-            </call>
-        </service>
-
-        <service id="Shopwell\Storefront\Controller\NewsletterController">
-            <argument type="service" id="Shopwell\Storefront\Page\Newsletter\Subscribe\NewsletterSubscribePageLoader"/>
-            <argument type="service" id="Shopwell\Core\Content\Newsletter\SalesChannel\NewsletterConfirmRoute"/>
-            <argument type="service" id="Shopwell\Storefront\Pagelet\Newsletter\Account\NewsletterAccountPageletLoader"/>
 
             <call method="setContainer">
                 <argument type="service" id="service_container"/>

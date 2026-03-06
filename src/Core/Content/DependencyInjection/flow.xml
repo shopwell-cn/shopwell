@@ -262,13 +262,6 @@
             <tag name="flow.storer"/>
         </service>
 
-        <service id="Shopwell\Core\Content\Flow\Dispatching\Storer\NewsletterRecipientStorer">
-            <argument type="service" id="newsletter_recipient.repository"/>
-            <argument type="service" id="event_dispatcher"/>
-
-            <tag name="flow.storer"/>
-        </service>
-
         <service id="Shopwell\Core\Content\Flow\Dispatching\Storer\ScalarValuesStorer">
             <tag name="flow.storer"/>
         </service>

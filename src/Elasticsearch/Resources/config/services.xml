@@ -581,15 +581,6 @@
             <tag name="shopwell.elastic.admin-searcher-index" key="category"/>
         </service>
 
-        <service id="Shopwell\Elasticsearch\Admin\Indexer\NewsletterRecipientAdminSearchIndexer">
-            <argument type="service" id="Doctrine\DBAL\Connection"/>
-            <argument type="service" id="Shopwell\Core\Framework\DataAbstractionLayer\Dbal\Common\IteratorFactory" />
-            <argument type="service" id="newsletter_recipient.repository"/>
-            <argument>%elasticsearch.administration.indexing_batch_size%</argument>
-
-            <tag name="shopwell.elastic.admin-searcher-index" key="newsletter_recipient"/>
-        </service>
-
         <service id="Shopwell\Elasticsearch\Admin\Indexer\ProductStreamAdminSearchIndexer">
             <argument type="service" id="Doctrine\DBAL\Connection"/>
             <argument type="service" id="Shopwell\Core\Framework\DataAbstractionLayer\Dbal\Common\IteratorFactory" />

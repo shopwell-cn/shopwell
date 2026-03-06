@@ -306,7 +306,6 @@
             <argument type="service" id="Shopwell\Core\Framework\DataAbstractionLayer\Dbal\Common\IteratorFactory"/>
             <argument type="service" id="customer.repository"/>
             <argument type="service" id="Shopwell\Core\Framework\DataAbstractionLayer\Indexing\ManyToManyIdFieldUpdater"/>
-            <argument type="service" id="Shopwell\Core\Content\Newsletter\DataAbstractionLayer\Indexing\CustomerNewsletterSalesChannelsUpdater"/>
             <argument type="service" id="event_dispatcher"/>
             <tag name="shopwell.entity_indexer" priority="100"/>
         </service>
@@ -367,10 +366,6 @@
 
         <service id="Shopwell\Core\Checkout\Customer\CustomerValueResolver">
             <tag name="controller.argument_value_resolver" priority="1002"/>
-        </service>
-
-        <service id="Shopwell\Core\Checkout\Customer\SalesChannel\AccountNewsletterRecipientRoute" public="true">
-            <argument type="service" id="sales_channel.newsletter_recipient.repository" />
         </service>
 
         <service id="Shopwell\Core\Checkout\Customer\SalesChannel\ImitateCustomerRoute" public="true">

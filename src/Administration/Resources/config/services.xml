@@ -171,11 +171,6 @@
 
         <service id="Shopwell\Administration\Framework\Routing\KnownIps\KnownIpsCollector"/>
 
-        <!-- @deprecated tag:v6.8.0 Will be removed -->
-        <service id="Shopwell\Administration\Notification\NotificationDefinition">
-            <deprecated package="shopwell/administration" version="6.8.0" />
-        </service>
-
         <service id="Shopwell\Administration\System\SalesChannel\Subscriber\SalesChannelUserConfigSubscriber">
             <argument type="service" id="user_config.repository" />
             <tag name="kernel.event_subscriber"/>
