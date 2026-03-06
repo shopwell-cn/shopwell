@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Shopwell\Core\Framework\Util;
 
 use Shopwell\Core\Framework\Log\Package;
-use Shopwell\Core\Framework\Util\UtilException;
 
 #[Package('framework')]
 class Hasher

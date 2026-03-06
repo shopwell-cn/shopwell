@@ -1,0 +1,41 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service id="Shopwell\Core\Content\MeasurementSystem\DataAbstractionLayer\MeasurementSystemEntity">
+            <tag name="shopwell.entity"/>
+        </service>
+
+        <service id="Shopwell\Core\Content\MeasurementSystem\DataAbstractionLayer\MeasurementDisplayUnitEntity">
+            <tag name="shopwell.entity"/>
+        </service>
+
+        <service id="Shopwell\Core\Content\MeasurementSystem\Field\MeasurementUnitsFieldSerializer">
+            <argument type="service" id="validator"/>
+            <argument type="service" id="Shopwell\Core\Framework\DataAbstractionLayer\DefinitionInstanceRegistry"/>
+
+            <tag name="shopwell.field_serializer"/>
+        </service>
+
+        <service id="Shopwell\Core\Content\MeasurementSystem\Unit\MeasurementUnitProvider">
+            <argument type="service" id="measurement_display_unit.repository"/>
+        </service>
+
+        <service id="Shopwell\Core\Content\MeasurementSystem\Unit\MeasurementUnitConverter">
+            <argument type="service" id="Shopwell\Core\Content\MeasurementSystem\Unit\MeasurementUnitProvider"/>
+        </service>
+
+        <service id="Shopwell\Core\Content\MeasurementSystem\ProductMeasurement\ProductMeasurementUnitBuilder">
+            <argument type="service" id="Shopwell\Core\Content\MeasurementSystem\Unit\MeasurementUnitConverter"/>
+        </service>
+
+        <service id="Shopwell\Core\Content\MeasurementSystem\TwigExtension\MeasurementConvertUnitTwigFilter" public="false">
+            <argument type="service" id="Shopwell\Core\Content\MeasurementSystem\Unit\MeasurementUnitProvider"/>
+            <argument type="service" id="Shopwell\Core\Content\MeasurementSystem\Unit\MeasurementUnitConverter"/>
+            <tag name="twig.extension"/>
+        </service>
+
+    </services>
+</container>

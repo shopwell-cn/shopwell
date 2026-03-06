@@ -1,0 +1,27 @@
+{
+    "name": "swag/test-without-config",
+    "description": "Test description",
+    "version": "1.0.0",
+    "type": "shopwell-platform-plugin",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "shopwell AG"
+        }
+    ],
+    "require": {
+        "shopwell/core": ">=6.0"
+    },
+    "extra": {
+        "shopwell-plugin-class": "SwagTestWithoutConfig\\SwagTestWithoutConfig",
+        "label": {
+            "de-DE": "Deutscher Pluginname",
+            "en-GB": "English plugin name"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+           "SwagTestWithoutConfig\\": "src"
+        }
+    }
+}

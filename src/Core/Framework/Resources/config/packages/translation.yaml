@@ -1,0 +1,7 @@
+framework:
+    default_locale: '%locale%'
+    translator:
+        fallbacks:
+            - 'en-GB'
+            - 'en'
+        default_path: "%kernel.shopwell_core_dir%/Framework/Resources/snippet"

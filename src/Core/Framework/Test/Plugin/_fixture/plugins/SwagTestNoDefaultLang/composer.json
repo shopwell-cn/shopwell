@@ -1,0 +1,42 @@
+{
+    "name": "swag/testnodefaultlang",
+    "description": "Test description no default lang",
+    "version": "v1.0.1",
+    "type": "shopwell-platform-plugin",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "shopwell AG",
+            "role": "Manufacturer"
+        },
+        {
+            "name": "John Doe",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "shopwell/core": ">=6.0"
+    },
+    "extra": {
+        "shopwell-plugin-class": "SwagTestNoDefaultLang\\SwagTestNoDefaultLang",
+        "plugin-icon": "src/Resources/public/plugin.png",
+        "copyright": "(c) by shopwell AG",
+        "label": {
+            "nl-NL": "Dutch Pluginname"
+        },
+        "description": {
+            "nl-NL": "Dutch Beschrijving"
+        },
+        "manufacturerLink": {
+            "nl-NL": "https://www.test.nl/"
+        },
+        "supportLink": {
+            "nl-NL": "https://www.test.nl/support"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+           "SwagTestNoDefaultLang\\": "src"
+        }
+    }
+}

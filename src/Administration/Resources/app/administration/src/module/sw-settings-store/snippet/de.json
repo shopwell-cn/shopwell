@@ -1,0 +1,16 @@
+{
+  "sw-settings-store": {
+    "general": {
+      "mainMenuItemGeneral": "Shopwell Account",
+      "textHeadline": "Shopwell Account",
+      "description": "Hier können Einstellungen am Shopwell Account vorgenommen werden.",
+      "buttonSave": "Speichern",
+      "messageSaveSuccess": "Die Daten Deines Shopwell Accounts wurden erfolgreich gespeichert."
+    },
+    "detail": {
+      "titleCard": "Einstellungen",
+      "labelHost": "Lizenzdomain",
+      "placeholderHost": "Trage hier die Lizenzdomain (Shopdomain) ein, die in Deinem Shopwell Account hinterlegt ist."
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{% block sw_shopwell_updates_info %}
+<mt-card
+    position-identifier="sw-shopwell-updates-info"
+    :title="$t('sw-settings-shopwell-updates.cards.info')"
+    :is-loading="isLoading"
+>
+    {% block sw_shopwell_updates_info_content %}
+    <div
+        class="sw-changelog"
+        v-html="changelog"
+    ></div>
+    {% endblock %}
+</mt-card>
+{% endblock %}

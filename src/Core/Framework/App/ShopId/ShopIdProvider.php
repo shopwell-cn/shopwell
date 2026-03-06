@@ -1,0 +1,125 @@
+<?php declare(strict_types=1);
+
+namespace Shopwell\Core\Framework\App\ShopId;
+
+use Doctrine\DBAL\Connection;
+use Shopwell\Core\Framework\App\AppException;
+use Shopwell\Core\Framework\App\Exception\ShopIdChangeSuggestedException;
+use Shopwell\Core\Framework\Log\Package;
+use Shopwell\Core\Framework\Util\Random;
+use Shopwell\Core\System\SystemConfig\SystemConfigService;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+use Symfony\Contracts\Service\ResetInterface;
+
+/**
+ * @internal
+ *
+ * @phpstan-import-type ShopIdV1Config from ShopId
+ * @phpstan-import-type ShopIdV2Config from ShopId
+ */
+#[Package('framework')]
+class ShopIdProvider implements ResetInterface
+{
+    final public const SHOP_ID_SYSTEM_CONFIG_KEY = 'core.app.shopId';
+    final public const SHOP_ID_SYSTEM_CONFIG_KEY_V2 = 'core.app.shopIdV2';
+
+    private ?ShopId $shopId = null;
+
+    public function __construct(
+        private readonly SystemConfigService $systemConfigService,
+        private readonly EventDispatcherInterface $eventDispatcher,
+        private readonly Connection $connection,
+        private readonly FingerprintGenerator $fingerprintGenerator
+    ) {
+    }
+
+    /**
+     * @throws ShopIdChangeSuggestedException
+     */
+    public function getShopId(): string
+    {
+        if ($this->shopId) {
+            return $this->shopId->id;
+        }
+
+        $this->shopId = $this->fetchShopIdFromSystemConfig() ?? $this->regenerateAndSetShopId();
+
+        $fingerprintsComparison = $this->fingerprintGenerator->matchFingerprints($this->shopId->fingerprints);
+        if (!$fingerprintsComparison->isMatching()) {
+            if ($this->hasAppsRegisteredAtAppServers()) {
+                throw AppException::shopIdChangeSuggested($this->shopId, $fingerprintsComparison);
+            }
+
+            // if the shop does not have any apps we can update the existing shop id value
+            // with the new APP_URL as no app knows the shop id
+            $this->regenerateAndSetShopId($this->shopId->id);
+        }
+
+        return $this->shopId->id;
+    }
+
+    public function regenerateAndSetShopId(?string $existingShopId = null): ShopId
+    {
+        $shopId = ShopId::v2(
+            $existingShopId ?? Random::getAlphanumericString(16),
+            $this->fingerprintGenerator->takeFingerprints(),
+        );
+
+        $this->setShopId($shopId);
+
+        return $shopId;
+    }
+
+    public function deleteShopId(): void
+    {
+        $this->systemConfigService->delete(self::SHOP_ID_SYSTEM_CONFIG_KEY);
+        $this->systemConfigService->delete(self::SHOP_ID_SYSTEM_CONFIG_KEY_V2);
+
+        $this->reset();
+
+        $this->eventDispatcher->dispatch(new ShopIdDeletedEvent());
+    }
+
+    public function reset(): void
+    {
+        $this->shopId = null;
+    }
+
+    private function setShopId(ShopId $shopId): void
+    {
+        $oldShopId = $this->systemConfigService->get(self::SHOP_ID_SYSTEM_CONFIG_KEY_V2)
+            ?? $this->systemConfigService->get(self::SHOP_ID_SYSTEM_CONFIG_KEY);
+        if (\is_array($oldShopId)) {
+            $oldShopId = ShopId::fromSystemConfig($oldShopId);
+        } else {
+            $oldShopId = null;
+        }
+
+        $this->systemConfigService->set(self::SHOP_ID_SYSTEM_CONFIG_KEY_V2, (array) $shopId);
+        $this->eventDispatcher->dispatch(new ShopIdChangedEvent($shopId, $oldShopId));
+    }
+
+    private function hasAppsRegisteredAtAppServers(): bool
+    {
+        return (int) $this->connection->fetchOne('SELECT COUNT(id) FROM app WHERE app_secret IS NOT NULL') > 0;
+    }
+
+    private function fetchShopIdFromSystemConfig(): ?ShopId
+    {
+        /** @var ShopIdV2Config|null $shopIdV2 */
+        $shopIdV2 = $this->systemConfigService->get(self::SHOP_ID_SYSTEM_CONFIG_KEY_V2);
+        if (\is_array($shopIdV2)) {
+            return ShopId::fromSystemConfig($shopIdV2);
+        }
+
+        /** @var ShopIdV1Config|null $shopIdV1 */
+        $shopIdV1 = $this->systemConfigService->get(self::SHOP_ID_SYSTEM_CONFIG_KEY);
+        if (\is_array($shopIdV1)) {
+            $shopIdV1 = ShopId::fromSystemConfig($shopIdV1);
+
+            return $this->regenerateAndSetShopId($shopIdV1->id);
+        }
+
+        return null;
+    }
+}

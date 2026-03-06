@@ -1,0 +1,97 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="Shopwell\Core\System\NumberRange\NumberRangeDefinition">
+            <tag name="shopwell.entity.definition"/>
+        </service>
+
+        <service id="Shopwell\Core\System\NumberRange\Aggregate\NumberRangeSalesChannel\NumberRangeSalesChannelDefinition">
+            <tag name="shopwell.entity.definition"/>
+        </service>
+
+        <service id="Shopwell\Core\System\NumberRange\Aggregate\NumberRangeState\NumberRangeStateDefinition">
+            <tag name="shopwell.entity.definition"/>
+        </service>
+
+        <service id="Shopwell\Core\System\NumberRange\Aggregate\NumberRangeType\NumberRangeTypeDefinition">
+            <tag name="shopwell.entity.definition"/>
+        </service>
+
+        <service id="Shopwell\Core\System\NumberRange\Aggregate\NumberRangeTypeTranslation\NumberRangeTypeTranslationDefinition">
+            <tag name="shopwell.entity.definition"/>
+        </service>
+
+        <service id="Shopwell\Core\System\NumberRange\Aggregate\NumberRangeTranslation\NumberRangeTranslationDefinition">
+            <tag name="shopwell.entity.definition"/>
+        </service>
+
+        <!-- Value Generator -->
+        <service id="Shopwell\Core\System\NumberRange\Command\MigrateIncrementStorageCommand">
+            <argument type="service" id="Shopwell\Core\System\NumberRange\ValueGenerator\Pattern\IncrementStorage\IncrementStorageRegistry"/>
+
+            <tag name="console.command"/>
+        </service>
+
+        <service id="Shopwell\Core\System\NumberRange\ValueGenerator\Pattern\IncrementStorage\IncrementSqlStorage">
+            <argument type="service" id="Doctrine\DBAL\Connection"/>
+
+            <tag name="shopwell.value_generator_connector" storage="mysql"/>
+        </service>
+
+        <service id="Shopwell\Core\System\NumberRange\ValueGenerator\Pattern\IncrementStorage\AbstractIncrementStorage">
+            <factory service="Shopwell\Core\System\NumberRange\ValueGenerator\Pattern\IncrementStorage\IncrementStorageRegistry"
+                     method="getStorage"/>
+        </service>
+
+        <service id="Shopwell\Core\System\NumberRange\ValueGenerator\Pattern\IncrementStorage\IncrementRedisStorage">
+            <argument type="service" id="shopwell.number_range.redis"/>
+            <argument type="service" id="lock.factory"/>
+            <argument type="service" id="number_range.repository"/>
+
+            <tag name="shopwell.value_generator_connector" storage="redis"/>
+        </service>
+
+        <service id="Shopwell\Core\System\NumberRange\ValueGenerator\Pattern\IncrementStorage\IncrementStorageRegistry">
+            <argument type="tagged_iterator" tag="shopwell.value_generator_connector" index-by="storage"/>
+            <argument>%shopwell.number_range.increment_storage%</argument>
+        </service>
+
+        <service id="shopwell.number_range.redis" class="Redis">
+            <factory service="Shopwell\Core\Framework\Adapter\Redis\RedisConnectionProvider" method="getConnection"/>
+            <argument>%shopwell.number_range.config.connection%</argument>
+        </service>
+
+        <service class="Shopwell\Core\System\NumberRange\ValueGenerator\NumberRangeValueGenerator"
+                 id="Shopwell\Core\System\NumberRange\ValueGenerator\NumberRangeValueGeneratorInterface"
+                 public="true">
+            <argument type="service" id="Shopwell\Core\System\NumberRange\ValueGenerator\Pattern\ValueGeneratorPatternRegistry" />
+            <argument type="service" id="event_dispatcher"/>
+            <argument type="service" id="Doctrine\DBAL\Connection"/>
+        </service>
+
+        <service id="Shopwell\Core\System\NumberRange\ValueGenerator\Pattern\ValueGeneratorPatternRegistry">
+            <argument type="tagged_iterator" tag="shopwell.value_generator_pattern"/>
+        </service>
+
+        <service id="Shopwell\Core\System\NumberRange\ValueGenerator\Pattern\ValueGeneratorPatternIncrement">
+            <argument type="service" id="Shopwell\Core\System\NumberRange\ValueGenerator\Pattern\IncrementStorage\AbstractIncrementStorage" />
+            <tag name="shopwell.value_generator_pattern"/>
+        </service>
+
+        <service id="Shopwell\Core\System\NumberRange\ValueGenerator\Pattern\ValueGeneratorPatternDate">
+            <tag name="shopwell.value_generator_pattern"/>
+        </service>
+
+        <service id="Shopwell\Core\System\NumberRange\Api\NumberRangeController" public="true">
+            <argument type="service" id="Shopwell\Core\System\NumberRange\ValueGenerator\NumberRangeValueGeneratorInterface" />
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
+        </service>
+
+    </services>
+</container>

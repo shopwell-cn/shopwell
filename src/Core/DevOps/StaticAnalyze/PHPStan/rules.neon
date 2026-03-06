@@ -1,0 +1,49 @@
+rules:
+    - Shopwell\Core\DevOps\StaticAnalyze\PHPStan\Rules\Tests\PHPUnitClassAttributesOverAnnotationsRule
+    - Shopwell\Core\DevOps\StaticAnalyze\PHPStan\Rules\Tests\PHPUnitMethodAttributesOverAnnotationsRule
+    - Shopwell\Core\DevOps\StaticAnalyze\PHPStan\Rules\ScheduledTaskTooLowIntervalRule
+    - Shopwell\Core\DevOps\StaticAnalyze\PHPStan\Rules\RuleAreasFlagNotAllowedRule
+    - Shopwell\Core\DevOps\StaticAnalyze\PHPStan\Rules\RuleConditionHasRuleConfigRule
+    - Shopwell\Core\DevOps\StaticAnalyze\PHPStan\Rules\Tests\NoAssertsOnObjectsRule
+    - Shopwell\Core\DevOps\StaticAnalyze\PHPStan\Rules\NoFlowStoreFunctionRule
+    - Shopwell\Core\DevOps\StaticAnalyze\PHPStan\Rules\NoUnserializeUsageRule
+    - Shopwell\Core\DevOps\StaticAnalyze\PHPStan\Rules\NoEnvironmentHelperInsideCompilerPassRule
+    - Shopwell\Core\DevOps\StaticAnalyze\PHPStan\Rules\NoFileExistsRule
+    - Shopwell\Core\DevOps\StaticAnalyze\PHPStan\Rules\NoSuperGlobalsInsideCompilerPassRule
+    - Shopwell\Core\DevOps\StaticAnalyze\PHPStan\Rules\NoDALAutoload
+    - Shopwell\Core\DevOps\StaticAnalyze\PHPStan\Rules\DALFieldsMustBeRegisteredWithSchemaBuilder
+    - Shopwell\Core\DevOps\StaticAnalyze\PHPStan\Rules\RouteScopeRule
+    - Shopwell\Core\DevOps\StaticAnalyze\PHPStan\Rules\MessagesShouldNotUsePHPStanTypes
+    - Shopwell\Core\DevOps\StaticAnalyze\PHPStan\Rules\UseCLIContextRule
+    - Shopwell\Core\DevOps\StaticAnalyze\PHPStan\Rules\NoUnconfiguredMetricAllowed
+    - Shopwell\Core\DevOps\StaticAnalyze\PHPStan\Rules\UseHasherRule
+    - Shopwell\Core\DevOps\StaticAnalyze\PHPStan\Rules\PropertyNativeTypeRule
+    - Shopwell\Core\DevOps\StaticAnalyze\PHPStan\Rules\NoManualSalesChannelContextCreationRule
+    - Shopwell\Core\DevOps\StaticAnalyze\PHPStan\Rules\NoDelayStampRule
+    - Shopwell\Core\DevOps\StaticAnalyze\PHPStan\Rules\NoAddCacheTagEventRule
+    - Shopwell\Core\DevOps\StaticAnalyze\PHPStan\Rules\NoUpdatesInExecuteQueryRule
+    - Shopwell\Core\DevOps\StaticAnalyze\PHPStan\Rules\PublicServiceDecoratorRule
+    - Shopwell\Core\DevOps\StaticAnalyze\PHPStan\Rules\NoRouteOverrideInDecoratorsRule
+
+    # rules from https://github.com/symplify/phpstan-rules
+    # domain
+    - Symplify\PHPStanRules\Rules\Enum\RequireUniqueEnumConstantRule
+    - Symplify\PHPStanRules\Rules\PreventParentMethodVisibilityOverrideRule
+
+    # explicit naming
+    - Symplify\PHPStanRules\Rules\ForbiddenMultipleClassLikeInOneFileRule
+
+    - Symplify\PHPStanRules\Rules\Complexity\ForbiddenArrayMethodCallRule
+
+    # naming rules
+    - Shopwell\Core\DevOps\StaticAnalyze\PHPStan\Rules\Symplify\NoReturnSetterMethodWithFluentSettersRule
+    - Symplify\PHPStanRules\Rules\UppercaseConstantRule
+
+services:
+    - # register the class, so we can decorate it, but don't tag it as a rule, so only our decorator is used by PHPStan
+        class: Symplify\PHPStanRules\Rules\NoReturnSetterMethodRule
+
+    -
+        class: Shopwell\Core\DevOps\StaticAnalyze\PHPStan\Rules\NotExtendFlowEventAwareRule
+        tags:
+            - phpat.test

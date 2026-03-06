@@ -20,7 +20,7 @@ final class Defaults
     public const LIVE_VERSION = '0fa91ce3e96a4bc2be4bd9ce752c3425';
 
     /**
-     * Don't depend on this being CNY, the underlying currency can be overwritten by the installer!
+     * Don't depend on this being EUR, the underlying currency can be overwritten by the installer!
      */
     public const CURRENCY = 'b7d2554b0ce847cd82f3ac9bd1c0dfca';
 
@@ -36,4 +36,6 @@ final class Defaults
      * Do not use STORAGE_DATE_FORMAT for createdAt fields, use STORAGE_DATE_TIME_FORMAT instead
      */
     public const STORAGE_DATE_FORMAT = 'Y-m-d';
+
+    public const CMS_PRODUCT_DETAIL_PAGE = '7a6d253a67204037966f42b0119704d5';
 }

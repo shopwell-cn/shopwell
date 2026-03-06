@@ -3,7 +3,6 @@
 namespace Shopwell\Core\Framework;
 
 use Shopwell\Core\Framework\Log\Package;
-use Shopwell\Core\Framework\ShopwellException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 

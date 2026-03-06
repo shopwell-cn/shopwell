@@ -15,7 +15,7 @@ Thumbs.db
 !/.idea/icon.svg
 /.fleet/
 *.http
-/.run/
+
 
 # VSCode-Project
 /.vscode/

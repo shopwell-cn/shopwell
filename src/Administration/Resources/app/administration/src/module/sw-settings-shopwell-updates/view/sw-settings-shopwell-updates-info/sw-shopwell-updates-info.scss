@@ -1,0 +1,10 @@
+@import "~scss/variables";
+
+.sw-changelog a[href^="https://github.com/shopwell/shopwell/issues"] {
+    font-family: monospace;
+    color: $color-darkgray-300;
+
+    &[visited] {
+        color: $color-darkgray-200;
+    }
+}

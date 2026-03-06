@@ -1,0 +1,25 @@
+<?php declare(strict_types=1);
+
+namespace Shopwell\Storefront\Page\Account\Order;
+
+use Shopwell\Core\Framework\Log\Package;
+use Shopwell\Core\System\SalesChannel\SalesChannelContext;
+use Shopwell\Storefront\Page\PageLoadedEvent;
+use Symfony\Component\HttpFoundation\Request;
+
+#[Package('checkout')]
+class AccountOrderPageLoadedEvent extends PageLoadedEvent
+{
+    public function __construct(
+        protected AccountOrderPage $page,
+        SalesChannelContext $salesChannelContext,
+        Request $request,
+    ) {
+        parent::__construct($salesChannelContext, $request);
+    }
+
+    public function getPage(): AccountOrderPage
+    {
+        return $this->page;
+    }
+}

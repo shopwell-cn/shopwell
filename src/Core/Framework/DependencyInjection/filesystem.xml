@@ -1,0 +1,119 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <!-- Filesystem -->
+        <service id="Shopwell\Core\Framework\Adapter\Filesystem\FilesystemFactory">
+            <argument type="tagged_iterator" tag="shopwell.filesystem.factory"/>
+        </service>
+
+        <service class="League\Flysystem\FilesystemOperator" id="shopwell.filesystem.public" public="true">
+            <factory service="Shopwell\Core\Framework\Adapter\Filesystem\FilesystemFactory" method="factory"/>
+            <argument>%shopwell.filesystem.public%</argument>
+        </service>
+
+        <service class="League\Flysystem\FilesystemOperator" id="shopwell.filesystem.private" public="true">
+            <factory service="Shopwell\Core\Framework\Adapter\Filesystem\FilesystemFactory" method="privateFactory"/>
+            <argument>%shopwell.filesystem.private%</argument>
+        </service>
+
+        <service class="League\Flysystem\FilesystemOperator" id="shopwell.filesystem.temp" public="true">
+            <factory service="Shopwell\Core\Framework\Adapter\Filesystem\FilesystemFactory" method="privateFactory"/>
+            <argument>%shopwell.filesystem.temp%</argument>
+        </service>
+
+        <service class="League\Flysystem\FilesystemOperator" id="shopwell.filesystem.theme" public="true">
+            <factory service="Shopwell\Core\Framework\Adapter\Filesystem\FilesystemFactory" method="factory"/>
+            <argument>%shopwell.filesystem.theme%</argument>
+        </service>
+
+        <service class="League\Flysystem\FilesystemOperator" id="shopwell.filesystem.sitemap" public="true">
+            <factory service="Shopwell\Core\Framework\Adapter\Filesystem\FilesystemFactory" method="factory"/>
+            <argument>%shopwell.filesystem.sitemap%</argument>
+        </service>
+
+        <service class="League\Flysystem\FilesystemOperator" id="shopwell.filesystem.asset" public="true">
+            <factory service="Shopwell\Core\Framework\Adapter\Filesystem\FilesystemFactory" method="factory"/>
+            <argument>%shopwell.filesystem.asset%</argument>
+        </service>
+
+        <service class="Shopwell\Core\Framework\Adapter\Filesystem\Adapter\LocalFactory" id="Shopwell\Core\Framework\Adapter\Filesystem\FilesystemFactory.local">
+            <tag name="shopwell.filesystem.factory"/>
+        </service>
+
+        <service class="Shopwell\Core\Framework\Adapter\Filesystem\Adapter\AwsS3v3Factory" id="Shopwell\Core\Framework\Adapter\Filesystem\FilesystemFactory.amazon_s3">
+            <argument>%shopwell.filesystem.batch_write_size%</argument>
+            <tag name="shopwell.filesystem.factory"/>
+        </service>
+
+        <service class="Shopwell\Core\Framework\Adapter\Filesystem\Adapter\GoogleStorageFactory" id="Shopwell\Core\Framework\Adapter\Filesystem\FilesystemFactory.google_storage">
+            <tag name="shopwell.filesystem.factory"/>
+        </service>
+
+        <service id="console.command.assets_install" class="Shopwell\Core\Framework\Adapter\Asset\AssetInstallCommand">
+            <argument type="service" id="kernel"/>
+            <argument type="service" id="Shopwell\Core\Framework\Plugin\Util\AssetService"/>
+            <argument type="service" id="Shopwell\Core\Framework\App\ActiveAppsLoader"/>
+            <tag name="console.command"/>
+        </service>
+
+        <!-- Assets -->
+        <service id="shopwell.asset.public" class="Shopwell\Core\Framework\Adapter\Asset\FallbackUrlPackage" lazy="true">
+            <argument type="collection">
+                <argument>%shopwell.filesystem.public.url%</argument>
+            </argument>
+            <argument type="service" id="assets.empty_version_strategy"/>
+            <argument type="service" id="request_stack" on-invalid="null"/>
+            <tag name="shopwell.asset" asset="public"/>
+        </service>
+
+        <service id="shopwell.asset.public.version_strategy" class="Shopwell\Core\Framework\Adapter\Asset\FlysystemLastModifiedVersionStrategy">
+            <argument>theme-metaData</argument>
+            <argument type="service" id="shopwell.filesystem.public"/>
+            <argument type="service" id="cache.object"/>
+        </service>
+
+        <service id="shopwell.asset.theme.version_strategy" class="Shopwell\Core\Framework\Adapter\Asset\FlysystemLastModifiedVersionStrategy">
+            <argument>theme-metaData</argument>
+            <argument type="service" id="shopwell.filesystem.theme"/>
+            <argument type="service" id="cache.object"/>
+        </service>
+
+        <service id="shopwell.asset.asset.version_strategy" class="Shopwell\Core\Framework\Adapter\Asset\FlysystemLastModifiedVersionStrategy">
+            <argument>asset-metaData</argument>
+            <argument type="service" id="shopwell.filesystem.asset"/>
+            <argument type="service" id="cache.object"/>
+        </service>
+
+        <service id="shopwell.asset.asset" class="Shopwell\Core\Framework\Adapter\Asset\FallbackUrlPackage" lazy="true">
+            <argument type="collection">
+                <argument>%shopwell.filesystem.asset.url%</argument>
+            </argument>
+            <argument type="service" id="shopwell.asset.asset.version_strategy"/>
+            <argument type="service" id="request_stack" on-invalid="null"/>
+            <tag name="shopwell.asset" asset="asset"/>
+        </service>
+
+        <service id="shopwell.asset.asset_without_versioning" class="Shopwell\Core\Framework\Adapter\Asset\FallbackUrlPackage" lazy="true">
+            <argument type="collection">
+                <argument>%shopwell.filesystem.asset.url%</argument>
+            </argument>
+            <argument type="service" id="assets.empty_version_strategy"/>
+            <argument type="service" id="request_stack" on-invalid="null"/>
+        </service>
+
+        <service id="shopwell.asset.sitemap" class="Shopwell\Core\Framework\Adapter\Asset\FallbackUrlPackage" lazy="true">
+            <argument type="collection">
+                <argument>%shopwell.filesystem.sitemap.url%</argument>
+            </argument>
+            <argument type="service" id="assets.empty_version_strategy"/>
+            <argument type="service" id="request_stack" on-invalid="null"/>
+            <tag name="shopwell.asset" asset="sitemap"/>
+        </service>
+
+        <service id="Shopwell\Core\Framework\Adapter\Filesystem\Plugin\CopyBatchInputFactory"/>
+    </services>
+</container>

@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    "target": "ES2023",
+    "lib": ["ES2020", "DOM", "ES2023"],
+    "module": "commonjs",
+    "baseUrl": "./",
+    "paths": {
+      "src": ["src"],
+      "@shopwell-ag/dive/quickview": ["./node_modules/@shopwell-ag/dive/build/plugins/quickview/index.d.ts"],
+      "@shopwell-ag/dive/toolbox": ["./node_modules/@shopwell-ag/dive/build/plugins/toolbox/index.d.ts"],
+      "@shopwell-ag/dive/orbitcontroller": ["./node_modules/@shopwell-ag/dive/build/plugins/orbitcontroller/index.d.ts"],
+      "@shopwell-ag/dive/assetexporter": ["./node_modules/@shopwell-ag/dive/build/plugins/assetexporter/index.d.ts"],
+    },
+    "types": [
+      "vite/client",
+      "jest"
+    ],
+    "resolveJsonModule": true,
+    "allowJs": true,
+    "noEmit": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "noErrorTruncation": false,
+  },
+  "include": [
+    "build.ts",
+    "./src/**/*",
+    "./vite.config.mts",
+    "./build/vite-plugins/**/*",
+    "./build/plugins.vite.ts",
+    "./test/**/*.d.ts"
+  ],
+  "exclude": ["node_modules"],
+  "files": ["node_modules/jest-expect-message/types/index.d.ts"]
+}

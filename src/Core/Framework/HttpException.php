@@ -3,7 +3,6 @@
 namespace Shopwell\Core\Framework;
 
 use Shopwell\Core\Framework\Log\Package;
-use Shopwell\Core\Framework\ShopwellHttpException;
 
 #[Package('framework')]
 abstract class HttpException extends ShopwellHttpException
