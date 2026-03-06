@@ -10,7 +10,6 @@
     <import resource="../../Media/SalesChannel/**/*Route.php" type="attribute" />
     <import resource="../../MailTemplate/**/*Controller.php" type="attribute" />
     <import resource="../../ImportExport/**/*Controller.php" type="attribute" />
-    <import resource="../../Newsletter/**/*Controller.php" type="attribute" />
     <import resource="../../ProductExport/**/*Controller.php" type="attribute" />
     <import resource="../../Seo/Api/**/*Controller.php" type="attribute" />
     <import resource="../../Breadcrumb/SalesChannel/**/*Route.php" type="attribute" />
@@ -19,9 +18,7 @@
     <import resource="../../LandingPage/SalesChannel/**/*Route.php" type="attribute" />
     <import resource="../../Product/SalesChannel/**/*Route.php" type="attribute" />
     <import resource="../../Cms/SalesChannel/**/*Route.php" type="attribute" />
-    <import resource="../../ContactForm/SalesChannel/**/*Route.php" type="attribute" />
     <import resource="../../RevocationRequest/SalesChannel/**/*Route.php" type="attribute" />
-    <import resource="../../Newsletter/SalesChannel/**/*Route.php" type="attribute" />
     <import resource="../../Seo/SalesChannel/**/*Route.php" type="attribute" />
     <import resource="../../ProductExport/SalesChannel/**/*Route.php" type="attribute" />
     <import resource="../../Sitemap/SalesChannel/**/*Route.php" type="attribute" />

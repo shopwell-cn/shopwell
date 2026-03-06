@@ -17,7 +17,6 @@ use Shopwell\Core\Content\LandingPage\Aggregate\LandingPageSalesChannel\LandingP
 use Shopwell\Core\Content\LandingPage\LandingPageDefinition;
 use Shopwell\Core\Content\MailTemplate\Aggregate\MailHeaderFooter\MailHeaderFooterDefinition;
 use Shopwell\Core\Content\MeasurementSystem\Field\MeasurementUnitsField;
-use Shopwell\Core\Content\Newsletter\Aggregate\NewsletterRecipient\NewsletterRecipientDefinition;
 use Shopwell\Core\Content\Product\Aggregate\ProductReview\ProductReviewDefinition;
 use Shopwell\Core\Content\Product\Aggregate\ProductVisibility\ProductVisibilityDefinition;
 use Shopwell\Core\Content\ProductExport\ProductExportDefinition;
@@ -148,9 +147,6 @@ class SalesChannelDefinition extends EntityDefinition
 
             new OneToManyAssociationField('customers', CustomerDefinition::class, 'sales_channel_id', 'id'),
 
-            (new FkField('home_cms_page_id', 'homeCmsPageId', CmsPageDefinition::class))->setDescription('Unique identity of home CMS page.'),
-            (new ReferenceVersionField(CmsPageDefinition::class, 'home_cms_page_version_id'))->addFlags(new Required()),
-            new ManyToOneAssociationField('homeCmsPage', 'home_cms_page_id', CmsPageDefinition::class, 'id', false),
             new TranslatedField('homeSlotConfig'),
             new TranslatedField('homeEnabled'),
             new TranslatedField('homeName'),
@@ -167,7 +163,6 @@ class SalesChannelDefinition extends EntityDefinition
             (new OneToManyAssociationField('productVisibilities', ProductVisibilityDefinition::class, 'sales_channel_id'))->addFlags(new CascadeDelete()),
             (new OneToOneAssociationField('hreflangDefaultDomain', 'hreflang_default_domain_id', 'id', SalesChannelDomainDefinition::class, false))->addFlags(new ApiAware()),
             new ManyToOneAssociationField('mailHeaderFooter', 'mail_header_footer_id', MailHeaderFooterDefinition::class, 'id', false),
-            new OneToManyAssociationField('newsletterRecipients', NewsletterRecipientDefinition::class, 'sales_channel_id', 'id'),
             (new OneToManyAssociationField('numberRangeSalesChannels', NumberRangeSalesChannelDefinition::class, 'sales_channel_id'))->addFlags(new CascadeDelete()),
             (new OneToManyAssociationField('promotionSalesChannels', PromotionSalesChannelDefinition::class, 'sales_channel_id', 'id'))->addFlags(new CascadeDelete()),
             (new OneToManyAssociationField('documentBaseConfigSalesChannels', DocumentBaseConfigSalesChannelDefinition::class, 'sales_channel_id', 'id'))->addFlags(new CascadeDelete()),

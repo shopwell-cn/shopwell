@@ -14,11 +14,9 @@ use Shopwell\Core\Checkout\Promotion\Aggregate\PromotionSalesChannel\PromotionSa
 use Shopwell\Core\Checkout\Shipping\ShippingMethodCollection;
 use Shopwell\Core\Checkout\Shipping\ShippingMethodEntity;
 use Shopwell\Core\Content\Category\CategoryEntity;
-use Shopwell\Core\Content\Cms\CmsPageEntity;
 use Shopwell\Core\Content\LandingPage\LandingPageCollection;
 use Shopwell\Core\Content\MailTemplate\Aggregate\MailHeaderFooter\MailHeaderFooterEntity;
 use Shopwell\Core\Content\MeasurementSystem\MeasurementUnits;
-use Shopwell\Core\Content\Newsletter\Aggregate\NewsletterRecipient\NewsletterRecipientCollection;
 use Shopwell\Core\Content\Product\Aggregate\ProductReview\ProductReviewCollection;
 use Shopwell\Core\Content\Product\Aggregate\ProductVisibility\ProductVisibilityCollection;
 use Shopwell\Core\Content\ProductExport\ProductExportCollection;
@@ -71,13 +69,6 @@ class SalesChannelEntity extends Entity
      * @var array<string, mixed>|null
      */
     protected ?array $homeSlotConfig = null;
-
-    protected ?string $homeCmsPageId = null;
-
-    protected ?string $homeCmsPageVersionId = null;
-
-    protected ?CmsPageEntity $homeCmsPage = null;
-
     protected bool $homeEnabled;
 
     protected ?string $homeName = null;
@@ -167,8 +158,6 @@ class SalesChannelEntity extends Entity
     protected string $customerGroupId;
 
     protected ?CustomerGroupEntity $customerGroup = null;
-
-    protected ?NewsletterRecipientCollection $newsletterRecipients = null;
 
     protected ?PromotionSalesChannelCollection $promotionSalesChannels = null;
 
@@ -567,26 +556,6 @@ class SalesChannelEntity extends Entity
         $this->homeSlotConfig = $homeSlotConfig;
     }
 
-    public function getHomeCmsPageId(): ?string
-    {
-        return $this->homeCmsPageId;
-    }
-
-    public function setHomeCmsPageId(?string $homeCmsPageId): void
-    {
-        $this->homeCmsPageId = $homeCmsPageId;
-    }
-
-    public function getHomeCmsPage(): ?CmsPageEntity
-    {
-        return $this->homeCmsPage;
-    }
-
-    public function setHomeCmsPage(?CmsPageEntity $homeCmsPage): void
-    {
-        $this->homeCmsPage = $homeCmsPage;
-    }
-
     public function getHomeEnabled(): bool
     {
         return $this->homeEnabled;
@@ -666,17 +635,6 @@ class SalesChannelEntity extends Entity
     {
         $this->customerGroup = $customerGroup;
     }
-
-    public function getNewsletterRecipients(): ?NewsletterRecipientCollection
-    {
-        return $this->newsletterRecipients;
-    }
-
-    public function setNewsletterRecipients(NewsletterRecipientCollection $newsletterRecipients): void
-    {
-        $this->newsletterRecipients = $newsletterRecipients;
-    }
-
     public function getPromotionSalesChannels(): ?PromotionSalesChannelCollection
     {
         return $this->promotionSalesChannels;
