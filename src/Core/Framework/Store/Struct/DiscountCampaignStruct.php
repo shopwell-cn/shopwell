@@ -26,7 +26,7 @@ class DiscountCampaignStruct extends StoreStruct
      */
     public static function fromArray(array $data): StoreStruct
     {
-        $discountCampaign = (new self())->assign($data);
+        $discountCampaign = new self()->assign($data);
 
         if (isset($data['startDate']) && \is_string($data['startDate'])) {
             $discountCampaign->setStartDate(new \DateTimeImmutable($data['startDate']));

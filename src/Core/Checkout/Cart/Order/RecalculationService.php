@@ -123,7 +123,7 @@ class RecalculationService
     public function addProductToOrder(string $orderId, string $productId, int $quantity, Context $context): void
     {
         $this->validateProduct($productId, $context);
-        $lineItem = (new LineItem($productId, LineItem::PRODUCT_LINE_ITEM_TYPE, $productId, $quantity))
+        $lineItem = new LineItem($productId, LineItem::PRODUCT_LINE_ITEM_TYPE, $productId, $quantity)
             ->setRemovable(true)
             ->setStackable(true);
 
@@ -368,7 +368,7 @@ class RecalculationService
 
     private function fetchOrder(string $orderId, Context $context): OrderEntity
     {
-        $criteria = (new Criteria([$orderId]))
+        $criteria = new Criteria([$orderId])
             ->addAssociations([
                 'primaryOrderDelivery',
                 'lineItems.downloads',
@@ -455,7 +455,7 @@ class RecalculationService
 
     private function getOrderConversionContext(): OrderConversionContext
     {
-        return (new OrderConversionContext())
+        return new OrderConversionContext()
             ->setIncludeCustomer(false)
             ->setIncludeBillingAddress(false)
             ->setIncludeTransactions(false)

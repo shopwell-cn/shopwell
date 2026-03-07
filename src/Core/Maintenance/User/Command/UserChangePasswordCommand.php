@@ -83,7 +83,7 @@ class UserChangePasswordCommand extends Command
 
     private function getUserId(string $username, Context $context): ?string
     {
-        $criteria = (new Criteria())
+        $criteria = new Criteria()
             ->addFilter(new EqualsFilter('username', $username));
 
         return $this->userRepository->searchIds($criteria, $context)->firstId();

@@ -101,7 +101,7 @@ final class DeliveryNoteRenderer extends AbstractDocumentRenderer
 
                     $number = $config->getDocumentNumber() ?: $this->getNumber($context, $order, $operation);
 
-                    $now = (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT);
+                    $now = new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT);
                     $customConfig = $operation->getConfig()['custom'] ?? [];
 
                     $config->merge([

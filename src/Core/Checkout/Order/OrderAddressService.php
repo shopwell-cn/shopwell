@@ -48,7 +48,7 @@ class OrderAddressService
     ): void {
         $this->validateMappings($addressMappings);
 
-        $criteria = (new Criteria([$orderId]))->addAssociation('deliveries');
+        $criteria = new Criteria([$orderId])->addAssociation('deliveries');
 
         $order = $this->orderRepository->search($criteria, $context)->getEntities()->first();
         if (!$order) {

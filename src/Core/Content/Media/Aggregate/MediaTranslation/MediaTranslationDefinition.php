@@ -44,9 +44,9 @@ class MediaTranslationDefinition extends EntityTranslationDefinition
     protected function defineFields(): FieldCollection
     {
         return new FieldCollection([
-            (new StringField('title', 'title'))->addFlags(new ApiAware()),
-            (new LongTextField('alt', 'alt'))->addFlags(new ApiAware()),
-            (new CustomFields())->addFlags(new ApiAware()),
+            new StringField('title', 'title')->addFlags(new ApiAware()),
+            new LongTextField('alt', 'alt')->addFlags(new ApiAware()),
+            new CustomFields()->addFlags(new ApiAware()),
         ]);
     }
 }

@@ -42,7 +42,7 @@ if (is_file(TEST_PROJECT_DIR . '/var/cache/static_phpstan_dev/Shopwell_Core_DevO
 }
 
 if (class_exists(Dotenv::class) && (\is_file(TEST_PROJECT_DIR . '/.env.local.php') || \is_file(TEST_PROJECT_DIR . '/.env') || \is_file(TEST_PROJECT_DIR . '/.env.dist'))) {
-    (new Dotenv())->usePutenv()->bootEnv(TEST_PROJECT_DIR . '/.env');
+    new Dotenv()->usePutenv()->bootEnv(TEST_PROJECT_DIR . '/.env');
 }
 
 $pluginLoader = new ComposerPluginLoader($classLoader);

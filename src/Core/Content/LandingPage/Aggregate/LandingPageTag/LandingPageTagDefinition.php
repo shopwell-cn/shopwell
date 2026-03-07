@@ -36,10 +36,10 @@ class LandingPageTagDefinition extends MappingEntityDefinition
     protected function defineFields(): FieldCollection
     {
         return new FieldCollection([
-            (new FkField('landing_page_id', 'landingPageId', LandingPageDefinition::class))->addFlags(new PrimaryKey(), new Required()),
-            (new ReferenceVersionField(LandingPageDefinition::class))->addFlags(new PrimaryKey(), new Required()),
+            new FkField('landing_page_id', 'landingPageId', LandingPageDefinition::class)->addFlags(new PrimaryKey(), new Required()),
+            new ReferenceVersionField(LandingPageDefinition::class)->addFlags(new PrimaryKey(), new Required()),
 
-            (new FkField('tag_id', 'tagId', TagDefinition::class))->addFlags(new PrimaryKey(), new Required()),
+            new FkField('tag_id', 'tagId', TagDefinition::class)->addFlags(new PrimaryKey(), new Required()),
             new ManyToOneAssociationField('landingPage', 'landing_page_id', LandingPageDefinition::class, 'id', false),
             new ManyToOneAssociationField('tag', 'tag_id', TagDefinition::class, 'id', false),
         ]);

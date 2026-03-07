@@ -132,7 +132,7 @@ class ThemeService implements ResetInterface
      */
     public function updateTheme(string $themeId, ?array $config, ?string $parentThemeId, Context $context): void
     {
-        $criteria = (new Criteria([$themeId]))
+        $criteria = new Criteria([$themeId])
             ->addAssociation('salesChannels');
 
         $theme = $this->themeRepository->search($criteria, $context)->getEntities()->first();

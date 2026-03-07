@@ -33,7 +33,7 @@ class MySQLFactory
      */
     public static function create(array $middlewares = []): Connection
     {
-        $config = (new Configuration())
+        $config = new Configuration()
             ->setMiddlewares($middlewares);
 
         $url = (string) EnvironmentHelper::getVariable('DATABASE_URL', getenv('DATABASE_URL'));

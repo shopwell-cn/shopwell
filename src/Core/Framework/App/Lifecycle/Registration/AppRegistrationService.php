@@ -175,7 +175,7 @@ class AppRegistrationService
         return [
             'apiKey' => $integration->getAccessKey(),
             'secretKey' => $secretAccessKey,
-            'timestamp' => (string) (new \DateTime())->getTimestamp(),
+            'timestamp' => (string) new \DateTime()->getTimestamp(),
             'shopUrl' => $this->shopUrl,
             'shopId' => $shopId,
         ];

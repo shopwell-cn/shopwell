@@ -92,7 +92,7 @@ class CategoryUrlProvider extends AbstractUrlProvider
         foreach ($availableCategories as $category) {
             $lastMod = $category['updated_at'] ?: $category['created_at'];
 
-            $lastMod = (new \DateTime($lastMod))->format(Defaults::STORAGE_DATE_TIME_FORMAT);
+            $lastMod = new \DateTime($lastMod)->format(Defaults::STORAGE_DATE_TIME_FORMAT);
 
             $newUrl = clone $url;
 

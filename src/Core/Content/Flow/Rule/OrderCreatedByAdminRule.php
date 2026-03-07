@@ -42,6 +42,6 @@ class OrderCreatedByAdminRule extends FlowRule
 
     public function getConfig(): RuleConfig
     {
-        return (new RuleConfig())->booleanField('shouldOrderBeCreatedByAdmin');
+        return new RuleConfig()->booleanField('shouldOrderBeCreatedByAdmin');
     }
 }

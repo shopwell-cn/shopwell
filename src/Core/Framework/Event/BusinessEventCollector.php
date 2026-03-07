@@ -53,7 +53,7 @@ class BusinessEventCollector
      */
     public function define(string $class, ?string $name = null): ?BusinessEventDefinition
     {
-        $instance = (new \ReflectionClass($class))
+        $instance = new \ReflectionClass($class)
             ->newInstanceWithoutConstructor();
 
         if (!$instance instanceof FlowEventAware) {
@@ -71,7 +71,7 @@ class BusinessEventCollector
         foreach ($interfaces as $interface) {
             $reflection = new \ReflectionClass($interface);
             if ($reflection->getAttributes(IsFlowEventAware::class) !== []) {
-                $aware[] = lcfirst((new \ReflectionClass($interface))->getShortName());
+                $aware[] = lcfirst(new \ReflectionClass($interface)->getShortName());
                 $aware[] = $interface;
             }
         }

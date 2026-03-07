@@ -46,7 +46,7 @@ class DeleteExpiredFilesService
         $criteria->addFilter(new RangeFilter(
             'expireDate',
             [
-                RangeFilter::LT => (new \DateTimeImmutable('-30 days'))->format(\DATE_ATOM),
+                RangeFilter::LT => new \DateTimeImmutable('-30 days')->format(\DATE_ATOM),
             ]
         ));
 

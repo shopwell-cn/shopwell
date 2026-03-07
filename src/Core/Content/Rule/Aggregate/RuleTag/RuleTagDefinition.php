@@ -35,9 +35,9 @@ class RuleTagDefinition extends MappingEntityDefinition
     protected function defineFields(): FieldCollection
     {
         return new FieldCollection([
-            (new FkField('rule_id', 'ruleId', RuleDefinition::class))->addFlags(new PrimaryKey(), new Required()),
+            new FkField('rule_id', 'ruleId', RuleDefinition::class)->addFlags(new PrimaryKey(), new Required()),
 
-            (new FkField('tag_id', 'tagId', TagDefinition::class))->addFlags(new PrimaryKey(), new Required()),
+            new FkField('tag_id', 'tagId', TagDefinition::class)->addFlags(new PrimaryKey(), new Required()),
             new ManyToOneAssociationField('rule', 'rule_id', RuleDefinition::class, 'id', false),
             new ManyToOneAssociationField('tag', 'tag_id', TagDefinition::class, 'id', false),
         ]);

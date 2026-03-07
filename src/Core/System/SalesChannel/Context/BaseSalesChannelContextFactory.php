@@ -301,7 +301,7 @@ class BaseSalesChannelContextFactory extends AbstractBaseSalesChannelContextFact
     private function getLanguageInfo(Context $context): LanguageInfo
     {
         $currentLanguageId = $context->getLanguageId();
-        $criteria = (new Criteria([$currentLanguageId]))->addFields([
+        $criteria = new Criteria([$currentLanguageId])->addFields([
             'name',
             'translationCode.code',
             'locale.code',

@@ -163,7 +163,7 @@ class SchemaBuilder
 
     public function buildSchemaOfDefinition(EntityDefinition $definition): Table
     {
-        $table = (new Schema())->createTable($definition->getEntityName());
+        $table = new Schema()->createTable($definition->getEntityName());
         $table->addOption('charset', 'utf8mb4');
         $table->addOption('collate', 'utf8mb4_unicode_ci');
 

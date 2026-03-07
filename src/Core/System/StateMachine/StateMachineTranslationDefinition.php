@@ -43,8 +43,8 @@ class StateMachineTranslationDefinition extends EntityTranslationDefinition
     protected function defineFields(): FieldCollection
     {
         return new FieldCollection([
-            (new StringField('name', 'name'))->addFlags(new Required()),
-            (new CustomFields())->addFlags(new ApiAware()),
+            new StringField('name', 'name')->addFlags(new Required()),
+            new CustomFields()->addFlags(new ApiAware()),
         ]);
     }
 }

@@ -97,7 +97,7 @@ class ShopConfigurationService
                 $shippingMethod,
                 $countryId,
                 $this->getCustomerGroupId($connection),
-                (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT),
+                new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT),
             ]
         );
 
@@ -105,7 +105,7 @@ class ShopConfigurationService
             'INSERT INTO sales_channel_translation (sales_channel_id, language_id, `name`, created_at)
              VALUES (?, UNHEX(?), ?, ?)',
             [
-                $newId, Defaults::LANGUAGE_SYSTEM, $shop['name'], (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT),
+                $newId, Defaults::LANGUAGE_SYSTEM, $shop['name'], new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT),
             ]
         );
 
@@ -173,7 +173,7 @@ SQL;
             'url' => 'http://' . $shop['host'] . $shop['basePath'],
             'currencyId' => $currencyId,
             'snippetSetId' => $snippetSetId,
-            'createdAt' => (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT),
+            'createdAt' => new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT),
         ]);
 
         StatementHelper::executeStatement($insertSalesChannel, [
@@ -183,7 +183,7 @@ SQL;
             'url' => 'https://' . $shop['host'] . $shop['basePath'],
             'currencyId' => $currencyId,
             'snippetSetId' => $snippetSetId,
-            'createdAt' => (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT),
+            'createdAt' => new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT),
         ]);
     }
 

@@ -44,7 +44,7 @@ class AppFlowActionTranslationDefinition extends EntityTranslationDefinition
     protected function defineFields(): FieldCollection
     {
         return new FieldCollection([
-            (new StringField('label', 'label'))->addFlags(new Required()),
+            new StringField('label', 'label')->addFlags(new Required()),
             new LongTextField('description', 'description'),
             new StringField('headline', 'headline'),
             new CustomFields(),

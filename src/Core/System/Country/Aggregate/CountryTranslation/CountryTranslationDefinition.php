@@ -52,9 +52,9 @@ class CountryTranslationDefinition extends EntityTranslationDefinition
     protected function defineFields(): FieldCollection
     {
         return new FieldCollection([
-            (new StringField('name', 'name'))->addFlags(new ApiAware(), new Required()),
-            (new JsonField('address_format', 'addressFormat'))->addFlags(new ApiAware(), new Required()),
-            (new CustomFields())->addFlags(new ApiAware()),
+            new StringField('name', 'name')->addFlags(new ApiAware(), new Required()),
+            new JsonField('address_format', 'addressFormat')->addFlags(new ApiAware(), new Required()),
+            new CustomFields()->addFlags(new ApiAware()),
         ]);
     }
 }

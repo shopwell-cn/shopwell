@@ -117,7 +117,7 @@ class UserRecoveryService
 
         $recovery = $this->getUserRecovery($criteria, $context);
 
-        $validDateTime = (new \DateTime())->sub(new \DateInterval('PT2H'));
+        $validDateTime = new \DateTime()->sub(new \DateInterval('PT2H'));
 
         return $recovery && $validDateTime < $recovery->getCreatedAt();
     }

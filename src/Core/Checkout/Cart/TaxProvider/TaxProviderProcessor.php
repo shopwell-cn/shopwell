@@ -75,7 +75,7 @@ class TaxProviderProcessor
 
     private function getTaxProviders(SalesChannelContext $context): TaxProviderCollection
     {
-        $criteria = (new Criteria())
+        $criteria = new Criteria()
             ->addAssociations(['availabilityRule', 'app'])
             ->addFilter(
                 new AndFilter([

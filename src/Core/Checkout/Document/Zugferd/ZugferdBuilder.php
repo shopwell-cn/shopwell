@@ -57,7 +57,7 @@ class ZugferdBuilder
         }
 
         $taxStatus = $order->getTaxStatus() ?? $order->getPrice()->getTaxStatus();
-        $document = (new ZugferdDocument(ZugferdDocumentBuilder::createNew(ZugferdProfiles::PROFILE_XRECHNUNG_3), $taxStatus === CartPrice::TAX_STATE_GROSS))
+        $document = new ZugferdDocument(ZugferdDocumentBuilder::createNew(ZugferdProfiles::PROFILE_XRECHNUNG_3), $taxStatus === CartPrice::TAX_STATE_GROSS)
             ->withBuyerInformation($customer, $billingAddress)
             ->withSellerInformation($config)
             ->withDelivery($order->getDeliveries() ?? new OrderDeliveryCollection())

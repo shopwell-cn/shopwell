@@ -119,7 +119,7 @@ class CartMigrateCommand extends Command
 
         $queue = new MultiInsertQueryQueue($this->connection, 50, false, true);
 
-        $created = (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT);
+        $created = new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT);
 
         foreach ($keys as $index => $key) {
             if (\method_exists($this->redis, '_prefix')) {

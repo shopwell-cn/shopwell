@@ -44,9 +44,9 @@ class CurrencyTranslationDefinition extends EntityTranslationDefinition
     protected function defineFields(): FieldCollection
     {
         return new FieldCollection([
-            (new StringField('short_name', 'shortName'))->addFlags(new ApiAware(), new Required()),
-            (new StringField('name', 'name'))->addFlags(new ApiAware(), new Required()),
-            (new CustomFields())->addFlags(new ApiAware()),
+            new StringField('short_name', 'shortName')->addFlags(new ApiAware(), new Required()),
+            new StringField('name', 'name')->addFlags(new ApiAware(), new Required()),
+            new CustomFields()->addFlags(new ApiAware()),
         ]);
     }
 }

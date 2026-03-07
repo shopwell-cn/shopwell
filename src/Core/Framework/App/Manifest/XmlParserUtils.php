@@ -111,7 +111,7 @@ class XmlParserUtils
 
     public static function kebabCaseToCamelCase(string $string): string
     {
-        return (new CamelCaseToSnakeCaseNameConverter())->denormalize(str_replace('-', '_', $string));
+        return new CamelCaseToSnakeCaseNameConverter()->denormalize(str_replace('-', '_', $string));
     }
 
     private static function getLocaleCodeFromElement(\DOMElement $element): string

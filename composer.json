@@ -59,7 +59,7 @@
     }
   },
   "require": {
-    "php": "~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0",
+    "php": "~8.5.0",
     "ext-curl": "*",
     "ext-dom": "*",
     "ext-fileinfo": "*",
@@ -103,7 +103,6 @@
     "nyholm/psr7": "^1.5",
     "opensearch-project/opensearch-php": "^2.3.1",
     "pentatrion/vite-bundle": "^8.1",
-    "php-di/php-di": "^7.1",
     "phpseclib/phpseclib": "^3.0",
     "psr/cache": "^3.0.0",
     "psr/event-dispatcher": "^1.0.0",

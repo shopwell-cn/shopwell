@@ -110,7 +110,7 @@ class CheckoutRegisterPageLoader
 
     private function getCountries(SalesChannelContext $salesChannelContext): CountryCollection
     {
-        $criteria = (new Criteria())
+        $criteria = new Criteria()
             ->addSorting(new FieldSorting('position', FieldSorting::ASCENDING))
             ->addSorting(new FieldSorting('name', FieldSorting::ASCENDING));
 

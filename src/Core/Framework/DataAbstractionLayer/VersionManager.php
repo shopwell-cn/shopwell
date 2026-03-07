@@ -440,7 +440,7 @@ class VersionManager
 
         $commitId = Uuid::randomBytes();
 
-        $date = (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT);
+        $date = new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT);
 
         $source = $writeContext->getContext()->getSource();
         $userId = $source instanceof AdminApiSource && $source->getUserId()
@@ -832,7 +832,7 @@ class VersionManager
                     'integrationId' => $data->getIntegrationId(),
                     'entityName' => $data->getEntityName(),
                     'action' => $data->getAction(),
-                    'createdAt' => (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT),
+                    'createdAt' => new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT),
                 ];
             }
         }
@@ -842,7 +842,7 @@ class VersionManager
             'data' => $new,
             'userId' => $writeContext->getContext()->getSource() instanceof AdminApiSource ? $writeContext->getContext()->getSource()->getUserId() : null,
             'isMerge' => true,
-            'message' => 'merge commit ' . (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT),
+            'message' => 'merge commit ' . new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT),
         ];
 
         // create new version commit for merge commit

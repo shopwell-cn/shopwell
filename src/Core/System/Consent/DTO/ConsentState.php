@@ -31,7 +31,7 @@ class ConsentState
     private function computeAcceptedUntil(): ?string
     {
         return match ($this->status) {
-            ConsentStatus::ACCEPTED => (new \DateTimeImmutable())->format(Defaults::STORAGE_DATE_TIME_FORMAT),
+            ConsentStatus::ACCEPTED => new \DateTimeImmutable()->format(Defaults::STORAGE_DATE_TIME_FORMAT),
             ConsentStatus::REVOKED => $this->updatedAt,
             default => null,
         };

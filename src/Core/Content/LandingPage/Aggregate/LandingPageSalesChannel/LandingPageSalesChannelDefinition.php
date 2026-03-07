@@ -36,10 +36,10 @@ class LandingPageSalesChannelDefinition extends MappingEntityDefinition
     protected function defineFields(): FieldCollection
     {
         return new FieldCollection([
-            (new FkField('landing_page_id', 'landingPageId', LandingPageDefinition::class))->addFlags(new PrimaryKey(), new Required()),
-            (new ReferenceVersionField(LandingPageDefinition::class))->addFlags(new PrimaryKey(), new Required()),
+            new FkField('landing_page_id', 'landingPageId', LandingPageDefinition::class)->addFlags(new PrimaryKey(), new Required()),
+            new ReferenceVersionField(LandingPageDefinition::class)->addFlags(new PrimaryKey(), new Required()),
 
-            (new FkField('sales_channel_id', 'salesChannelId', SalesChannelDefinition::class))->addFlags(new PrimaryKey(), new Required()),
+            new FkField('sales_channel_id', 'salesChannelId', SalesChannelDefinition::class)->addFlags(new PrimaryKey(), new Required()),
             new ManyToOneAssociationField('landingPage', 'landing_page_id', LandingPageDefinition::class, 'id', false),
             new ManyToOneAssociationField('salesChannel', 'sales_channel_id', SalesChannelDefinition::class, 'id', false),
         ]);

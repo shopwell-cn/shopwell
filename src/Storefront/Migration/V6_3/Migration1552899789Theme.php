@@ -78,14 +78,14 @@ class Migration1552899789Theme extends MigrationStep
         $connection->insert('media_default_folder', [
             'id' => $defaultFolderId,
             'entity' => 'theme',
-            'created_at' => (new \DateTime())->format(Defaults::STORAGE_DATE_FORMAT),
+            'created_at' => new \DateTime()->format(Defaults::STORAGE_DATE_FORMAT),
         ]);
 
         $mediaFolderConfigurationId = Uuid::randomBytes();
         $connection->insert('media_folder_configuration', [
             'id' => $mediaFolderConfigurationId,
             'no_association' => true,
-            'created_at' => (new \DateTime())->format(Defaults::STORAGE_DATE_FORMAT),
+            'created_at' => new \DateTime()->format(Defaults::STORAGE_DATE_FORMAT),
         ]);
 
         $connection->insert('media_folder', [
@@ -93,7 +93,7 @@ class Migration1552899789Theme extends MigrationStep
             'default_folder_id' => $defaultFolderId,
             'media_folder_configuration_id' => $mediaFolderConfigurationId,
             'name' => 'Theme Media',
-            'created_at' => (new \DateTime())->format(Defaults::STORAGE_DATE_FORMAT),
+            'created_at' => new \DateTime()->format(Defaults::STORAGE_DATE_FORMAT),
         ]);
     }
 

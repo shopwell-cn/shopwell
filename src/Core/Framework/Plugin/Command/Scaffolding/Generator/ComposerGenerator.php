@@ -47,8 +47,8 @@ class ComposerGenerator implements ScaffoldingGenerator
 
     private function createComposer(PluginScaffoldConfiguration $configuration): Stub
     {
-        $snakeCasePluginName = (new CamelCaseToSnakeCaseNameConverter())->normalize($configuration->name);
-        $snakeCaseNamespace = (new CamelCaseToSnakeCaseNameConverter())->normalize($configuration->namespace);
+        $snakeCasePluginName = new CamelCaseToSnakeCaseNameConverter()->normalize($configuration->name);
+        $snakeCaseNamespace = new CamelCaseToSnakeCaseNameConverter()->normalize($configuration->namespace);
 
         $composerName = str_replace(['_', '\\'], ['-', ''], $snakeCaseNamespace . '/' . $snakeCasePluginName);
 

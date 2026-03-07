@@ -55,7 +55,7 @@ class NoAssertsOnObjectsRule implements Rule
         $type = $scope->getType($firstArg->value);
 
         foreach (self::FORBIDDEN_OBJECTS as $object => $message) {
-            if ((new ObjectType($object))->isSuperTypeOf($type)->yes()) {
+            if (new ObjectType($object)->isSuperTypeOf($type)->yes()) {
                 return [RuleErrorBuilder::message($message)->identifier('shopwell.assertObjects')->build()];
             }
         }

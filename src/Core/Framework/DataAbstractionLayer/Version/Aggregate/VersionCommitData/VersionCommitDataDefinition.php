@@ -55,16 +55,16 @@ class VersionCommitDataDefinition extends EntityDefinition
     protected function defineFields(): FieldCollection
     {
         return new FieldCollection([
-            (new IdField('id', 'id'))->addFlags(new PrimaryKey(), new Required()),
-            (new FkField('version_commit_id', 'versionCommitId', VersionCommitDefinition::class))->addFlags(new Required()),
+            new IdField('id', 'id')->addFlags(new PrimaryKey(), new Required()),
+            new FkField('version_commit_id', 'versionCommitId', VersionCommitDefinition::class)->addFlags(new Required()),
             new ManyToOneAssociationField('commit', 'version_commit_id', VersionCommitDefinition::class, 'id', false),
             new IdField('user_id', 'userId'),
             new IdField('integration_id', 'integrationId'),
             new AutoIncrementField(),
-            (new StringField('entity_name', 'entityName'))->addFlags(new Required(), new SearchRanking(SearchRanking::HIGH_SEARCH_RANKING)),
-            (new JsonField('entity_id', 'entityId'))->addFlags(new Required()),
-            (new StringField('action', 'action'))->addFlags(new Required(), new SearchRanking(SearchRanking::LOW_SEARCH_RANKING)),
-            (new VersionDataPayloadField('payload', 'payload'))->addFlags(new Required(), new SearchRanking(SearchRanking::LOW_SEARCH_RANKING)),
+            new StringField('entity_name', 'entityName')->addFlags(new Required(), new SearchRanking(SearchRanking::HIGH_SEARCH_RANKING)),
+            new JsonField('entity_id', 'entityId')->addFlags(new Required()),
+            new StringField('action', 'action')->addFlags(new Required(), new SearchRanking(SearchRanking::LOW_SEARCH_RANKING)),
+            new VersionDataPayloadField('payload', 'payload')->addFlags(new Required(), new SearchRanking(SearchRanking::LOW_SEARCH_RANKING)),
         ]);
     }
 }

@@ -177,7 +177,7 @@ class SalesChannelContextRestorer
      */
     private function getOrderById(string $orderId, Context $context): ?OrderEntity
     {
-        $criteria = (new Criteria([$orderId]))
+        $criteria = new Criteria([$orderId])
             ->addAssociation('primaryOrderTransaction')
             ->addAssociation('primaryOrderDelivery')
             ->addAssociation('lineItems')

@@ -68,7 +68,7 @@ class DownloadRoute extends AbstractDownloadRoute
             throw CustomerException::missingRequestParameter(!$downloadId ? 'downloadId' : 'orderId');
         }
 
-        $criteria = (new Criteria([$downloadId]))
+        $criteria = new Criteria([$downloadId])
             ->addAssociation('media')
             ->addFilter(new MultiFilter(MultiFilter::CONNECTION_AND, [
                 new EqualsFilter('orderLineItem.order.id', $orderId),

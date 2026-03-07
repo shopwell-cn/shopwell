@@ -80,7 +80,7 @@ class DocumentConfigurationFactory
                 if (method_exists($baseConfig, $setterMethod)) {
                     if (is_subclass_of($typeName, Struct::class) && \is_array($value)) {
                         // @phpstan-ignore method.dynamicName
-                        $baseConfig->$setterMethod((new $typeName())->assign($value));
+                        $baseConfig->$setterMethod(new $typeName()->assign($value));
                         continue;
                     }
 
@@ -95,7 +95,7 @@ class DocumentConfigurationFactory
                 }
 
                 // @phpstan-ignore property.dynamicName
-                $baseConfig->{$key} = (new $typeName())->assign($value);
+                $baseConfig->{$key} = new $typeName()->assign($value);
             }
         }
 

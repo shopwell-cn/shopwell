@@ -93,6 +93,6 @@ class ProductExportFileHandler implements ProductExportFileHandlerInterface
 
         $expireTimestamp = $productExport->getGeneratedAt()->getTimestamp() + $productExport->getInterval();
 
-        return (new \DateTime())->getTimestamp() > $expireTimestamp;
+        return new \DateTime()->getTimestamp() > $expireTimestamp;
     }
 }

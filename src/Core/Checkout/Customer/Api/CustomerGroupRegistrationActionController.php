@@ -77,7 +77,7 @@ class CustomerGroupRegistrationActionController
             $customer = $salesChannelContext->getCustomer();
             $customerGroupId = $customer->getGroupId();
 
-            $criteria = (new Criteria([$customerGroupId]))
+            $criteria = new Criteria([$customerGroupId])
                 ->setLimit(1);
 
             $customerRequestedGroup = $this->customerGroupRepository->search($criteria, $salesChannelContext->getContext())->getEntities()->first();
@@ -124,7 +124,7 @@ class CustomerGroupRegistrationActionController
                 continue;
             }
 
-            $criteria = (new Criteria([$requestedCustomerGroupId]))->setLimit(1);
+            $criteria = new Criteria([$requestedCustomerGroupId])->setLimit(1);
             $requestedCustomerGroup = $this->customerGroupRepository->search(
                 $criteria,
                 $salesChannelContext->getContext()

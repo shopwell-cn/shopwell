@@ -30,7 +30,7 @@ class Factory
             $_SERVER['COMPOSER_ROOT_VERSION'] = Kernel::SHOPWELL_FALLBACK_VERSION;
         }
 
-        $composer = (new ComposerFactory())->createComposer(
+        $composer = new ComposerFactory()->createComposer(
             $composerIO,
             $composerJsonPath,
             false,

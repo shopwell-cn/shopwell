@@ -80,7 +80,7 @@ class ChangeEmailRoute extends AbstractChangeEmailRoute
 
         $this->customerRepository->update([$customerData], $context->getContext());
 
-        $criteria = (new Criteria())->addFilter(new EqualsFilter('customerId', $customer->getId()));
+        $criteria = new Criteria()->addFilter(new EqualsFilter('customerId', $customer->getId()));
         $ids = $this->customerRecoveryRepository->searchIds($criteria, $context->getContext())->getIds();
         if ($ids !== []) {
             $this->customerRecoveryRepository->delete(array_map(fn ($id) => ['id' => $id], $ids), $context->getContext());

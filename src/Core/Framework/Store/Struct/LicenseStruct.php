@@ -38,7 +38,7 @@ class LicenseStruct extends Struct
      */
     public static function fromArray(array $data): LicenseStruct
     {
-        $license = (new self())->assign($data);
+        $license = new self()->assign($data);
 
         if (isset($data['creationDate']) && \is_string($data['creationDate'])) {
             $license->setCreationDate(new \DateTimeImmutable($data['creationDate']));

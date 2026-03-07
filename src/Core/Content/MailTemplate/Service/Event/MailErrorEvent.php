@@ -96,7 +96,7 @@ class MailErrorEvent extends Event implements LogAware, ScalarValuesAware, FlowE
 
     public static function getAvailableData(): EventDataCollection
     {
-        return (new EventDataCollection())
+        return new EventDataCollection()
             ->add('name', new ScalarValueType(ScalarValueType::TYPE_STRING));
     }
 

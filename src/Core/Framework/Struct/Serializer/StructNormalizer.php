@@ -29,7 +29,7 @@ class StructNormalizer implements DenormalizerInterface, NormalizerInterface
     {
         $encoder = new JsonEncode();
 
-        return (new JsonDecode([JsonDecode::ASSOCIATIVE => true]))->decode($encoder->encode($object, 'json'), 'json');
+        return new JsonDecode([JsonDecode::ASSOCIATIVE => true])->decode($encoder->encode($object, 'json'), 'json');
     }
 
     /**

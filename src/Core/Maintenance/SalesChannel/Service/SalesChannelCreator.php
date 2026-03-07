@@ -116,7 +116,7 @@ class SalesChannelCreator
 
     private function getFirstActiveShippingMethodId(Context $context): string
     {
-        $criteria = (new Criteria())
+        $criteria = new Criteria()
             ->setLimit(1)
             ->addFilter(new EqualsFilter('active', true));
 
@@ -130,7 +130,7 @@ class SalesChannelCreator
 
     private function getFirstActivePaymentMethodId(Context $context): string
     {
-        $criteria = (new Criteria())
+        $criteria = new Criteria()
             ->setLimit(1)
             ->addFilter(new EqualsFilter('active', true))
             ->addSorting(new FieldSorting('position'));
@@ -145,7 +145,7 @@ class SalesChannelCreator
 
     private function getFirstActiveCountryId(Context $context): string
     {
-        $criteria = (new Criteria())
+        $criteria = new Criteria()
             ->setLimit(1)
             ->addFilter(new EqualsFilter('active', true))
             ->addSorting(new FieldSorting('position'));
@@ -188,7 +188,7 @@ class SalesChannelCreator
 
     private function getCustomerGroupId(Context $context): string
     {
-        $criteria = (new Criteria())
+        $criteria = new Criteria()
             ->setLimit(1);
 
         $repository = $this->definitionRegistry->getRepository(CustomerGroupDefinition::ENTITY_NAME);

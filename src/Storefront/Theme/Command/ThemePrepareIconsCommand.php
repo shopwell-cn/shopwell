@@ -76,7 +76,7 @@ class ThemePrepareIconsCommand extends Command
         $this->io->writeln('Created sub directory "processed" in working directory ' . str_replace(__DIR__, '', $path) . '.');
         $this->io->writeln('The processed icons will be written in the "processed" sub directory.');
 
-        $files = (new Finder())->files()->in($path)->name('*.svg')->exclude('processed');
+        $files = new Finder()->files()->in($path)->name('*.svg')->exclude('processed');
         $processedCount = 0;
         if ($files->count() === 0) {
             $this->io->warning('No svg files found in ' . $path);

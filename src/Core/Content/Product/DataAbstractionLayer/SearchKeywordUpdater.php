@@ -104,7 +104,7 @@ class SearchKeywordUpdater implements ResetInterface
         $versionId = Uuid::fromHexToBytes($context->getVersionId());
         $languageId = Uuid::fromHexToBytes($context->getLanguageId());
 
-        $now = (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT);
+        $now = new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT);
 
         $this->delete($ids, $context->getLanguageId(), $context->getVersionId());
 

@@ -55,7 +55,7 @@ class PriceActionController extends AbstractController
 
         $taxRate = null;
         if (Feature::isActive('v6.8.0.0')) {
-            $criteria = (new Criteria([$taxId]))
+            $criteria = new Criteria([$taxId])
                 ->addFields(['taxRate']);
 
             $tax = $this->taxRepository->search($criteria, $context)->getEntities()->first();
@@ -91,7 +91,7 @@ class PriceActionController extends AbstractController
         }
 
         if (Feature::isActive('v6.8.0.0')) {
-            $criteria = (new Criteria([$taxId]))
+            $criteria = new Criteria([$taxId])
                 ->addFields(['taxRate']);
 
             $tax = $this->taxRepository->search($criteria, $context)->getEntities()->first();

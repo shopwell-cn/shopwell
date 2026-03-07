@@ -180,12 +180,12 @@ class ResetPasswordRoute extends AbstractResetPasswordRoute
 
     private function checkHash(string $hash, Context $context): bool
     {
-        $criteria = (new Criteria())
+        $criteria = new Criteria()
             ->addFilter(new EqualsFilter('hash', $hash));
 
         $recovery = $this->customerRecoveryRepository->search($criteria, $context)->getEntities()->first();
 
-        $validDateTime = (new \DateTime())->sub(new \DateInterval('PT2H'));
+        $validDateTime = new \DateTime()->sub(new \DateInterval('PT2H'));
 
         return $recovery && $validDateTime < $recovery->getCreatedAt();
     }

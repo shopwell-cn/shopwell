@@ -153,7 +153,7 @@ final readonly class UserService
             [
                 'token' => \json_encode($userSearchResult->token, \JSON_THROW_ON_ERROR),
                 'expiry' => $userSearchResult->expiry->format(Defaults::STORAGE_DATE_TIME_FORMAT),
-                'updated_at' => (new \DateTimeImmutable())->format(Defaults::STORAGE_DATE_TIME_FORMAT),
+                'updated_at' => new \DateTimeImmutable()->format(Defaults::STORAGE_DATE_TIME_FORMAT),
             ],
             ['id' => Uuid::fromHexToBytes($userSearchResult->id)]
         );
@@ -199,7 +199,7 @@ final readonly class UserService
                 'user_sub' => $userSearchResult->sub,
                 'token' => \json_encode($userSearchResult->token, \JSON_THROW_ON_ERROR),
                 'expiry' => $userSearchResult->expiry->format(Defaults::STORAGE_DATE_TIME_FORMAT),
-                'created_at' => (new \DateTimeImmutable())->format(Defaults::STORAGE_DATE_TIME_FORMAT),
+                'created_at' => new \DateTimeImmutable()->format(Defaults::STORAGE_DATE_TIME_FORMAT),
                 'updated_at' => null,
             ],
         );

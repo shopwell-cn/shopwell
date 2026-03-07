@@ -89,7 +89,7 @@ class CustomerRecoveryIsExpiredRoute extends AbstractCustomerRecoveryIsExpiredRo
 
     private function isExpired(CustomerRecoveryEntity $customerRecovery): bool
     {
-        $validDateTime = (new \DateTime())->sub(new \DateInterval('PT2H'));
+        $validDateTime = new \DateTime()->sub(new \DateInterval('PT2H'));
 
         return $validDateTime > $customerRecovery->getCreatedAt();
     }

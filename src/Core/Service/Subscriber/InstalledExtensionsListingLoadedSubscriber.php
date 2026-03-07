@@ -40,7 +40,7 @@ class InstalledExtensionsListingLoadedSubscriber implements EventSubscriberInter
     public function removeAppsWithService(InstalledExtensionsListingLoadedEvent $event): void
     {
         $existingServices = $this->appRepository->search(
-            (new Criteria())->addFilter(new EqualsFilter('selfManaged', true)),
+            new Criteria()->addFilter(new EqualsFilter('selfManaged', true)),
             $event->context
         )->getEntities();
 

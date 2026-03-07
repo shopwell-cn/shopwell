@@ -30,8 +30,8 @@ class ShippingMethodTagDefinition extends MappingEntityDefinition
     protected function defineFields(): FieldCollection
     {
         return new FieldCollection([
-            (new FkField('shipping_method_id', 'shippingMethodId', ShippingMethodDefinition::class))->addFlags(new PrimaryKey(), new Required()),
-            (new FkField('tag_id', 'tagId', TagDefinition::class))->addFlags(new PrimaryKey(), new Required()),
+            new FkField('shipping_method_id', 'shippingMethodId', ShippingMethodDefinition::class)->addFlags(new PrimaryKey(), new Required()),
+            new FkField('tag_id', 'tagId', TagDefinition::class)->addFlags(new PrimaryKey(), new Required()),
             new ManyToOneAssociationField('shippingMethod', 'shipping_method_id', ShippingMethodDefinition::class, 'id', false),
             new ManyToOneAssociationField('tag', 'tag_id', TagDefinition::class),
         ]);

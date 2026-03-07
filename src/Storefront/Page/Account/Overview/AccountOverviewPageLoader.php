@@ -84,7 +84,7 @@ class AccountOverviewPageLoader
 
     private function loadNewestOrder(SalesChannelContext $context, Request $request): ?OrderEntity
     {
-        $criteria = (new Criteria())
+        $criteria = new Criteria()
             ->addSorting(new FieldSorting('orderDateTime', FieldSorting::DESCENDING))
             ->addAssociation('primaryOrderTransaction.paymentMethod')
             ->addAssociation('primaryOrderTransaction.stateMachineState')

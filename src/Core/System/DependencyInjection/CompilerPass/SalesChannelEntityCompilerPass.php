@@ -236,7 +236,7 @@ class SalesChannelEntityCompilerPass implements CompilerPassInterface
             $className = $definition->getClass() ?? $id;
 
             /** @var EntityExtension $classObject */
-            $classObject = (new \ReflectionClass($className))->newInstanceWithoutConstructor();
+            $classObject = new \ReflectionClass($className)->newInstanceWithoutConstructor();
 
             if (!\array_key_exists($classObject->getEntityName(), $entityNameMap)) {
                 throw DependencyInjectionException::definitionNotFound($classObject->getEntityName());
@@ -269,7 +269,7 @@ class SalesChannelEntityCompilerPass implements CompilerPassInterface
             $className = $definition->getClass() ?? $id;
 
             /** @var BulkEntityExtension $classObject */
-            $classObject = (new \ReflectionClass($className))->newInstanceWithoutConstructor();
+            $classObject = new \ReflectionClass($className)->newInstanceWithoutConstructor();
 
             $entities = array_keys(iterator_to_array($classObject->collect()));
 

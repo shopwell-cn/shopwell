@@ -42,7 +42,7 @@ trait AssignArrayTrait
         foreach ($options as $propertyName => $value) {
             if (\is_array($value)) {
                 try {
-                    $type = (new \ReflectionProperty($this, $propertyName))->getType();
+                    $type = new \ReflectionProperty($this, $propertyName)->getType();
                     if ($type !== null && (!$type instanceof \ReflectionNamedType || !$type->isBuiltin())) {
                         $this->assignValue($propertyName, $this->createStruct($type, $value));
 
@@ -73,7 +73,7 @@ trait AssignArrayTrait
             return $value;
         }
 
-        $struct = (new \ReflectionClass($className))
+        $struct = new \ReflectionClass($className)
             ->newInstanceWithoutConstructor();
 
         return $struct->assignRecursive($value);

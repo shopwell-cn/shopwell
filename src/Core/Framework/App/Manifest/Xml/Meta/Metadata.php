@@ -150,7 +150,7 @@ class Metadata extends XmlElement
     {
         $constraint = $this->compatibility ?? '>=6.4.0';
 
-        return (new VersionParser())->parseConstraints($constraint);
+        return new VersionParser()->parseConstraints($constraint);
     }
 
     public function getVersion(): string

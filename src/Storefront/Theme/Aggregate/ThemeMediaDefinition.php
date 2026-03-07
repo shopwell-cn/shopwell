@@ -30,8 +30,8 @@ class ThemeMediaDefinition extends MappingEntityDefinition
     protected function defineFields(): FieldCollection
     {
         return new FieldCollection([
-            (new FkField('theme_id', 'themeId', ThemeDefinition::class))->addFlags(new PrimaryKey(), new Required()),
-            (new FkField('media_id', 'mediaId', MediaDefinition::class))->addFlags(new PrimaryKey(), new Required()),
+            new FkField('theme_id', 'themeId', ThemeDefinition::class)->addFlags(new PrimaryKey(), new Required()),
+            new FkField('media_id', 'mediaId', MediaDefinition::class)->addFlags(new PrimaryKey(), new Required()),
             new ManyToOneAssociationField('theme', 'theme_id', ThemeDefinition::class),
             new ManyToOneAssociationField('media', 'media_id', MediaDefinition::class),
         ]);

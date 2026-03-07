@@ -31,7 +31,7 @@ class IncrementSqlStorage extends AbstractIncrementStorage
                 'value' => $start,
                 'id' => Uuid::fromHexToBytes($config['id']),
                 'stateId' => $stateId,
-                'createdAt' => (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT),
+                'createdAt' => new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT),
             ]
         );
 
@@ -89,7 +89,7 @@ class IncrementSqlStorage extends AbstractIncrementStorage
                 'value' => $value,
                 'id' => Uuid::fromHexToBytes($configurationId),
                 'stateId' => $stateId,
-                'createdAt' => (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT),
+                'createdAt' => new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT),
             ]
         );
     }

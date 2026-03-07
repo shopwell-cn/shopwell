@@ -74,7 +74,7 @@ class FirstRunWizardSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $salesChannelCriteria = (new Criteria())
+        $salesChannelCriteria = new Criteria()
             ->addFilter(new EqualsFilter('typeId', Defaults::SALES_CHANNEL_TYPE_STOREFRONT));
 
         $salesChannelIds = $this->salesChannelRepository->search($salesChannelCriteria, $context)->getIds();

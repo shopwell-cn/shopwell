@@ -58,26 +58,26 @@ class AppFlowActionDefinition extends EntityDefinition
     protected function defineFields(): FieldCollection
     {
         return new FieldCollection([
-            (new IdField('id', 'id'))->addFlags(new PrimaryKey(), new Required())->setDescription('Unique identity of app\'s flow action.'),
-            (new FkField('app_id', 'appId', AppDefinition::class))->addFlags(new Required())->setDescription('Unique identity of app.'),
-            (new StringField('name', 'name', 255))->addFlags(new Required())->setDescription('Name of app flow action.'),
+            new IdField('id', 'id')->addFlags(new PrimaryKey(), new Required())->setDescription('Unique identity of app\'s flow action.'),
+            new FkField('app_id', 'appId', AppDefinition::class)->addFlags(new Required())->setDescription('Unique identity of app.'),
+            new StringField('name', 'name', 255)->addFlags(new Required())->setDescription('Name of app flow action.'),
             new StringField('badge', 'badge', 255),
-            (new JsonField('parameters', 'parameters'))->setDescription('Parameters that hold data required for the specific action to be executed within flow.'),
-            (new JsonField('config', 'config'))->setDescription('Specifies detailed information about the component.'),
-            (new JsonField('headers', 'headers'))->setDescription('Indicates the header value within the context of app flow action.'),
+            new JsonField('parameters', 'parameters')->setDescription('Parameters that hold data required for the specific action to be executed within flow.'),
+            new JsonField('config', 'config')->setDescription('Specifies detailed information about the component.'),
+            new JsonField('headers', 'headers')->setDescription('Indicates the header value within the context of app flow action.'),
             new ListField('requirements', 'requirements', StringField::class),
             new BlobField('icon', 'iconRaw'),
-            (new StringField('icon', 'icon'))->addFlags(new WriteProtected(), new Runtime())->setDescription('Icon to identify app flow action.'),
+            new StringField('icon', 'icon')->addFlags(new WriteProtected(), new Runtime())->setDescription('Icon to identify app flow action.'),
             new StringField('sw_icon', 'swIcon'),
-            (new StringField('url', 'url'))->addFlags(new Required())->setDescription('An URL to app flow action.'),
+            new StringField('url', 'url')->addFlags(new Required())->setDescription('An URL to app flow action.'),
             new BoolField('delayable', 'delayable'),
             new TranslatedField('label'),
             new TranslatedField('description'),
             new TranslatedField('headline'),
             new TranslatedField('customFields'),
-            (new TranslationsAssociationField(AppFlowActionTranslationDefinition::class, 'app_flow_action_id'))->addFlags(new Required()),
+            new TranslationsAssociationField(AppFlowActionTranslationDefinition::class, 'app_flow_action_id')->addFlags(new Required()),
             new ManyToOneAssociationField('app', 'app_id', AppDefinition::class, 'id', false),
-            (new OneToManyAssociationField('flowSequences', FlowSequenceDefinition::class, 'app_flow_action_id'))->addFlags(new CascadeDelete()),
+            new OneToManyAssociationField('flowSequences', FlowSequenceDefinition::class, 'app_flow_action_id')->addFlags(new CascadeDelete()),
         ]);
     }
 }

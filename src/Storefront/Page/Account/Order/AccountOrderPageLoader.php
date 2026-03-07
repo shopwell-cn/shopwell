@@ -114,7 +114,7 @@ class AccountOrderPageLoader
         $page = RequestParamHelper::get($request, 'p');
         $page = $page ? (int) $page : 1;
 
-        $criteria = (new Criteria())
+        $criteria = new Criteria()
             ->addSorting(new FieldSorting('order.createdAt', FieldSorting::DESCENDING))
             ->addAssociation('primaryOrderTransaction.paymentMethod')
             ->addAssociation('primaryOrderTransaction.stateMachineState')

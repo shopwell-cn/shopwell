@@ -94,7 +94,7 @@ abstract class ScheduledTaskHandler
         $now = new \DateTimeImmutable();
 
         $nextExecutionTimeString = $taskEntity->getNextExecutionTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT);
-        $newNextExecutionTime = (new \DateTimeImmutable($nextExecutionTimeString))->modify(\sprintf('+%d seconds', $taskEntity->getRunInterval()));
+        $newNextExecutionTime = new \DateTimeImmutable($nextExecutionTimeString)->modify(\sprintf('+%d seconds', $taskEntity->getRunInterval()));
 
         if ($newNextExecutionTime < $now) {
             $newNextExecutionTime = $now;

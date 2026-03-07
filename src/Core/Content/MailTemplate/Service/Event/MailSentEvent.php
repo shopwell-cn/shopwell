@@ -34,7 +34,7 @@ class MailSentEvent extends Event implements LogAware, ScalarValuesAware, FlowEv
 
     public static function getAvailableData(): EventDataCollection
     {
-        return (new EventDataCollection())
+        return new EventDataCollection()
             ->add('subject', new ScalarValueType(ScalarValueType::TYPE_STRING))
             ->add('contents', new ScalarValueType(ScalarValueType::TYPE_STRING))
             ->add('recipients', new ArrayType(new ScalarValueType(ScalarValueType::TYPE_STRING)));

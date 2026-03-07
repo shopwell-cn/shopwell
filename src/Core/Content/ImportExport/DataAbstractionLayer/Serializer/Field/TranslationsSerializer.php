@@ -111,7 +111,7 @@ class TranslationsSerializer extends FieldSerializer
             return $languageId;
         }
 
-        $criteria = (new Criteria([$languageId]))->addAssociation('translationCode');
+        $criteria = new Criteria([$languageId])->addAssociation('translationCode');
 
         $language = $this->languageRepository
             ->search($criteria, Context::createDefaultContext())->getEntities()

@@ -86,7 +86,7 @@ class ZugferdDocument
         }
 
         $this->summary($order, $calculator);
-        $validation = (new ZugferdDocumentValidator($this->zugferdBuilder))->validateDocument();
+        $validation = new ZugferdDocumentValidator($this->zugferdBuilder)->validateDocument();
         if ($validation->count()) {
             $errors = [];
             foreach ($validation as $error) {
@@ -145,7 +145,7 @@ class ZugferdDocument
         ];
 
         $this->zugferdBuilder
-            ->addDocumentPaymentTerm(null, (new \DateTime())->modify($documentConfig->getPaymentDueDate() ?: '+30 days'))
+            ->addDocumentPaymentTerm(null, new \DateTime()->modify($documentConfig->getPaymentDueDate() ?: '+30 days'))
             ->setDocumentSeller($documentConfig->getCompanyName() ?? '')
             ->addDocumentSellerTaxRegistration('FC', $documentConfig->getTaxNumber())
             ->addDocumentSellerTaxRegistration('VA', $documentConfig->getVatId())

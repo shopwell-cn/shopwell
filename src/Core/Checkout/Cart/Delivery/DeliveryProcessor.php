@@ -74,7 +74,7 @@ class DeliveryProcessor implements CartProcessorInterface, CartDataCollectorInte
                 return;
             }
 
-            $criteria = (new Criteria($ids))
+            $criteria = new Criteria($ids)
                 ->addAssociations([
                     'prices',
                     'deliveryTime',

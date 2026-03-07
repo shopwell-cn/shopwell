@@ -72,7 +72,7 @@ class Migration1616076922AppPaymentMethod extends MigrationStep
             [
                 'id' => $defaultFolderId,
                 'entity' => PaymentMethodDefinition::ENTITY_NAME,
-                'created_at' => (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT),
+                'created_at' => new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT),
             ]
         );
 
@@ -81,7 +81,7 @@ class Migration1616076922AppPaymentMethod extends MigrationStep
             'thumbnail_quality' => 80,
             'create_thumbnails' => 1,
             'private' => 0,
-            'created_at' => (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT),
+            'created_at' => new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT),
         ]);
 
         $connection->insert('media_folder', [
@@ -89,7 +89,7 @@ class Migration1616076922AppPaymentMethod extends MigrationStep
             'default_folder_id' => $defaultFolderId,
             'name' => 'Payment Method Media',
             'media_folder_configuration_id' => $configurationId,
-            'created_at' => (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT),
+            'created_at' => new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT),
         ]);
     }
 }

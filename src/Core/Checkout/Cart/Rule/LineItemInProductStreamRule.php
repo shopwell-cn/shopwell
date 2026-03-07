@@ -69,7 +69,7 @@ class LineItemInProductStreamRule extends Rule
 
     public function getConfig(): RuleConfig
     {
-        return (new RuleConfig())
+        return new RuleConfig()
             ->operatorSet(RuleConfig::OPERATOR_SET_STRING, true, true)
             ->entitySelectField('streamIds', ProductStreamDefinition::ENTITY_NAME, true);
     }

@@ -278,7 +278,7 @@ class SystemConfigService implements ResetInterface
                     'system_config',
                     [
                         'configuration_value' => Json::encode(['_value' => $value]),
-                        'updated_at' => (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT),
+                        'updated_at' => new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT),
                     ],
                     [
                         'id' => $existingIds[$key],
@@ -297,7 +297,7 @@ class SystemConfigService implements ResetInterface
                     'configuration_key' => $key,
                     'configuration_value' => Json::encode(['_value' => $value]),
                     'sales_channel_id' => $salesChannelId ? Uuid::fromHexToBytes($salesChannelId) : null,
-                    'created_at' => (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT),
+                    'created_at' => new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT),
                 ],
             );
 

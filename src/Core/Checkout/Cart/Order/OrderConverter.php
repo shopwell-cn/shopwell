@@ -316,7 +316,7 @@ class OrderConverter
         $customer = null;
 
         if ($customerId) {
-            $customerCriteria = (new Criteria([$customerId]))
+            $customerCriteria = new Criteria([$customerId])
                 ->addAssociation('addresses');
 
             $customer = $this->customerRepository->search($customerCriteria, $context)->getEntities()->first();

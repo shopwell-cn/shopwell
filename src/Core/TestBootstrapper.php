@@ -402,7 +402,7 @@ class TestBootstrapper
 
         $envFilePath = $this->getProjectDir() . '/.env';
         if (\is_file($envFilePath) || \is_file($envFilePath . '.dist') || \is_file($envFilePath . '.local.php')) {
-            (new Dotenv())->usePutenv()->bootEnv($envFilePath);
+            new Dotenv()->usePutenv()->bootEnv($envFilePath);
         }
     }
 

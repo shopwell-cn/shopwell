@@ -82,7 +82,7 @@ class ProductConfiguratorLoader
      */
     private function loadSettings(string $parentId, SalesChannelContext $context): ?array
     {
-        $criteria = (new Criteria())->addFilter(
+        $criteria = new Criteria()->addFilter(
             new EqualsFilter('productId', $parentId)
         );
 

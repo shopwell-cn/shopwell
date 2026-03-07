@@ -204,7 +204,7 @@ abstract class MigrationStep
                 }
 
                 $role['privileges'] = \json_encode($newPrivileges, \JSON_THROW_ON_ERROR);
-                $role['updated_at'] = (new \DateTimeImmutable())->format(Defaults::STORAGE_DATE_FORMAT);
+                $role['updated_at'] = new \DateTimeImmutable()->format(Defaults::STORAGE_DATE_FORMAT);
 
                 $connection->update('acl_role', $role, ['id' => $role['id']]);
             }

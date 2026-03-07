@@ -172,7 +172,7 @@ class CountryAgnosticFileLinter
      */
     private function getExtensionPaths(LintedTranslationFileOptions $options): array
     {
-        $criteria = (new Criteria())->addFilter(new EqualsAnyFilter('name', $options->extensionPaths));
+        $criteria = new Criteria()->addFilter(new EqualsAnyFilter('name', $options->extensionPaths));
         $context = Context::createCLIContext();
 
         $plugins = $this->pluginRepository->search($criteria, $context)->getEntities();

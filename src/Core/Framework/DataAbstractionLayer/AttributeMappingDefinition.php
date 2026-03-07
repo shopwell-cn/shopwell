@@ -52,13 +52,13 @@ class AttributeMappingDefinition extends MappingEntityDefinition
         // check for source entity is version-aware and attach reference version field
         $entity = $this->meta['source'];
         if ($this->registry->getByClassOrEntityName($entity)->isVersionAware()) {
-            $fields[] = (new ReferenceVersionField($entity))->addFlags(new PrimaryKey(), new Required());
+            $fields[] = new ReferenceVersionField($entity)->addFlags(new PrimaryKey(), new Required());
         }
 
         // check for reference entity is version-aware and attach reference version field
         $entity = $this->meta['reference'];
         if ($this->registry->getByClassOrEntityName($entity)->isVersionAware()) {
-            $fields[] = (new ReferenceVersionField($entity))->addFlags(new PrimaryKey(), new Required());
+            $fields[] = new ReferenceVersionField($entity)->addFlags(new PrimaryKey(), new Required());
         }
 
         return new FieldCollection($fields);

@@ -171,7 +171,7 @@ class OrderRoute extends AbstractOrderRoute
             return new PromotionCollection();
         }
 
-        $criteria = (new Criteria($promotionIds))
+        $criteria = new Criteria($promotionIds)
             ->addAssociation('cartRules');
 
         return $this->promotionRepository->search($criteria, $context->getContext())->getEntities();
@@ -225,7 +225,7 @@ class OrderRoute extends AbstractOrderRoute
     private function filterOldOrders(OrderCollection $orders): OrderCollection
     {
         // Search with deepLinkCode needs updatedAt Filter
-        $latestOrderDate = (new \DateTime())->setTimezone(new \DateTimeZone('UTC'))->modify(-abs(30) . ' Day');
+        $latestOrderDate = new \DateTime()->setTimezone(new \DateTimeZone('UTC'))->modify(-abs(30) . ' Day');
 
         return $orders->filter(fn (OrderEntity $order) => $order->getCreatedAt() > $latestOrderDate || $order->getUpdatedAt() > $latestOrderDate);
     }

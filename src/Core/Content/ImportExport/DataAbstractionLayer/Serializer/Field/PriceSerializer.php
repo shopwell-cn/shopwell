@@ -135,7 +135,7 @@ class PriceSerializer extends FieldSerializer
         if (Uuid::isValid($iso)) {
             $criteria = new Criteria([$iso]);
         } else {
-            $criteria = (new Criteria())->addFilter(new EqualsFilter('isoCode', $iso));
+            $criteria = new Criteria()->addFilter(new EqualsFilter('isoCode', $iso));
         }
 
         return $this->currencyRepository->searchIds($criteria, $context)->firstId();

@@ -53,16 +53,16 @@ class ProductTranslationDefinition extends EntityTranslationDefinition
     protected function defineFields(): FieldCollection
     {
         return new FieldCollection([
-            (new StringField('meta_description', 'metaDescription'))->addFlags(new ApiAware()),
-            (new StringField('name', 'name'))->addFlags(new ApiAware(), new Required()),
-            (new LongTextField('keywords', 'keywords'))->addFlags(new ApiAware()),
-            (new LongTextField('description', 'description'))->addFlags(new ApiAware(), new AllowHtml()),
-            (new StringField('meta_title', 'metaTitle'))->addFlags(new ApiAware()),
-            (new StringField('pack_unit', 'packUnit'))->addFlags(new ApiAware()),
-            (new StringField('pack_unit_plural', 'packUnitPlural'))->addFlags(new ApiAware()),
+            new StringField('meta_description', 'metaDescription')->addFlags(new ApiAware()),
+            new StringField('name', 'name')->addFlags(new ApiAware(), new Required()),
+            new LongTextField('keywords', 'keywords')->addFlags(new ApiAware()),
+            new LongTextField('description', 'description')->addFlags(new ApiAware(), new AllowHtml()),
+            new StringField('meta_title', 'metaTitle')->addFlags(new ApiAware()),
+            new StringField('pack_unit', 'packUnit')->addFlags(new ApiAware()),
+            new StringField('pack_unit_plural', 'packUnitPlural')->addFlags(new ApiAware()),
             new ListField('custom_search_keywords', 'customSearchKeywords'),
-            (new JsonField('slot_config', 'slotConfig'))->addFlags(new ApiAware()),
-            (new CustomFields())->addFlags(new ApiAware()),
+            new JsonField('slot_config', 'slotConfig')->addFlags(new ApiAware()),
+            new CustomFields()->addFlags(new ApiAware()),
         ]);
     }
 }

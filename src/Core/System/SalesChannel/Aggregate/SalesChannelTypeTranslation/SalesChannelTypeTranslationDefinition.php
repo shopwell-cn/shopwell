@@ -46,10 +46,10 @@ class SalesChannelTypeTranslationDefinition extends EntityTranslationDefinition
     protected function defineFields(): FieldCollection
     {
         return new FieldCollection([
-            (new StringField('name', 'name'))->addFlags(new Required()),
+            new StringField('name', 'name')->addFlags(new Required()),
             new StringField('manufacturer', 'manufacturer'),
             new StringField('description', 'description'),
-            (new LongTextField('description_long', 'descriptionLong'))->addFlags(new ApiAware(), new AllowHtml()),
+            new LongTextField('description_long', 'descriptionLong')->addFlags(new ApiAware(), new AllowHtml()),
             new CustomFields(),
         ]);
     }

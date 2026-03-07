@@ -105,16 +105,16 @@ class ContextSwitchRoute extends AbstractContextSwitchRoute
         $salesChannelId = $context->getSalesChannelId();
         $frameworkContext = $context->getContext();
 
-        $currencyCriteria = (new Criteria())
+        $currencyCriteria = new Criteria()
             ->addFilter(new EqualsFilter('currency.salesChannels.id', $salesChannelId));
 
-        $languageCriteria = (new Criteria())
+        $languageCriteria = new Criteria()
             ->addFilter(new EqualsFilter('language.salesChannels.id', $salesChannelId));
 
-        $paymentMethodCriteria = (new Criteria())
+        $paymentMethodCriteria = new Criteria()
             ->addFilter(new EqualsFilter('payment_method.salesChannels.id', $salesChannelId));
 
-        $shippingMethodCriteria = (new Criteria())
+        $shippingMethodCriteria = new Criteria()
             ->addFilter(new EqualsFilter('shipping_method.salesChannels.id', $salesChannelId));
 
         $definition

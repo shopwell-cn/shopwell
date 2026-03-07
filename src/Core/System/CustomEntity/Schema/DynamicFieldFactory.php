@@ -112,7 +112,7 @@ class DynamicFieldFactory
 
     private static function kebabCaseToCamelCase(string $string): string
     {
-        return (new CamelCaseToSnakeCaseNameConverter())->denormalize(str_replace('-', '_', $string));
+        return new CamelCaseToSnakeCaseNameConverter()->denormalize(str_replace('-', '_', $string));
     }
 
     /**
@@ -137,34 +137,34 @@ class DynamicFieldFactory
         switch ($field['type']) {
             case 'int':
                 $collection->add(
-                    (new IntField($name, $property))
+                    new IntField($name, $property)
                         ->addFlags(...$flags)
                 );
 
                 break;
             case 'bool':
                 $collection->add(
-                    (new BoolField($name, $property))
+                    new BoolField($name, $property)
                         ->addFlags(...$flags)
                 );
 
                 break;
             case 'float':
                 $collection->add(
-                    (new FloatField($name, $property))
+                    new FloatField($name, $property)
                         ->addFlags(...$flags)
                 );
 
                 break;
             case 'email':
                 $collection->add(
-                    (new EmailField($name, $property))
+                    new EmailField($name, $property)
                         ->addFlags(...$flags)
                 );
 
                 break;
             case 'text':
-                $instance = (new LongTextField($name, $property))
+                $instance = new LongTextField($name, $property)
                     ->addFlags(...$flags);
 
                 if ($field['allowHtml'] ?? false) {
@@ -176,14 +176,14 @@ class DynamicFieldFactory
                 break;
             case 'price':
                 $collection->add(
-                    (new PriceField($name, $property))
+                    new PriceField($name, $property)
                         ->addFlags(...$flags)
                 );
 
                 break;
             case 'date':
                 $collection->add(
-                    (new DateTimeField($name, $property))
+                    new DateTimeField($name, $property)
                         ->addFlags(...$flags)
                 );
 
@@ -191,7 +191,7 @@ class DynamicFieldFactory
 
             case 'json':
                 $collection->add(
-                    (new JsonField($name, $property))
+                    new JsonField($name, $property)
                         ->addFlags(...$flags)
                 );
 
@@ -256,7 +256,7 @@ class DynamicFieldFactory
                 $reverse = self::kebabCaseToCamelCase($entityName . '_' . $name);
 
                 // build foreign key field for custom entity table: custom_entity_blog_top_seller_id
-                $foreignKey = (new FkField(self::id($name), $property . 'Id', $field['reference'], 'id'))->addFlags(...$flags);
+                $foreignKey = new FkField(self::id($name), $property . 'Id', $field['reference'], 'id')->addFlags(...$flags);
                 $collection->add($foreignKey);
 
                 // now build association field for custom entity definition
@@ -273,7 +273,7 @@ class DynamicFieldFactory
 
                 if ($reference->isVersionAware()) {
                     // if reference is version aware, we need a reference version field inside the custom entity definition
-                    $collection->add((new ReferenceVersionField($reference->getEntityName(), $name . '_version_id'))->addFlags(new Required()));
+                    $collection->add(new ReferenceVersionField($reference->getEntityName(), $name . '_version_id')->addFlags(new Required()));
                 }
 
                 // now define reverse association
@@ -302,7 +302,7 @@ class DynamicFieldFactory
                 $reverse = self::kebabCaseToCamelCase($entityName . '_' . $name);
 
                 // build foreign key field for custom entity table: custom_entity_blog_top_seller_id
-                $foreignKey = (new FkField(self::id($name), $property . 'Id', $field['reference'], 'id'))->addFlags(...$flags);
+                $foreignKey = new FkField(self::id($name), $property . 'Id', $field['reference'], 'id')->addFlags(...$flags);
                 $collection->add($foreignKey);
 
                 // now build association field for custom entity definition
@@ -320,7 +320,7 @@ class DynamicFieldFactory
 
                 if ($reference->isVersionAware()) {
                     // if reference is version aware, we need a reference version field inside the custom entity definition
-                    $collection->add((new ReferenceVersionField($reference->getEntityName(), $name . '_version_id'))->addFlags(new Required()));
+                    $collection->add(new ReferenceVersionField($reference->getEntityName(), $name . '_version_id')->addFlags(new Required()));
                 }
 
                 // now define reverse association
@@ -396,7 +396,7 @@ class DynamicFieldFactory
                 break;
             default:
                 $collection->add(
-                    (new StringField($name, $property))
+                    new StringField($name, $property)
                         ->addFlags(...$flags)
                 );
 

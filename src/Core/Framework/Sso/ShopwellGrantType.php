@@ -45,7 +45,7 @@ class ShopwellGrantType extends AbstractGrant
         $finalizedScopes = $this->scopeRepository->finalizeScopes($scopes, $this->getIdentifier(), $client, $userIdentifier);
 
         // take the shorter token TTL to avoid that the external token gets invalid
-        $lowerTTL = TokenTimeToLive::getLowerTTL($accessTokenTTL, (new \DateTimeImmutable())->diff($user->expiry));
+        $lowerTTL = TokenTimeToLive::getLowerTTL($accessTokenTTL, new \DateTimeImmutable()->diff($user->expiry));
 
         $accessToken = $this->issueAccessToken($lowerTTL, $client, $userIdentifier, $finalizedScopes);
         $this->getEmitter()->emit(new RequestAccessTokenEvent(RequestEvent::ACCESS_TOKEN_ISSUED, $request, $accessToken));

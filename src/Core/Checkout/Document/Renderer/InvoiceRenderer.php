@@ -103,7 +103,7 @@ final class InvoiceRenderer extends AbstractDocumentRenderer
 
                     $number = $config->getDocumentNumber() ?: $this->getNumber($context, $order, $operation);
 
-                    $now = (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT);
+                    $now = new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT);
 
                     $config->merge([
                         'documentDate' => $operation->getConfig()['documentDate'] ?? $now,

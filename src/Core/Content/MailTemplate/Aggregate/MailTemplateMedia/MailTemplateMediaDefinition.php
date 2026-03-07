@@ -44,13 +44,13 @@ class MailTemplateMediaDefinition extends MappingEntityDefinition
     protected function defineFields(): FieldCollection
     {
         return new FieldCollection([
-            (new IdField('id', 'id'))->addFlags(new ApiAware(), new PrimaryKey(), new Required()),
-            (new FkField('mail_template_id', 'mailTemplateId', MailTemplateDefinition::class))->addFlags(new ApiAware(), new Required()),
-            (new FkField('language_id', 'languageId', LanguageDefinition::class))->addFlags(new ApiAware(), new Required()),
-            (new FkField('media_id', 'mediaId', MediaDefinition::class))->addFlags(new ApiAware(), new Required()),
-            (new IntField('position', 'position'))->addFlags(new ApiAware()),
+            new IdField('id', 'id')->addFlags(new ApiAware(), new PrimaryKey(), new Required()),
+            new FkField('mail_template_id', 'mailTemplateId', MailTemplateDefinition::class)->addFlags(new ApiAware(), new Required()),
+            new FkField('language_id', 'languageId', LanguageDefinition::class)->addFlags(new ApiAware(), new Required()),
+            new FkField('media_id', 'mediaId', MediaDefinition::class)->addFlags(new ApiAware(), new Required()),
+            new IntField('position', 'position')->addFlags(new ApiAware()),
             new ManyToOneAssociationField('mailTemplate', 'mail_template_id', MailTemplateDefinition::class, 'id', false),
-            (new ManyToOneAssociationField('media', 'media_id', MediaDefinition::class, 'id', false))->addFlags(new ApiAware()),
+            new ManyToOneAssociationField('media', 'media_id', MediaDefinition::class, 'id', false)->addFlags(new ApiAware()),
         ]);
     }
 }

@@ -29,8 +29,8 @@ class ThemeChildDefinition extends MappingEntityDefinition
     protected function defineFields(): FieldCollection
     {
         return new FieldCollection([
-            (new FkField('parent_id', 'parentId', ThemeDefinition::class))->addFlags(new PrimaryKey(), new Required()),
-            (new FkField('child_id', 'childId', ThemeDefinition::class))->addFlags(new PrimaryKey(), new Required()),
+            new FkField('parent_id', 'parentId', ThemeDefinition::class)->addFlags(new PrimaryKey(), new Required()),
+            new FkField('child_id', 'childId', ThemeDefinition::class)->addFlags(new PrimaryKey(), new Required()),
             new ManyToOneAssociationField('parentTheme', 'parent_id', ThemeDefinition::class),
             new ManyToOneAssociationField('childTheme', 'child_id', ThemeDefinition::class),
         ]);

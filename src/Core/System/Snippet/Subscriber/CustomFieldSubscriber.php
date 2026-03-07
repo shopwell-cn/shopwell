@@ -108,7 +108,7 @@ class CustomFieldSubscriber implements EventSubscriberInterface
                 'custom_fields' => json_encode([
                     self::CUSTOM_FIELD_ID_FIELD => $writeResult->getPrimaryKey(),
                 ], \JSON_THROW_ON_ERROR),
-                'created_at' => (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT),
+                'created_at' => new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT),
             ];
         }
     }

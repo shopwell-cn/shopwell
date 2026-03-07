@@ -54,7 +54,7 @@ class CustomerSetDefaultBillingAddressEvent extends Event implements SalesChanne
 
     public static function getAvailableData(): EventDataCollection
     {
-        return (new EventDataCollection())
+        return new EventDataCollection()
             ->add('customer', new EntityType(CustomerDefinition::class))
             ->add('contextToken', new ScalarValueType(ScalarValueType::TYPE_STRING));
     }

@@ -181,7 +181,7 @@ class AdministrationController extends AbstractController
     )]
     public function getLocales(Request $request, Context $context): Response
     {
-        $criteria = (new Criteria())->addAssociation('locale');
+        $criteria = new Criteria()->addAssociation('locale');
 
         $languages = $this->languageRepository->search($criteria, $context);
         $installedLocales = $languages->reduce(static function (array $accumulator, LanguageEntity $language) {

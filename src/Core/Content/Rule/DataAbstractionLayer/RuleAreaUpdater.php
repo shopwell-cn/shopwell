@@ -244,7 +244,7 @@ class RuleAreaUpdater implements EventSubscriberInterface
             $mappingLocalColumn = $this->escape($associationField->getMappingLocalColumn());
             $localColumn = $this->escape($associationField->getLocalField());
 
-            $subQuery = (new QueryBuilder($this->connection))
+            $subQuery = new QueryBuilder($this->connection)
                 ->select('1')
                 ->from($mappingTable)
                 ->andWhere(\sprintf('%s = `rule`.%s', $mappingLocalColumn, $localColumn));
@@ -259,7 +259,7 @@ class RuleAreaUpdater implements EventSubscriberInterface
             $referenceColumn = $this->escape($associationField->getReferenceField());
             $localColumn = $this->escape($associationField->getLocalField());
 
-            $subQuery = (new QueryBuilder($this->connection))
+            $subQuery = new QueryBuilder($this->connection)
                 ->select('1')
                 ->from($referenceTable)
                 ->andWhere(\sprintf('%s = `rule`.%s', $referenceColumn, $localColumn));
@@ -270,7 +270,7 @@ class RuleAreaUpdater implements EventSubscriberInterface
 
     private function addFlowConditionSelect(QueryBuilder $query): void
     {
-        $subQuery = (new QueryBuilder($this->connection))
+        $subQuery = new QueryBuilder($this->connection)
             ->select('1')
             ->from('rule_condition')
             ->andWhere('`rule_id` = `rule`.`id`')

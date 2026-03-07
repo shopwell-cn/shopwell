@@ -40,7 +40,7 @@ class LineItemsInCartCountRule extends Rule
 
     public function getConfig(): RuleConfig
     {
-        return (new RuleConfig())
+        return new RuleConfig()
             ->operatorSet(RuleConfig::OPERATOR_SET_NUMBER)
             ->intField('count');
     }

@@ -30,8 +30,8 @@ class SalesChannelLanguageDefinition extends MappingEntityDefinition
     protected function defineFields(): FieldCollection
     {
         return new FieldCollection([
-            (new FkField('sales_channel_id', 'salesChannelId', SalesChannelDefinition::class))->addFlags(new PrimaryKey(), new Required()),
-            (new FkField('language_id', 'languageId', LanguageDefinition::class))->addFlags(new PrimaryKey(), new Required()),
+            new FkField('sales_channel_id', 'salesChannelId', SalesChannelDefinition::class)->addFlags(new PrimaryKey(), new Required()),
+            new FkField('language_id', 'languageId', LanguageDefinition::class)->addFlags(new PrimaryKey(), new Required()),
             new ManyToOneAssociationField('salesChannel', 'sales_channel_id', SalesChannelDefinition::class, 'id', false),
             new ManyToOneAssociationField('language', 'language_id', LanguageDefinition::class, 'id', false),
         ]);

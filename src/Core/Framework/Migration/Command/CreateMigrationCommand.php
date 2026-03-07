@@ -63,7 +63,7 @@ class CreateMigrationCommand extends Command
             throw MigrationException::invalidArgument('Please specify both dir and namespace or none.');
         }
 
-        $timestamp = (new \DateTime())->getTimestamp();
+        $timestamp = new \DateTime()->getTimestamp();
 
         // Both dir and namespace were given
         if ($directory) {
@@ -127,7 +127,7 @@ class CreateMigrationCommand extends Command
 
         $directory = $pluginBundle->getMigrationPath();
 
-        (new Filesystem())->mkdir($directory);
+        new Filesystem()->mkdir($directory);
 
         $namespace = $pluginBundle->getMigrationNamespace();
 

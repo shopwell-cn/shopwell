@@ -64,6 +64,6 @@ class PaymentHandlerIdentifierSubscriber implements EventSubscriberInterface
 
         $last = $explodedHandlerIdentifier[\count($explodedHandlerIdentifier) - 1];
 
-        return (new CamelCaseToSnakeCaseNameConverter())->normalize($last);
+        return new CamelCaseToSnakeCaseNameConverter()->normalize($last);
     }
 }

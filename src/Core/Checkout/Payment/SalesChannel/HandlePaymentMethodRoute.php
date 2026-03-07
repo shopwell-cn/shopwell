@@ -77,7 +77,7 @@ class HandlePaymentMethodRoute extends AbstractHandlePaymentMethodRoute
 
     private function createDataValidation(): DataValidationDefinition
     {
-        return (new DataValidationDefinition())
+        return new DataValidationDefinition()
             ->add('orderId', new NotBlank(), new Type('string'))
             ->add('finishUrl', new Type('string'))
             ->add('errorUrl', new Type('string'));
@@ -85,7 +85,7 @@ class HandlePaymentMethodRoute extends AbstractHandlePaymentMethodRoute
 
     private function getCurrencyFromOrder(string $orderId, Context $context): string
     {
-        $criteria = (new Criteria())
+        $criteria = new Criteria()
             ->addFilter(new EqualsFilter('orders.id', $orderId));
 
         $id = $this->currencyRepository->searchIds($criteria, $context)->firstId();

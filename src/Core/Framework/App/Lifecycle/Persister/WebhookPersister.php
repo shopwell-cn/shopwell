@@ -45,7 +45,7 @@ class WebhookPersister
             }
 
             $payload['id'] = Uuid::randomBytes();
-            $payload['created_at'] = (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT);
+            $payload['created_at'] = new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT);
             $inserts[] = $payload;
         }
 

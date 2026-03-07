@@ -16,7 +16,7 @@ class LanguageExtension extends EntityExtension
     public function extendFields(FieldCollection $collection): void
     {
         $collection->add(
-            (new OneToManyAssociationField('themeTranslations', ThemeTranslationDefinition::class, 'language_id'))->addFlags(new CascadeDelete())
+            new OneToManyAssociationField('themeTranslations', ThemeTranslationDefinition::class, 'language_id')->addFlags(new CascadeDelete())
         );
     }
 

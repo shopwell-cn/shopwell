@@ -35,7 +35,7 @@ class CartPositionStruct extends Struct
      */
     public static function fromArray(array $data): CartPositionStruct
     {
-        return (new self())->assign($data);
+        return new self()->assign($data);
     }
 
     /**

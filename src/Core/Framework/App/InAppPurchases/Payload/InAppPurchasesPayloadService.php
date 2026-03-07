@@ -32,6 +32,6 @@ class InAppPurchasesPayloadService
             $content['purchases'] = array_values(array_intersect($payload->purchases, $content['purchases']));
         }
 
-        return (new InAppPurchasesResponse())->assign($content);
+        return new InAppPurchasesResponse()->assign($content);
     }
 }

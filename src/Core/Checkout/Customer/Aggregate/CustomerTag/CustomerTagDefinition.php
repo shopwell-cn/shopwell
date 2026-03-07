@@ -31,10 +31,10 @@ class CustomerTagDefinition extends MappingEntityDefinition
     protected function defineFields(): FieldCollection
     {
         return new FieldCollection([
-            (new FkField('customer_id', 'customerId', CustomerDefinition::class))->addFlags(new ApiAware(), new PrimaryKey(), new Required()),
-            (new FkField('tag_id', 'tagId', TagDefinition::class))->addFlags(new ApiAware(), new PrimaryKey(), new Required()),
+            new FkField('customer_id', 'customerId', CustomerDefinition::class)->addFlags(new ApiAware(), new PrimaryKey(), new Required()),
+            new FkField('tag_id', 'tagId', TagDefinition::class)->addFlags(new ApiAware(), new PrimaryKey(), new Required()),
             new ManyToOneAssociationField('customer', 'customer_id', CustomerDefinition::class, 'id', false),
-            (new ManyToOneAssociationField('tag', 'tag_id', TagDefinition::class, 'id', false))->addFlags(new ApiAware()),
+            new ManyToOneAssociationField('tag', 'tag_id', TagDefinition::class, 'id', false)->addFlags(new ApiAware()),
         ]);
     }
 }

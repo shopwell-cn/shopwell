@@ -30,8 +30,8 @@ class SalesChannelCurrencyDefinition extends MappingEntityDefinition
     protected function defineFields(): FieldCollection
     {
         return new FieldCollection([
-            (new FkField('sales_channel_id', 'salesChannelId', SalesChannelDefinition::class))->addFlags(new PrimaryKey(), new Required()),
-            (new FkField('currency_id', 'currencyId', CurrencyDefinition::class))->addFlags(new PrimaryKey(), new Required()),
+            new FkField('sales_channel_id', 'salesChannelId', SalesChannelDefinition::class)->addFlags(new PrimaryKey(), new Required()),
+            new FkField('currency_id', 'currencyId', CurrencyDefinition::class)->addFlags(new PrimaryKey(), new Required()),
             new ManyToOneAssociationField('salesChannel', 'sales_channel_id', SalesChannelDefinition::class, 'id', false),
             new ManyToOneAssociationField('currency', 'currency_id', CurrencyDefinition::class, 'id', false),
         ]);

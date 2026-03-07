@@ -60,7 +60,7 @@ abstract class Bundle extends SymfonyBundle
 
     final public function getContainerPrefix(): string
     {
-        return (new CamelCaseToSnakeCaseNameConverter())->normalize($this->getName());
+        return new CamelCaseToSnakeCaseNameConverter()->normalize($this->getName());
     }
 
     public function configureRoutes(RoutingConfigurator $routes, string $environment): void
@@ -178,7 +178,7 @@ abstract class Bundle extends SymfonyBundle
         $container->setDefinition($serviceId, $filesystem);
 
         // SwagMigrationAssistant -> swagMigrationAssistantPublicFilesystem
-        $aliasName = (new CamelCaseToSnakeCaseNameConverter())->denormalize($this->getName()) . ucfirst($key) . 'Filesystem';
+        $aliasName = new CamelCaseToSnakeCaseNameConverter()->denormalize($this->getName()) . ucfirst($key) . 'Filesystem';
         $container->registerAliasForArgument($serviceId, FilesystemOperator::class, $aliasName);
     }
 

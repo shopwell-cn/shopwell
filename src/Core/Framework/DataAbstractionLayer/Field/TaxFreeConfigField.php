@@ -15,9 +15,9 @@ class TaxFreeConfigField extends JsonField
         string $propertyName
     ) {
         parent::__construct($storageName, $propertyName, [
-            (new BoolField('enabled', 'enabled'))->addFlags(new Required()),
-            (new StringField('currencyId', 'currencyId'))->addFlags(new Required()),
-            (new FloatField('amount', 'amount'))->addFlags(new Required()),
+            new BoolField('enabled', 'enabled')->addFlags(new Required()),
+            new StringField('currencyId', 'currencyId')->addFlags(new Required()),
+            new FloatField('amount', 'amount')->addFlags(new Required()),
         ]);
     }
 

@@ -42,7 +42,7 @@ class DatabaseConfigurationController extends InstallerController
             ]);
         }
 
-        $connectionInfo = (new DatabaseConnectionInformation())->assign($request->request->all());
+        $connectionInfo = new DatabaseConnectionInformation()->assign($request->request->all());
 
         try {
             try {
@@ -91,7 +91,7 @@ class DatabaseConfigurationController extends InstallerController
     #[Route(path: '/installer/database-information', name: 'installer.database-information', methods: ['POST'])]
     public function databaseInformation(Request $request): JsonResponse
     {
-        $connectionInfo = (new DatabaseConnectionInformation())->assign($request->request->all());
+        $connectionInfo = new DatabaseConnectionInformation()->assign($request->request->all());
 
         try {
             $connection = $this->connectionFactory->getConnection($connectionInfo, true);

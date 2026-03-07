@@ -74,7 +74,7 @@ class LineItemPropertyValueRule extends Rule
 
     public function getConfig(): RuleConfig
     {
-        return (new RuleConfig())
+        return new RuleConfig()
             ->operatorSet(RuleConfig::OPERATOR_SET_STRING, false, true)
             ->entitySelectField('identifiers', PropertyGroupOptionDefinition::ENTITY_NAME, true);
     }

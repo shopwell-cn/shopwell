@@ -31,7 +31,7 @@ class PluginDownloadDataStruct extends Struct
      */
     public static function fromArray(array $arr): self
     {
-        return (new self())->assign($arr);
+        return new self()->assign($arr);
     }
 
     public function getApiAlias(): string

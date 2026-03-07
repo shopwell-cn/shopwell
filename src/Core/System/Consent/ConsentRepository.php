@@ -47,7 +47,7 @@ class ConsentRepository
         ConsentStatus $state,
         string $actorId
     ): void {
-        $now = (new \DateTimeImmutable())->format(Defaults::STORAGE_DATE_TIME_FORMAT);
+        $now = new \DateTimeImmutable()->format(Defaults::STORAGE_DATE_TIME_FORMAT);
 
         $actor = $this->connection->executeQuery('SELECT username from user WHERE id = :id', [
             'id' => Uuid::fromHexToBytes($actorId),

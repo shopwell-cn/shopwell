@@ -43,7 +43,7 @@ class AddShippingMethodCommandHandler extends AbstractCheckoutGatewayCommandHand
         $technicalName = $command->shippingMethodTechnicalName;
         $methods = $response->getAvailableShippingMethods();
 
-        $criteria = (new Criteria())
+        $criteria = new Criteria()
             ->addFilter(new EqualsFilter('technicalName', $technicalName))
             ->addAssociation('appShippingMethod.app');
 

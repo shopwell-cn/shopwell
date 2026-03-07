@@ -53,7 +53,7 @@ class LineItemPromotedRule extends Rule
 
     public function getConfig(): RuleConfig
     {
-        return (new RuleConfig())
+        return new RuleConfig()
             ->booleanField('isPromoted');
     }
 

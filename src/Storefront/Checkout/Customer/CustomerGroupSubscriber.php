@@ -110,7 +110,7 @@ class CustomerGroupSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $criteria = (new Criteria())
+        $criteria = new Criteria()
             ->addFilter(new EqualsAnyFilter('foreignKey', $ids))
             ->addFilter(new EqualsFilter('routeName', self::ROUTE_NAME));
 
@@ -128,7 +128,7 @@ class CustomerGroupSubscriber implements EventSubscriberInterface
      */
     private function createUrls(array $ids, Context $context): void
     {
-        $criteria = (new Criteria($ids))
+        $criteria = new Criteria($ids)
             ->addFilter(new EqualsFilter('registrationActive', true))
             ->addAssociations(['registrationSalesChannels.languages', 'translations']);
 

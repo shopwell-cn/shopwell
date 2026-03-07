@@ -89,7 +89,7 @@ class DynamicEntityDefinition extends EntityDefinition
         $collection = DynamicFieldFactory::create($this->container, $this->getEntityName(), $this->fieldDefinitions);
 
         $collection->add(
-            (new IdField('id', 'id'))->addFlags(new ApiAware(), new Required(), new PrimaryKey()),
+            new IdField('id', 'id')->addFlags(new ApiAware(), new Required(), new PrimaryKey()),
         );
 
         return $collection;

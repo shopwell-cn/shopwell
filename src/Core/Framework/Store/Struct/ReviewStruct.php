@@ -94,7 +94,7 @@ class ReviewStruct extends StoreStruct
             'version' => $version,
         ];
 
-        return (new self())->assign($data);
+        return new self()->assign($data);
     }
 
     public static function validateRatingValue(int $rating): bool

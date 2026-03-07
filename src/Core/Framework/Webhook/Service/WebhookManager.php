@@ -183,7 +183,7 @@ class WebhookManager implements ResetInterface
                 'app_version' => $webhook->appVersion,
                 'url' => $webhook->url,
                 'only_live_version' => (int) $webhook->onlyLiveVersion,
-                'created_at' => (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT),
+                'created_at' => new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT),
                 'serialized_webhook_message' => serialize($webhookEventMessage),
             ]
         );
@@ -237,7 +237,7 @@ class WebhookManager implements ResetInterface
             if ($webhook->appId !== null && $webhook->appSecret !== null) {
                 $request = $request->withHeader(
                     RequestSigner::SHOPWELL_SHOP_SIGNATURE,
-                    (new RequestSigner())->signPayload($jsonPayload, $webhook->appSecret)
+                    new RequestSigner()->signPayload($jsonPayload, $webhook->appSecret)
                 );
             }
 

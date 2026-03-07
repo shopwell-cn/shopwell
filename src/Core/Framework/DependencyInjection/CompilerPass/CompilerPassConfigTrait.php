@@ -18,7 +18,7 @@ trait CompilerPassConfigTrait
         $resolvingBag = $container->getParameterBag();
         $config = $resolvingBag->resolveValue($config);
 
-        return (new Processor())
+        return new Processor()
             ->processConfiguration(
                 new Configuration($container->getParameter('kernel.debug')),
                 $config,

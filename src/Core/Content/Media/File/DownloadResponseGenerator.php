@@ -52,7 +52,7 @@ class DownloadResponseGenerator
         $path = $media->getPath();
 
         try {
-            $url = $fileSystem->temporaryUrl($path, (new \DateTime())->modify($expiration));
+            $url = $fileSystem->temporaryUrl($path, new \DateTime()->modify($expiration));
 
             return new RedirectResponse($url);
         } catch (UnableToGenerateTemporaryUrl $exception) {

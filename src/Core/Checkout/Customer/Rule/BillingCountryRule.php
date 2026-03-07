@@ -77,7 +77,7 @@ class BillingCountryRule extends Rule
 
     public function getConfig(): RuleConfig
     {
-        return (new RuleConfig())
+        return new RuleConfig()
             ->operatorSet(RuleConfig::OPERATOR_SET_STRING, true, true)
             ->entitySelectField('countryIds', CountryDefinition::ENTITY_NAME, true);
     }

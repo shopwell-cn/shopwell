@@ -54,12 +54,12 @@ class WebhookDefinition extends EntityDefinition
     protected function defineFields(): FieldCollection
     {
         $collection = new FieldCollection([
-            (new IdField('id', 'id'))->addFlags(new PrimaryKey(), new Required()),
-            (new StringField('name', 'name'))->addFlags(new Required()),
-            (new StringField('event_name', 'eventName', 500))->addFlags(new Required()),
-            (new StringField('url', 'url', 500))->addFlags(new Required()),
+            new IdField('id', 'id')->addFlags(new PrimaryKey(), new Required()),
+            new StringField('name', 'name')->addFlags(new Required()),
+            new StringField('event_name', 'eventName', 500)->addFlags(new Required()),
+            new StringField('url', 'url', 500)->addFlags(new Required()),
             new BoolField('only_live_version', 'onlyLiveVersion'),
-            (new IntField('error_count', 'errorCount', 0))->addFlags(new Required(), new WriteProtected(Context::SYSTEM_SCOPE)),
+            new IntField('error_count', 'errorCount', 0)->addFlags(new Required(), new WriteProtected(Context::SYSTEM_SCOPE)),
             new BoolField('active', 'active'),
             new FkField('app_id', 'appId', AppDefinition::class),
             new ManyToOneAssociationField('app', 'app_id', AppDefinition::class),

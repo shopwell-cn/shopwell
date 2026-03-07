@@ -69,7 +69,7 @@ final class CleanupCorruptedMediaHandler extends ScheduledTaskHandler
         $criteria->addFilter(new EqualsFilter('uploadedAt', null));
         $criteria->addFilter(new EqualsFilter('path', null));
         $criteria->addFilter(new RangeFilter('createdAt', [
-            RangeFilter::LT => (new \DateTimeImmutable())
+            RangeFilter::LT => new \DateTimeImmutable()
                 ->sub(new \DateInterval('P' . self::CORRUPTED_MEDIA_GRACE_PERIOD_DAYS . 'D'))
                 ->format(Defaults::STORAGE_DATE_TIME_FORMAT),
         ]));

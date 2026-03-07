@@ -170,7 +170,7 @@ class PrimaryKeyResolver
             $languageId = $this->definitionInstanceRegistry
                 ->getRepository(LanguageDefinition::ENTITY_NAME)
                 ->searchIds(
-                    (new Criteria())->addFilter(new EqualsFilter('locale.code', $updateByFieldPath[1]))->setLimit(1),
+                    new Criteria()->addFilter(new EqualsFilter('locale.code', $updateByFieldPath[1]))->setLimit(1),
                     $context
                 )->firstId();
         }

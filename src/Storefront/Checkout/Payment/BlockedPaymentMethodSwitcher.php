@@ -56,7 +56,7 @@ class BlockedPaymentMethodSwitcher
     private function getPaymentMethodToChangeTo(ErrorCollection $errors, SalesChannelContext $salesChannelContext): ?PaymentMethodEntity
     {
         $request = new Request(['onlyAvailable' => true]);
-        $criteria = (new Criteria([$salesChannelContext->getSalesChannel()->getPaymentMethodId()]))
+        $criteria = new Criteria([$salesChannelContext->getSalesChannel()->getPaymentMethodId()])
             ->setLimit(1);
 
         if (Feature::isActive('v6.8.0.0')) {
@@ -72,7 +72,7 @@ class BlockedPaymentMethodSwitcher
                 return $defaultPaymentMethod;
             }
 
-            $criteria = (new Criteria())
+            $criteria = new Criteria()
                 ->addFilter(new NotEqualsAnyFilter('id', $blockedPaymentMethodIds));
         } else {
             $blockedPaymentMethodNames = $errors->fmap(static fn (Error $error) => $error instanceof PaymentMethodBlockedError ? $error->getName() : null);
@@ -87,7 +87,7 @@ class BlockedPaymentMethodSwitcher
                 return $defaultPaymentMethod;
             }
 
-            $criteria = (new Criteria())
+            $criteria = new Criteria()
                 ->addFilter(new NotEqualsAnyFilter('name', $blockedPaymentMethodNames));
         }
 

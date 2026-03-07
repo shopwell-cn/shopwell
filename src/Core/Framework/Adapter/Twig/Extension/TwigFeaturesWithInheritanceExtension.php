@@ -61,7 +61,7 @@ class TwigFeaturesWithInheritanceExtension extends AbstractExtension
     public function parseSwBlockFunction(Parser $parser, Node $fakeNode, Node $argsNode, int $line): AbstractExpression
     {
         $fakeFunction = new TwigFunction('sw_block', fn ($name, $template = null) => null);
-        $args = (new CallableArgumentsExtractor($fakeNode, $fakeFunction))->extractArguments($argsNode);
+        $args = new CallableArgumentsExtractor($fakeNode, $fakeFunction)->extractArguments($argsNode);
 
         // sw-fix-start
         $templateArgument = $args[1] ?? null;

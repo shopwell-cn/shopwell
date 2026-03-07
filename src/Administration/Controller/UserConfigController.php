@@ -118,7 +118,7 @@ class UserConfigController extends AbstractController
                 'user_id' => Uuid::fromHexToBytes($userId),
                 'key' => $key,
                 'id' => Uuid::randomBytes(),
-                'created_at' => (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT),
+                'created_at' => new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT),
             ];
             if (\array_key_exists($key, $userConfigsGroupByKey)) {
                 $data['id'] = Uuid::fromHexToBytes($userConfigsGroupByKey[$key]);

@@ -44,10 +44,10 @@ class ThemeTranslationDefinition extends EntityTranslationDefinition
     protected function defineFields(): FieldCollection
     {
         return new FieldCollection([
-            (new StringField('description', 'description'))->addFlags(new ApiAware()),
-            (new JsonField('labels', 'labels'))->addFlags(new ApiAware()),
-            (new JsonField('help_texts', 'helpTexts'))->addFlags(new ApiAware()),
-            (new CustomFields())->addFlags(new ApiAware()),
+            new StringField('description', 'description')->addFlags(new ApiAware()),
+            new JsonField('labels', 'labels')->addFlags(new ApiAware()),
+            new JsonField('help_texts', 'helpTexts')->addFlags(new ApiAware()),
+            new CustomFields()->addFlags(new ApiAware()),
         ]);
     }
 }

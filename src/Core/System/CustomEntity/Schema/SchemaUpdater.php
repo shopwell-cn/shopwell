@@ -339,7 +339,7 @@ class SchemaUpdater
 
     private static function kebabCaseToCamelCase(string $string): string
     {
-        return (new CamelCaseToSnakeCaseNameConverter())->denormalize(str_replace('-', '_', $string));
+        return new CamelCaseToSnakeCaseNameConverter()->denormalize(str_replace('-', '_', $string));
     }
 
     /**

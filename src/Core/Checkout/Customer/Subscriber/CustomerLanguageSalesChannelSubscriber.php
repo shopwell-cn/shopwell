@@ -151,7 +151,7 @@ class CustomerLanguageSalesChannelSubscriber implements EventSubscriberInterface
             return new EntityCollection();
         }
 
-        $criteria = (new Criteria())->addFields(['id', 'languages.id'])
+        $criteria = new Criteria()->addFields(['id', 'languages.id'])
             ->addFilter(new MultiFilter(MultiFilter::CONNECTION_OR, [
                 new EqualsAnyFilter('id', $salesChannelIds),
                 new EqualsAnyFilter('customers.id', $customerIds),

@@ -40,7 +40,7 @@ class OrderStateMachineStateChangeEvent extends Event implements SalesChannelAwa
 
     public static function getAvailableData(): EventDataCollection
     {
-        return (new EventDataCollection())
+        return new EventDataCollection()
             ->add('order', new EntityType(OrderDefinition::class));
     }
 

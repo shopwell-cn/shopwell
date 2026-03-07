@@ -36,7 +36,7 @@ final class RevocationRequestEvent extends Event implements SalesChannelAware, M
 
     public static function getAvailableData(): EventDataCollection
     {
-        return (new EventDataCollection())
+        return new EventDataCollection()
             ->add(FlowMailVariables::REVOCATION_REQUEST_FORM_DATA, new ObjectType());
     }
 

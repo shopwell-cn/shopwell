@@ -68,7 +68,7 @@ class CustomerBeforeDeleteSubscriber implements EventSubscriberInterface
             $salesChannelId = $source->getSalesChannelId();
         }
 
-        $criteria = (new Criteria($ids))
+        $criteria = new Criteria($ids)
             ->addAssociations([
                 'salutation',
                 'defaultBillingAddress.country',

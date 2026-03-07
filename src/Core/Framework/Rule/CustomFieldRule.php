@@ -141,7 +141,7 @@ class CustomFieldRule
         }
 
         if (self::isDatetimeOrDateField($renderedField) && \is_string($renderedFieldValue)) {
-            return (new \DateTimeImmutable($renderedFieldValue))->format(\DATE_ATOM);
+            return new \DateTimeImmutable($renderedFieldValue)->format(\DATE_ATOM);
         }
 
         return $renderedFieldValue;

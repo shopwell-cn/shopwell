@@ -30,8 +30,8 @@ class PromotionSetGroupRuleDefinition extends MappingEntityDefinition
     protected function defineFields(): FieldCollection
     {
         return new FieldCollection([
-            (new FkField('setgroup_id', 'setgroupId', PromotionSetGroupDefinition::class))->addFlags(new PrimaryKey(), new Required()),
-            (new FkField('rule_id', 'ruleId', RuleDefinition::class))->addFlags(new PrimaryKey(), new Required()),
+            new FkField('setgroup_id', 'setgroupId', PromotionSetGroupDefinition::class)->addFlags(new PrimaryKey(), new Required()),
+            new FkField('rule_id', 'ruleId', RuleDefinition::class)->addFlags(new PrimaryKey(), new Required()),
             new ManyToOneAssociationField('setgroup', 'setgroup_id', PromotionSetGroupDefinition::class, 'id'),
             new ManyToOneAssociationField('rule', 'rule_id', RuleDefinition::class, 'id'),
         ]);

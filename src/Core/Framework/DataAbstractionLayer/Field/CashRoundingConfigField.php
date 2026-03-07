@@ -15,9 +15,9 @@ class CashRoundingConfigField extends JsonField
         string $propertyName
     ) {
         parent::__construct($storageName, $propertyName, [
-            (new IntField('decimals', 'decimals', 0))->addFlags(new Required()),
-            (new FloatField('interval', 'interval'))->addFlags(new Required()),
-            (new BoolField('roundForNet', 'roundForNet'))->addFlags(new Required()),
+            new IntField('decimals', 'decimals', 0)->addFlags(new Required()),
+            new FloatField('interval', 'interval')->addFlags(new Required()),
+            new BoolField('roundForNet', 'roundForNet')->addFlags(new Required()),
         ]);
     }
 

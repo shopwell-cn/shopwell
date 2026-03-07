@@ -47,10 +47,10 @@ class PaymentMethodTranslationDefinition extends EntityTranslationDefinition
     protected function defineFields(): FieldCollection
     {
         return new FieldCollection([
-            (new StringField('name', 'name'))->addFlags(new ApiAware(), new Required()),
-            (new StringField('distinguishable_name', 'distinguishableName'))->addFlags(new ApiAware(), new WriteProtected(Context::SYSTEM_SCOPE)),
-            (new LongTextField('description', 'description'))->addFlags(new ApiAware()),
-            (new CustomFields())->addFlags(new ApiAware()),
+            new StringField('name', 'name')->addFlags(new ApiAware(), new Required()),
+            new StringField('distinguishable_name', 'distinguishableName')->addFlags(new ApiAware(), new WriteProtected(Context::SYSTEM_SCOPE)),
+            new LongTextField('description', 'description')->addFlags(new ApiAware()),
+            new CustomFields()->addFlags(new ApiAware()),
         ]);
     }
 }

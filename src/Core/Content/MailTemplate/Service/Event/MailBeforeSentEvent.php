@@ -43,7 +43,7 @@ class MailBeforeSentEvent extends Event implements LogAware, MessageAware, Scala
 
     public static function getAvailableData(): EventDataCollection
     {
-        return (new EventDataCollection())
+        return new EventDataCollection()
             ->add('data', new ArrayType(new ScalarValueType(ScalarValueType::TYPE_STRING)))
             ->add('message', new ObjectType());
     }

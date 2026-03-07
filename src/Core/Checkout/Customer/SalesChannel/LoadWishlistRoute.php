@@ -79,7 +79,7 @@ class LoadWishlistRoute extends AbstractLoadWishlistRoute
 
     private function loadWishlist(SalesChannelContext $context, string $customerId): CustomerWishlistEntity
     {
-        $criteria = (new Criteria())
+        $criteria = new Criteria()
             ->setLimit(1)
             ->addFilter(new MultiFilter(MultiFilter::CONNECTION_AND, [
                 new EqualsFilter('customerId', $customerId),

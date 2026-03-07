@@ -120,7 +120,7 @@ class LineItemFactoryRegistry
 
     private function createValidatorDefinition(): DataValidationDefinition
     {
-        return (new DataValidationDefinition())
+        return new DataValidationDefinition()
             ->add('id', new Type('string'), new Required())
             ->add('type', new Type('string'), new Required())
             ->add('quantity', new Type('int'))
@@ -132,7 +132,7 @@ class LineItemFactoryRegistry
             ->add('coverId', new Type('string'), new EntityExists(entity: MediaDefinition::ENTITY_NAME, context: Context::createDefaultContext()))
             ->addSub(
                 'priceDefinition',
-                (new DataValidationDefinition())
+                new DataValidationDefinition()
                     ->add('type', new Type('string'))
                     ->add('price', new Type('numeric'))
                     ->add('percentage', new Type('numeric'))
@@ -141,7 +141,7 @@ class LineItemFactoryRegistry
                     ->add('listPrice', new Type('numeric'))
                     ->addList(
                         'taxRules',
-                        (new DataValidationDefinition())
+                        new DataValidationDefinition()
                             ->add('taxRate', new Type('numeric'))
                             ->add('percentage', new Type('numeric'))
                     )

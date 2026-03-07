@@ -102,7 +102,7 @@ class CartPersister extends AbstractCartPersister
             'token' => $cart->getToken(),
             'payload' => $serializeCart,
             'rule_ids' => json_encode($context->getRuleIds(), \JSON_THROW_ON_ERROR),
-            'now' => (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT),
+            'now' => new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT),
             'compressed' => $compressed,
         ];
 

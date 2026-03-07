@@ -44,16 +44,16 @@ class SalesChannelTypeDefinition extends EntityDefinition
     protected function defineFields(): FieldCollection
     {
         return new FieldCollection([
-            (new IdField('id', 'id'))->addFlags(new PrimaryKey(), new Required())->setDescription('Unique identity of sales channel type.'),
-            (new StringField('cover_url', 'coverUrl'))->setDescription('A url for the sales channel type.'),
-            (new StringField('icon_name', 'iconName'))->setDescription('An icon for sales channel type.'),
+            new IdField('id', 'id')->addFlags(new PrimaryKey(), new Required())->setDescription('Unique identity of sales channel type.'),
+            new StringField('cover_url', 'coverUrl')->setDescription('A url for the sales channel type.'),
+            new StringField('icon_name', 'iconName')->setDescription('An icon for sales channel type.'),
             new ListField('screenshot_urls', 'screenshotUrls', StringField::class),
             new TranslatedField('name'),
             new TranslatedField('manufacturer'),
             new TranslatedField('description'),
             new TranslatedField('descriptionLong'),
             new TranslatedField('customFields'),
-            (new TranslationsAssociationField(SalesChannelTypeTranslationDefinition::class, 'sales_channel_type_id'))->addFlags(new Required()),
+            new TranslationsAssociationField(SalesChannelTypeTranslationDefinition::class, 'sales_channel_type_id')->addFlags(new Required()),
             new OneToManyAssociationField('salesChannels', SalesChannelDefinition::class, 'type_id', 'id'),
         ]);
     }

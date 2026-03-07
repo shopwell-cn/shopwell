@@ -79,35 +79,35 @@ class SalesChannelProductDefinition extends ProductDefinition implements SalesCh
         $fields = parent::defineFields();
 
         $fields->add(
-            (new JsonField('calculated_price', 'calculatedPrice'))->addFlags(new ApiAware(), new Runtime(\array_merge(self::PRICE_BASELINE, ['price', 'prices'])))
+            new JsonField('calculated_price', 'calculatedPrice')->addFlags(new ApiAware(), new Runtime(\array_merge(self::PRICE_BASELINE, ['price', 'prices'])))
         );
         $fields->add(
-            (new ListField('calculated_prices', 'calculatedPrices'))->addFlags(new ApiAware(), new Runtime(\array_merge(self::PRICE_BASELINE, ['prices'])))
+            new ListField('calculated_prices', 'calculatedPrices')->addFlags(new ApiAware(), new Runtime(\array_merge(self::PRICE_BASELINE, ['prices'])))
         );
         $fields->add(
-            (new IntField('calculated_max_purchase', 'calculatedMaxPurchase'))->addFlags(new ApiAware(), new Runtime(['maxPurchase']))
+            new IntField('calculated_max_purchase', 'calculatedMaxPurchase')->addFlags(new ApiAware(), new Runtime(['maxPurchase']))
         );
         $fields->add(
-            (new JsonField('calculated_cheapest_price', 'calculatedCheapestPrice'))->addFlags(new ApiAware(), new Runtime(\array_merge(self::PRICE_BASELINE, ['cheapestPrice'])))
+            new JsonField('calculated_cheapest_price', 'calculatedCheapestPrice')->addFlags(new ApiAware(), new Runtime(\array_merge(self::PRICE_BASELINE, ['cheapestPrice'])))
         );
         $fields->add(
-            (new BoolField('is_new', 'isNew'))->addFlags(new ApiAware(), new Runtime(['releaseDate']))
+            new BoolField('is_new', 'isNew')->addFlags(new ApiAware(), new Runtime(['releaseDate']))
         );
         $fields->add(
-            (new OneToOneAssociationField('seoCategory', 'seoCategory', 'id', CategoryDefinition::class))->addFlags(new ApiAware(), new Runtime())->setDescription('Main category used for SEO URL generation in the current sales channel')
+            new OneToOneAssociationField('seoCategory', 'seoCategory', 'id', CategoryDefinition::class)->addFlags(new ApiAware(), new Runtime())->setDescription('Main category used for SEO URL generation in the current sales channel')
         );
         $fields->add(
-            (new CheapestPriceField('cheapest_price', 'cheapestPrice'))->addFlags(new WriteProtected(), new Inherited(), new ApiCriteriaAware())
+            new CheapestPriceField('cheapest_price', 'cheapestPrice')->addFlags(new WriteProtected(), new Inherited(), new ApiCriteriaAware())
         );
         $fields->add(
-            (new ObjectField('cheapest_price_container', 'cheapestPriceContainer'))->addFlags(new Runtime())
+            new ObjectField('cheapest_price_container', 'cheapestPriceContainer')->addFlags(new Runtime())
         );
         $fields->add(
-            (new ObjectField('sortedProperties', 'sortedProperties'))->addFlags(new Runtime(), new ApiAware())
+            new ObjectField('sortedProperties', 'sortedProperties')->addFlags(new Runtime(), new ApiAware())
         );
 
         $fields->add(
-            (new ObjectField('measurements', 'measurements'))->addFlags(new Runtime(), new ApiAware(), new Since('6.7.1.0'))
+            new ObjectField('measurements', 'measurements')->addFlags(new Runtime(), new ApiAware(), new Since('6.7.1.0'))
         );
 
         return $fields;

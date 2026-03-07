@@ -202,7 +202,7 @@ class PaymentProcessor
 
     private function getCurrentOrderTransaction(string $orderId, Context $context): ?OrderTransactionEntity
     {
-        $criteria = (new Criteria())
+        $criteria = new Criteria()
             ->addFilter(new EqualsFilter('stateId', $this->initialStateIdLoader->get(OrderTransactionStates::STATE_MACHINE)))
             ->addFilter(new EqualsFilter('orderId', $orderId))
             ->addSorting(new FieldSorting('createdAt', FieldSorting::DESCENDING))

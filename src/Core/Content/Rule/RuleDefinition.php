@@ -71,36 +71,36 @@ class RuleDefinition extends EntityDefinition
     protected function defineFields(): FieldCollection
     {
         return new FieldCollection([
-            (new IdField('id', 'id'))->addFlags(new PrimaryKey(), new Required())->setDescription('Unique identity of rule.'),
-            (new StringField('name', 'name'))->addFlags(new ApiAware(), new Required())->setDescription('Name of the rule defined.'),
-            (new IntField('priority', 'priority'))->addFlags(new Required())->setDescription('A numerical value to prioritize one of the rules from the list.'),
-            (new LongTextField('description', 'description'))->addFlags(new ApiAware())->setDescription('Description of the rule.'),
-            (new BlobField('payload', 'payload'))->removeFlag(ApiAware::class)->addFlags(new WriteProtected(Context::SYSTEM_SCOPE)),
-            (new BoolField('invalid', 'invalid'))->addFlags(new WriteProtected(Context::SYSTEM_SCOPE))->setDescription('When the boolean value is `true`, the rule is no more available for usage.'),
-            (new ListField('areas', 'areas'))->addFlags(new WriteProtected(Context::SYSTEM_SCOPE))->setDescription('Internal field.'),
-            (new CustomFields())->addFlags(new ApiAware())->setDescription('Additional fields that offer a possibility to add own fields for the different program-areas.'),
-            (new JsonField('module_types', 'moduleTypes'))->setDescription('It can be used in cart or shipping pricing.'),
+            new IdField('id', 'id')->addFlags(new PrimaryKey(), new Required())->setDescription('Unique identity of rule.'),
+            new StringField('name', 'name')->addFlags(new ApiAware(), new Required())->setDescription('Name of the rule defined.'),
+            new IntField('priority', 'priority')->addFlags(new Required())->setDescription('A numerical value to prioritize one of the rules from the list.'),
+            new LongTextField('description', 'description')->addFlags(new ApiAware())->setDescription('Description of the rule.'),
+            new BlobField('payload', 'payload')->removeFlag(ApiAware::class)->addFlags(new WriteProtected(Context::SYSTEM_SCOPE)),
+            new BoolField('invalid', 'invalid')->addFlags(new WriteProtected(Context::SYSTEM_SCOPE))->setDescription('When the boolean value is `true`, the rule is no more available for usage.'),
+            new ListField('areas', 'areas')->addFlags(new WriteProtected(Context::SYSTEM_SCOPE))->setDescription('Internal field.'),
+            new CustomFields()->addFlags(new ApiAware())->setDescription('Additional fields that offer a possibility to add own fields for the different program-areas.'),
+            new JsonField('module_types', 'moduleTypes')->setDescription('It can be used in cart or shipping pricing.'),
 
-            (new OneToManyAssociationField('conditions', RuleConditionDefinition::class, 'rule_id', 'id'))->addFlags(new CascadeDelete()),
+            new OneToManyAssociationField('conditions', RuleConditionDefinition::class, 'rule_id', 'id')->addFlags(new CascadeDelete()),
 
             // Reverse Associations not available in sales-channel-api
-            (new OneToManyAssociationField('productPrices', ProductPriceDefinition::class, 'rule_id', 'id'))->addFlags(new RestrictDelete(), new RuleAreas(RuleAreas::PRODUCT_AREA)),
-            (new OneToManyAssociationField('shippingMethodPrices', ShippingMethodPriceDefinition::class, 'rule_id', 'id'))->addFlags(new RestrictDelete(), new RuleAreas(RuleAreas::SHIPPING_AREA)),
-            (new OneToManyAssociationField('shippingMethodPriceCalculations', ShippingMethodPriceDefinition::class, 'calculation_rule_id', 'id'))->addFlags(new RestrictDelete(), new RuleAreas(RuleAreas::SHIPPING_AREA)),
-            (new OneToManyAssociationField('shippingMethods', ShippingMethodDefinition::class, 'availability_rule_id'))->addFlags(new RestrictDelete(), new RuleAreas(RuleAreas::SHIPPING_AREA)),
-            (new OneToManyAssociationField('paymentMethods', PaymentMethodDefinition::class, 'availability_rule_id', 'id'))->addFlags(new RestrictDelete(), new RuleAreas(RuleAreas::PAYMENT_AREA)),
-            (new OneToManyAssociationField('personaPromotions', PromotionDefinition::class, 'persona_rule_id', 'id'))->addFlags(new RestrictDelete(), new RuleAreas(RuleAreas::PROMOTION_AREA)),
-            (new OneToManyAssociationField('flowSequences', FlowSequenceDefinition::class, 'rule_id', 'id'))->addFlags(new RestrictDelete(), new RuleAreas(RuleAreas::FLOW_AREA)),
-            (new OneToManyAssociationField('taxProviders', TaxProviderDefinition::class, 'availability_rule_id', 'id'))->addFlags(new RestrictDelete(), new Since('6.5.0.0')),
+            new OneToManyAssociationField('productPrices', ProductPriceDefinition::class, 'rule_id', 'id')->addFlags(new RestrictDelete(), new RuleAreas(RuleAreas::PRODUCT_AREA)),
+            new OneToManyAssociationField('shippingMethodPrices', ShippingMethodPriceDefinition::class, 'rule_id', 'id')->addFlags(new RestrictDelete(), new RuleAreas(RuleAreas::SHIPPING_AREA)),
+            new OneToManyAssociationField('shippingMethodPriceCalculations', ShippingMethodPriceDefinition::class, 'calculation_rule_id', 'id')->addFlags(new RestrictDelete(), new RuleAreas(RuleAreas::SHIPPING_AREA)),
+            new OneToManyAssociationField('shippingMethods', ShippingMethodDefinition::class, 'availability_rule_id')->addFlags(new RestrictDelete(), new RuleAreas(RuleAreas::SHIPPING_AREA)),
+            new OneToManyAssociationField('paymentMethods', PaymentMethodDefinition::class, 'availability_rule_id', 'id')->addFlags(new RestrictDelete(), new RuleAreas(RuleAreas::PAYMENT_AREA)),
+            new OneToManyAssociationField('personaPromotions', PromotionDefinition::class, 'persona_rule_id', 'id')->addFlags(new RestrictDelete(), new RuleAreas(RuleAreas::PROMOTION_AREA)),
+            new OneToManyAssociationField('flowSequences', FlowSequenceDefinition::class, 'rule_id', 'id')->addFlags(new RestrictDelete(), new RuleAreas(RuleAreas::FLOW_AREA)),
+            new OneToManyAssociationField('taxProviders', TaxProviderDefinition::class, 'availability_rule_id', 'id')->addFlags(new RestrictDelete(), new Since('6.5.0.0')),
 
             new ManyToManyAssociationField('tags', TagDefinition::class, RuleTagDefinition::class, 'rule_id', 'tag_id'),
 
             // Promotion References
-            (new ManyToManyAssociationField('personaPromotions', PromotionDefinition::class, PromotionPersonaRuleDefinition::class, 'rule_id', 'promotion_id'))->addFlags(new RestrictDelete(), new RuleAreas(RuleAreas::PROMOTION_AREA)),
-            (new ManyToManyAssociationField('orderPromotions', PromotionDefinition::class, PromotionOrderRuleDefinition::class, 'rule_id', 'promotion_id'))->addFlags(new RestrictDelete(), new RuleAreas(RuleAreas::PROMOTION_AREA)),
-            (new ManyToManyAssociationField('cartPromotions', PromotionDefinition::class, PromotionCartRuleDefinition::class, 'rule_id', 'promotion_id'))->addFlags(new RestrictDelete(), new RuleAreas(RuleAreas::PROMOTION_AREA)),
-            (new ManyToManyAssociationField('promotionDiscounts', PromotionDiscountDefinition::class, PromotionDiscountRuleDefinition::class, 'rule_id', 'discount_id'))->addFlags(new RestrictDelete(), new RuleAreas(RuleAreas::PROMOTION_AREA)),
-            (new ManyToManyAssociationField('promotionSetGroups', PromotionSetGroupDefinition::class, PromotionSetGroupRuleDefinition::class, 'rule_id', 'setgroup_id'))->addFlags(new RestrictDelete(), new RuleAreas(RuleAreas::PROMOTION_AREA)),
+            new ManyToManyAssociationField('personaPromotions', PromotionDefinition::class, PromotionPersonaRuleDefinition::class, 'rule_id', 'promotion_id')->addFlags(new RestrictDelete(), new RuleAreas(RuleAreas::PROMOTION_AREA)),
+            new ManyToManyAssociationField('orderPromotions', PromotionDefinition::class, PromotionOrderRuleDefinition::class, 'rule_id', 'promotion_id')->addFlags(new RestrictDelete(), new RuleAreas(RuleAreas::PROMOTION_AREA)),
+            new ManyToManyAssociationField('cartPromotions', PromotionDefinition::class, PromotionCartRuleDefinition::class, 'rule_id', 'promotion_id')->addFlags(new RestrictDelete(), new RuleAreas(RuleAreas::PROMOTION_AREA)),
+            new ManyToManyAssociationField('promotionDiscounts', PromotionDiscountDefinition::class, PromotionDiscountRuleDefinition::class, 'rule_id', 'discount_id')->addFlags(new RestrictDelete(), new RuleAreas(RuleAreas::PROMOTION_AREA)),
+            new ManyToManyAssociationField('promotionSetGroups', PromotionSetGroupDefinition::class, PromotionSetGroupRuleDefinition::class, 'rule_id', 'setgroup_id')->addFlags(new RestrictDelete(), new RuleAreas(RuleAreas::PROMOTION_AREA)),
         ]);
     }
 }

@@ -51,7 +51,7 @@ class RateLimiterFactory
         $lock = $this->lockFactory ? $this->lockFactory->createLock($id) : new NoLock();
 
         if (isset($this->config['reset']) && !($this->config['reset'] instanceof \DateInterval)) {
-            $this->config['reset'] = (new \DateTimeImmutable())->diff(new \DateTimeImmutable('+' . $this->config['reset']));
+            $this->config['reset'] = new \DateTimeImmutable()->diff(new \DateTimeImmutable('+' . $this->config['reset']));
         }
 
         if ($this->config['policy'] === 'time_backoff' && isset($this->config['limits']) && isset($this->config['reset'])) {

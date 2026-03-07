@@ -52,13 +52,13 @@ class DocumentGeneratorController extends AbstractController
         $operations = [];
         $definition = new DataValidationDefinition();
 
-        $itemDefinition = (new DataValidationDefinition())
+        $itemDefinition = new DataValidationDefinition()
             ->add('orderId', new NotBlank(), new Type('string'))
             ->add('fileType', new Choice(choices: [PdfRenderer::FILE_EXTENSION]))
             ->add('static', new Type('bool'))
             ->add('referencedDocumentId', new Uuid());
 
-        $configDefinition = (new DataValidationDefinition())
+        $configDefinition = new DataValidationDefinition()
             ->add('documentNumber', new Type('string'))
             ->add('documentDate', new Type('string'));
 

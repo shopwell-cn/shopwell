@@ -22,7 +22,7 @@ class ReferenceVersionField extends FkField
     ) {
         $entity = $definition;
         if (\is_subclass_of($definition, EntityDefinition::class)) {
-            $entity = (new $definition())->getEntityName();
+            $entity = new $definition()->getEntityName();
         }
 
         $storageName ??= $entity . '_version_id';

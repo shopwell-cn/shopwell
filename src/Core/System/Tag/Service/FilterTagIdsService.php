@@ -75,7 +75,7 @@ class FilterTagIdsService
         $query->setMaxResults(null);
         $query->setFirstResult(0);
 
-        $total = (new QueryBuilder($this->connection))
+        $total = new QueryBuilder($this->connection)
             ->select('COUNT(*)')
             ->from(\sprintf('(%s) total', $query->getSQL()))
             ->setParameters($query->getParameters(), $query->getParameterTypes());
@@ -92,7 +92,7 @@ class FilterTagIdsService
             $mappingTable = EntityDefinitionQueryHelper::escape($manyToManyField->getMappingDefinition()->getEntityName());
             $mappingLocalColumn = EntityDefinitionQueryHelper::escape($manyToManyField->getMappingLocalColumn());
 
-            $subQuery = (new QueryBuilder($this->connection))
+            $subQuery = new QueryBuilder($this->connection)
                 ->select($mappingLocalColumn)
                 ->from($mappingTable);
 
@@ -102,7 +102,7 @@ class FilterTagIdsService
 
     private function addDuplicateFilter(QueryBuilder $query): void
     {
-        $subQuery = (new QueryBuilder($this->connection))
+        $subQuery = new QueryBuilder($this->connection)
             ->select('name')
             ->from('tag')
             ->groupBy('name')
@@ -133,7 +133,7 @@ class FilterTagIdsService
             $mappingTable = EntityDefinitionQueryHelper::escape($manyToManyField->getMappingDefinition()->getEntityName());
             $mappingLocalColumn = EntityDefinitionQueryHelper::escape($manyToManyField->getMappingLocalColumn());
 
-            $subQuery = (new QueryBuilder($this->connection))
+            $subQuery = new QueryBuilder($this->connection)
                 ->select($mappingLocalColumn)
                 ->from($mappingTable);
 

@@ -46,13 +46,13 @@ class LandingPageTranslationDefinition extends EntityTranslationDefinition
     protected function defineFields(): FieldCollection
     {
         return new FieldCollection([
-            (new StringField('name', 'name'))->addFlags(new ApiAware(), new Required()),
-            (new StringField('url', 'url'))->addFlags(new ApiAware(), new Required()),
-            (new JsonField('slot_config', 'slotConfig'))->addFlags(new ApiAware()),
-            (new LongTextField('meta_title', 'metaTitle'))->addFlags(new ApiAware()),
-            (new LongTextField('meta_description', 'metaDescription'))->addFlags(new ApiAware()),
-            (new LongTextField('keywords', 'keywords'))->addFlags(new ApiAware()),
-            (new CustomFields())->addFlags(new ApiAware()),
+            new StringField('name', 'name')->addFlags(new ApiAware(), new Required()),
+            new StringField('url', 'url')->addFlags(new ApiAware(), new Required()),
+            new JsonField('slot_config', 'slotConfig')->addFlags(new ApiAware()),
+            new LongTextField('meta_title', 'metaTitle')->addFlags(new ApiAware()),
+            new LongTextField('meta_description', 'metaDescription')->addFlags(new ApiAware()),
+            new LongTextField('keywords', 'keywords')->addFlags(new ApiAware()),
+            new CustomFields()->addFlags(new ApiAware()),
         ]);
     }
 }

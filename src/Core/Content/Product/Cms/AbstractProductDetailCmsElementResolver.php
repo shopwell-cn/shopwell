@@ -63,7 +63,7 @@ abstract class AbstractProductDetailCmsElementResolver extends AbstractCmsElemen
 
     private function createBestVariantCriteria(string $productId): Criteria
     {
-        $criteria = (new Criteria())
+        $criteria = new Criteria()
             ->addFilter(new OrFilter([
                 new EqualsFilter('product.parentId', $productId),
                 new EqualsFilter('id', $productId),

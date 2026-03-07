@@ -152,7 +152,7 @@ abstract class AbstractAdminIndexer
             return null;
         }
 
-        return (new \DateTime((string) $row[$key]))->format(Defaults::STORAGE_DATE_TIME_FORMAT);
+        return new \DateTime((string) $row[$key])->format(Defaults::STORAGE_DATE_TIME_FORMAT);
     }
 
     /**

@@ -67,7 +67,7 @@ class UserCredentialsChangedSubscriber implements EventSubscriberInterface
     private function updateLastUpdatedPasswordTimestamp(string $userId): void
     {
         $this->connection->update('user', [
-            'last_updated_password_at' => (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT),
+            'last_updated_password_at' => new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT),
         ], [
             'id' => Uuid::fromHexToBytes($userId),
         ]);

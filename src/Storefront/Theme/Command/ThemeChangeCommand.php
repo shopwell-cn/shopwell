@@ -79,7 +79,7 @@ class ThemeChangeCommand extends Command
         }
         \assert(\is_string($themeName));
 
-        $criteria = (new Criteria())
+        $criteria = new Criteria()
             ->addFilter(new EqualsFilter('typeId', Defaults::SALES_CHANNEL_TYPE_STOREFRONT));
 
         $salesChannels = $this->salesChannelRepository->search($criteria, $this->context)->getEntities();
@@ -105,7 +105,7 @@ class ThemeChangeCommand extends Command
             $selectedSalesChannel = [$salesChannels->get($salesChannelOption)];
         }
 
-        $criteria = (new Criteria())
+        $criteria = new Criteria()
             ->addFilter(new EqualsFilter('technicalName', $themeName));
 
         $theme = $this->themeRepository->search($criteria, $this->context)->getEntities()->first();
