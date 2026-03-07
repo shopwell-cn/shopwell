@@ -55,8 +55,6 @@ class CurrencyEntity extends Entity
 
     protected CashRoundingConfig $totalRounding;
 
-    protected ?float $taxFreeFrom = null;
-
     public function getIsoCode(): string
     {
         return $this->isoCode;
@@ -225,15 +223,5 @@ class CurrencyEntity extends Entity
     public function setTotalRounding(CashRoundingConfig $totalRounding): void
     {
         $this->totalRounding = $totalRounding;
-    }
-
-    public function getTaxFreeFrom(): ?float
-    {
-        return $this->taxFreeFrom;
-    }
-
-    public function setTaxFreeFrom(?float $taxFreeFrom): void
-    {
-        $this->taxFreeFrom = $taxFreeFrom;
     }
 }

@@ -35,17 +35,7 @@ class CountryEntity extends Entity
 
     protected bool $displayStateInRegistration;
 
-    protected bool $forceStateInRegistration;
-
-    protected bool $checkVatIdPattern;
-
-    protected ?string $vatIdPattern = null;
-
-    protected ?bool $vatIdRequired = null;
-
     protected TaxFreeConfig $customerTax;
-
-    protected TaxFreeConfig $companyTax;
 
     protected ?CountryStateCollection $states = null;
 
@@ -64,8 +54,6 @@ class CountryEntity extends Entity
     protected ?CurrencyCountryRoundingCollection $currencyCountryRoundings = null;
 
     protected bool $postalCodeRequired;
-
-    protected bool $isEu;
 
     protected bool $checkPostalCodePattern;
 
@@ -148,36 +136,6 @@ class CountryEntity extends Entity
     public function setDisplayStateInRegistration(bool $displayStateInRegistration): void
     {
         $this->displayStateInRegistration = $displayStateInRegistration;
-    }
-
-    public function getForceStateInRegistration(): bool
-    {
-        return $this->forceStateInRegistration;
-    }
-
-    public function setForceStateInRegistration(bool $forceStateInRegistration): void
-    {
-        $this->forceStateInRegistration = $forceStateInRegistration;
-    }
-
-    public function getCheckVatIdPattern(): bool
-    {
-        return $this->checkVatIdPattern;
-    }
-
-    public function setCheckVatIdPattern(bool $checkVatIdPattern): void
-    {
-        $this->checkVatIdPattern = $checkVatIdPattern;
-    }
-
-    public function getVatIdPattern(): ?string
-    {
-        return $this->vatIdPattern;
-    }
-
-    public function setVatIdPattern(?string $vatIdPattern): void
-    {
-        $this->vatIdPattern = $vatIdPattern;
     }
 
     public function getStates(): ?CountryStateCollection
@@ -354,15 +312,5 @@ class CountryEntity extends Entity
     public function getDefaultPostalCodePattern(): ?string
     {
         return $this->defaultPostalCodePattern;
-    }
-
-    public function getIsEu(): bool
-    {
-        return $this->isEu;
-    }
-
-    public function setIsEu(bool $isEu): void
-    {
-        $this->isEu = $isEu;
     }
 }

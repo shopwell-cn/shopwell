@@ -67,7 +67,6 @@ class CurrencyDefinition extends EntityDefinition
             (new TranslatedField('name'))->addFlags(new ApiAware(), new SearchRanking(SearchRanking::HIGH_SEARCH_RANKING)),
             (new IntField('position', 'position'))->addFlags(new ApiAware())->setDescription('The order of the tabs for multiple currencies defined.'),
             (new BoolField('is_system_default', 'isSystemDefault'))->addFlags(new ApiAware(), new Runtime()),
-            (new FloatField('tax_free_from', 'taxFreeFrom'))->addFlags(new ApiAware())->setDescription('The value from which the tax must be exempted.'),
             (new TranslatedField('customFields'))->addFlags(new ApiAware()),
             (new TranslationsAssociationField(CurrencyTranslationDefinition::class, 'currency_id'))->addFlags(new Required()),
             (new OneToManyAssociationField('salesChannelDefaultAssignments', SalesChannelDefinition::class, 'currency_id', 'id'))->addFlags(new RestrictDelete()),

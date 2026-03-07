@@ -101,12 +101,6 @@
             <tag name="shopwell.payment.method"/>
         </service>
 
-        <service id="Shopwell\Core\Checkout\Payment\Cart\PaymentHandler\DebitPayment">
-            <argument type="service" id="Shopwell\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler"/>
-
-            <tag name="shopwell.payment.method"/>
-        </service>
-
         <service id="Shopwell\Core\Checkout\Payment\Cart\PaymentHandler\CashPayment">
             <argument type="service" id="Shopwell\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler"/>
 
