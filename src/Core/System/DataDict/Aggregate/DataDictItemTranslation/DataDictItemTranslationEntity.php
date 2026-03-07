@@ -10,4 +10,7 @@ use Shopwell\Core\Framework\Log\Package;
 class DataDictItemTranslationEntity extends TranslationEntity
 {
     use EntityCustomFieldsTrait;
+
+    public ?string $name;
+    public ?string $description;
 }

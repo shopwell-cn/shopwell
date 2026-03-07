@@ -2,13 +2,21 @@
 
 namespace Shopwell\Core\System\DataDict;
 
+use Shopwell\Core\Framework\Context;
+use Shopwell\Core\Framework\DataAbstractionLayer\EntityRepository;
+use Shopwell\Core\Framework\DataAbstractionLayer\Search\Criteria;
+use Shopwell\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Plugin\Exception\DecorationPatternException;
 
 #[Package('data-services')]
 class DataDictLoader extends AbstractDataDictLoader
 {
+    /**
+     * @param EntityRepository<DataDictGroupCollection> $dictGroupRepository
+     */
     public function __construct(
+        private readonly EntityRepository $dictGroupRepository,
     ) {
     }
 
@@ -19,6 +27,16 @@ class DataDictLoader extends AbstractDataDictLoader
 
     public function load(): array
     {
+        $criteria = new Criteria()
+            ->addAssociation('translations')
+            ->addAssociation('items')
+            ->addFilter(
+                new EqualsFilter('active', true),
+                new EqualsFilter('items.active', true)
+            );
+
+        $this->dictGroupRepository->search($criteria, Context::createDefaultContext())->getElements();
+
         return [];
     }
 }
