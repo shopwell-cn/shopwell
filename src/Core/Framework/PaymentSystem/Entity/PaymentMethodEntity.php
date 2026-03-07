@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Shopwell\Core\Framework\PaymentSystem\Gateway\Entity;
+namespace Shopwell\Core\Framework\PaymentSystem\Entity;
 
 use Shopwell\Core\Framework\DataAbstractionLayer\Attribute\Entity;
 use Shopwell\Core\Framework\DataAbstractionLayer\Attribute\Field;
@@ -11,8 +11,8 @@ use Shopwell\Core\Framework\DataAbstractionLayer\EntityCustomFieldsTrait;
 use Shopwell\Core\Framework\Log\Package;
 
 #[Package('framework')]
-#[Entity('payment_gateway', since: '6.7.1.0')]
-class GatewayEntity extends EntityStruct
+#[Entity('payment_method', since: '6.7.1.0')]
+class PaymentMethodEntity extends EntityStruct
 {
     use EntityCustomFieldsTrait;
 

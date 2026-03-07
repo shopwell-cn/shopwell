@@ -5,14 +5,21 @@ namespace Shopwell\Core\System\DataDict;
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityDefinition;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\BoolField;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\Flag\ApiAware;
+use Shopwell\Core\Framework\DataAbstractionLayer\Field\Flag\CascadeDelete;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\Flag\IgnoreInOpenapiSchema;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\Flag\PrimaryKey;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\Flag\Required;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\Flag\SearchRanking;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\IdField;
+use Shopwell\Core\Framework\DataAbstractionLayer\Field\OneToManyAssociationField;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\StringField;
+use Shopwell\Core\Framework\DataAbstractionLayer\Field\TranslatedField;
+use Shopwell\Core\Framework\DataAbstractionLayer\Field\TranslationsAssociationField;
 use Shopwell\Core\Framework\DataAbstractionLayer\FieldCollection;
 use Shopwell\Core\Framework\Log\Package;
+use Shopwell\Core\System\DataDict\Aggregate\DataDictGroupTranslation\DataDictGroupTranslationDefinition;
+use Shopwell\Core\System\DataDict\Aggregate\DataDictItem\DataDictItemDefinition;
+use Shopwell\Core\System\DataDict\Aggregate\DataDictItemTranslation\DataDictItemTranslationDefinition;
 
 #[Package('data-services')]
 class DataDictGroupDefinition extends EntityDefinition
@@ -50,6 +57,11 @@ class DataDictGroupDefinition extends EntityDefinition
             new IdField('id', 'id')->addFlags(new Required(), new PrimaryKey()),
             new StringField('code', 'code')->addFlags(new ApiAware(), new Required(), new IgnoreInOpenapiSchema(), new SearchRanking(SearchRanking::HIGH_SEARCH_RANKING)),
             new BoolField('active', 'active')->addFlags(new ApiAware())->setDescription('To keep the status of the data dict active, the boolean value is set to `true`.'),
+            new TranslatedField('customFields')->addFlags(new ApiAware()),
+            new TranslatedField('name')->addFlags(new ApiAware(), new SearchRanking(SearchRanking::HIGH_SEARCH_RANKING)),
+            new TranslatedField('description')->addFlags(new ApiAware()),
+            new TranslationsAssociationField(DataDictGroupTranslationDefinition::class, 'data_dict_group_id')->addFlags(new Required(), new CascadeDelete()),
+            new OneToManyAssociationField('items', DataDictItemDefinition::class, 'group_id', 'id')->addFlags(new ApiAware(), new CascadeDelete())->setDescription('All addresses saved for the customer'),
         ]);
     }
 }

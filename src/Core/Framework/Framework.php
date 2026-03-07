@@ -40,6 +40,7 @@ use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Extension\Extension;
+use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 
 /**
@@ -63,9 +64,11 @@ class Framework extends Bundle
      */
     public function build(ContainerBuilder $container): void
     {
-        $container->setParameter('locale', 'en-GB');
+        $container->setParameter('locale', 'zh-CN');
 
-        $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/DependencyInjection/'));
+        $configLocator = new FileLocator(__DIR__ . '/DependencyInjection/');
+
+        $loader = new XmlFileLoader($container, $configLocator);
         $loader->load('services.xml');
         $loader->load('acl.xml');
         $loader->load('cache.xml');
@@ -93,6 +96,9 @@ class Framework extends Bundle
         $loader->load('telemetry.xml');
         $loader->load('notification.xml');
         $loader->load('sso.xml');
+
+        $phpLoader = new PhpFileLoader($container, $configLocator);
+        $phpLoader->load('payment-system.php');
 
         if ($container->getParameter('kernel.environment') === 'test') {
             $loader->load('services_test.xml');

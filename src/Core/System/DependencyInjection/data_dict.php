@@ -9,8 +9,11 @@ use Shopwell\Core\Framework\DataAbstractionLayer\Indexing\ChildCountUpdater;
 use Shopwell\Core\Framework\DataAbstractionLayer\Indexing\TreeUpdater;
 use Shopwell\Core\System\DataDict\Aggregate\DataDictGroupTranslation\DataDictGroupTranslationDefinition;
 use Shopwell\Core\System\DataDict\Aggregate\DataDictItemTranslation\DataDictItemTranslationDefinition;
+use Shopwell\Core\System\DataDict\CachedDataDictLoader;
 use Shopwell\Core\System\DataDict\DataAbstractionLayer\DataDictItemIndexer;
 use Shopwell\Core\System\DataDict\DataDictGroupDefinition;
+use Shopwell\Core\System\DataDict\DataDictLoader;
+use Shopwell\Core\System\DataDict\DataDictService;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
@@ -32,5 +35,22 @@ return function (ContainerConfigurator $container): void {
             service(TreeUpdater::class),
             service('event_dispatcher'),
             service('messenger.default_bus'),
+        ]);
+
+    $services->set(DataDictLoader::class)
+        ->args([
+            service('data_dict_group.repository')
+        ]);
+
+    $services->set(CachedDataDictLoader::class)
+        ->decorate(DataDictLoader::class)
+        ->args([
+            service(CachedDataDictLoader::class.'.inner'),
+            service('cache.object'),
+        ]);
+
+    $services->set(DataDictService::class)
+        ->args([
+            service(DataDictLoader::class)
         ]);
 };

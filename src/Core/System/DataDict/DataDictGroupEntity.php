@@ -6,6 +6,7 @@ use Shopwell\Core\Framework\DataAbstractionLayer\Entity;
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityCustomFieldsTrait;
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityIdTrait;
 use Shopwell\Core\Framework\Log\Package;
+use Shopwell\Core\System\DataDict\Aggregate\DataDictItem\DataDictItemCollection;
 
 #[Package('data-services')]
 class DataDictGroupEntity extends Entity
@@ -16,4 +17,6 @@ class DataDictGroupEntity extends Entity
     public string $code;
 
     public int $position;
+
+    public ?DataDictItemCollection $items = null;
 }
