@@ -64,7 +64,7 @@ class HealthCheckController
 
         $result = $this->systemChecker->check($executionContext);
 
-        return (new JsonResponse(['checks' => $result]))->setPrivate();
+        return new JsonResponse(['checks' => $result])->setPrivate();
     }
 
     /**

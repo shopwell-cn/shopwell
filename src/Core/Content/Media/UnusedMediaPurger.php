@@ -153,7 +153,7 @@ class UnusedMediaPurger
             return $mediaIds;
         }
 
-        $maxUploadedAt = (new \DateTime())->sub(new \DateInterval(\sprintf('P%dD', $gracePeriodDays)));
+        $maxUploadedAt = new \DateTime()->sub(new \DateInterval(\sprintf('P%dD', $gracePeriodDays)));
         $rangeFilter = new RangeFilter('uploadedAt', ['lt' => $maxUploadedAt->format(Defaults::STORAGE_DATE_TIME_FORMAT)]);
 
         $criteria = new Criteria($mediaIds);

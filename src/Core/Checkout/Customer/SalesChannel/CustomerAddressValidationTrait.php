@@ -14,7 +14,7 @@ trait CustomerAddressValidationTrait
 {
     private function validateAddress(string $id, SalesChannelContext $context, CustomerEntity $customer): void
     {
-        $criteria = (new Criteria([$id]))
+        $criteria = new Criteria([$id])
             ->addFilter(new EqualsFilter('customerId', $customer->getId()));
 
         $total = $this->addressRepository->searchIds($criteria, $context->getContext())->getTotal();

@@ -41,9 +41,9 @@ final readonly class HasValidRSAJWKSignature implements Constraint
         $signer = $this->getSigner($token->headers()->get('alg'));
 
         if (Feature::isActive('v6.8.0.0')) {
-            (new SignedWith($signer, InMemory::plainText($pem)))->assert($token);
+            new SignedWith($signer, InMemory::plainText($pem))->assert($token);
         } else {
-            (new Validator())->assert($token, new SignedWith($signer, InMemory::plainText($pem)));
+            new Validator()->assert($token, new SignedWith($signer, InMemory::plainText($pem)));
         }
     }
 

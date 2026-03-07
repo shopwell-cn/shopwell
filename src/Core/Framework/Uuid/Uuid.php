@@ -37,7 +37,7 @@ class Uuid
     public static function randomBytes(): string
     {
         if (self::$generator === null) {
-            self::$generator = new UnixTimeGenerator((new RandomGeneratorFactory())->getGenerator());
+            self::$generator = new UnixTimeGenerator(new RandomGeneratorFactory()->getGenerator());
         }
         $bytes = self::$generator->generate();
 

@@ -36,11 +36,11 @@ class ProductCategoryTreeDefinition extends MappingEntityDefinition
     protected function defineFields(): FieldCollection
     {
         return new FieldCollection([
-            (new FkField('product_id', 'productId', ProductDefinition::class))->addFlags(new PrimaryKey(), new Required()),
-            (new ReferenceVersionField(ProductDefinition::class))->addFlags(new PrimaryKey(), new Required()),
+            new FkField('product_id', 'productId', ProductDefinition::class)->addFlags(new PrimaryKey(), new Required()),
+            new ReferenceVersionField(ProductDefinition::class)->addFlags(new PrimaryKey(), new Required()),
 
-            (new FkField('category_id', 'categoryId', CategoryDefinition::class))->addFlags(new PrimaryKey(), new Required()),
-            (new ReferenceVersionField(CategoryDefinition::class))->addFlags(new PrimaryKey(), new Required()),
+            new FkField('category_id', 'categoryId', CategoryDefinition::class)->addFlags(new PrimaryKey(), new Required()),
+            new ReferenceVersionField(CategoryDefinition::class)->addFlags(new PrimaryKey(), new Required()),
             new ManyToOneAssociationField('product', 'product_id', ProductDefinition::class, 'id', false),
             new ManyToOneAssociationField('category', 'category_id', CategoryDefinition::class, 'id', false),
         ]);

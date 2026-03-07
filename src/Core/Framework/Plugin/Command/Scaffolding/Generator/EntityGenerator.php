@@ -165,7 +165,7 @@ class EntityGenerator implements ScaffoldingGenerator
 
     private function getTableName(string $entityName): string
     {
-        return (new CamelCaseToSnakeCaseNameConverter())->normalize($entityName);
+        return new CamelCaseToSnakeCaseNameConverter()->normalize($entityName);
     }
 
     private function askForEntities(SymfonyStyle $io): ?string

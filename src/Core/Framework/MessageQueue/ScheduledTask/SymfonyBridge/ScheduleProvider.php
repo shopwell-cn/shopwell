@@ -53,7 +53,7 @@ class ScheduleProvider implements ScheduleProviderInterface
 
         $lock = $this->lockFactory->createLock('scheduled-task-shopwell');
 
-        return (new Schedule())
+        return new Schedule()
             ->with(...$schedules)
             ->stateful($this->cache)
             ->lock($lock);

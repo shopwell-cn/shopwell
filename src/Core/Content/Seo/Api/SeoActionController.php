@@ -310,8 +310,8 @@ class SeoActionController extends AbstractController
     private function resolveSalesChannel(array $seoUrlTemplate, Context $context): ?SalesChannelEntity
     {
         $criteria = isset($seoUrlTemplate['salesChannelId']) && \is_string($seoUrlTemplate['salesChannelId'])
-            ? (new Criteria([$seoUrlTemplate['salesChannelId']]))->setLimit(1)
-            : (new Criteria())->addFilter(new EqualsFilter('typeId', Defaults::SALES_CHANNEL_TYPE_STOREFRONT))->setLimit(1);
+            ? new Criteria([$seoUrlTemplate['salesChannelId']])->setLimit(1)
+            : new Criteria()->addFilter(new EqualsFilter('typeId', Defaults::SALES_CHANNEL_TYPE_STOREFRONT))->setLimit(1);
 
         return $this->salesChannelRepository
             ->search($criteria, $context)

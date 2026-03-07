@@ -245,7 +245,7 @@ class SetPaymentOrderRoute extends AbstractSetPaymentOrderRoute
 
     private function loadOrder(string $orderId, SalesChannelContext $context): OrderEntity
     {
-        $criteria = (new Criteria([$orderId]))
+        $criteria = new Criteria([$orderId])
             ->addAssociation('transactions')
             ->addAssociation('primaryOrderTransaction.stateMachineState');
 

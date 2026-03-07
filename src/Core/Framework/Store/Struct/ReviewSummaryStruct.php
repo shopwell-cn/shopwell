@@ -21,7 +21,7 @@ class ReviewSummaryStruct extends StoreStruct
      */
     public static function fromArray(array $data): StoreStruct
     {
-        return (new self())->assign($data);
+        return new self()->assign($data);
     }
 
     /**

@@ -30,8 +30,8 @@ class PromotionDiscountRuleDefinition extends MappingEntityDefinition
     protected function defineFields(): FieldCollection
     {
         return new FieldCollection([
-            (new FkField('discount_id', 'discountId', PromotionDiscountDefinition::class))->addFlags(new PrimaryKey(), new Required()),
-            (new FkField('rule_id', 'ruleId', RuleDefinition::class))->addFlags(new PrimaryKey(), new Required()),
+            new FkField('discount_id', 'discountId', PromotionDiscountDefinition::class)->addFlags(new PrimaryKey(), new Required()),
+            new FkField('rule_id', 'ruleId', RuleDefinition::class)->addFlags(new PrimaryKey(), new Required()),
             new ManyToOneAssociationField('discount', 'discount_id', PromotionDiscountDefinition::class, 'id'),
             new ManyToOneAssociationField('rule', 'rule_id', RuleDefinition::class, 'id'),
         ]);

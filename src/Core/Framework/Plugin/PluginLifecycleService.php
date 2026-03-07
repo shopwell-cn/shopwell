@@ -701,7 +701,7 @@ class PluginLifecycleService
         $names = array_map(static fn (Plugin $plugin) => $plugin->getName(), $plugins);
 
         return $this->pluginRepo->search(
-            (new Criteria())->addFilter(new EqualsAnyFilter('name', $names)),
+            new Criteria()->addFilter(new EqualsAnyFilter('name', $names)),
             $context
         );
     }

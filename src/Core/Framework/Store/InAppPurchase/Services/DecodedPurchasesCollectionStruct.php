@@ -29,6 +29,6 @@ class DecodedPurchasesCollectionStruct extends Collection
             return $dto;
         }, $data)];
 
-        return (new self())->assign($elements);
+        return new self()->assign($elements);
     }
 }

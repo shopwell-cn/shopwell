@@ -116,7 +116,7 @@ class TaskScheduler
                             new RangeFilter(
                                 'nextExecutionTime',
                                 [
-                                    RangeFilter::LT => (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT),
+                                    RangeFilter::LT => new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT),
                                 ]
                             ),
                             new EqualsAnyFilter('status', [
@@ -132,7 +132,7 @@ class TaskScheduler
                             new RangeFilter(
                                 'updatedAt',
                                 [
-                                    RangeFilter::LT => (new \DateTime())
+                                    RangeFilter::LT => new \DateTime()
                                         ->modify(\sprintf('-%d hours', $this->requeueTimeout))
                                         ->format(Defaults::STORAGE_DATE_TIME_FORMAT),
                                 ]

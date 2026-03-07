@@ -39,7 +39,7 @@ class CartTransformer
         ];
 
         if ($setOrderDate) {
-            $data['orderDateTime'] = (new \DateTimeImmutable())->format(Defaults::STORAGE_DATE_TIME_FORMAT);
+            $data['orderDateTime'] = new \DateTimeImmutable()->format(Defaults::STORAGE_DATE_TIME_FORMAT);
             $data['deepLinkCode'] = Random::getBase64UrlString(32);
         }
 

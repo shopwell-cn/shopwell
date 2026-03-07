@@ -184,7 +184,7 @@ abstract class EntityDefinition
             if ($field instanceof TranslationsAssociationField) {
                 $this->translationField = $field;
                 $fields->add(
-                    (new JsonField('translated', 'translated'))->addFlags(new ApiAware(), new Computed(), new Runtime())
+                    new JsonField('translated', 'translated')->addFlags(new ApiAware(), new Computed(), new Runtime())
                 );
 
                 break;
@@ -427,8 +427,8 @@ abstract class EntityDefinition
     protected function defaultFields(): array
     {
         return [
-            (new CreatedAtField())->addFlags(new ApiAware()),
-            (new UpdatedAtField())->addFlags(new ApiAware()),
+            new CreatedAtField()->addFlags(new ApiAware()),
+            new UpdatedAtField()->addFlags(new ApiAware()),
         ];
     }
 

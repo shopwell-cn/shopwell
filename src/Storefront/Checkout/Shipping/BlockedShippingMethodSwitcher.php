@@ -56,7 +56,7 @@ class BlockedShippingMethodSwitcher
     private function getShippingMethodToChangeTo(ErrorCollection $errors, SalesChannelContext $salesChannelContext): ?ShippingMethodEntity
     {
         $request = new Request(['onlyAvailable' => true]);
-        $criteria = (new Criteria([$salesChannelContext->getSalesChannel()->getShippingMethodId()]))
+        $criteria = new Criteria([$salesChannelContext->getSalesChannel()->getShippingMethodId()])
             ->setLimit(1);
 
         if (Feature::isActive('v6.8.0.0')) {
@@ -73,7 +73,7 @@ class BlockedShippingMethodSwitcher
             }
 
             // Default excluded take next shipping method
-            $criteria = (new Criteria())
+            $criteria = new Criteria()
                 ->addFilter(new NotEqualsAnyFilter('id', $blockedShippingMethodIds));
         } else {
             $blockedShippingMethodNames = $errors->fmap(static fn (Error $error) => $error instanceof ShippingMethodBlockedError ? $error->getName() : null);
@@ -89,7 +89,7 @@ class BlockedShippingMethodSwitcher
             }
 
             // Default excluded take next shipping method
-            $criteria = (new Criteria())
+            $criteria = new Criteria()
                 ->addFilter(new NotEqualsAnyFilter('name', $blockedShippingMethodNames));
         }
 

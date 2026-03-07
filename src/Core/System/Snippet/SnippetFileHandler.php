@@ -89,7 +89,7 @@ class SnippetFileHandler
             return null;
         }
 
-        return \dirname((string) (new \ReflectionClass($bundleClass))->getFileName());
+        return \dirname((string) new \ReflectionClass($bundleClass)->getFileName());
     }
 
     /**
@@ -97,7 +97,7 @@ class SnippetFileHandler
      */
     private function findSnippetFilesByPath(string $path, string $pattern = SnippetPatterns::CORE_SNIPPET_FILE_PATTERN): array
     {
-        $finder = (new Finder())
+        $finder = new Finder()
             ->files()
             ->in($path)
             ->ignoreUnreadableDirs()

@@ -82,7 +82,7 @@ class OrderPaymentMethodChangedEvent extends Event implements SalesChannelAware,
 
     public static function getAvailableData(): EventDataCollection
     {
-        return (new EventDataCollection())
+        return new EventDataCollection()
             ->add('order', new EntityType(OrderDefinition::class))
             ->add('orderTransaction', new EntityType(OrderTransactionDefinition::class));
     }

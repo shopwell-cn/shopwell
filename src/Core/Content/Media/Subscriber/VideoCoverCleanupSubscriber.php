@@ -58,7 +58,7 @@ class VideoCoverCleanupSubscriber implements EventSubscriberInterface
             new MultiFilter(MultiFilter::CONNECTION_OR, $coverIdFilters),
         ];
 
-        $criteria = (new Criteria())->addFilter(new MultiFilter(MultiFilter::CONNECTION_AND, $filters));
+        $criteria = new Criteria()->addFilter(new MultiFilter(MultiFilter::CONNECTION_AND, $filters));
 
         $mediaWithMetaData = $this->mediaRepository->search($criteria, $event->getContext());
 

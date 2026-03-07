@@ -28,7 +28,7 @@ class DatabaseLog implements ConsentLogInterface
 
         $this->connection->insert('consent_log', [
             'consent_name' => $consentName,
-            'timestamp' => (new \DateTimeImmutable())->format(Defaults::STORAGE_DATE_TIME_FORMAT),
+            'timestamp' => new \DateTimeImmutable()->format(Defaults::STORAGE_DATE_TIME_FORMAT),
             'message' => \json_encode($logEntry),
         ]);
     }

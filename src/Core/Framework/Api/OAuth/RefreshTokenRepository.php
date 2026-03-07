@@ -49,7 +49,7 @@ class RefreshTokenRepository implements RefreshTokenRepositoryInterface
                     'id' => Uuid::randomBytes(),
                     'userId' => Uuid::fromHexToBytes($userIdentifier),
                     'tokenId' => $refreshTokenEntity->getIdentifier(),
-                    'issuedAt' => (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT),
+                    'issuedAt' => new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT),
                     'expiresAt' => $refreshTokenEntity->getExpiryDateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT),
                 ])
                 ->executeStatement();
@@ -106,7 +106,7 @@ class RefreshTokenRepository implements RefreshTokenRepositoryInterface
 
     private function cleanUpExpiredRefreshTokens(): void
     {
-        $now = (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT);
+        $now = new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT);
 
         $this->connection->createQueryBuilder()
             ->delete('refresh_token')

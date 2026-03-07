@@ -27,7 +27,7 @@ class GenericPageLoader implements GenericPageLoaderInterface
         return Profiler::trace('generic-page-loader', function () use ($request, $context) {
             $page = new Page();
 
-            $page->setMetaInformation((new MetaInformation())->assign([
+            $page->setMetaInformation(new MetaInformation()->assign([
                 'revisit' => '15 days',
                 'robots' => $this->systemConfigService->getString('core.basicInformation.metaRobots', $context->getSalesChannel()->getId()) ?: 'index,follow',
                 'xmlLang' => $request->attributes->get(SalesChannelRequest::ATTRIBUTE_DOMAIN_LOCALE) ?? '',

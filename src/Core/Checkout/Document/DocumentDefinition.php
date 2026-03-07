@@ -56,29 +56,29 @@ class DocumentDefinition extends EntityDefinition
     protected function defineFields(): FieldCollection
     {
         $collection = new FieldCollection([
-            (new IdField('id', 'id'))->addFlags(new ApiAware(), new PrimaryKey(), new Required()),
+            new IdField('id', 'id')->addFlags(new ApiAware(), new PrimaryKey(), new Required()),
 
-            (new FkField('document_type_id', 'documentTypeId', DocumentTypeDefinition::class))->addFlags(new ApiAware(), new Required()),
-            (new FkField('referenced_document_id', 'referencedDocumentId', self::class))->addFlags(new ApiAware()),
+            new FkField('document_type_id', 'documentTypeId', DocumentTypeDefinition::class)->addFlags(new ApiAware(), new Required()),
+            new FkField('referenced_document_id', 'referencedDocumentId', self::class)->addFlags(new ApiAware()),
 
-            (new FkField('order_id', 'orderId', OrderDefinition::class))->addFlags(new ApiAware(), new Required()),
-            (new FkField('document_media_file_id', 'documentMediaFileId', MediaDefinition::class))->addFlags(new ApiAware()),
-            (new FkField('document_a11y_media_file_id', 'documentA11yMediaFileId', MediaDefinition::class))->addFlags(new ApiAware()),
-            (new ReferenceVersionField(OrderDefinition::class, 'order_version_id'))->addFlags(new ApiAware(), new Required()),
+            new FkField('order_id', 'orderId', OrderDefinition::class)->addFlags(new ApiAware(), new Required()),
+            new FkField('document_media_file_id', 'documentMediaFileId', MediaDefinition::class)->addFlags(new ApiAware()),
+            new FkField('document_a11y_media_file_id', 'documentA11yMediaFileId', MediaDefinition::class)->addFlags(new ApiAware()),
+            new ReferenceVersionField(OrderDefinition::class, 'order_version_id')->addFlags(new ApiAware(), new Required()),
 
-            (new JsonField('config', 'config', [], []))->addFlags(new ApiAware(), new Required()),
-            (new BoolField('sent', 'sent'))->addFlags(new ApiAware()),
-            (new BoolField('static', 'static'))->addFlags(new ApiAware()),
-            (new StringField('deep_link_code', 'deepLinkCode'))->addFlags(new ApiAware(), new Required()),
-            (new NumberRangeField('document_number', 'documentNumber'))->addFlags(new ApiAware(), new SearchRanking(SearchRanking::HIGH_SEARCH_RANKING)),
-            (new CustomFields())->addFlags(new ApiAware()),
+            new JsonField('config', 'config', [], [])->addFlags(new ApiAware(), new Required()),
+            new BoolField('sent', 'sent')->addFlags(new ApiAware()),
+            new BoolField('static', 'static')->addFlags(new ApiAware()),
+            new StringField('deep_link_code', 'deepLinkCode')->addFlags(new ApiAware(), new Required()),
+            new NumberRangeField('document_number', 'documentNumber')->addFlags(new ApiAware(), new SearchRanking(SearchRanking::HIGH_SEARCH_RANKING)),
+            new CustomFields()->addFlags(new ApiAware()),
 
-            (new ManyToOneAssociationField('documentType', 'document_type_id', DocumentTypeDefinition::class, 'id'))->addFlags(new ApiAware(), new SearchRanking(SearchRanking::ASSOCIATION_SEARCH_RANKING)),
-            (new ManyToOneAssociationField('order', 'order_id', OrderDefinition::class, 'id', false))->addFlags(new ApiAware()),
-            (new ManyToOneAssociationField('referencedDocument', 'referenced_document_id', self::class, 'id', false))->addFlags(new ApiAware()),
-            (new OneToManyAssociationField('dependentDocuments', self::class, 'referenced_document_id'))->addFlags(new ApiAware()),
-            (new ManyToOneAssociationField('documentMediaFile', 'document_media_file_id', MediaDefinition::class, 'id', false))->addFlags(new ApiAware()),
-            (new ManyToOneAssociationField('documentA11yMediaFile', 'document_a11y_media_file_id', MediaDefinition::class, 'id', false))->addFlags(new ApiAware()),
+            new ManyToOneAssociationField('documentType', 'document_type_id', DocumentTypeDefinition::class, 'id')->addFlags(new ApiAware(), new SearchRanking(SearchRanking::ASSOCIATION_SEARCH_RANKING)),
+            new ManyToOneAssociationField('order', 'order_id', OrderDefinition::class, 'id', false)->addFlags(new ApiAware()),
+            new ManyToOneAssociationField('referencedDocument', 'referenced_document_id', self::class, 'id', false)->addFlags(new ApiAware()),
+            new OneToManyAssociationField('dependentDocuments', self::class, 'referenced_document_id')->addFlags(new ApiAware()),
+            new ManyToOneAssociationField('documentMediaFile', 'document_media_file_id', MediaDefinition::class, 'id', false)->addFlags(new ApiAware()),
+            new ManyToOneAssociationField('documentA11yMediaFile', 'document_a11y_media_file_id', MediaDefinition::class, 'id', false)->addFlags(new ApiAware()),
         ]);
 
         return $collection;

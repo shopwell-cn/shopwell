@@ -68,7 +68,7 @@ class OrderDocumentTypeSentRule extends FlowRule
 
     public function getConfig(): RuleConfig
     {
-        return (new RuleConfig())
+        return new RuleConfig()
             ->operatorSet(RuleConfig::OPERATOR_SET_STRING, true, true)
             ->entitySelectField('documentIds', DocumentTypeDefinition::ENTITY_NAME, true);
     }

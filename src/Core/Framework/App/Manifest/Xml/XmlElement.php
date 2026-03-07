@@ -58,7 +58,7 @@ abstract class XmlElement extends Struct
 
     public static function kebabCaseToCamelCase(string $string): string
     {
-        return (new CamelCaseToSnakeCaseNameConverter())->denormalize(str_replace('-', '_', $string));
+        return new CamelCaseToSnakeCaseNameConverter()->denormalize(str_replace('-', '_', $string));
     }
 
     /**

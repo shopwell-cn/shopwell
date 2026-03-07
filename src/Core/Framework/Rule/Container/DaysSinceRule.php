@@ -37,7 +37,7 @@ abstract class DaysSinceRule extends Rule
             return false;
         }
 
-        $dateTime = (new \DateTime())
+        $dateTime = new \DateTime()
             ->setTimestamp($date->getTimestamp())
             ->setTime(0, 0);
 
@@ -67,7 +67,7 @@ abstract class DaysSinceRule extends Rule
 
     public function getConfig(): RuleConfig
     {
-        return (new RuleConfig())
+        return new RuleConfig()
             ->operatorSet(RuleConfig::OPERATOR_SET_NUMBER, true)
             ->numberField('daysPassed', ['unit' => RuleConfig::UNIT_TIME]);
     }

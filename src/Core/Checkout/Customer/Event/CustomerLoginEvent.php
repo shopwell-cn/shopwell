@@ -74,7 +74,7 @@ class CustomerLoginEvent extends Event implements SalesChannelAware, ShopwellSal
 
     public static function getAvailableData(): EventDataCollection
     {
-        return (new EventDataCollection())
+        return new EventDataCollection()
             ->add('customer', new EntityType(CustomerDefinition::class))
             ->add('contextToken', new ScalarValueType(ScalarValueType::TYPE_STRING));
     }

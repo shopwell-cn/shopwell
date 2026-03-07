@@ -52,20 +52,20 @@ class LandingPageDefinition extends EntityDefinition
     protected function defineFields(): FieldCollection
     {
         return new FieldCollection([
-            (new IdField('id', 'id'))->addFlags(new ApiAware(), new PrimaryKey(), new Required()),
-            (new VersionField())->addFlags(new ApiAware()),
-            (new BoolField('active', 'active'))->addFlags(new ApiAware()),
-            (new TranslatedField('name'))->addFlags(new ApiAware(), new SearchRanking(SearchRanking::HIGH_SEARCH_RANKING)),
-            (new TranslatedField('customFields'))->addFlags(new ApiAware()),
-            (new TranslatedField('slotConfig'))->addFlags(new ApiAware()),
-            (new TranslatedField('metaTitle'))->addFlags(new ApiAware()),
-            (new TranslatedField('metaDescription'))->addFlags(new ApiAware()),
-            (new TranslatedField('keywords'))->addFlags(new ApiAware()),
-            (new TranslatedField('url'))->addFlags(new ApiAware()),
-            (new TranslationsAssociationField(LandingPageTranslationDefinition::class, 'landing_page_id'))->addFlags(new ApiAware(), new Required()),
-            (new ManyToManyAssociationField('tags', TagDefinition::class, LandingPageTagDefinition::class, 'landing_page_id', 'tag_id'))->addFlags(new CascadeDelete()),
-            (new ManyToManyAssociationField('salesChannels', SalesChannelDefinition::class, LandingPageSalesChannelDefinition::class, 'landing_page_id', 'sales_channel_id'))->addFlags(new CascadeDelete()),
-            (new OneToManyAssociationField('seoUrls', SeoUrlDefinition::class, 'foreign_key'))->addFlags(new ApiAware())->setDescription('SEO-friendly URLs for the landing page across different sales channels'),
+            new IdField('id', 'id')->addFlags(new ApiAware(), new PrimaryKey(), new Required()),
+            new VersionField()->addFlags(new ApiAware()),
+            new BoolField('active', 'active')->addFlags(new ApiAware()),
+            new TranslatedField('name')->addFlags(new ApiAware(), new SearchRanking(SearchRanking::HIGH_SEARCH_RANKING)),
+            new TranslatedField('customFields')->addFlags(new ApiAware()),
+            new TranslatedField('slotConfig')->addFlags(new ApiAware()),
+            new TranslatedField('metaTitle')->addFlags(new ApiAware()),
+            new TranslatedField('metaDescription')->addFlags(new ApiAware()),
+            new TranslatedField('keywords')->addFlags(new ApiAware()),
+            new TranslatedField('url')->addFlags(new ApiAware()),
+            new TranslationsAssociationField(LandingPageTranslationDefinition::class, 'landing_page_id')->addFlags(new ApiAware(), new Required()),
+            new ManyToManyAssociationField('tags', TagDefinition::class, LandingPageTagDefinition::class, 'landing_page_id', 'tag_id')->addFlags(new CascadeDelete()),
+            new ManyToManyAssociationField('salesChannels', SalesChannelDefinition::class, LandingPageSalesChannelDefinition::class, 'landing_page_id', 'sales_channel_id')->addFlags(new CascadeDelete()),
+            new OneToManyAssociationField('seoUrls', SeoUrlDefinition::class, 'foreign_key')->addFlags(new ApiAware())->setDescription('SEO-friendly URLs for the landing page across different sales channels'),
         ]);
     }
 }

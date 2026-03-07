@@ -57,7 +57,7 @@ class LineItemOfTypeRule extends Rule
 
     public function getConfig(): RuleConfig
     {
-        return (new RuleConfig())
+        return new RuleConfig()
             ->operatorSet(RuleConfig::OPERATOR_SET_STRING)
             ->selectField('lineItemType', [LineItem::PRODUCT_LINE_ITEM_TYPE, LineItem::PROMOTION_LINE_ITEM_TYPE]);
     }

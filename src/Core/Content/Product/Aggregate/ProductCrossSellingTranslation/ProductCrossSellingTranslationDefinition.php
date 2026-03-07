@@ -43,7 +43,7 @@ class ProductCrossSellingTranslationDefinition extends EntityTranslationDefiniti
     protected function defineFields(): FieldCollection
     {
         return new FieldCollection([
-            (new StringField('name', 'name'))->addFlags(new ApiAware(), new Required()),
+            new StringField('name', 'name')->addFlags(new ApiAware(), new Required()),
         ]);
     }
 }

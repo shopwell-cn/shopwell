@@ -175,7 +175,7 @@ class ProductDetailRoute extends AbstractProductDetailRoute
      */
     private function findBestVariant(string $productId, SalesChannelContext $context): string
     {
-        $criteria = (new Criteria())
+        $criteria = new Criteria()
             ->addFilter(new EqualsFilter('product.parentId', $productId))
             ->addSorting(new FieldSorting('product.available', FieldSorting::DESCENDING))
             ->addSorting(new FieldSorting('product.price'))
@@ -189,7 +189,7 @@ class ProductDetailRoute extends AbstractProductDetailRoute
 
     private function findBestVariantByTerm(string $term, string $productId, SalesChannelContext $context): ?string
     {
-        $criteria = (new Criteria())
+        $criteria = new Criteria()
             ->addFilter(new EqualsFilter('product.parentId', $productId))
             ->setLimit(1);
 

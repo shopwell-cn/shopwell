@@ -71,7 +71,7 @@ class DeleteUnusedGuestCustomerService
 
     private function getUnusedCustomerCriteria(\DateTime $maxLifeTime): Criteria
     {
-        $criteria = (new Criteria())
+        $criteria = new Criteria()
             ->addAssociation('orderCustomers')
             ->addFilter(new AndFilter([
                 new EqualsFilter('guest', true),

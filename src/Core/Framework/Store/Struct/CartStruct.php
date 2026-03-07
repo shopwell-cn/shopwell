@@ -30,7 +30,7 @@ class CartStruct extends Struct
     {
         $data['positions'] = new CartPositionCollection($data['positions']);
 
-        return (new self())->assign($data);
+        return new self()->assign($data);
     }
 
     public function getNetPrice(): float

@@ -94,7 +94,7 @@ class ExportController
         $encoding = $productExport->getEncoding();
 
         $response = new Response($content ?: null, Response::HTTP_OK, ['Content-Type' => $contentType . ';charset=' . $encoding]);
-        $response->setLastModified((new \DateTimeImmutable())->setTimestamp($this->fileSystem->lastModified($filePath)));
+        $response->setLastModified(new \DateTimeImmutable()->setTimestamp($this->fileSystem->lastModified($filePath)));
         $response->setCharset($encoding);
 
         return $response;

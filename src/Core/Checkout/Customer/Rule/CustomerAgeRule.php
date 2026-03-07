@@ -47,7 +47,7 @@ class CustomerAgeRule extends Rule
             return RuleComparison::isNegativeOperator($this->operator);
         }
 
-        $birthday = (new \DateTime())->setTimestamp($birthday->getTimestamp());
+        $birthday = new \DateTime()->setTimestamp($birthday->getTimestamp());
         $now = new \DateTime();
 
         $age = $now->diff($birthday)->y;
@@ -72,7 +72,7 @@ class CustomerAgeRule extends Rule
 
     public function getConfig(): RuleConfig
     {
-        return (new RuleConfig())
+        return new RuleConfig()
             ->operatorSet(RuleConfig::OPERATOR_SET_NUMBER, true)
             ->intField('age', ['unit' => RuleConfig::UNIT_AGE]);
     }

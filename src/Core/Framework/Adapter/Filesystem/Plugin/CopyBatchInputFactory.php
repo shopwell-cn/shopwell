@@ -27,7 +27,7 @@ class CopyBatchInputFactory
 
         $parentName = basename($directory);
 
-        $files = (new Finder())->files()->in($directory);
+        $files = new Finder()->files()->in($directory);
 
         return array_values(array_map(
             fn (SplFileInfo $file) => new CopyBatchInput(

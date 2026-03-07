@@ -10,7 +10,7 @@ trait CreateFromTrait
     public static function createFrom(Struct $object): static
     {
         try {
-            $self = (new \ReflectionClass(static::class))
+            $self = new \ReflectionClass(static::class)
                 ->newInstanceWithoutConstructor();
         } catch (\ReflectionException $exception) {
             throw new \InvalidArgumentException($exception->getMessage());

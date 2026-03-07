@@ -50,6 +50,6 @@ class AdminSalesChannelSourceRule extends Rule
 
     public function getConfig(): RuleConfig
     {
-        return (new RuleConfig())->booleanField('hasAdminSalesChannelSource');
+        return new RuleConfig()->booleanField('hasAdminSalesChannelSource');
     }
 }

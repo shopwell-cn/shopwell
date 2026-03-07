@@ -49,7 +49,7 @@ class VersionCommitDefinition extends EntityDefinition
     {
         return [
             'name' => 'auto-save',
-            'createdAt' => (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT),
+            'createdAt' => new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT),
         ];
     }
 
@@ -66,14 +66,14 @@ class VersionCommitDefinition extends EntityDefinition
     protected function defineFields(): FieldCollection
     {
         return new FieldCollection([
-            (new IdField('id', 'id'))->addFlags(new PrimaryKey(), new Required()),
-            (new FkField('version_id', 'versionId', VersionDefinition::class))->addFlags(new Required()),
+            new IdField('id', 'id')->addFlags(new PrimaryKey(), new Required()),
+            new FkField('version_id', 'versionId', VersionDefinition::class)->addFlags(new Required()),
             new IdField('user_id', 'userId'),
             new IdField('integration_id', 'integrationId'),
             new AutoIncrementField(),
             new BoolField('is_merge', 'isMerge'),
-            (new StringField('message', 'message'))->addFlags(new SearchRanking(SearchRanking::HIGH_SEARCH_RANKING)),
-            (new OneToManyAssociationField('data', VersionCommitDataDefinition::class, 'version_commit_id'))->addFlags(new CascadeDelete()),
+            new StringField('message', 'message')->addFlags(new SearchRanking(SearchRanking::HIGH_SEARCH_RANKING)),
+            new OneToManyAssociationField('data', VersionCommitDataDefinition::class, 'version_commit_id')->addFlags(new CascadeDelete()),
             new ManyToOneAssociationField('version', 'version_id', VersionDefinition::class, 'id', false),
         ]);
     }

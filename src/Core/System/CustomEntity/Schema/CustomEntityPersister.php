@@ -75,8 +75,8 @@ class CustomEntityPersister
             $id = isset($existings[$name]) ? $existings[$name]['id'] : Uuid::randomHex();
             $customEntity['id'] = Uuid::fromHexToBytes($id);
 
-            $customEntity['created_at'] = isset($existings[$name]) ? $existings[$name]['created_at'] : (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT);
-            $customEntity['updated_at'] = isset($existings[$name]) ? (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT) : null;
+            $customEntity['created_at'] = isset($existings[$name]) ? $existings[$name]['created_at'] : new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT);
+            $customEntity['updated_at'] = isset($existings[$name]) ? new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT) : null;
 
             $inserts->addInsert('custom_entity', $customEntity);
         }

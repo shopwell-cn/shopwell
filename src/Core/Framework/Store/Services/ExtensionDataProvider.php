@@ -64,7 +64,7 @@ class ExtensionDataProvider extends AbstractExtensionDataProvider
 
     public function getAppEntityFromTechnicalName(string $technicalName, Context $context): AppEntity
     {
-        $criteria = (new Criteria())->addFilter(new EqualsFilter('name', $technicalName));
+        $criteria = new Criteria()->addFilter(new EqualsFilter('name', $technicalName));
         $app = $this->appRepository->search($criteria, $context)->getEntities()->first();
 
         if (!$app) {

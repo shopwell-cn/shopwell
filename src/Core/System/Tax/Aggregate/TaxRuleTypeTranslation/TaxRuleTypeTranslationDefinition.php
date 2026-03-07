@@ -42,7 +42,7 @@ class TaxRuleTypeTranslationDefinition extends EntityTranslationDefinition
     protected function defineFields(): FieldCollection
     {
         return new FieldCollection([
-            (new StringField('type_name', 'typeName'))->addFlags(new Required()),
+            new StringField('type_name', 'typeName')->addFlags(new Required()),
         ]);
     }
 }

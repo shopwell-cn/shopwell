@@ -46,10 +46,10 @@ class ProductManufacturerTranslationDefinition extends EntityTranslationDefiniti
     protected function defineFields(): FieldCollection
     {
         return new FieldCollection([
-            (new StringField('name', 'name'))->addFlags(new ApiAware(), new Required()),
-            (new LongTextField('link', 'link'))->addFlags(new ApiAware()),
-            (new LongTextField('description', 'description'))->addFlags(new ApiAware(), new AllowHtml()),
-            (new CustomFields())->addFlags(new ApiAware()),
+            new StringField('name', 'name')->addFlags(new ApiAware(), new Required()),
+            new LongTextField('link', 'link')->addFlags(new ApiAware()),
+            new LongTextField('description', 'description')->addFlags(new ApiAware(), new AllowHtml()),
+            new CustomFields()->addFlags(new ApiAware()),
         ]);
     }
 }

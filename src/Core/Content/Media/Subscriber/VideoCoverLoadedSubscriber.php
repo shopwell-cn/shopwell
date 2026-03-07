@@ -55,7 +55,7 @@ class VideoCoverLoadedSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $criteria = (new Criteria(array_values($coverIds)))
+        $criteria = new Criteria(array_values($coverIds))
             ->addAssociation('thumbnails');
 
         $covers = $this->mediaRepository->search($criteria, $event->getContext())->getEntities();

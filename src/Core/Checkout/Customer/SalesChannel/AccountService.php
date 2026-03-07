@@ -149,7 +149,7 @@ class AccountService
      */
     public function getCustomerByEmail(string $email, SalesChannelContext $context): CustomerEntity
     {
-        $criteria = (new Criteria())
+        $criteria = new Criteria()
             ->addFilter(new EqualsFilter('email', $email));
 
         $customer = $this->fetchCustomer($criteria, $context);

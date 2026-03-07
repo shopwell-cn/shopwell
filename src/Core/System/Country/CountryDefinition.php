@@ -86,44 +86,44 @@ class CountryDefinition extends EntityDefinition
     protected function defineFields(): FieldCollection
     {
         return new FieldCollection([
-            (new IdField('id', 'id'))->addFlags(new ApiAware(), new PrimaryKey(), new Required())->setDescription('Unique identity of the country.'),
+            new IdField('id', 'id')->addFlags(new ApiAware(), new PrimaryKey(), new Required())->setDescription('Unique identity of the country.'),
 
-            (new TranslatedField('name'))->addFlags(new ApiAware(), new SearchRanking(SearchRanking::HIGH_SEARCH_RANKING)),
-            (new StringField('iso', 'iso'))->addFlags(new ApiAware(), new SearchRanking(SearchRanking::MIDDLE_SEARCH_RANKING))->setDescription('Internationally recognized two-letter country codes. For example, DE, IN, NO, etc.'),
-            (new IntField('position', 'position'))->addFlags(new ApiAware())->setDescription('Numerical value that indicates the order in which the defined countries must be displayed in the frontend.'),
-            (new BoolField('active', 'active'))->addFlags(new ApiAware())->setDescription('When boolean value is `true`, the country is available for selection in the storefront.'),
-            (new BoolField('shipping_available', 'shippingAvailable'))->addFlags(new ApiAware())->setDescription('The shipping availability for a country is enabled when boolean value is `true`.'),
-            (new StringField('iso3', 'iso3'))->addFlags(new ApiAware(), new SearchRanking(SearchRanking::MIDDLE_SEARCH_RANKING))->setDescription('Internationally recognized three-letter country codes. For example, DEU, IND, NOR, etc.'),
-            (new TranslatedField('customFields'))->addFlags(new ApiAware()),
-            (new TaxFreeConfigField('customer_tax', 'customerTax'))->addFlags(new ApiAware())->setDescription('Sum of money to be paid by the customer.'),
-            (new BoolField('postal_code_required', 'postalCodeRequired'))->addFlags(new ApiAware())->setDescription('The postal code is made mandatory specification in the address, when boolean value is `true`.'),
-            (new BoolField('check_postal_code_pattern', 'checkPostalCodePattern'))->addFlags(new ApiAware())->setDescription('Verify for valid postal code pattern.'),
-            (new BoolField('check_advanced_postal_code_pattern', 'checkAdvancedPostalCodePattern'))->addFlags(new ApiAware())->setDescription('Verify for advanced postal code pattern.'),
-            (new StringField('advanced_postal_code_pattern', 'advancedPostalCodePattern'))->addFlags(new ApiAware())->setDescription('Wildcard formatted zip codes to allow easy searching in the frontend based on initial constants, for example - 24****, 1856**.'),
-            (new TranslatedField('addressFormat'))->addFlags(new ApiAware()),
-            (new StringField('default_postal_code_pattern', 'defaultPostalCodePattern', 1024))->addFlags(new ApiAware())->setDescription('Default pattern of postal or zip code.'),
+            new TranslatedField('name')->addFlags(new ApiAware(), new SearchRanking(SearchRanking::HIGH_SEARCH_RANKING)),
+            new StringField('iso', 'iso')->addFlags(new ApiAware(), new SearchRanking(SearchRanking::MIDDLE_SEARCH_RANKING))->setDescription('Internationally recognized two-letter country codes. For example, DE, IN, NO, etc.'),
+            new IntField('position', 'position')->addFlags(new ApiAware())->setDescription('Numerical value that indicates the order in which the defined countries must be displayed in the frontend.'),
+            new BoolField('active', 'active')->addFlags(new ApiAware())->setDescription('When boolean value is `true`, the country is available for selection in the storefront.'),
+            new BoolField('shipping_available', 'shippingAvailable')->addFlags(new ApiAware())->setDescription('The shipping availability for a country is enabled when boolean value is `true`.'),
+            new StringField('iso3', 'iso3')->addFlags(new ApiAware(), new SearchRanking(SearchRanking::MIDDLE_SEARCH_RANKING))->setDescription('Internationally recognized three-letter country codes. For example, DEU, IND, NOR, etc.'),
+            new TranslatedField('customFields')->addFlags(new ApiAware()),
+            new TaxFreeConfigField('customer_tax', 'customerTax')->addFlags(new ApiAware())->setDescription('Sum of money to be paid by the customer.'),
+            new BoolField('postal_code_required', 'postalCodeRequired')->addFlags(new ApiAware())->setDescription('The postal code is made mandatory specification in the address, when boolean value is `true`.'),
+            new BoolField('check_postal_code_pattern', 'checkPostalCodePattern')->addFlags(new ApiAware())->setDescription('Verify for valid postal code pattern.'),
+            new BoolField('check_advanced_postal_code_pattern', 'checkAdvancedPostalCodePattern')->addFlags(new ApiAware())->setDescription('Verify for advanced postal code pattern.'),
+            new StringField('advanced_postal_code_pattern', 'advancedPostalCodePattern')->addFlags(new ApiAware())->setDescription('Wildcard formatted zip codes to allow easy searching in the frontend based on initial constants, for example - 24****, 1856**.'),
+            new TranslatedField('addressFormat')->addFlags(new ApiAware()),
+            new StringField('default_postal_code_pattern', 'defaultPostalCodePattern', 1024)->addFlags(new ApiAware())->setDescription('Default pattern of postal or zip code.'),
 
-            (new OneToManyAssociationField('states', CountryStateDefinition::class, 'country_id', 'id'))
+            new OneToManyAssociationField('states', CountryStateDefinition::class, 'country_id', 'id')
                 ->addFlags(new ApiAware(), new CascadeDelete())->setDescription('States/provinces/regions within the country'),
 
-            (new TranslationsAssociationField(CountryTranslationDefinition::class, 'country_id'))
+            new TranslationsAssociationField(CountryTranslationDefinition::class, 'country_id')
                 ->addFlags(new ApiAware(), new Required()),
 
-            (new OneToManyAssociationField('customerAddresses', CustomerAddressDefinition::class, 'country_id', 'id'))
+            new OneToManyAssociationField('customerAddresses', CustomerAddressDefinition::class, 'country_id', 'id')
                 ->addFlags(new RestrictDelete()),
 
-            (new OneToManyAssociationField('orderAddresses', OrderAddressDefinition::class, 'country_id', 'id'))
+            new OneToManyAssociationField('orderAddresses', OrderAddressDefinition::class, 'country_id', 'id')
                 ->addFlags(new RestrictDelete()),
 
-            (new OneToManyAssociationField('salesChannelDefaultAssignments', SalesChannelDefinition::class, 'country_id', 'id'))
+            new OneToManyAssociationField('salesChannelDefaultAssignments', SalesChannelDefinition::class, 'country_id', 'id')
                 ->addFlags(new RestrictDelete()),
 
             new ManyToManyAssociationField('salesChannels', SalesChannelDefinition::class, SalesChannelCountryDefinition::class, 'country_id', 'sales_channel_id'),
 
-            (new OneToManyAssociationField('taxRules', TaxRuleDefinition::class, 'country_id', 'id'))
+            new OneToManyAssociationField('taxRules', TaxRuleDefinition::class, 'country_id', 'id')
                 ->addFlags(new RestrictDelete()),
 
-            (new OneToManyAssociationField('currencyCountryRoundings', CurrencyCountryRoundingDefinition::class, 'country_id'))
+            new OneToManyAssociationField('currencyCountryRoundings', CurrencyCountryRoundingDefinition::class, 'country_id')
                 ->addFlags(new CascadeDelete()),
         ]);
     }

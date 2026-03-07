@@ -39,7 +39,7 @@ class CartTaxDisplayRule extends Rule
 
     public function getConfig(): RuleConfig
     {
-        return (new RuleConfig())
+        return new RuleConfig()
             ->selectField('taxDisplay', [CartPrice::TAX_STATE_GROSS, CartPrice::TAX_STATE_NET]);
     }
 }

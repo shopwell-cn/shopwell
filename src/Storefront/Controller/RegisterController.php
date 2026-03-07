@@ -359,7 +359,7 @@ class RegisterController extends StorefrontController
             return $domainUrl;
         }
 
-        $criteria = (new Criteria())
+        $criteria = new Criteria()
             ->addFilter(new EqualsFilter('salesChannelId', $context->getSalesChannelId()))
             ->setLimit(1);
 

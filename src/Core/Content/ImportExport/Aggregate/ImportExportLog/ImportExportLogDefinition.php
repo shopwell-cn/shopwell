@@ -51,17 +51,17 @@ class ImportExportLogDefinition extends EntityDefinition
     protected function defineFields(): FieldCollection
     {
         $fields = [
-            (new IdField('id', 'id'))->addFlags(new PrimaryKey(), new Required()),
-            (new StringField('activity', 'activity'))->addFlags(new Required()),
-            (new StringField('state', 'state'))->addFlags(new Required()),
-            (new IntField('records', 'records'))->addFlags(new Required()),
+            new IdField('id', 'id')->addFlags(new PrimaryKey(), new Required()),
+            new StringField('activity', 'activity')->addFlags(new Required()),
+            new StringField('state', 'state')->addFlags(new Required()),
+            new IntField('records', 'records')->addFlags(new Required()),
             new FkField('user_id', 'userId', UserDefinition::class),
             new FkField('profile_id', 'profileId', ImportExportProfileDefinition::class),
             new FkField('file_id', 'fileId', ImportExportFileDefinition::class),
             new FkField('invalid_records_log_id', 'invalidRecordsLogId', ImportExportLogDefinition::class),
             new StringField('username', 'username'),
             new StringField('profile_name', 'profileName'),
-            (new JsonField('config', 'config', [], []))->addFlags(new Required()),
+            new JsonField('config', 'config', [], [])->addFlags(new Required()),
             new JsonField('result', 'result', [], []),
             new ManyToOneAssociationField('user', 'user_id', UserDefinition::class),
             new ManyToOneAssociationField('profile', 'profile_id', ImportExportProfileDefinition::class, 'id'),

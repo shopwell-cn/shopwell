@@ -138,7 +138,7 @@ class GenerateThumbnailsCommand extends Command
             return null;
         }
 
-        $criteria = (new Criteria())
+        $criteria = new Criteria()
             ->addFilter(new EqualsFilter('name', $rawInput));
 
         $searchResult = $this->mediaFolderRepository->search($criteria, $context);

@@ -171,7 +171,7 @@ final class DocumentRoute extends AbstractDocumentRoute
 
     private function checkAuth(string $documentId, Request $request, SalesChannelContext $context): void
     {
-        $criteria = (new Criteria([$documentId]))
+        $criteria = new Criteria([$documentId])
             ->addAssociations(['order.orderCustomer.customer', 'order.billingAddress']);
 
         $document = $this->documentRepository->search($criteria, $context->getContext())->getEntities()->first();

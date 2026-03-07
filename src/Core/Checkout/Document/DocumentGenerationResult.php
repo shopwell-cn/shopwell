@@ -52,7 +52,7 @@ class DocumentGenerationResult extends Struct
         $errors = [];
 
         foreach ($this->errors as $orderId => $error) {
-            $errors[$orderId] = (new ErrorResponseFactory())->getErrorsFromException($error);
+            $errors[$orderId] = new ErrorResponseFactory()->getErrorsFromException($error);
         }
 
         return [

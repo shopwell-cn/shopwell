@@ -65,7 +65,7 @@ class HooksReferenceGenerator implements ScriptReferenceGenerator
         ]);
 
         $this->defaultServices = $this->buildAvailableServices(
-            (new \ReflectionProperty(ScriptExecutor::class, 'defaultServices'))->getValue(),
+            new \ReflectionProperty(ScriptExecutor::class, 'defaultServices')->getValue(),
             []
         );
     }
@@ -110,7 +110,7 @@ class HooksReferenceGenerator implements ScriptReferenceGenerator
                 continue;
             }
 
-            if (is_subclass_of($class, Hook::class) && !(new \ReflectionClass($class))->isAbstract()) {
+            if (is_subclass_of($class, Hook::class) && !new \ReflectionClass($class)->isAbstract()) {
                 $hookClasses[] = $class;
             }
         }

@@ -35,8 +35,8 @@ class PromotionPersonaCustomerDefinition extends MappingEntityDefinition
     protected function defineFields(): FieldCollection
     {
         return new FieldCollection([
-            (new FkField('promotion_id', 'promotionId', PromotionDefinition::class))->addFlags(new PrimaryKey(), new Required()),
-            (new FkField('customer_id', 'customerId', CustomerDefinition::class))->addFlags(new PrimaryKey(), new Required()),
+            new FkField('promotion_id', 'promotionId', PromotionDefinition::class)->addFlags(new PrimaryKey(), new Required()),
+            new FkField('customer_id', 'customerId', CustomerDefinition::class)->addFlags(new PrimaryKey(), new Required()),
             new ManyToOneAssociationField('promotion', 'promotion_id', PromotionDefinition::class, 'id'),
             new ManyToOneAssociationField('customer', 'customer_id', CustomerDefinition::class, 'id'),
         ]);

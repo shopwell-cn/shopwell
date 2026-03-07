@@ -56,7 +56,7 @@ class FailedMessageSubscriber implements EventSubscriberInterface
             'channel' => 'mail',
             'context' => $context,
             'extra' => $extra,
-            'created_at' => (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT),
+            'created_at' => new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT),
         ]);
     }
 }

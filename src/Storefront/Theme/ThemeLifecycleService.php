@@ -518,7 +518,7 @@ class ThemeLifecycleService
 
     private function getSystemLanguageLocale(Context $context): string
     {
-        $criteria = (new Criteria([Defaults::LANGUAGE_SYSTEM]))
+        $criteria = new Criteria([Defaults::LANGUAGE_SYSTEM])
             ->addAssociation('translationCode');
 
         $language = $this->languageRepository->search($criteria, $context)->getEntities()->first();

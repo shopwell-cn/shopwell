@@ -186,7 +186,7 @@ class BundleConfigGenerator implements BundleConfigGeneratorInterface
 
     private function asSnakeCase(string $string): string
     {
-        return (new CamelCaseToSnakeCaseNameConverter())->normalize($string);
+        return new CamelCaseToSnakeCaseNameConverter()->normalize($string);
     }
 
     /**

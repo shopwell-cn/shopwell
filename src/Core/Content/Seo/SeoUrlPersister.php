@@ -41,7 +41,7 @@ class SeoUrlPersister
     {
         $languageId = $context->getLanguageId();
         $canonicals = $this->findCanonicalPaths($routeName, $languageId, $foreignKeys);
-        $dateTime = (new \DateTimeImmutable())->format(Defaults::STORAGE_DATE_TIME_FORMAT);
+        $dateTime = new \DateTimeImmutable()->format(Defaults::STORAGE_DATE_TIME_FORMAT);
         $insertQuery = new MultiInsertQueryQueue($this->connection, 250, false, true);
 
         $updatedFks = [];

@@ -78,6 +78,6 @@ class DeliveryDate extends Struct
 
     private static function create(string $interval): \DateTime
     {
-        return (new \DateTime())->add(new \DateInterval($interval));
+        return new \DateTime()->add(new \DateInterval($interval));
     }
 }

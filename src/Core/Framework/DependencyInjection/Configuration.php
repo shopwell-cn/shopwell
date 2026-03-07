@@ -63,7 +63,7 @@ class Configuration implements ConfigurationInterface
 
     private function createFilesystemSection(): ArrayNodeDefinition
     {
-        $rootNode = (new TreeBuilder('filesystem'))->getRootNode();
+        $rootNode = new TreeBuilder('filesystem')->getRootNode();
         $rootNode
             ->children()
                 ->arrayNode('private')
@@ -143,7 +143,7 @@ class Configuration implements ConfigurationInterface
 
     private function createCdnSection(): ArrayNodeDefinition
     {
-        $rootNode = (new TreeBuilder('cdn'))->getRootNode();
+        $rootNode = new TreeBuilder('cdn')->getRootNode();
         $rootNode
             ->children()
                 ->scalarNode('url')->end()
@@ -162,7 +162,7 @@ class Configuration implements ConfigurationInterface
 
     private function createApiSection(): ArrayNodeDefinition
     {
-        $rootNode = (new TreeBuilder('api'))->getRootNode();
+        $rootNode = new TreeBuilder('api')->getRootNode();
         $rootNode
             ->children()
                 ->arrayNode('rate_limiter')
@@ -212,7 +212,7 @@ class Configuration implements ConfigurationInterface
 
     private function createStoreSection(): ArrayNodeDefinition
     {
-        $rootNode = (new TreeBuilder('store'))->getRootNode();
+        $rootNode = new TreeBuilder('store')->getRootNode();
         $rootNode
             ->children()
                 ->booleanNode('frw')->end()
@@ -223,7 +223,7 @@ class Configuration implements ConfigurationInterface
 
     private function createAdminWorkerSection(): ArrayNodeDefinition
     {
-        $rootNode = (new TreeBuilder('admin_worker'))->getRootNode();
+        $rootNode = new TreeBuilder('admin_worker')->getRootNode();
         $rootNode
             ->children()
                 ->arrayNode('transports')
@@ -252,7 +252,7 @@ class Configuration implements ConfigurationInterface
 
     private function createAutoUpdateSection(): ArrayNodeDefinition
     {
-        $rootNode = (new TreeBuilder('auto_update'))->getRootNode();
+        $rootNode = new TreeBuilder('auto_update')->getRootNode();
         $rootNode
             ->children()
                 ->booleanNode('enabled')->end()
@@ -315,7 +315,7 @@ class Configuration implements ConfigurationInterface
 
     private function createDeploymentSection(): ArrayNodeDefinition
     {
-        $rootNode = (new TreeBuilder('deployment'))->getRootNode();
+        $rootNode = new TreeBuilder('deployment')->getRootNode();
         $rootNode
             ->children()
                 ->booleanNode('blue_green')->end()
@@ -328,7 +328,7 @@ class Configuration implements ConfigurationInterface
 
     private function createMediaSection(): ArrayNodeDefinition
     {
-        $rootNode = (new TreeBuilder('media'))->getRootNode();
+        $rootNode = new TreeBuilder('media')->getRootNode();
         $rootNode
             ->children()
                 ->arrayNode('remote_thumbnails')
@@ -348,7 +348,7 @@ class Configuration implements ConfigurationInterface
 
     private function createFeatureSection(): ArrayNodeDefinition
     {
-        $rootNode = (new TreeBuilder('feature'))->getRootNode();
+        $rootNode = new TreeBuilder('feature')->getRootNode();
         $rootNode
             ->children()
             ->arrayNode('flags')
@@ -385,7 +385,7 @@ class Configuration implements ConfigurationInterface
 
     private function createLoggerSection(): ArrayNodeDefinition
     {
-        $rootNode = (new TreeBuilder('logger'))->getRootNode();
+        $rootNode = new TreeBuilder('logger')->getRootNode();
         $rootNode
             ->children()
                 ->integerNode('file_rotation_count')
@@ -411,7 +411,7 @@ class Configuration implements ConfigurationInterface
 
     private function createCacheSection(): ArrayNodeDefinition
     {
-        $rootNode = (new TreeBuilder('cache'))->getRootNode();
+        $rootNode = new TreeBuilder('cache')->getRootNode();
         $rootNode
             ->children()
                 ->scalarNode('redis_prefix')->end()
@@ -726,7 +726,7 @@ class Configuration implements ConfigurationInterface
 
     private function createIncrementSection(): ArrayNodeDefinition
     {
-        $rootNode = (new TreeBuilder('increment'))->getRootNode();
+        $rootNode = new TreeBuilder('increment')->getRootNode();
         $rootNode
             ->useAttributeAsKey('name')
             ->arrayPrototype()

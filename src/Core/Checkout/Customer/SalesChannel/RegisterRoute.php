@@ -494,7 +494,7 @@ class RegisterRoute extends AbstractRegisterRoute
     {
         $validation = $this->accountValidationFactory->create($context);
 
-        $criteria = (new Criteria())
+        $criteria = new Criteria()
             ->addFilter(new EqualsFilter('registrationSalesChannels.id', $context->getSalesChannelId()));
 
         $validation->add('requestedGroupId', new EntityExists(
@@ -600,7 +600,7 @@ class RegisterRoute extends AbstractRegisterRoute
             return $country->getVatIdRequired();
         }
 
-        $countryCriteria = (new Criteria([$countryId]))
+        $countryCriteria = new Criteria([$countryId])
             ->addFields(['vatIdRequired']);
 
         $country = $this->countryRepository->search($countryCriteria, $context)->getEntities()->first();

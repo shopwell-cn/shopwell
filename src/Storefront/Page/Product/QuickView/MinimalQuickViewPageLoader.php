@@ -36,7 +36,7 @@ class MinimalQuickViewPageLoader
             throw RoutingException::missingRequestParameter('productId', '/productId');
         }
 
-        $criteria = (new Criteria())
+        $criteria = new Criteria()
             ->addAssociation('manufacturer.media')
             ->addAssociation('options.group')
             ->addAssociation('properties.group')

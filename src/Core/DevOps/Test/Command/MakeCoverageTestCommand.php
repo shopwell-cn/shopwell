@@ -123,7 +123,7 @@ class MakeCoverageTestCommand extends Command
 
         $phpUnitConfigurationPath = $this->getPhpUnitConfigurationPath($input);
 
-        $xml = (new Loader())->load($phpUnitConfigurationPath);
+        $xml = new Loader()->load($phpUnitConfigurationPath);
         $excludedDirectories = $xml->source()->excludeDirectories();
         $excludedFiles = $xml->source()->excludeFiles();
 

@@ -47,7 +47,7 @@ class AppLoader
             throw AppException::cannotDeleteManaged($technicalName);
         }
 
-        (new Filesystem())->remove($manifest->getPath());
+        new Filesystem()->remove($manifest->getPath());
     }
 
     /**

@@ -92,7 +92,7 @@ class PromotionCodeService
 
     public function addIndividualCodes(string $promotionId, int $amount, Context $context): void
     {
-        $criteria = (new Criteria([$promotionId]))
+        $criteria = new Criteria([$promotionId])
             ->addAssociation('individualCodes');
 
         $promotion = $this->promotionRepository->search($criteria, $context)->getEntities()->first();
@@ -163,7 +163,7 @@ class PromotionCodeService
 
     public function isCodePatternAlreadyInUse(string $pattern, string $promotionId, Context $context): bool
     {
-        $criteria = (new Criteria())
+        $criteria = new Criteria()
             ->addFilter(new NotEqualsFilter('id', $promotionId))
             ->addFilter(new EqualsFilter('individualCodePattern', $pattern));
 

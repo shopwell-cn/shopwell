@@ -30,8 +30,8 @@ class SalesChannelShippingMethodDefinition extends MappingEntityDefinition
     protected function defineFields(): FieldCollection
     {
         return new FieldCollection([
-            (new FkField('sales_channel_id', 'salesChannelId', SalesChannelDefinition::class))->addFlags(new PrimaryKey(), new Required()),
-            (new FkField('shipping_method_id', 'shippingMethodId', ShippingMethodDefinition::class))->addFlags(new PrimaryKey(), new Required()),
+            new FkField('sales_channel_id', 'salesChannelId', SalesChannelDefinition::class)->addFlags(new PrimaryKey(), new Required()),
+            new FkField('shipping_method_id', 'shippingMethodId', ShippingMethodDefinition::class)->addFlags(new PrimaryKey(), new Required()),
             new ManyToOneAssociationField('salesChannel', 'sales_channel_id', SalesChannelDefinition::class, 'id', false),
             new ManyToOneAssociationField('shippingMethod', 'shipping_method_id', ShippingMethodDefinition::class, 'id', false),
         ]);

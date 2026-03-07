@@ -45,7 +45,7 @@ class ThemeMergedConfigBuilder
             $translate = \func_num_args() === 3 ? func_get_arg(2) : false;
         }
 
-        $criteria = (new Criteria())
+        $criteria = new Criteria()
             ->setTitle('theme-service::load-config');
 
         $this->themes = $this->themeRepository->search($criteria, $context)->getEntities();
@@ -472,7 +472,7 @@ class ThemeMergedConfigBuilder
         $translations = $theme->getLabels() ?: [];
 
         if ($theme->getTechnicalName() !== StorefrontPluginRegistry::BASE_THEME_NAME) {
-            $criteria = (new Criteria())
+            $criteria = new Criteria()
                 ->setTitle('theme-service::load-translations');
 
             $themes = $this->themeRepository->search($criteria, $context)->getEntities();

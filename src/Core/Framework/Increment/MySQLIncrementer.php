@@ -28,7 +28,7 @@ class MySQLIncrementer extends AbstractIncrementer
             'pool' => $this->poolName,
             'cluster' => $cluster,
             'key' => $key,
-            'createdAt' => (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT),
+            'createdAt' => new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT),
         ];
 
         $this->connection->executeStatement('
@@ -44,7 +44,7 @@ class MySQLIncrementer extends AbstractIncrementer
             'pool' => $this->poolName,
             'cluster' => $cluster,
             'key' => $key,
-            'updatedAt' => (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT),
+            'updatedAt' => new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT),
         ];
 
         $this->connection->executeStatement('
@@ -62,7 +62,7 @@ class MySQLIncrementer extends AbstractIncrementer
             ->set('updated_at', ':updatedAt')
             ->where('pool = :pool')
             ->andWhere('cluster = :cluster')
-            ->setParameter('updatedAt', (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT))
+            ->setParameter('updatedAt', new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT))
             ->setParameter('cluster', $cluster)
             ->setParameter('count', 0)
             ->setParameter('pool', $this->poolName);

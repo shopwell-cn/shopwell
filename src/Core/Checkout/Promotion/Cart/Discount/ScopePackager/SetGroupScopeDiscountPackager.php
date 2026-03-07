@@ -160,6 +160,6 @@ class SetGroupScopeDiscountPackager extends DiscountPackager
             return $rules;
         }
 
-        return (new RuleCollection())->assignRecursive($rules);
+        return new RuleCollection()->assignRecursive($rules);
     }
 }

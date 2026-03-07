@@ -41,7 +41,7 @@ class VersionDefinition extends EntityDefinition
 
     public function getDefaults(): array
     {
-        $dateTime = (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT);
+        $dateTime = new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT);
 
         return ['name' => \sprintf('Draft %s', $dateTime), 'createdAt' => $dateTime];
     }
@@ -54,8 +54,8 @@ class VersionDefinition extends EntityDefinition
     protected function defineFields(): FieldCollection
     {
         return new FieldCollection([
-            (new IdField('id', 'id'))->addFlags(new PrimaryKey(), new Required()),
-            (new StringField('name', 'name'))->addFlags(new Required(), new SearchRanking(SearchRanking::HIGH_SEARCH_RANKING)),
+            new IdField('id', 'id')->addFlags(new PrimaryKey(), new Required()),
+            new StringField('name', 'name')->addFlags(new Required(), new SearchRanking(SearchRanking::HIGH_SEARCH_RANKING)),
             new OneToManyAssociationField('commits', VersionCommitDefinition::class, 'version_id'),
         ]);
     }

@@ -68,7 +68,7 @@ class LineItemProductTypeRule extends Rule
 
     public function getConfig(): RuleConfig
     {
-        return (new RuleConfig())
+        return new RuleConfig()
             ->operatorSet(RuleConfig::OPERATOR_SET_STRING)
             ->selectField('productType', $this->productTypeRegistry?->getTypes() ?? [
                 ProductDefinition::TYPE_PHYSICAL,

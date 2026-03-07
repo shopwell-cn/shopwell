@@ -181,7 +181,7 @@ class ExtensionStruct extends Struct
             throw FrameworkException::invalidArgumentException('Entry "type" in payload missing');
         }
 
-        return (new self())->assign($data);
+        return new self()->assign($data);
     }
 
     public function getId(): ?int

@@ -50,6 +50,6 @@ class AuthController extends AbstractController
 
         $this->rateLimiter->reset(RateLimiter::OAUTH, $cacheKey);
 
-        return (new HttpFoundationFactory())->createResponse($response);
+        return new HttpFoundationFactory()->createResponse($response);
     }
 }

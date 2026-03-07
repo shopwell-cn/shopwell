@@ -45,7 +45,7 @@ class ActionButtonTranslationDefinition extends EntityTranslationDefinition
     protected function defineFields(): FieldCollection
     {
         return new FieldCollection([
-            (new StringField('label', 'label'))->addFlags(new Required()),
+            new StringField('label', 'label')->addFlags(new Required()),
         ]);
     }
 }

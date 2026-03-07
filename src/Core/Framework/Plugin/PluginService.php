@@ -83,7 +83,7 @@ class PluginService
                 'name' => $pluginFromFileSystem->getName(),
                 'baseClass' => $baseClass,
                 'composerName' => $info->getName(),
-                'path' => (new Filesystem())->makePathRelative($pluginPath, $this->projectDir),
+                'path' => new Filesystem()->makePathRelative($pluginPath, $this->projectDir),
                 'author' => $this->getAuthors($info),
                 'copyright' => $extra['copyright'] ?? null,
                 'license' => implode(', ', $license),

@@ -37,10 +37,10 @@ class SalesChannelCustomerAddressDefinition extends CustomerAddressDefinition im
         $fields = parent::defineFields();
 
         $fields->add(
-            (new BoolField('is_default_billing_address', 'isDefaultBillingAddress'))->addFlags(new Runtime(), new ApiAware(), new Since('6.7.7.0'))
+            new BoolField('is_default_billing_address', 'isDefaultBillingAddress')->addFlags(new Runtime(), new ApiAware(), new Since('6.7.7.0'))
         );
         $fields->add(
-            (new BoolField('is_default_shipping_address', 'isDefaultShippingAddress'))->addFlags(new Runtime(), new ApiAware(), new Since('6.7.7.0'))
+            new BoolField('is_default_shipping_address', 'isDefaultShippingAddress')->addFlags(new Runtime(), new ApiAware(), new Since('6.7.7.0'))
         );
 
         return $fields;

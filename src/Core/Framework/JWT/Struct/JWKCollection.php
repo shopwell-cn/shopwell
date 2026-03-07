@@ -29,6 +29,6 @@ class JWKCollection extends Collection
             return $dto;
         }, $data['keys'])];
 
-        return (new self())->assign($elements);
+        return new self()->assign($elements);
     }
 }

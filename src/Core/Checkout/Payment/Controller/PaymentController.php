@@ -230,7 +230,7 @@ class PaymentController extends AbstractController
     {
         $context = Context::createDefaultContext();
 
-        $criteria = (new Criteria())
+        $criteria = new Criteria()
             ->addFilter(new EqualsFilter('transactions.id', $transactionId))
             ->addAssociations(['transactions.stateMachineState', 'orderCustomer']);
 

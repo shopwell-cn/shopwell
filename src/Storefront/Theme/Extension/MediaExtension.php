@@ -22,7 +22,7 @@ class MediaExtension extends EntityExtension
         );
 
         $collection->add(
-            (new ManyToManyAssociationField('themeMedia', ThemeDefinition::class, ThemeMediaDefinition::class, 'media_id', 'theme_id'))->addFlags(new RestrictDelete())
+            new ManyToManyAssociationField('themeMedia', ThemeDefinition::class, ThemeMediaDefinition::class, 'media_id', 'theme_id')->addFlags(new RestrictDelete())
         );
     }
 

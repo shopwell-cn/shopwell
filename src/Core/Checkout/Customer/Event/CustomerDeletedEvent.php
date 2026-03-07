@@ -77,7 +77,7 @@ class CustomerDeletedEvent extends Event implements ShopwellSalesChannelEvent, C
 
     public static function getAvailableData(): EventDataCollection
     {
-        return (new EventDataCollection())
+        return new EventDataCollection()
             ->add('customer', new EntityType(CustomerDefinition::class));
     }
 

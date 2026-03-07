@@ -6,6 +6,7 @@
 
     <import resource="../../Consent/Api/**/*Controller.php" type="attribute" />
     <import resource="../../User/Api/**/*Controller.php" type="attribute" />
+    <import resource="../../DataDict/Api/**/*Controller.php" type="attribute" />
     <import resource="../../CustomEntity/Api/*Controller.php" type="attribute" />
     <import resource="../../Snippet/**/*Controller.php" type="attribute" />
     <import resource="../../CustomField/**/*Controller.php" type="attribute" />
@@ -16,5 +17,6 @@
     <import resource="../../StateMachine/Api/*Controller.php" type="attribute" />
     <import resource="../../Currency/SalesChannel/**/*Route.php" type="attribute" />
     <import resource="../../Language/SalesChannel/**/*Route.php" type="attribute" />
+    <import resource="../../DataDict/SalesChannel/**/*Route.php" type="attribute" />
     <import resource="../../Country/SalesChannel/**/*Route.php" type="attribute" />
 </routes>

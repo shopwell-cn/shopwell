@@ -57,7 +57,7 @@ class PermissionPersister
             'UPDATE `acl_role` SET `deleted_at` = :datetime WHERE id = :id',
             [
                 'id' => Uuid::fromHexToBytes($roleId),
-                'datetime' => (new \DateTimeImmutable())->format(Defaults::STORAGE_DATE_TIME_FORMAT),
+                'datetime' => new \DateTimeImmutable()->format(Defaults::STORAGE_DATE_TIME_FORMAT),
             ]
         );
     }

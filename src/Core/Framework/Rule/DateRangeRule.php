@@ -67,13 +67,13 @@ class DateRangeRule extends Rule
         }
 
         if (!$this->useTime && $fromDate) {
-            $fromDate = (new \DateTime())
+            $fromDate = new \DateTime()
                 ->setTimestamp($fromDate->getTimestamp())
                 ->setTime(0, 0);
         }
 
         if (!$this->useTime && $toDate) {
-            $toDate = (new \DateTime())
+            $toDate = new \DateTime()
                 ->setTimestamp($toDate->getTimestamp())
                 ->add(new \DateInterval('P1D'))
                 ->setTime(0, 0);

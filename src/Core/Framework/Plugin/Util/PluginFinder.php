@@ -49,7 +49,7 @@ class PluginFinder
         $plugins = [];
 
         try {
-            $filesystemPlugins = (new Finder())
+            $filesystemPlugins = new Finder()
                 ->directories()
                 ->depth(0)
                 ->in($pluginDir)
@@ -75,7 +75,7 @@ class PluginFinder
 
                 $pluginName = $this->getPluginNameFromPackage($package);
 
-                $plugins[$pluginName] = (new PluginFromFileSystemStruct())->assign([
+                $plugins[$pluginName] = new PluginFromFileSystemStruct()->assign([
                     'baseClass' => $pluginName,
                     'path' => $filesystemPlugin->getPathname(),
                     'managedByComposer' => false,
@@ -141,7 +141,7 @@ class PluginFinder
 
             $localPlugin = $plugins[$pluginBaseClass] ?? null;
 
-            $plugins[$pluginBaseClass] = (new PluginFromFileSystemStruct())->assign([
+            $plugins[$pluginBaseClass] = new PluginFromFileSystemStruct()->assign([
                 'baseClass' => $pluginBaseClass,
                 // use local path if it is also installed as a local plugin,
                 // to allow updates over the store for composer managed plugins
@@ -155,7 +155,7 @@ class PluginFinder
         $root = $composer->getPackage();
         if ($this->isShopwellPluginType($root) && $this->isPluginComposerValid($root)) {
             $pluginBaseClass = $this->getPluginNameFromPackage($root);
-            $plugins[$pluginBaseClass] = (new PluginFromFileSystemStruct())->assign([
+            $plugins[$pluginBaseClass] = new PluginFromFileSystemStruct()->assign([
                 'baseClass' => $pluginBaseClass,
                 'path' => $projectDir,
                 'managedByComposer' => true,

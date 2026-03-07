@@ -158,7 +158,7 @@ class RequirementsValidator
         // Get PHP extension "packages"
         $packages = array_merge(
             $packages,
-            (new PlatformRepository())->getPackages(),
+            new PlatformRepository()->getPackages(),
         );
 
         // add root package

@@ -27,7 +27,7 @@ class GoogleStorageFactory implements AdapterFactoryInterface
             $storageConfig['keyFilePath'] = $options['keyFilePath'];
         }
 
-        $bucket = (new StorageClient($storageConfig))->bucket($options['bucket']);
+        $bucket = new StorageClient($storageConfig)->bucket($options['bucket']);
 
         return new GoogleCloudStorageAdapter($bucket, $options['root']);
     }

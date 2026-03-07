@@ -30,8 +30,8 @@ class IntegrationRoleDefinition extends MappingEntityDefinition
     protected function defineFields(): FieldCollection
     {
         return new FieldCollection([
-            (new FkField('integration_id', 'integrationId', IntegrationDefinition::class))->addFlags(new PrimaryKey(), new Required()),
-            (new FkField('acl_role_id', 'aclRoleId', AclRoleDefinition::class))->addFlags(new PrimaryKey(), new Required()),
+            new FkField('integration_id', 'integrationId', IntegrationDefinition::class)->addFlags(new PrimaryKey(), new Required()),
+            new FkField('acl_role_id', 'aclRoleId', AclRoleDefinition::class)->addFlags(new PrimaryKey(), new Required()),
             new ManyToOneAssociationField('integration', 'integration_id', IntegrationDefinition::class, 'id', false),
             new ManyToOneAssociationField('role', 'acl_role_id', AclRoleDefinition::class, 'id', false),
         ]);

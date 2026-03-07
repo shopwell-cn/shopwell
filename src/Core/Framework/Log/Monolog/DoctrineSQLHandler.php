@@ -34,7 +34,7 @@ class DoctrineSQLHandler extends AbstractProcessingHandler
             'context' => json_encode($record->context, \JSON_THROW_ON_ERROR),
             'extra' => json_encode($record->extra, \JSON_THROW_ON_ERROR),
             'updated_at' => null,
-            'created_at' => (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT),
+            'created_at' => new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT),
         ];
 
         try {

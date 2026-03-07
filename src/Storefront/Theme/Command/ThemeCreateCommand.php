@@ -61,7 +61,7 @@ class ThemeCreateCommand extends Command
             return self::FAILURE;
         }
 
-        $snakeCaseName = (new CamelCaseToSnakeCaseNameConverter())->normalize($themeName);
+        $snakeCaseName = new CamelCaseToSnakeCaseNameConverter()->normalize($themeName);
         $snakeCaseName = str_replace('_', '-', $snakeCaseName);
 
         $pluginName = ucfirst((string) $themeName);

@@ -32,7 +32,7 @@ class MailFactory extends AbstractMailFactory
     ): Email {
         $this->assertValidAddresses(\array_keys($recipients));
 
-        $mail = (new Mail())
+        $mail = new Mail()
             ->subject($subject)
             ->from(...$this->formatMailAddresses($sender))
             ->to(...$this->formatMailAddresses($recipients))
@@ -92,7 +92,7 @@ class MailFactory extends AbstractMailFactory
      */
     private function assertValidAddresses(array $addresses): void
     {
-        $constraints = (new ConstraintBuilder())
+        $constraints = new ConstraintBuilder()
             ->isNotBlank()
             ->isEmail()
             ->getConstraints();

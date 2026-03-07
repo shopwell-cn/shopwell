@@ -45,7 +45,7 @@ class DeleteAdminFilesAfterBuildCommand extends Command
             return Command::SUCCESS;
         }
 
-        $adminDir = \dirname((string) (new \ReflectionClass(Administration::class))->getFileName());
+        $adminDir = \dirname((string) new \ReflectionClass(Administration::class)->getFileName());
         $output->writeln('Deleting unnecessary files of the administration after the build process...');
         $progressBar = new ProgressBar($output, 100);
 

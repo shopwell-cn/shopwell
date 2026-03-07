@@ -42,14 +42,14 @@ class AppShippingMethodDefinition extends EntityDefinition
     protected function defineFields(): FieldCollection
     {
         return new FieldCollection([
-            (new IdField('id', 'id'))->addFlags(new PrimaryKey(), new Required()),
-            (new StringField('app_name', 'appName'))->addFlags(new Required()),
-            (new StringField('identifier', 'identifier'))->addFlags(new Required()),
+            new IdField('id', 'id')->addFlags(new PrimaryKey(), new Required()),
+            new StringField('app_name', 'appName')->addFlags(new Required()),
+            new StringField('identifier', 'identifier')->addFlags(new Required()),
 
             new FkField('app_id', 'appId', AppDefinition::class),
             new ManyToOneAssociationField('app', 'app_id', AppDefinition::class),
 
-            (new FkField('shipping_method_id', 'shippingMethodId', ShippingMethodDefinition::class))->addFlags(new Required()),
+            new FkField('shipping_method_id', 'shippingMethodId', ShippingMethodDefinition::class)->addFlags(new Required()),
             new OneToOneAssociationField('shippingMethod', 'shipping_method_id', 'id', ShippingMethodDefinition::class, false),
 
             new FkField('original_media_id', 'originalMediaId', MediaDefinition::class),

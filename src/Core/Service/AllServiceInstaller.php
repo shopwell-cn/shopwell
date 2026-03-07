@@ -46,7 +46,7 @@ class AllServiceInstaller
     public function install(Context $context): array
     {
         $existingServices = $this->appRepository->search(
-            (new Criteria())->addFilter(new EqualsFilter('selfManaged', true)),
+            new Criteria()->addFilter(new EqualsFilter('selfManaged', true)),
             $context
         );
 

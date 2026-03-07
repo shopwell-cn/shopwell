@@ -1033,7 +1033,7 @@ class DefinitionValidator
         $def = $this->getShortClassName($definition);
 
         $ref = str_replace($def, '', $ref);
-        $refPlural = (new EnglishInflector())->pluralize($ref)[0];
+        $refPlural = new EnglishInflector()->pluralize($ref)[0];
 
         if (mb_stripos($propName, $refPlural) === mb_strlen($propName) - mb_strlen($refPlural)) {
             return [];
@@ -1233,7 +1233,7 @@ class DefinitionValidator
     {
         $setter = 'set' . ucfirst($association->getPropertyName());
 
-        $reflectionMethods = (new \ReflectionClass($definition->getEntityClass()))->getMethods(\ReflectionMethod::IS_PUBLIC);
+        $reflectionMethods = new \ReflectionClass($definition->getEntityClass())->getMethods(\ReflectionMethod::IS_PUBLIC);
 
         foreach ($reflectionMethods as $reflectionMethod) {
             if ($reflectionMethod->getName() !== $setter) {

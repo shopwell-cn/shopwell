@@ -49,23 +49,23 @@ class MailTemplateDefinition extends EntityDefinition
     protected function defineFields(): FieldCollection
     {
         $fields = new FieldCollection([
-            (new IdField('id', 'id'))->addFlags(new PrimaryKey(), new Required()),
+            new IdField('id', 'id')->addFlags(new PrimaryKey(), new Required()),
 
-            (new FkField('mail_template_type_id', 'mailTemplateTypeId', MailTemplateTypeDefinition::class))->addFlags(new Required()),
-            (new BoolField('system_default', 'systemDefault'))->addFlags(new ApiAware()),
+            new FkField('mail_template_type_id', 'mailTemplateTypeId', MailTemplateTypeDefinition::class)->addFlags(new Required()),
+            new BoolField('system_default', 'systemDefault')->addFlags(new ApiAware()),
 
             // translatable fields
-            (new TranslatedField('senderName'))->addFlags(new ApiAware()),
-            (new TranslatedField('description'))->addFlags(new SearchRanking(SearchRanking::HIGH_SEARCH_RANKING)),
-            (new TranslatedField('subject'))->addFlags(new SearchRanking(SearchRanking::HIGH_SEARCH_RANKING)),
-            (new TranslatedField('contentHtml'))->addFlags(new ApiAware()),
-            (new TranslatedField('contentPlain'))->addFlags(new ApiAware()),
-            (new TranslatedField('customFields'))->addFlags(new ApiAware()),
+            new TranslatedField('senderName')->addFlags(new ApiAware()),
+            new TranslatedField('description')->addFlags(new SearchRanking(SearchRanking::HIGH_SEARCH_RANKING)),
+            new TranslatedField('subject')->addFlags(new SearchRanking(SearchRanking::HIGH_SEARCH_RANKING)),
+            new TranslatedField('contentHtml')->addFlags(new ApiAware()),
+            new TranslatedField('contentPlain')->addFlags(new ApiAware()),
+            new TranslatedField('customFields')->addFlags(new ApiAware()),
 
-            (new TranslationsAssociationField(MailTemplateTranslationDefinition::class, 'mail_template_id'))->addFlags(new ApiAware(), new Required()),
-            (new ManyToOneAssociationField('mailTemplateType', 'mail_template_type_id', MailTemplateTypeDefinition::class, 'id'))
+            new TranslationsAssociationField(MailTemplateTranslationDefinition::class, 'mail_template_id')->addFlags(new ApiAware(), new Required()),
+            new ManyToOneAssociationField('mailTemplateType', 'mail_template_type_id', MailTemplateTypeDefinition::class, 'id')
                 ->addFlags(new ApiAware(), new SearchRanking(SearchRanking::ASSOCIATION_SEARCH_RANKING)),
-            (new OneToManyAssociationField('media', MailTemplateMediaDefinition::class, 'mail_template_id', 'id'))->addFlags(new ApiAware(), new CascadeDelete()),
+            new OneToManyAssociationField('media', MailTemplateMediaDefinition::class, 'mail_template_id', 'id')->addFlags(new ApiAware(), new CascadeDelete()),
         ]);
 
         return $fields;

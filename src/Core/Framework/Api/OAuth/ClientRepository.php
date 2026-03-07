@@ -80,7 +80,7 @@ class ClientRepository implements ClientRepositoryInterface
     {
         $this->connection->update(
             'integration',
-            ['last_usage_at' => (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT)],
+            ['last_usage_at' => new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT)],
             ['id' => $integrationId]
         );
     }

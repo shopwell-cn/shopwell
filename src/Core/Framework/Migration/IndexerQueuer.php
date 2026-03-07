@@ -103,7 +103,7 @@ class IndexerQueuer
         }
 
         $newValue = json_encode(['_value' => $indexerList], \JSON_THROW_ON_ERROR);
-        $date = (new \DateTimeImmutable())->format(Defaults::STORAGE_DATE_TIME_FORMAT);
+        $date = new \DateTimeImmutable()->format(Defaults::STORAGE_DATE_TIME_FORMAT);
         if ($id) {
             $connection->update(
                 'system_config',

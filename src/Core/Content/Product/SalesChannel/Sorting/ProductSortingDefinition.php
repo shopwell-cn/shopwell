@@ -51,14 +51,14 @@ class ProductSortingDefinition extends EntityDefinition
     protected function defineFields(): FieldCollection
     {
         $collection = new FieldCollection([
-            (new IdField('id', 'id'))->addFlags(new PrimaryKey(), new Required()),
+            new IdField('id', 'id')->addFlags(new PrimaryKey(), new Required()),
             new LockedField(),
-            (new StringField('url_key', 'key'))->addFlags(new ApiAware(), new Required()),
-            (new IntField('priority', 'priority'))->addFlags(new ApiAware(), new Required()),
-            (new BoolField('active', 'active'))->addFlags(new Required()),
-            (new JsonField('fields', 'fields'))->addFlags(new Required()),
-            (new TranslatedField('label'))->addFlags(new ApiAware()),
-            (new TranslationsAssociationField(ProductSortingTranslationDefinition::class, 'product_sorting_id'))->addFlags(new Inherited(), new Required()),
+            new StringField('url_key', 'key')->addFlags(new ApiAware(), new Required()),
+            new IntField('priority', 'priority')->addFlags(new ApiAware(), new Required()),
+            new BoolField('active', 'active')->addFlags(new Required()),
+            new JsonField('fields', 'fields')->addFlags(new Required()),
+            new TranslatedField('label')->addFlags(new ApiAware()),
+            new TranslationsAssociationField(ProductSortingTranslationDefinition::class, 'product_sorting_id')->addFlags(new Inherited(), new Required()),
         ]);
 
         return $collection;

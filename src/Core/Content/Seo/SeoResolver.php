@@ -33,7 +33,7 @@ class SeoResolver extends AbstractSeoResolver
     {
         $seoPathInfo = trim($pathInfo, '/');
 
-        $query = (new QueryBuilder($this->connection))
+        $query = new QueryBuilder($this->connection)
             ->select('id', 'path_info pathInfo', 'is_canonical isCanonical', 'sales_channel_id salesChannelId')
             ->from('seo_url')
             ->where('language_id = :language_id')
@@ -70,7 +70,7 @@ class SeoResolver extends AbstractSeoResolver
         $seoPath = $seoPaths[0] ?? ['pathInfo' => $seoPathInfo, 'isCanonical' => false];
 
         if (!$seoPath['isCanonical']) {
-            $query = (new QueryBuilder($this->connection))
+            $query = new QueryBuilder($this->connection)
                 ->select('path_info pathInfo', 'seo_path_info seoPathInfo')
                 ->from('seo_url')
                 ->where('language_id = :language_id')

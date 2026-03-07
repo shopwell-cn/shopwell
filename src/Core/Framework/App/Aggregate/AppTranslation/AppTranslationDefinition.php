@@ -48,10 +48,10 @@ class AppTranslationDefinition extends EntityTranslationDefinition
     protected function defineFields(): FieldCollection
     {
         return new FieldCollection([
-            (new StringField('label', 'label'))->addFlags(new Required()),
+            new StringField('label', 'label')->addFlags(new Required()),
             new LongTextField('description', 'description'),
             new LongTextField('privacy_policy_extensions', 'privacyPolicyExtensions'),
-            (new CustomFields())->addFlags(new Since('6.4.1.0')),
+            new CustomFields()->addFlags(new Since('6.4.1.0')),
         ]);
     }
 }

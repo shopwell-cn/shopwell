@@ -45,8 +45,8 @@ class PluginTranslationDefinition extends EntityTranslationDefinition
     protected function defineFields(): FieldCollection
     {
         return new FieldCollection([
-            (new StringField('label', 'label'))->addFlags(new Required()),
-            (new LongTextField('description', 'description'))->addFlags(new AllowHtml()),
+            new StringField('label', 'label')->addFlags(new Required()),
+            new LongTextField('description', 'description')->addFlags(new AllowHtml()),
             new StringField('manufacturer_link', 'manufacturerLink'),
             new StringField('support_link', 'supportLink'),
             new CustomFields(),

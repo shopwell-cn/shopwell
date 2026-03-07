@@ -57,7 +57,7 @@ class RegisterConfirmRoute extends AbstractRegisterConfirmRoute
             throw CustomerException::noHashProvided();
         }
 
-        $criteria = (new Criteria())
+        $criteria = new Criteria()
             ->addFilter(new EqualsFilter('hash', $dataBag->get('hash')))
             ->addAssociations(['addresses', 'salutation'])
             ->setLimit(1);
@@ -118,7 +118,7 @@ class RegisterConfirmRoute extends AbstractRegisterConfirmRoute
             $this->eventDispatcher->dispatch(new CustomerRegisterEvent($new, $customer));
         }
 
-        $criteria = (new Criteria([$customer->getId()]))
+        $criteria = new Criteria([$customer->getId()])
             ->addAssociations(['addresses', 'salutation'])
             ->setLimit(1);
 

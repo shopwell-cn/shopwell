@@ -57,7 +57,7 @@ class OrderTagRule extends FlowRule
 
     public function getConfig(): RuleConfig
     {
-        return (new RuleConfig())
+        return new RuleConfig()
             ->operatorSet(RuleConfig::OPERATOR_SET_STRING, true, true)
             ->entitySelectField('identifiers', TagDefinition::ENTITY_NAME, true);
     }

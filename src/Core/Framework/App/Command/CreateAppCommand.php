@@ -318,7 +318,7 @@ class CreateAppCommand extends Command
                 [
                     'name' => $details['name'],
                     'author' => $details['author'],
-                    'name-snake-case' => (new CamelCaseToSnakeCaseNameConverter())->normalize($details['name']),
+                    'name-snake-case' => new CamelCaseToSnakeCaseNameConverter()->normalize($details['name']),
                 ]
             );
 

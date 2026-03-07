@@ -91,7 +91,7 @@ class DumpClassSchemaCommand extends Command
             return null;
         }
 
-        $filePath = (new \ReflectionClass($className))->getFileName();
+        $filePath = new \ReflectionClass($className)->getFileName();
         if ($filePath === false) {
             return null;
         }
@@ -101,7 +101,7 @@ class DumpClassSchemaCommand extends Command
             return null;
         }
 
-        $findNodes = (new NodeFinder())->findInstanceOf($stmts, ClassMethod::class);
+        $findNodes = new NodeFinder()->findInstanceOf($stmts, ClassMethod::class);
 
         /** @var ClassMethod $findNode */
         foreach ($findNodes as $findNode) {
@@ -143,7 +143,7 @@ class DumpClassSchemaCommand extends Command
      */
     private function parseFile(string $filePath): ?array
     {
-        $parser = (new ParserFactory())->createForVersion(PhpVersion::fromString('7.0'));
+        $parser = new ParserFactory()->createForVersion(PhpVersion::fromString('7.0'));
 
         $names = $parser->parse((string) file_get_contents($filePath));
 
@@ -165,14 +165,14 @@ class DumpClassSchemaCommand extends Command
             return null;
         }
 
-        $filePath = (string) (new \ReflectionClass($entityClass))->getFileName();
+        $filePath = (string) new \ReflectionClass($entityClass)->getFileName();
 
         $stmts = $this->parseFile($filePath);
         if ($stmts === null) {
             return null;
         }
-        $properties = (new NodeFinder())->findInstanceOf($stmts, Property::class);
-        $methods = (new NodeFinder())->findInstanceOf($stmts, ClassMethod::class);
+        $properties = new NodeFinder()->findInstanceOf($stmts, Property::class);
+        $methods = new NodeFinder()->findInstanceOf($stmts, ClassMethod::class);
 
         $jsonProperties = [];
 

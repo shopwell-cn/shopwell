@@ -42,7 +42,7 @@ class ProductSortingTranslationDefinition extends EntityTranslationDefinition
     protected function defineFields(): FieldCollection
     {
         $collection = new FieldCollection([
-            (new StringField('label', 'label'))->addFlags(new ApiAware(), new Required()),
+            new StringField('label', 'label')->addFlags(new ApiAware(), new Required()),
         ]);
 
         return $collection;

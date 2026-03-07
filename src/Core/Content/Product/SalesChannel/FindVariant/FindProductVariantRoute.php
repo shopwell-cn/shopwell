@@ -95,7 +95,7 @@ class FindProductVariantRoute extends AbstractFindProductVariantRoute
         SalesChannelContext $salesChannelContext,
         array $options
     ): ?string {
-        $criteria = (new Criteria())
+        $criteria = new Criteria()
             ->addFilter(new EqualsFilter('product.parentId', $productId))
             ->setLimit(1);
 

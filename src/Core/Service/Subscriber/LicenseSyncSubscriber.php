@@ -68,7 +68,7 @@ class LicenseSyncSubscriber implements EventSubscriberInterface
 
         $context = Context::createDefaultContext();
 
-        $criteria = (new Criteria())
+        $criteria = new Criteria()
             ->addFilter(new EqualsFilter('active', true))
             ->addFilter(new EqualsFilter('selfManaged', true));
 

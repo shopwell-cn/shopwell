@@ -53,7 +53,7 @@ final class DocumentConfigLoader implements EventSubscriberInterface, ResetInter
             return $config;
         }
 
-        $criteria = (new Criteria())
+        $criteria = new Criteria()
             ->addFilter(new EqualsFilter('documentType.technicalName', $documentType))
             ->addAssociation('logo');
 

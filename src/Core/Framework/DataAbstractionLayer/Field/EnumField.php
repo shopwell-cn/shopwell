@@ -30,7 +30,7 @@ class EnumField extends Field implements StorageAware
         private readonly \BackedEnum $enum,
     ) {
         parent::__construct($propertyName);
-        $backingType = (new \ReflectionEnum($enum::class))->getBackingType();
+        $backingType = new \ReflectionEnum($enum::class)->getBackingType();
         $this->type = match ($backingType?->getName()) {
             'int' => Types::INTEGER,
             'string' => Types::STRING,

@@ -117,7 +117,7 @@ class AddressValidator implements CartValidatorInterface, ResetInterface
             return $this->available[$countryId];
         }
 
-        $criteria = (new Criteria())
+        $criteria = new Criteria()
             ->addFilter(new EqualsFilter('salesChannelId', $context->getSalesChannelId()))
             ->addFilter(new EqualsFilter('countryId', $countryId));
 

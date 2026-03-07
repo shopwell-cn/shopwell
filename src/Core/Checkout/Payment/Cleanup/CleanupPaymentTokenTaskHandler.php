@@ -33,7 +33,7 @@ final class CleanupPaymentTokenTaskHandler extends ScheduledTaskHandler
 
     public function run(): void
     {
-        $now = (new \DateTimeImmutable('now', new \DateTimeZone('UTC')))->format(Defaults::STORAGE_DATE_TIME_FORMAT);
+        $now = new \DateTimeImmutable('now', new \DateTimeZone('UTC'))->format(Defaults::STORAGE_DATE_TIME_FORMAT);
 
         $this->connection->executeStatement('DELETE FROM payment_token WHERE expires < :now', ['now' => $now]);
     }

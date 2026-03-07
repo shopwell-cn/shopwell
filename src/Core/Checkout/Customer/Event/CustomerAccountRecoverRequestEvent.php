@@ -73,7 +73,7 @@ class CustomerAccountRecoverRequestEvent extends Event implements SalesChannelAw
 
     public static function getAvailableData(): EventDataCollection
     {
-        return (new EventDataCollection())
+        return new EventDataCollection()
             ->add('customerRecovery', new EntityType(CustomerRecoveryDefinition::class))
             ->add('customer', new EntityType(CustomerDefinition::class))
             ->add('resetUrl', new ScalarValueType(ScalarValueType::TYPE_STRING))

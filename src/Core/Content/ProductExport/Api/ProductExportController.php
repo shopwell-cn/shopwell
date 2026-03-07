@@ -140,7 +140,7 @@ class ProductExportController extends AbstractController
 
     private function getSalesChannelDomain(string $salesChannelDomainId, Context $context): SalesChannelDomainEntity
     {
-        $criteria = (new Criteria([$salesChannelDomainId]))
+        $criteria = new Criteria([$salesChannelDomainId])
             ->addAssociation('language.locale')
             ->addAssociation('salesChannel');
 

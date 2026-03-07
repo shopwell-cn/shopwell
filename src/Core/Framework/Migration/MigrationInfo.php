@@ -30,7 +30,7 @@ class MigrationInfo
         }
 
         try {
-            return (new \DateTimeImmutable($firstMigrationDate, new \DateTimeZone('UTC')))
+            return new \DateTimeImmutable($firstMigrationDate, new \DateTimeZone('UTC'))
                 ->format(\DateTimeInterface::RFC3339_EXTENDED);
         } catch (\Throwable) {
             return null;

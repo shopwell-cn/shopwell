@@ -49,7 +49,7 @@ class UserRecoveryRequestEvent extends Event implements UserAware, MailAware, Sc
 
     public static function getAvailableData(): EventDataCollection
     {
-        return (new EventDataCollection())
+        return new EventDataCollection()
             ->add('userRecovery', new EntityType(UserRecoveryDefinition::class))
             ->add('resetUrl', new ScalarValueType('string'))
         ;

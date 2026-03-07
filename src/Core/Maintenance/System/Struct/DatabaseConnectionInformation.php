@@ -74,7 +74,7 @@ class DatabaseConnectionInformation extends Struct
             throw MaintenanceException::environmentVariableNotValid('DATABASE_URL', $dsn, 'Not a valid DSN');
         }
 
-        return (new self())->assign([
+        return new self()->assign([
             'hostname' => $params['host'],
             'port' => (int) ($params['port'] ?? '3306'),
             'username' => $params['user'] ?? null,

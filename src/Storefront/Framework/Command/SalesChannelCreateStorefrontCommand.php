@@ -93,7 +93,7 @@ class SalesChannelCreateStorefrontCommand extends SalesChannelCreateCommand
     private function getSnippetSetId(string $isoCode): ?string
     {
         $isoCode = str_replace('_', '-', $isoCode);
-        $criteria = (new Criteria())
+        $criteria = new Criteria()
             ->setLimit(1)
             ->addFilter(new EqualsFilter('iso', $isoCode));
 

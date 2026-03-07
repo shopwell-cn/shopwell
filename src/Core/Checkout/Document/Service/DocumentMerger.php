@@ -159,7 +159,7 @@ final class DocumentMerger
             return null;
         }
 
-        $criteria = (new Criteria([$document->getId()]))
+        $criteria = new Criteria([$document->getId()])
             ->addAssociations(['documentType', 'documentMediaFile']);
 
         $document = $this->documentRepository->search($criteria, $context)->getEntities()->first();
@@ -173,7 +173,7 @@ final class DocumentMerger
      */
     private function prepareDocumentsForMerge(array $documentIds, Context $context): DocumentCollection
     {
-        $criteria = (new Criteria($documentIds))
+        $criteria = new Criteria($documentIds)
             ->addAssociation('documentType')
             ->addAssociation('order')
             ->addSorting(new FieldSorting('order.orderNumber'));

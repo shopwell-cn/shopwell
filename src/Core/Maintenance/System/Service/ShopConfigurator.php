@@ -172,7 +172,7 @@ class ShopConfigurator
             return;
         }
 
-        $storageDate = (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT);
+        $storageDate = new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT);
 
         foreach ($missingTranslations as $stateId => $shortCode) {
             if (!\array_key_exists($shortCode, $defaultTranslations)) {

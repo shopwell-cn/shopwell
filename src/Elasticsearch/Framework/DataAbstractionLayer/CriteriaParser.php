@@ -1012,8 +1012,8 @@ class CriteriaParser
         if ($field instanceof DateTimeField) {
             return match (true) {
                 $value === null => null,
-                \is_array($value) => \array_map(fn ($value) => (new \DateTime($value))->format('Y-m-d H:i:s.000'), $value),
-                default => (new \DateTime($value))->format('Y-m-d H:i:s.000'),
+                \is_array($value) => \array_map(fn ($value) => new \DateTime($value)->format('Y-m-d H:i:s.000'), $value),
+                default => new \DateTime($value)->format('Y-m-d H:i:s.000'),
             };
         }
 

@@ -651,9 +651,9 @@ class ProductEntity extends Entity implements \Stringable
     public function getDeliveryDate(): DeliveryDate
     {
         return new DeliveryDate(
-            (new \DateTime())
+            new \DateTime()
                 ->add(new \DateInterval('P' . 1 . 'D')),
-            (new \DateTime())
+            new \DateTime()
                 ->add(new \DateInterval('P' . 1 . 'D'))
                 ->add(new \DateInterval('P' . 1 . 'D'))
         );

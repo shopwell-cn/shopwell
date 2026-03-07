@@ -48,25 +48,25 @@ class CurrencyCountryRoundingDefinition extends EntityDefinition
     protected function defineFields(): FieldCollection
     {
         $fields = new FieldCollection([
-            (new IdField('id', 'id'))->addFlags(new PrimaryKey(), new Required()),
+            new IdField('id', 'id')->addFlags(new PrimaryKey(), new Required()),
 
-            (new FkField('currency_id', 'currencyId', CurrencyDefinition::class))
+            new FkField('currency_id', 'currencyId', CurrencyDefinition::class)
                 ->addFlags(new Required()),
 
-            (new FkField('country_id', 'countryId', CountryDefinition::class))
+            new FkField('country_id', 'countryId', CountryDefinition::class)
                 ->addFlags(new Required()),
 
-            (new CashRoundingConfigField('item_rounding', 'itemRounding'))
+            new CashRoundingConfigField('item_rounding', 'itemRounding')
                 ->addFlags(new Required()),
 
-            (new CashRoundingConfigField('total_rounding', 'totalRounding'))
+            new CashRoundingConfigField('total_rounding', 'totalRounding')
                 ->addFlags(new Required()),
         ]);
 
         // disable dal validation command
         $fields->add(new ManyToOneAssociationField('currency', 'currency_id', CurrencyDefinition::class));
         $fields->add(
-            (new ManyToOneAssociationField('country', 'country_id', CountryDefinition::class))
+            new ManyToOneAssociationField('country', 'country_id', CountryDefinition::class)
                 ->addFlags(new SearchRanking(SearchRanking::ASSOCIATION_SEARCH_RANKING))
         );
 

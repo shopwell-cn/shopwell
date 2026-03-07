@@ -51,7 +51,7 @@ class OrderTrackingCodeRule extends FlowRule
 
     public function getConfig(): RuleConfig
     {
-        return (new RuleConfig())
+        return new RuleConfig()
             ->booleanField('isSet');
     }
 }

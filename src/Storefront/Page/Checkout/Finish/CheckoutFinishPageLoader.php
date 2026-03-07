@@ -107,7 +107,7 @@ class CheckoutFinishPageLoader
             throw RoutingException::missingRequestParameter('orderId', '/orderId');
         }
 
-        $criteria = (new Criteria([$orderId]))
+        $criteria = new Criteria([$orderId])
             ->addFilter(new EqualsFilter('order.orderCustomer.customerId', $customer->getId()))
             ->addAssociation('primaryOrderDelivery.shippingMethod')
             ->addAssociation('primaryOrderDelivery.shippingOrderAddress.salutation')

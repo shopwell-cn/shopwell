@@ -255,7 +255,7 @@ abstract class Collection extends Struct implements \IteratorAggregate, \Countab
     {
         $baseObject = null;
         if ($expectedClass = $this->getExpectedClass()) {
-            $baseObject = (new \ReflectionClass($expectedClass))->newInstanceWithoutConstructor();
+            $baseObject = new \ReflectionClass($expectedClass)->newInstanceWithoutConstructor();
         }
 
         $hasNecessaryInterface = $baseObject instanceof AssignArrayInterface;

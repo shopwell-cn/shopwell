@@ -54,14 +54,14 @@ class CustomFieldService implements EventSubscriberInterface, ResetInterface
         $type = $this->getCustomFields()[$attributeName] ?? null;
 
         $object = match ($type) {
-            CustomFieldTypes::INT => (new IntField($attributeName, $attributeName))->addFlags(new ApiAware()),
-            CustomFieldTypes::FLOAT => (new FloatField($attributeName, $attributeName))->addFlags(new ApiAware()),
-            CustomFieldTypes::BOOL => (new BoolField($attributeName, $attributeName))->addFlags(new ApiAware()),
-            CustomFieldTypes::DATETIME => (new DateTimeField($attributeName, $attributeName))->addFlags(new ApiAware()),
-            CustomFieldTypes::TEXT => (new LongTextField($attributeName, $attributeName))->addFlags(new ApiAware()),
-            CustomFieldTypes::HTML => (new LongTextField($attributeName, $attributeName))->addFlags(new ApiAware(), new AllowHtml()),
-            CustomFieldTypes::PRICE => (new PriceField($attributeName, $attributeName))->addFlags(new ApiAware()),
-            default => (new JsonField($attributeName, $attributeName))->addFlags(new ApiAware()),
+            CustomFieldTypes::INT => new IntField($attributeName, $attributeName)->addFlags(new ApiAware()),
+            CustomFieldTypes::FLOAT => new FloatField($attributeName, $attributeName)->addFlags(new ApiAware()),
+            CustomFieldTypes::BOOL => new BoolField($attributeName, $attributeName)->addFlags(new ApiAware()),
+            CustomFieldTypes::DATETIME => new DateTimeField($attributeName, $attributeName)->addFlags(new ApiAware()),
+            CustomFieldTypes::TEXT => new LongTextField($attributeName, $attributeName)->addFlags(new ApiAware()),
+            CustomFieldTypes::HTML => new LongTextField($attributeName, $attributeName)->addFlags(new ApiAware(), new AllowHtml()),
+            CustomFieldTypes::PRICE => new PriceField($attributeName, $attributeName)->addFlags(new ApiAware()),
+            default => new JsonField($attributeName, $attributeName)->addFlags(new ApiAware()),
         };
 
         return $this->customFieldObjects[$attributeName] = $object;

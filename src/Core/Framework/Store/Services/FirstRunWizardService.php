@@ -215,7 +215,7 @@ class FirstRunWizardService
         $domains = array_map(static function ($data) use ($currentLicenseDomain) {
             $domain = idn_to_utf8($data['domain']);
 
-            return (new LicenseDomainStruct())->assign([
+            return new LicenseDomainStruct()->assign([
                 'domain' => $domain,
                 'edition' => $data['edition']['label'],
                 'verified' => $data['verified'] ?? false,
@@ -289,7 +289,7 @@ class FirstRunWizardService
                 continue;
             }
 
-            $mappedExtensions[] = (new StorePluginStruct())->assign([
+            $mappedExtensions[] = new StorePluginStruct()->assign([
                 'name' => $extensionName,
                 'type' => $extension['type'] ?? 'plugin',
                 'label' => $label,
@@ -408,7 +408,7 @@ class FirstRunWizardService
         /** @var AdminApiSource $contextSource */
         $contextSource = $context->getSource();
 
-        $criteria = (new Criteria())->addFilter(
+        $criteria = new Criteria()->addFilter(
             new EqualsFilter('userId', $contextSource->getUserId()),
             new EqualsFilter('key', self::USER_CONFIG_KEY_FRW_USER_TOKEN)
         );

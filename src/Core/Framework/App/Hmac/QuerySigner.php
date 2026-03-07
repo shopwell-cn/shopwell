@@ -39,7 +39,7 @@ class QuerySigner
         $unsignedUri = Uri::withQueryValues(new Uri($uri), [
             'shop-id' => $this->shopIdProvider->getShopId(),
             'shop-url' => $this->shopUrl,
-            'timestamp' => (string) (new \DateTime())->getTimestamp(),
+            'timestamp' => (string) new \DateTime()->getTimestamp(),
             'sw-version' => $this->shopwellVersion,
             'app-version' => $app->getVersion(),
             'in-app-purchases' => \urlencode($this->inAppPurchase->getJWTByExtension($app->getName()) ?? ''),
@@ -51,7 +51,7 @@ class QuerySigner
         return Uri::withQueryValue(
             $unsignedUri,
             'shopwell-shop-signature',
-            (new RequestSigner())->signPayload($unsignedUri->getQuery(), $secret)
+            new RequestSigner()->signPayload($unsignedUri->getQuery(), $secret)
         );
     }
 }

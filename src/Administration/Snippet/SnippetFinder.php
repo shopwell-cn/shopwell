@@ -311,7 +311,7 @@ class SnippetFinder implements SnippetFinderInterface
             return [];
         }
         $files = [];
-        $finder = (new Finder())
+        $finder = new Finder()
             ->files()
             ->exclude('node_modules')
             ->ignoreDotFiles(true)

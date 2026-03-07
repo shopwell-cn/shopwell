@@ -13,7 +13,7 @@ return (new Config())
     ->setRules([
         '@Symfony' => true,
         '@Symfony:risky' => true,
-
+        'new_expression_parentheses' => true,
         'blank_line_after_opening_tag' => false,
         'class_attributes_separation' => ['elements' => ['property' => 'one', 'method' => 'one']],
         'concat_space' => ['spacing' => 'one'],

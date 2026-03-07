@@ -145,7 +145,7 @@ class StoreAppLifecycleService extends AbstractStoreAppLifecycleService
 
     private function getAppByName(string $technicalName, Context $context): AppEntity
     {
-        $criteria = (new Criteria())->addFilter(new EqualsFilter('name', $technicalName));
+        $criteria = new Criteria()->addFilter(new EqualsFilter('name', $technicalName));
         $app = $this->appRepository->search($criteria, $context)->getEntities()->first();
 
         if (!$app) {
@@ -162,7 +162,7 @@ class StoreAppLifecycleService extends AbstractStoreAppLifecycleService
         }
 
         return $this->themeRepository->searchIds(
-            (new Criteria())->addFilter(new EqualsFilter('technicalName', $technicalName)),
+            new Criteria()->addFilter(new EqualsFilter('technicalName', $technicalName)),
             $context
         )->firstId();
     }

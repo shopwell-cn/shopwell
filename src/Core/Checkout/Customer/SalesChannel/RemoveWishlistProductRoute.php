@@ -75,7 +75,7 @@ class RemoveWishlistProductRoute extends AbstractRemoveWishlistProductRoute
 
     private function getWishlistId(SalesChannelContext $context, string $customerId): string
     {
-        $criteria = (new Criteria())
+        $criteria = new Criteria()
             ->setLimit(1)
             ->addFilter(new MultiFilter(MultiFilter::CONNECTION_AND, [
                 new EqualsFilter('customerId', $customerId),
@@ -92,7 +92,7 @@ class RemoveWishlistProductRoute extends AbstractRemoveWishlistProductRoute
 
     private function getWishlistProductId(string $wishlistId, string $productId, SalesChannelContext $context): string
     {
-        $criteria = (new Criteria())
+        $criteria = new Criteria()
             ->setLimit(1)
             ->addFilter(new MultiFilter(MultiFilter::CONNECTION_AND, [
                 new EqualsFilter('wishlistId', $wishlistId),

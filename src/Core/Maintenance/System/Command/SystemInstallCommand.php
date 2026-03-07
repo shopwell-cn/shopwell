@@ -164,7 +164,7 @@ class SystemInstallCommand extends Command
             $commands[] = [
                 'command' => 'system:config:set',
                 'key' => 'core.frw.completedAt',
-                'value' => (new \DateTime())->format('Y-m-d H:i:s'),
+                'value' => new \DateTime()->format('Y-m-d H:i:s'),
             ];
         }
 

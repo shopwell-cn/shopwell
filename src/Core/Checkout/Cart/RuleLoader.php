@@ -34,7 +34,7 @@ class RuleLoader extends AbstractRuleLoader
 
     public function load(Context $context): RuleCollection
     {
-        $criteria = (new Criteria())
+        $criteria = new Criteria()
             ->addSorting(new FieldSorting('priority', FieldSorting::DESCENDING))
             ->addSorting(new FieldSorting('id'))
             ->addFilter(new EqualsFilter('invalid', false))

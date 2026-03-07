@@ -53,6 +53,7 @@ class System extends Bundle
 
         $phpLoader = new PhpFileLoader($container, $configLocator);
         $phpLoader->load('consent.php');
+        $phpLoader->load('data_dict.php');
 
         $container->addCompilerPass(new SalesChannelEntityCompilerPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION, 0);
         $container->addCompilerPass(new NumberRangeIncrementerCompilerPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION, 0);

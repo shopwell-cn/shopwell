@@ -132,7 +132,7 @@ class Criteria extends Struct implements \Stringable
 
     public function __toString(): string
     {
-        $parsed = (new CriteriaArrayConverter(new AggregationParser()))->convert($this);
+        $parsed = new CriteriaArrayConverter(new AggregationParser())->convert($this);
 
         return Json::encode($parsed);
     }

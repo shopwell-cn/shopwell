@@ -88,7 +88,7 @@ class AppLifecycleIterator
      */
     private function getRegisteredApps(Context $context): array
     {
-        $criteria = (new Criteria())->addFilter(new EqualsFilter('selfManaged', false));
+        $criteria = new Criteria()->addFilter(new EqualsFilter('selfManaged', false));
         $criteria->addFields(['id', 'name', 'aclRoleId', 'version']);
         $apps = $this->appRepository->search($criteria, $context)->getEntities();
 

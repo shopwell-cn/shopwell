@@ -449,7 +449,7 @@ class StoreClient
         $violations = [];
         foreach ($violationsData as $violationData) {
             $violationData['actions'] = $this->getActions($violationData['actions'] ?? []);
-            $violationData['type'] = (new StoreLicenseViolationTypeStruct())->assign($violationData['type']);
+            $violationData['type'] = new StoreLicenseViolationTypeStruct()->assign($violationData['type']);
             $expired = new StoreLicenseViolationStruct();
             $expired->assign($violationData);
             $violations[] = $expired;

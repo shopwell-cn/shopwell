@@ -52,7 +52,7 @@ class AdminSearchController extends AbstractController
             $missing = $this->criteriaValidator->validate($entity, $criteria, $context);
 
             if ($missing !== []) {
-                $violations[$entity] = (new MissingPrivilegeException($missing))->getErrors()->current();
+                $violations[$entity] = new MissingPrivilegeException($missing)->getErrors()->current();
                 $criteriaCollection->remove($entity);
             }
         }

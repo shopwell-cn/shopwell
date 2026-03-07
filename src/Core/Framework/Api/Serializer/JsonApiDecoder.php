@@ -16,7 +16,7 @@ class JsonApiDecoder implements DecoderInterface
 
     public function decode(string $data, string $format, array $context = []): mixed
     {
-        $decodedData = (new JsonDecode([JsonDecode::ASSOCIATIVE => true]))->decode($data, 'json');
+        $decodedData = new JsonDecode([JsonDecode::ASSOCIATIVE => true])->decode($data, 'json');
 
         if (!\is_array($decodedData) || !\array_key_exists('data', $decodedData)) {
             throw new UnexpectedValueException('Input not a valid JSON:API data object.');

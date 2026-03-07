@@ -45,11 +45,11 @@ class AppAdministrationSnippetDefinition extends EntityDefinition
     protected function defineFields(): FieldCollection
     {
         return new FieldCollection([
-            (new IdField('id', 'id'))->addFlags(new PrimaryKey(), new Required()),
-            (new LongTextField('value', 'value'))->addFlags(new ApiAware(), new Required(), new SearchRanking(SearchRanking::HIGH_SEARCH_RANKING), new AllowEmptyString(), new AllowHtml()),
+            new IdField('id', 'id')->addFlags(new PrimaryKey(), new Required()),
+            new LongTextField('value', 'value')->addFlags(new ApiAware(), new Required(), new SearchRanking(SearchRanking::HIGH_SEARCH_RANKING), new AllowEmptyString(), new AllowHtml()),
 
-            (new FkField('app_id', 'appId', AppDefinition::class))->addFlags(new ApiAware(), new Required()),
-            (new FkField('locale_id', 'localeId', LocaleDefinition::class))->addFlags(new ApiAware(), new Required()),
+            new FkField('app_id', 'appId', AppDefinition::class)->addFlags(new ApiAware(), new Required()),
+            new FkField('locale_id', 'localeId', LocaleDefinition::class)->addFlags(new ApiAware(), new Required()),
         ]);
     }
 }

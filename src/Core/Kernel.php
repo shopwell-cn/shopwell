@@ -266,7 +266,7 @@ class Kernel extends HttpKernel
 
         $pluginDir = $this->pluginLoader->getPluginDir($this->getProjectDir());
 
-        $coreDir = \dirname((string) (new \ReflectionClass(self::class))->getFileName());
+        $coreDir = \dirname((string) new \ReflectionClass(self::class)->getFileName());
 
         return array_merge(
             $parameters,

@@ -202,7 +202,7 @@ class ImportEntityCommand extends Command
     private function profileByTechnicalName(string $technicalName, Context $context): ImportExportProfileEntity
     {
         $result = $this->profileRepository->search(
-            (new Criteria())->addFilter(new EqualsFilter('technicalName', $technicalName)),
+            new Criteria()->addFilter(new EqualsFilter('technicalName', $technicalName)),
             $context
         )->getEntities();
 

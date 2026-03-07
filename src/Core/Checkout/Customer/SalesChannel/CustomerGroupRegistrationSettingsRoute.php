@@ -39,7 +39,7 @@ class CustomerGroupRegistrationSettingsRoute extends AbstractCustomerGroupRegist
     #[Route(path: '/store-api/customer-group-registration/config/{customerGroupId}', name: 'store-api.customer-group-registration.config', methods: ['GET'])]
     public function load(string $customerGroupId, SalesChannelContext $context): CustomerGroupRegistrationSettingsRouteResponse
     {
-        $criteria = (new Criteria([$customerGroupId]))
+        $criteria = new Criteria([$customerGroupId])
             ->addFilter(new EqualsFilter('registrationActive', 1))
             ->addFilter(new EqualsFilter('registrationSalesChannels.id', $context->getSalesChannelId()));
 

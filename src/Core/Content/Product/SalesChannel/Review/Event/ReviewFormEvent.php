@@ -42,7 +42,7 @@ final class ReviewFormEvent extends Event implements SalesChannelAware, MailAwar
 
     public static function getAvailableData(): EventDataCollection
     {
-        return (new EventDataCollection())
+        return new EventDataCollection()
             ->add(FlowMailVariables::REVIEW_FORM_DATA, new ObjectType())
             ->add(ProductAware::PRODUCT, new EntityType(ProductDefinition::class));
     }

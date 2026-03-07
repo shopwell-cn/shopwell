@@ -43,8 +43,8 @@ class ProductFeatureSetTranslationDefinition extends EntityTranslationDefinition
     protected function defineFields(): FieldCollection
     {
         return new FieldCollection([
-            (new StringField('name', 'name'))->addFlags(new Required(), new ApiAware()),
-            (new StringField('description', 'description'))->addFlags(new ApiAware()),
+            new StringField('name', 'name')->addFlags(new Required(), new ApiAware()),
+            new StringField('description', 'description')->addFlags(new ApiAware()),
         ]);
     }
 }

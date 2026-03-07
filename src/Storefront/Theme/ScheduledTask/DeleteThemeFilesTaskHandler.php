@@ -51,7 +51,7 @@ final class DeleteThemeFilesTaskHandler extends ScheduledTaskHandler
             }
 
             // Only delete directories that were last modified more than 24 hours ago, as more recently compiled themes might still be referenced in cached responses
-            $twentyFourHoursAgo = (new \DateTimeImmutable())->modify('-24 hours')->getTimestamp();
+            $twentyFourHoursAgo = new \DateTimeImmutable()->modify('-24 hours')->getTimestamp();
 
             return $twentyFourHoursAgo > $modifiedTimestampOfFirstFile;
         });

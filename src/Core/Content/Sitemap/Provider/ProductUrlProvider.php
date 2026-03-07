@@ -84,7 +84,7 @@ class ProductUrlProvider extends AbstractUrlProvider
         foreach ($products as $product) {
             $lastMod = $product['updated_at'] ?: $product['created_at'];
 
-            $lastMod = (new \DateTime($lastMod))->format(Defaults::STORAGE_DATE_TIME_FORMAT);
+            $lastMod = new \DateTime($lastMod)->format(Defaults::STORAGE_DATE_TIME_FORMAT);
 
             $newUrl = clone $url;
 

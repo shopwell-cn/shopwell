@@ -52,10 +52,10 @@ class DynamicMappingEntityDefinition extends MappingEntityDefinition
     protected function defineFields(): FieldCollection
     {
         $fields = new FieldCollection([
-            (new FkField($this->source . '_id', self::kebabCaseToCamelCase($this->source) . 'Id', $this->source, 'id'))
+            new FkField($this->source . '_id', self::kebabCaseToCamelCase($this->source) . 'Id', $this->source, 'id')
                 ->addFlags(new Required(), new PrimaryKey()),
 
-            (new FkField($this->reference . '_id', self::kebabCaseToCamelCase($this->reference) . 'Id', $this->reference, 'id'))
+            new FkField($this->reference . '_id', self::kebabCaseToCamelCase($this->reference) . 'Id', $this->reference, 'id')
                 ->addFlags(new Required(), new PrimaryKey()),
 
             new ManyToOneAssociationField(self::kebabCaseToCamelCase($this->reference), $this->reference . '_id', $this->reference, 'id', false),
@@ -65,14 +65,14 @@ class DynamicMappingEntityDefinition extends MappingEntityDefinition
         $definition = $this->registry->getByEntityName($this->source);
         if ($definition->isVersionAware()) {
             $fields->add(
-                (new ReferenceVersionField($definition->getEntityName()))->addFlags(new PrimaryKey(), new Required()),
+                new ReferenceVersionField($definition->getEntityName())->addFlags(new PrimaryKey(), new Required()),
             );
         }
 
         $definition = $this->registry->getByEntityName($this->reference);
         if ($definition->isVersionAware()) {
             $fields->add(
-                (new ReferenceVersionField($definition->getEntityName()))->addFlags(new PrimaryKey(), new Required()),
+                new ReferenceVersionField($definition->getEntityName())->addFlags(new PrimaryKey(), new Required()),
             );
         }
 
@@ -81,6 +81,6 @@ class DynamicMappingEntityDefinition extends MappingEntityDefinition
 
     protected static function kebabCaseToCamelCase(string $string): string
     {
-        return (new CamelCaseToSnakeCaseNameConverter())->denormalize(str_replace('-', '_', $string));
+        return new CamelCaseToSnakeCaseNameConverter()->denormalize(str_replace('-', '_', $string));
     }
 }

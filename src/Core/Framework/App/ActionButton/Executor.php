@@ -49,7 +49,7 @@ class Executor
 
         $payload = $action->asPayload();
         $payload['meta'] = [
-            'timestamp' => (new \DateTime())->getTimestamp(),
+            'timestamp' => new \DateTime()->getTimestamp(),
             'reference' => Uuid::randomHex(),
             'language' => $context->getLanguageId(),
         ];

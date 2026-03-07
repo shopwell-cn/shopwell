@@ -34,8 +34,8 @@ class PromotionOrderRuleDefinition extends MappingEntityDefinition
     protected function defineFields(): FieldCollection
     {
         return new FieldCollection([
-            (new FkField('promotion_id', 'promotionId', PromotionDefinition::class))->addFlags(new PrimaryKey(), new Required()),
-            (new FkField('rule_id', 'ruleId', RuleDefinition::class))->addFlags(new PrimaryKey(), new Required()),
+            new FkField('promotion_id', 'promotionId', PromotionDefinition::class)->addFlags(new PrimaryKey(), new Required()),
+            new FkField('rule_id', 'ruleId', RuleDefinition::class)->addFlags(new PrimaryKey(), new Required()),
             new ManyToOneAssociationField('promotion', 'promotion_id', PromotionDefinition::class, 'id'),
             new ManyToOneAssociationField('rule', 'rule_id', RuleDefinition::class, 'id'),
         ]);

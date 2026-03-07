@@ -88,7 +88,7 @@ class CacheClearer
         }
 
         $searchDir = $this->cacheDir;
-        $finder = (new Finder())->in($searchDir)->name('*Container*')->depth(0);
+        $finder = new Finder()->in($searchDir)->name('*Container*')->depth(0);
         $containerCaches = [];
 
         foreach ($finder->getIterator() as $containerPaths) {
@@ -140,7 +140,7 @@ class CacheClearer
         }
 
         $searchDir = \dirname($this->cacheDir) . '/';
-        $finder = (new Finder())
+        $finder = new Finder()
             ->directories()
             ->name($this->environment . '*')
             ->in($searchDir);
@@ -200,7 +200,7 @@ class CacheClearer
 
     private function cleanupUrlGeneratorCacheFiles(): void
     {
-        $finder = (new Finder())
+        $finder = new Finder()
             ->in($this->cacheDir)
             ->files()
             ->name(['UrlGenerator.php', 'UrlGenerator.php.meta']);
