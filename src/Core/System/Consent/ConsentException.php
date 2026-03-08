@@ -9,15 +9,15 @@ use Symfony\Component\HttpFoundation\Response;
 #[Package('data-services')]
 class ConsentException extends HttpException
 {
-    final public const NOT_FOUND = 'SYSTEM__CONSENT_NOT_FOUND';
-    final public const STORAGE_NOT_FOUND = 'SYSTEM__CONSENT_STORAGE_NOT_FOUND';
-    final public const INVALID_CONSENT = 'SYSTEM__CONSENT_INVALID_CONSENT';
-    final public const INVALID_CONSENT_STATUS = 'SYSTEM__CONSENT_INVALID_CONSENT_STATUS';
-    final public const INVALID_SCOPE = 'SYSTEM__CONSENT_INVALID_SCOPE';
+    final public const string NOT_FOUND = 'SYSTEM__CONSENT_NOT_FOUND';
+    final public const string STORAGE_NOT_FOUND = 'SYSTEM__CONSENT_STORAGE_NOT_FOUND';
+    final public const string INVALID_CONSENT = 'SYSTEM__CONSENT_INVALID_CONSENT';
+    final public const string INVALID_CONSENT_STATUS = 'SYSTEM__CONSENT_INVALID_CONSENT_STATUS';
+    final public const string INVALID_SCOPE = 'SYSTEM__CONSENT_INVALID_SCOPE';
 
-    final public const CANNOT_RESOLVE_ACTOR = 'SYSTEM__CONSENT_CANNOT_RESOLVE_ACTOR';
+    final public const string CANNOT_RESOLVE_ACTOR = 'SYSTEM__CONSENT_CANNOT_RESOLVE_ACTOR';
 
-    final public const INSUFFICIENT_PERMISSIONS = 'SYSTEM__CONSENT_INSUFFICIENT_PERMISSIONS';
+    final public const string INSUFFICIENT_PERMISSIONS = 'SYSTEM__CONSENT_INSUFFICIENT_PERMISSIONS';
 
     public static function notFound(string $name): self
     {

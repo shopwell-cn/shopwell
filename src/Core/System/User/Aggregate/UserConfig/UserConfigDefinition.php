@@ -17,7 +17,7 @@ use Shopwell\Core\System\User\UserDefinition;
 #[Package('fundamentals@framework')]
 class UserConfigDefinition extends EntityDefinition
 {
-    final public const ENTITY_NAME = 'user_config';
+    final public const string ENTITY_NAME = 'user_config';
 
     public function getEntityName(): string
     {

@@ -14,7 +14,7 @@ use Shopwell\Core\System\Snippet\Struct\MissingSnippetStruct;
 use Shopwell\Core\System\Snippet\Struct\SnippetValidationStruct;
 
 /**
- * @deprecated tag:v6.8.0 - class will be marked internal - reason:becomes-internal
+ * @internal
  *
  * @phpstan-type MissingSnippetsArray array<string, array<string, array{
  *      path: string,
@@ -24,7 +24,7 @@ use Shopwell\Core\System\Snippet\Struct\SnippetValidationStruct;
  * }>>
  */
 #[Package('discovery')]
-readonly class SnippetValidator implements SnippetValidatorInterface
+readonly class SnippetValidator
 {
     /**
      * @internal
@@ -34,32 +34,6 @@ readonly class SnippetValidator implements SnippetValidatorInterface
         private SnippetFileHandler $snippetFileHandler,
         private string $projectDir
     ) {
-    }
-
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed, use `getValidation()` instead
-     *
-     * @return MissingSnippetsArray
-     */
-    public function validate(): array
-    {
-        Feature::triggerDeprecationOrThrow(
-            'v6.8.0.0',
-            'The method  Will be removed, use `getValidation()` instead.'
-        );
-
-        $missingSnippetsArray = [];
-        foreach ($this->getValidation()->missingSnippets as $entry) {
-            $key = $entry->getKeyPath();
-            $missingSnippetsArray[$entry->getMissingForISO()][$key] = [
-                'path' => $entry->getFilePath(),
-                'availableISO' => $entry->getAvailableISO(),
-                'availableValue' => $entry->getAvailableTranslation(),
-                'keyPath' => $key,
-            ];
-        }
-
-        return $missingSnippetsArray;
     }
 
     public function getValidation(): SnippetValidationStruct

@@ -41,19 +41,19 @@ class System extends Bundle
         $loader->load('custom_entity.xml');
         $loader->load('locale.xml');
         $loader->load('snippet.xml');
-        $loader->load('tax.xml');
-        $loader->load('tax_provider.xml');
-        $loader->load('unit.xml');
         $loader->load('user.xml');
         $loader->load('integration.xml');
         $loader->load('state_machine.xml');
         $loader->load('configuration.xml');
         $loader->load('number_range.xml');
-        $loader->load('tag.xml');
 
         $phpLoader = new PhpFileLoader($container, $configLocator);
         $phpLoader->load('consent.php');
         $phpLoader->load('data_dict.php');
+        $phpLoader->load('tax.php');
+        $phpLoader->load('tax_provider.php');
+        $phpLoader->load('unit.php');
+        $phpLoader->load('tag.php');
 
         $container->addCompilerPass(new SalesChannelEntityCompilerPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION, 0);
         $container->addCompilerPass(new NumberRangeIncrementerCompilerPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION, 0);

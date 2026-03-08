@@ -15,7 +15,7 @@ use Shopwell\Core\System\Country\CountryDefinition;
 #[Package('fundamentals@discovery')]
 class CountryTranslationDefinition extends EntityTranslationDefinition
 {
-    final public const ENTITY_NAME = 'country_translation';
+    final public const string ENTITY_NAME = 'country_translation';
 
     public function getEntityName(): string
     {

@@ -12,7 +12,7 @@ use Shopwell\Core\System\Tax\Aggregate\TaxRuleType\TaxRuleTypeDefinition;
 #[Package('checkout')]
 class TaxRuleTypeTranslationDefinition extends EntityTranslationDefinition
 {
-    final public const ENTITY_NAME = 'tax_rule_type_translation';
+    final public const string ENTITY_NAME = 'tax_rule_type_translation';
 
     public function getEntityName(): string
     {

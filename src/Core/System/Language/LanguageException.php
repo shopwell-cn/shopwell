@@ -5,23 +5,15 @@ namespace Shopwell\Core\System\Language;
 use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\HttpException;
 use Shopwell\Core\Framework\Log\Package;
-use Shopwell\Core\Framework\Rule\Exception\UnsupportedValueException;
 use Symfony\Component\HttpFoundation\Response;
 
 #[Package('fundamentals@discovery')]
 class LanguageException extends HttpException
 {
-    public const VALUE_NOT_SUPPORTED = 'LANGUAGE__RULE_VALUE_NOT_SUPPORTED';
+    public const string VALUE_NOT_SUPPORTED = 'LANGUAGE__RULE_VALUE_NOT_SUPPORTED';
 
-    /**
-     * @deprecated tag:v6.8.0 - reason:return-type-change - Will return self
-     */
-    public static function unsupportedValue(string $type, string $class): self|UnsupportedValueException
+    public static function unsupportedValue(string $type, string $class): self
     {
-        if (!Feature::isActive('v6.8.0.0')) {
-            return new UnsupportedValueException($type, $class);
-        }
-
         return new self(
             Response::HTTP_BAD_REQUEST,
             self::VALUE_NOT_SUPPORTED,

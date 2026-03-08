@@ -5,6 +5,7 @@ namespace Shopwell\Core\System\SalesChannel\Context;
 use Shopwell\Core\Checkout\Cart\AbstractCartPersister;
 use Shopwell\Core\Checkout\Cart\CartRuleLoader;
 use Shopwell\Core\Checkout\Cart\SalesChannel\CartService;
+use Shopwell\Core\Checkout\CheckoutPermissions;
 use Shopwell\Core\Framework\Context;
 use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
@@ -137,9 +138,8 @@ class SalesChannelContextService implements SalesChannelContextServiceInterface
             // skip cart calculation on ESI sub-requests if it has already been done.
             $esiRequest = $currentRequest?->attributes->has('_sw_esi') ?? false;
             if (!$this->cartService->hasCart($token) || !$esiRequest) {
-                // @deprecated tag:v6.8.0 - Permission will always be true
                 $result = $context->withPermissions(
-                    [AbstractCartPersister::PERSIST_CART_ERROR_PERMISSION => Feature::isActive('DEFERRED_CART_ERRORS')],
+                    [CheckoutPermissions::PERSIST_CART_ERRORS => Feature::isActive('DEFERRED_CART_ERRORS')],
                     fn (SalesChannelContext $context) => $this->ruleLoader->loadByToken($context, $token),
                 );
 

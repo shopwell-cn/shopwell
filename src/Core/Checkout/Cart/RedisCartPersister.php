@@ -7,6 +7,7 @@ use Shopwell\Core\Checkout\Cart\Event\CartLoadedEvent;
 use Shopwell\Core\Checkout\Cart\Event\CartSavedEvent;
 use Shopwell\Core\Checkout\Cart\Event\CartVerifyPersistEvent;
 use Shopwell\Core\Checkout\Cart\Exception\CartTokenNotFoundException;
+use Shopwell\Core\Checkout\CheckoutPermissions;
 use Shopwell\Core\Framework\Adapter\Cache\RedisConnectionFactory;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Plugin\Exception\DecorationPatternException;
@@ -133,7 +134,7 @@ class RedisCartPersister extends AbstractCartPersister
     private function serializeCart(Cart $cart, SalesChannelContext $context): string
     {
         $errors = $cart->getErrors();
-        if (!$cart->getBehavior()?->hasPermission(self::PERSIST_CART_ERROR_PERMISSION)) {
+        if (!$cart->getBehavior()?->hasPermission(CheckoutPermissions::PERSIST_CART_ERRORS)) {
             $cart->setErrors(new ErrorCollection());
         }
 

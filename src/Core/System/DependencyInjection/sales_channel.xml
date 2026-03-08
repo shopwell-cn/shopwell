@@ -137,10 +137,6 @@
             <argument type="service" id="Shopwell\Core\Framework\Api\Route\ApiRouteInfoResolver"/>
         </service>
 
-        <service id="Shopwell\Core\System\SalesChannel\SalesChannel\SalesChannelContextSwitcher">
-            <argument type="service" id="Shopwell\Core\System\SalesChannel\SalesChannel\ContextSwitchRoute"/>
-        </service>
-
         <service id="Shopwell\Core\System\SalesChannel\SalesChannel\ContextSwitchRoute" public="true">
             <argument type="service" id="Shopwell\Core\Framework\Validation\DataValidator"/>
             <argument type="service" id="Shopwell\Core\System\SalesChannel\Context\SalesChannelContextPersister"/>
@@ -164,10 +160,6 @@
 
         <service id="Shopwell\Core\System\SalesChannel\Context\SalesChannelContextValueResolver">
             <tag name="controller.argument_value_resolver" priority="1000"/>
-        </service>
-
-        <service id="Shopwell\Core\System\SalesChannel\SalesChannelExceptionHandler">
-            <tag name="shopwell.dal.exception_handler"/>
         </service>
 
         <service id="Shopwell\Core\System\SalesChannel\Api\StoreApiResponseListener">

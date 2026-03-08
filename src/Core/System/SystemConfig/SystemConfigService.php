@@ -424,42 +424,6 @@ class SystemConfigService implements ResetInterface
         }
     }
 
-    /**
-     * @template TReturn of mixed
-     *
-     * @param \Closure(): TReturn $param
-     *
-     * @return TReturn All kind of data could be cached
-     *
-     * @deprecated tag:v6.8.0 - Cache tracing is not used anymore since v6.7.0.0
-     */
-    public function trace(string $key, \Closure $param)
-    {
-        Feature::triggerDeprecationOrThrow(
-            'v6.8.0.0',
-            Feature::deprecatedMethodMessage(self::class, __METHOD__, 'v6.8.0.0')
-        );
-
-        $result = $param();
-
-        return $result;
-    }
-
-    /**
-     * @return array<string>
-     *
-     * @deprecated tag:v6.8.0 - Cache tracing is not used anymore since v6.7.0.0
-     */
-    public function getTrace(string $key): array
-    {
-        Feature::triggerDeprecationOrThrow(
-            'v6.8.0.0',
-            Feature::deprecatedMethodMessage(self::class, __METHOD__, 'v6.8.0.0')
-        );
-
-        return [];
-    }
-
     public function reset(): void
     {
         $this->appMapping = null;

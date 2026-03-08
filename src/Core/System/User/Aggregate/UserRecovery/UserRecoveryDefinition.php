@@ -17,7 +17,7 @@ use Shopwell\Core\System\User\UserDefinition;
 #[Package('fundamentals@framework')]
 class UserRecoveryDefinition extends EntityDefinition
 {
-    final public const ENTITY_NAME = 'user_recovery';
+    final public const string ENTITY_NAME = 'user_recovery';
 
     public function getEntityName(): string
     {

@@ -25,31 +25,6 @@ class CountryStateCollection extends EntityCollection
         return $this->filter(fn (CountryStateEntity $countryState) => $countryState->getCountryId() === $id);
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - will be removed, use sorting via SQL instead
-     */
-    public function sortByPositionAndName(): void
-    {
-        Feature::triggerDeprecationOrThrow('v6.8.0.0', 'Use sorting via SQL instead of this method.');
-
-        uasort($this->elements, static function (CountryStateEntity $a, CountryStateEntity $b) {
-            $aPosition = $a->getPosition();
-            $bPosition = $b->getPosition();
-
-            if ($aPosition !== $bPosition) {
-                return $aPosition <=> $bPosition;
-            }
-
-            $aName = (string) $a->getTranslation('name');
-            $bName = (string) $b->getTranslation('name');
-            if ($aName !== $bName) {
-                return strnatcasecmp($aName, $bName);
-            }
-
-            return 0;
-        });
-    }
-
     public function getApiAlias(): string
     {
         return 'country_state_collection';

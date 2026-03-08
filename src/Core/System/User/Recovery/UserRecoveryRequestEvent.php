@@ -21,7 +21,7 @@ use Symfony\Contracts\EventDispatcher\Event;
 #[Package('fundamentals@framework')]
 class UserRecoveryRequestEvent extends Event implements UserAware, MailAware, ScalarValuesAware, FlowEventAware
 {
-    final public const EVENT_NAME = 'user.recovery.request';
+    final public const string EVENT_NAME = 'user.recovery.request';
 
     private ?MailRecipientStruct $mailRecipientStruct = null;
 

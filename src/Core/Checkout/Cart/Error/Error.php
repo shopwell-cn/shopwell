@@ -67,16 +67,6 @@ abstract class Error extends \Exception implements \JsonSerializable, AssignArra
     abstract public function getParameters(): array;
 
     /**
-     * @deprecated tag:v6.8.0 - will be removed without replacement
-     */
-    public function getRoute(): ?ErrorRoute
-    {
-        Feature::triggerDeprecationOrThrow('v6.8.0.0', Feature::deprecatedMethodMessage(self::class, 'getRoute', 'v6.8.0.0'));
-
-        return null;
-    }
-
-    /**
      * Persistent Errors are passed between the shopping cart calculation processes and then displayed to the user.
      *
      * Such errors are used when a validation of the shopping cart takes place and a change is made to the shopping cart in the same step. This happens, for example, in the Product Processor.

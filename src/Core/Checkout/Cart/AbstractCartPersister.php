@@ -11,11 +11,6 @@ use Shopwell\Core\System\SalesChannel\SalesChannelContext;
 #[Package('checkout')]
 abstract class AbstractCartPersister
 {
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed and is replaced by {@see CheckoutPermissions::PERSIST_CART_ERROR}
-     */
-    public const PERSIST_CART_ERROR_PERMISSION = CheckoutPermissions::PERSIST_CART_ERRORS;
-
     abstract public function getDecorated(): AbstractCartPersister;
 
     abstract public function load(string $token, SalesChannelContext $context): Cart;

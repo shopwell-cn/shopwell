@@ -19,7 +19,7 @@ use Shopwell\Core\System\User\UserDefinition;
 #[Package('fundamentals@framework')]
 class UserAccessKeyDefinition extends EntityDefinition
 {
-    final public const ENTITY_NAME = 'user_access_key';
+    final public const string ENTITY_NAME = 'user_access_key';
 
     public function getEntityName(): string
     {

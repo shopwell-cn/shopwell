@@ -23,17 +23,7 @@ use Shopwell\Core\System\SalesChannel\SalesChannelContext;
 #[Package('checkout')]
 class DeliveryProcessor implements CartProcessorInterface, CartDataCollectorInterface
 {
-    final public const MANUAL_SHIPPING_COSTS = 'manualShippingCosts';
-
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed and is replaced by {@see CheckoutPermissions::SKIP_PRODUCT_STOCK_VALIDATION}
-     */
-    final public const SKIP_DELIVERY_PRICE_RECALCULATION = CheckoutPermissions::SKIP_DELIVERY_PRICE_RECALCULATION;
-
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed and is replaced by {@see CheckoutPermissions::SKIP_DELIVERY_TAX_RECALCULATION}
-     */
-    final public const SKIP_DELIVERY_TAX_RECALCULATION = CheckoutPermissions::SKIP_DELIVERY_TAX_RECALCULATION;
+    final public const string MANUAL_SHIPPING_COSTS = 'manualShippingCosts';
 
     /**
      * @internal
@@ -99,7 +89,7 @@ class DeliveryProcessor implements CartProcessorInterface, CartDataCollectorInte
     public function process(CartDataCollection $data, Cart $original, Cart $toCalculate, SalesChannelContext $context, CartBehavior $behavior): void
     {
         Profiler::trace('cart::delivery::process', function () use ($data, $original, $toCalculate, $context, $behavior): void {
-            if ($behavior->hasPermission(self::SKIP_DELIVERY_PRICE_RECALCULATION)) {
+            if ($behavior->hasPermission(CheckoutPermissions::SKIP_DELIVERY_PRICE_RECALCULATION)) {
                 $deliveries = $original->getDeliveries()->filter(function (Delivery $delivery) {
                     return $delivery->getShippingCosts()->getTotalPrice() >= 0;
                 });
@@ -107,10 +97,6 @@ class DeliveryProcessor implements CartProcessorInterface, CartDataCollectorInte
                 $firstDelivery = $original->getDeliveries()->getPrimaryDelivery(
                     $original->getExtensionOfType(OrderConverter::ORIGINAL_PRIMARY_ORDER_DELIVERY, IdStruct::class)?->getId()
                 );
-
-                if (!Feature::isActive('v6.8.0.0')) {
-                    $firstDelivery = $deliveries->first();
-                }
 
                 if ($firstDelivery === null) {
                     return;

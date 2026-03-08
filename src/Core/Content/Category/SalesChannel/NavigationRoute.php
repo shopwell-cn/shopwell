@@ -47,19 +47,6 @@ class NavigationRoute extends AbstractNavigationRoute
     ) {
     }
 
-    /**
-     * @deprecated - tag:v6.8.0 - will be removed, navigation route will only be tagged globally, use NavigationRoute::ALL_TAG instead
-     */
-    public static function buildName(string $id): string
-    {
-        Feature::triggerDeprecationOrThrow(
-            'v6.8.0.0',
-            Feature::deprecatedMethodMessage(self::class, __METHOD__, 'v6.8.0.0', ' NavigationRoute::ALL_TAG')
-        );
-
-        return 'navigation-route-' . $id;
-    }
-
     public function getDecorated(): AbstractNavigationRoute
     {
         throw new DecorationPatternException(self::class);
@@ -85,15 +72,6 @@ class NavigationRoute extends AbstractNavigationRoute
         $active = $this->getMetaInfoById($activeId, $metaInfo);
 
         $tags = [self::ALL_TAG];
-
-        // Navigation route will be tagged & invalidated globally only in 6.8
-        Feature::callSilentIfInactive(
-            'v6.8.0.0',
-            static function () use ($context, $activeId, &$tags): void {
-                $tags[] = self::buildName($context->getSalesChannelId());
-                $tags[] = self::buildName($activeId);
-            }
-        );
 
         $this->cacheTagCollector->addTag(...$tags);
 
