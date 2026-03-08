@@ -86,7 +86,7 @@ class SalesChannelListCommand extends Command
                 $language?->getName() ?? 'n/a',
                 $languages->map(fn (LanguageEntity $language) => $language->getName()),
                 $currency->name ?? 'n/a',
-                $currencies->map(fn (CurrencyEntity $currency) => (string)$currency->name),
+                $currencies->map(fn (CurrencyEntity $currency) => (string) $currency->name),
                 $domains->map(fn (SalesChannelDomainEntity $domain) => $domain->getUrl()),
             ];
         }

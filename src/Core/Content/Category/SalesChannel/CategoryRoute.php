@@ -24,7 +24,7 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Package('discovery')]
 class CategoryRoute extends AbstractCategoryRoute
 {
-    final public const HOME = 'home';
+    final public const string HOME = 'home';
 
     /**
      * @internal
@@ -33,7 +33,6 @@ class CategoryRoute extends AbstractCategoryRoute
      */
     public function __construct(
         private readonly SalesChannelRepository $categoryRepository,
-        private readonly CategoryDefinition $categoryDefinition,
         private readonly CacheTagCollector $cacheTagCollector,
     ) {
     }
@@ -77,25 +76,6 @@ class CategoryRoute extends AbstractCategoryRoute
 
             throw CategoryException::categoryNotFound($navigationId);
         }
-
-        $pageId = $category->getCmsPageId();
-        $salesChannel = $context->getSalesChannel();
-
-        if ($category->getId() === $salesChannel->getNavigationCategoryId() && $salesChannel->getHomeCmsPageId()) {
-            $pageId = $salesChannel->getHomeCmsPageId();
-            $slotConfig = $salesChannel->getTranslation('homeSlotConfig');
-        } else {
-            $slotConfig = $this->buildMergedCmsSlotConfig($category, $context);
-        }
-
-        if (!$pageId) {
-            return new CategoryRouteResponse($category);
-        }
-
-        $resolverContext = new EntityResolverContext($context, $request, $this->categoryDefinition, $category);
-
-        $category->setCmsPage($cmsPage);
-        $category->setCmsPageId($pageId);
 
         return new CategoryRouteResponse($category);
     }

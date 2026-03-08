@@ -27,11 +27,15 @@ class CurrencyEntity extends Entity
 
     public float $factor;
 
-    protected string $symbol;
-
     public ?string $shortName = null;
 
     public ?string $name = null;
+
+    public CashRoundingConfig $itemRounding;
+
+    public CashRoundingConfig $totalRounding;
+
+    protected string $symbol;
 
     protected int $position;
 
@@ -52,10 +56,6 @@ class CurrencyEntity extends Entity
     protected ?ProductExportCollection $productExports = null;
 
     protected ?CurrencyCountryRoundingCollection $countryRoundings = null;
-
-    public CashRoundingConfig $itemRounding;
-
-    public CashRoundingConfig $totalRounding;
 
     public function getTranslations(): ?CurrencyTranslationCollection
     {
@@ -146,5 +146,4 @@ class CurrencyEntity extends Entity
     {
         $this->countryRoundings = $countryRoundings;
     }
-
 }
