@@ -50,7 +50,6 @@ use Shopwell\Core\Framework\DataAbstractionLayer\Search\Filter\MultiFilter;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Sorting\FieldSorting;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Term\EntityScoreQueryBuilder;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Term\SearchTermInterpreter;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 
 /**
@@ -75,7 +74,6 @@ class EntityAggregator implements EntityAggregatorInterface
         private readonly EntityDefinitionQueryHelper $queryHelper,
         private readonly DefinitionInstanceRegistry $registry,
         private readonly CriteriaQueryBuilder $criteriaQueryBuilder,
-        private readonly bool $timeZoneSupportEnabled,
         private readonly SearchTermInterpreter $interpreter,
         private readonly EntityScoreQueryBuilder $scoreBuilder
     ) {
@@ -302,8 +300,7 @@ class EntityAggregator implements EntityAggregatorInterface
     ): void {
         $accessor = $this->queryHelper->getFieldAccessor($aggregation->getField(), $definition, $definition->getEntityName(), $context);
 
-        // @deprecated tag:v6.8.0 - time zone support always enabled, remove if, but keep content
-        if (($this->timeZoneSupportEnabled || Feature::isActive('v6.8.0.0')) && $aggregation->getTimeZone()) {
+        if ($aggregation->getTimeZone()) {
             $accessor = 'CONVERT_TZ(' . $accessor . ', "UTC", "' . $aggregation->getTimeZone() . '")';
         }
 

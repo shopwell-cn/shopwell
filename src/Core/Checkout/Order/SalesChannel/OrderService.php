@@ -5,7 +5,6 @@ namespace Shopwell\Core\Checkout\Order\SalesChannel;
 use Shopwell\Core\Checkout\Cart\Cart;
 use Shopwell\Core\Checkout\Cart\SalesChannel\CartService;
 use Shopwell\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStates;
-use Shopwell\Core\Checkout\Order\Exception\PaymentMethodNotAvailableException;
 use Shopwell\Core\Checkout\Order\OrderEntity;
 use Shopwell\Core\Checkout\Order\OrderException;
 use Shopwell\Core\Checkout\Payment\PaymentMethodCollection;
@@ -104,10 +103,6 @@ class OrderService
         $toPlace = $stateMachineStates->get('toPlace');
 
         if (!$toPlace) {
-            // @deprecated tag:v6.8.0 - remove this if block
-            if (!Feature::isActive('v6.8.0.0')) {
-                throw StateMachineException::stateMachineStateNotFound('order', $transition); // @phpstan-ignore shopwell.domainException
-            }
             throw OrderException::stateMachineStateNotFound('order', $transition);
         }
 
@@ -140,10 +135,6 @@ class OrderService
         $toPlace = $stateMachineStates->get('toPlace');
 
         if (!$toPlace) {
-            // @deprecated tag:v6.8.0 - remove this if block
-            if (!Feature::isActive('v6.8.0.0')) {
-                throw StateMachineException::stateMachineStateNotFound('order_transaction', $transition); // @phpstan-ignore shopwell.domainException
-            }
             throw OrderException::stateMachineStateNotFound('order_transaction', $transition);
         }
 
@@ -219,10 +210,6 @@ class OrderService
         if ($paymentMethods->getTotal() !== \count(array_unique($idsOfPaymentMethods))) {
             foreach ($cart->getTransactions() as $paymentMethod) {
                 if (!\in_array($paymentMethod->getPaymentMethodId(), $paymentMethods->getIds(), true)) {
-                    // @deprecated tag:v6.8.0 - remove this if block
-                    if (!Feature::isActive('v6.8.0.0')) {
-                        throw new PaymentMethodNotAvailableException($paymentMethod->getPaymentMethodId()); // @phpstan-ignore shopwell.domainException
-                    }
                     throw OrderException::paymentMethodNotAvailable($paymentMethod->getPaymentMethodId());
                 }
             }

@@ -8,7 +8,6 @@ use Shopwell\Core\Content\Cookie\Struct\CookieEntry;
 use Shopwell\Core\Content\Cookie\Struct\CookieEntryCollection;
 use Shopwell\Core\Content\Cookie\Struct\CookieGroup;
 use Shopwell\Core\Content\Cookie\Struct\CookieGroupCollection;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\PlatformRequest;
 use Shopwell\Core\System\SalesChannel\SalesChannelContext;
@@ -52,15 +51,10 @@ class CookieProvider
     {
         $cookieGroups = new CookieGroupCollection();
 
-        if ($this->legacyCookieProvider && !Feature::isActive('v6.8.0.0')) {
-            // @deprecated tag:v6.8.0 - Legacy cookie conversion can be removed completely
-            $this->convertLegacyCookies($cookieGroups, $this->legacyCookieProvider->getCookieGroups());
-        } else {
-            $cookieGroups->add($this->getCookieGroupRequiredEntries());
-            $cookieGroups->add($this->getCookieGroupStatistical());
-            $cookieGroups->add($this->getCookieGroupComfortFeatures());
-            $cookieGroups->add($this->getCookieGroupMarketing());
-        }
+        $cookieGroups->add($this->getCookieGroupRequiredEntries());
+        $cookieGroups->add($this->getCookieGroupStatistical());
+        $cookieGroups->add($this->getCookieGroupComfortFeatures());
+        $cookieGroups->add($this->getCookieGroupMarketing());
 
         $this->eventDispatcher->dispatch(new CookieGroupCollectEvent($cookieGroups, $request, $salesChannelContext));
 

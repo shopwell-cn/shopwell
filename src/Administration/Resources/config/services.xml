@@ -179,7 +179,6 @@
         <service id="Shopwell\Administration\Dashboard\OrderAmountService">
             <argument type="service" id="Doctrine\DBAL\Connection"/>
             <argument type="service" id="Shopwell\Core\Checkout\Cart\Price\CashRounding"/>
-            <argument>%shopwell.dbal.time_zone_support_enabled%</argument>
         </service>
 
         <service id="Shopwell\Administration\Controller\DashboardController" public="true">

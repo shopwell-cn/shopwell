@@ -215,16 +215,6 @@ shopwell:
             #     config:
             #         url: 'redis://localhost'
 
-        # @deprecated tag:v6.8.0, will be removed
-        message_queue:
-            type: 'mysql'
-
-            # type: 'array'
-
-            # type: 'redis'
-            #     config:
-            #         url: 'redis://localhost'
-
     api:
         max_limit: 500
         api_browser:
