@@ -539,7 +539,7 @@ class WriteCommandExtractor
             return;
         }
 
-        if ($flag->isAllowed($parameters->getContext()->getContext()->getScope())) {
+        if ($flag->isAllowed($parameters->getContext()->getContext()->scope)) {
             return;
         }
 
@@ -555,12 +555,12 @@ class WriteCommandExtractor
             new ConstraintViolation(
                 \sprintf(
                     $message,
-                    $parameters->getContext()->getContext()->getScope(),
+                    $parameters->getContext()->getContext()->scope,
                     $allowedOrigins
                 ),
                 $message,
                 [
-                    $parameters->getContext()->getContext()->getScope(),
+                    $parameters->getContext()->getContext()->scope,
                     $allowedOrigins,
                 ],
                 $data->getValue(),

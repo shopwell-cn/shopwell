@@ -11,7 +11,7 @@ use Shopwell\Core\System\SalesChannel\SalesChannelDefinition;
 #[Package('fundamentals@after-sales')]
 class SalesChannelRule extends Rule
 {
-    final public const RULE_NAME = 'salesChannel';
+    final public const string RULE_NAME = 'salesChannel';
 
     /**
      * @param list<string>|null $salesChannelIds

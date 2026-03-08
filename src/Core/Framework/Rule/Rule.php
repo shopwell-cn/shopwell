@@ -11,25 +11,25 @@ abstract class Rule extends Struct
 {
     public const RULE_NAME = null;
 
-    public const OPERATOR_GTE = '>=';
+    public const string OPERATOR_GTE = '>=';
 
-    public const OPERATOR_LTE = '<=';
+    public const string OPERATOR_LTE = '<=';
 
-    public const OPERATOR_GT = '>';
+    public const string OPERATOR_GT = '>';
 
-    public const OPERATOR_LT = '<';
+    public const string OPERATOR_LT = '<';
 
-    public const OPERATOR_EQ = '=';
+    public const string OPERATOR_EQ = '=';
 
-    public const OPERATOR_NEQ = '!=';
+    public const string OPERATOR_NEQ = '!=';
 
-    public const OPERATOR_EMPTY = 'empty';
+    public const string OPERATOR_EMPTY = 'empty';
 
     /**
      * Factor to convert from m^3 to mm^3.
      * The product volume is calculated in cubic millimeters, but the rule value is stored in cubic meters.
      */
-    public const VOLUME_FACTOR = 1000 * 1000 * 1000;
+    public const int|float VOLUME_FACTOR = 1000 * 1000 * 1000;
 
     protected string $_name;
 

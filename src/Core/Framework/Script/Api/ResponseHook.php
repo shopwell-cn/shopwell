@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Response;
 #[Package('checkout')]
 class ResponseHook extends Hook
 {
-    final public const HOOK_NAME = 'response';
+    final public const string HOOK_NAME = 'response';
 
     /**
      * @param list<string> $routeScopes

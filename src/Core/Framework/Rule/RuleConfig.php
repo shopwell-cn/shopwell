@@ -8,11 +8,11 @@ use Shopwell\Core\Framework\Struct\Struct;
 #[Package('fundamentals@after-sales')]
 final class RuleConfig extends Struct
 {
-    public const OPERATOR_SET_DEFAULT = [Rule::OPERATOR_EQ, Rule::OPERATOR_NEQ, Rule::OPERATOR_GTE, Rule::OPERATOR_LTE];
+    public const array OPERATOR_SET_DEFAULT = [Rule::OPERATOR_EQ, Rule::OPERATOR_NEQ, Rule::OPERATOR_GTE, Rule::OPERATOR_LTE];
 
-    public const OPERATOR_SET_STRING = [Rule::OPERATOR_EQ, Rule::OPERATOR_NEQ];
+    public const array OPERATOR_SET_STRING = [Rule::OPERATOR_EQ, Rule::OPERATOR_NEQ];
 
-    public const OPERATOR_SET_NUMBER = [
+    public const array OPERATOR_SET_NUMBER = [
         Rule::OPERATOR_EQ,
         Rule::OPERATOR_GT,
         Rule::OPERATOR_GTE,
@@ -21,19 +21,19 @@ final class RuleConfig extends Struct
         Rule::OPERATOR_NEQ,
     ];
 
-    public const DEFAULT_DIGITS = 10;
+    public const int DEFAULT_DIGITS = 10;
 
-    public const UNIT_DIMENSION = 'dimension';
+    public const string UNIT_DIMENSION = 'dimension';
 
-    public const UNIT_WEIGHT = 'weight';
+    public const string UNIT_WEIGHT = 'weight';
 
-    public const UNIT_VOLUME = 'volume';
+    public const string UNIT_VOLUME = 'volume';
 
-    public const UNIT_LENGTH = 'length';
+    public const string UNIT_LENGTH = 'length';
 
-    public const UNIT_TIME = 'time';
+    public const string UNIT_TIME = 'time';
 
-    public const UNIT_AGE = 'age';
+    public const string UNIT_AGE = 'age';
 
     /**
      * @var array<string>|null

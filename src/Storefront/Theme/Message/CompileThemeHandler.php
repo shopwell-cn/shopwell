@@ -58,7 +58,7 @@ final readonly class CompileThemeHandler
             $this->extensionRegistry->getConfigurations(),
         );
 
-        if ($message->getContext()->getScope() !== Context::USER_SCOPE) {
+        if ($message->getContext()->scope !== Context::USER_SCOPE) {
             return;
         }
 

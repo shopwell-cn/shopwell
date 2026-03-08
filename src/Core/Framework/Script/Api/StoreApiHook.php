@@ -24,9 +24,9 @@ class StoreApiHook extends InterfaceHook implements SalesChannelContextAware
 {
     use ScriptResponseAwareTrait;
 
-    final public const HOOK_NAME = 'store-api-{hook}';
+    final public const string HOOK_NAME = 'store-api-{hook}';
 
-    final public const FUNCTIONS = [
+    final public const array FUNCTIONS = [
         StoreApiCacheKeyHook::FUNCTION_NAME => StoreApiCacheKeyHook::class,
         StoreApiResponseHook::FUNCTION_NAME => StoreApiResponseHook::class,
     ];

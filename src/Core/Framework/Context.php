@@ -18,15 +18,15 @@ class Context extends Struct
 {
     use StateAwareTrait;
 
-    final public const SYSTEM_SCOPE = 'system';
-    final public const USER_SCOPE = 'user';
-    final public const CRUD_API_SCOPE = 'crud';
+    final public const string SYSTEM_SCOPE = 'system';
+    final public const string USER_SCOPE = 'user';
+    final public const string CRUD_API_SCOPE = 'crud';
 
-    final public const SKIP_TRIGGER_FLOW = 'skipTriggerFlow';
+    final public const string SKIP_TRIGGER_FLOW = 'skipTriggerFlow';
 
-    final public const ELASTICSEARCH_EXPLAIN_MODE = 'explain-mode';
+    final public const string ELASTICSEARCH_EXPLAIN_MODE = 'explain-mode';
 
-    protected string $scope = self::USER_SCOPE;
+    public string $scope = self::USER_SCOPE;
 
     protected bool $rulesLocked = false;
 
@@ -194,7 +194,7 @@ class Context extends Struct
      */
     public function scope(string $scope, \Closure $callback): mixed
     {
-        $currentScope = $this->getScope();
+        $currentScope = $this->scope;
         $this->scope = $scope;
 
         try {
@@ -204,11 +204,6 @@ class Context extends Struct
         }
 
         return $result;
-    }
-
-    public function getScope(): string
-    {
-        return $this->scope;
     }
 
     public function considerInheritance(): bool

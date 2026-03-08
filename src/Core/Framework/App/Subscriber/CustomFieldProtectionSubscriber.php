@@ -44,7 +44,7 @@ class CustomFieldProtectionSubscriber implements EventSubscriberInterface
     {
         $context = $event->getContext();
 
-        if ($context->getSource() instanceof SystemSource || $context->getScope() === Context::SYSTEM_SCOPE) {
+        if ($context->getSource() instanceof SystemSource || $context->scope === Context::SYSTEM_SCOPE) {
             return;
         }
 

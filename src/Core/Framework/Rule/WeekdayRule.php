@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints\Range;
 #[Package('fundamentals@after-sales')]
 class WeekdayRule extends Rule
 {
-    final public const RULE_NAME = 'dayOfWeek';
+    final public const string RULE_NAME = 'dayOfWeek';
 
     /**
      * @internal

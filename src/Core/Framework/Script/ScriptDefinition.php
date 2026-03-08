@@ -22,7 +22,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[Package('framework')]
 class ScriptDefinition extends EntityDefinition
 {
-    final public const ENTITY_NAME = 'script';
+    final public const string ENTITY_NAME = 'script';
 
     public function getEntityName(): string
     {

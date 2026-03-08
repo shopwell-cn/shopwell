@@ -13,9 +13,9 @@ use Symfony\Component\Validator\Constraints\Timezone;
 #[Package('fundamentals@after-sales')]
 class TimeRangeRule extends Rule
 {
-    final public const RULE_NAME = 'timeRange';
+    final public const string RULE_NAME = 'timeRange';
 
-    private const TIME_REGEX = '/^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/';
+    private const string TIME_REGEX = '/^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/';
 
     protected string $fromTime;
 

@@ -7,7 +7,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[Package('framework')]
 class FloatComparator
 {
-    private const EPSILON = 0.00000001;
+    private const float EPSILON = 0.00000001;
 
     public static function compare(float $a, float $b, string $operator): bool
     {

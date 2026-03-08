@@ -15,7 +15,7 @@ use Shopwell\Core\Framework\Plugin\PluginDefinition;
 #[Package('framework')]
 class PluginTranslationDefinition extends EntityTranslationDefinition
 {
-    final public const ENTITY_NAME = 'plugin_translation';
+    final public const string ENTITY_NAME = 'plugin_translation';
 
     public function getEntityName(): string
     {

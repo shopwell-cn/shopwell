@@ -10,7 +10,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[Package('fundamentals@after-sales')]
 class SimpleRule extends Rule
 {
-    final public const RULE_NAME = 'simple';
+    final public const string RULE_NAME = 'simple';
 
     /**
      * @internal

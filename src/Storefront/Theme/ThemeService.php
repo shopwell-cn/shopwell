@@ -354,7 +354,7 @@ class ThemeService implements ResetInterface
             )
         );
 
-        if ($this->notified !== true && $context->getScope() === Context::USER_SCOPE) {
+        if ($this->notified !== true && $context->scope === Context::USER_SCOPE) {
             $this->notificationService->createNotification(
                 [
                     'id' => Uuid::randomHex(),

@@ -10,8 +10,8 @@ use Symfony\Component\HttpFoundation\Response;
 #[Package('framework')]
 class RateLimiterException extends HttpException
 {
-    public const RATE_LIMIT_EXCEEDED = 'FRAMEWORK__RATE_LIMIT_EXCEEDED';
-    public const FACTORY_NOT_FOUND = 'FRAMEWORK__RATE_LIMITER_FACTORY_NOT_FOUND';
+    public const string RATE_LIMIT_EXCEEDED = 'FRAMEWORK__RATE_LIMIT_EXCEEDED';
+    public const string FACTORY_NOT_FOUND = 'FRAMEWORK__RATE_LIMITER_FACTORY_NOT_FOUND';
 
     public static function limitExceeded(int $retryAfter, ?\Throwable $e = null): self
     {

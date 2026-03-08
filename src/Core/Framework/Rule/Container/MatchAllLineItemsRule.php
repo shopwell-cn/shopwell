@@ -19,7 +19,7 @@ use Symfony\Component\Validator\Constraints\Type;
 #[Package('fundamentals@after-sales')]
 class MatchAllLineItemsRule extends Container
 {
-    final public const RULE_NAME = 'allLineItemsContainer';
+    final public const string RULE_NAME = 'allLineItemsContainer';
 
     /**
      * @internal

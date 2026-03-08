@@ -24,7 +24,7 @@ class StoreApiCacheKeyHook extends OptionalFunctionHook implements SalesChannelC
 {
     use StoppableHookTrait;
 
-    final public const FUNCTION_NAME = 'cache_key';
+    final public const string FUNCTION_NAME = 'cache_key';
 
     private ?string $cacheKey = null;
 

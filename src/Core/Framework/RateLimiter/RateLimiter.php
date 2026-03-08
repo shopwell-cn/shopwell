@@ -7,23 +7,19 @@ use Shopwell\Core\Framework\Log\Package;
 #[Package('framework')]
 class RateLimiter
 {
-    final public const LOGIN_ROUTE = 'login';
+    final public const string LOGIN_ROUTE = 'login';
 
-    final public const GUEST_LOGIN = 'guest_login';
+    final public const string GUEST_LOGIN = 'guest_login';
 
-    final public const RESET_PASSWORD = 'reset_password';
+    final public const string RESET_PASSWORD = 'reset_password';
 
-    final public const OAUTH = 'oauth';
+    final public const string OAUTH = 'oauth';
 
-    final public const USER_RECOVERY = 'user_recovery';
+    final public const string USER_RECOVERY = 'user_recovery';
 
-    final public const CONTACT_FORM = 'contact_form';
+    final public const string REVOCATION_REQUEST_FORM = 'revocation_request_form';
 
-    final public const NEWSLETTER_FORM = 'newsletter_form';
-
-    final public const REVOCATION_REQUEST_FORM = 'revocation_request_form';
-
-    final public const CART_ADD_LINE_ITEM = 'cart_add_line_item';
+    final public const string CART_ADD_LINE_ITEM = 'cart_add_line_item';
 
     /**
      * @var array<string, RateLimiterFactory>

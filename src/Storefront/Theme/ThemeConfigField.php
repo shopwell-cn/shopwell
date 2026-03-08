@@ -17,9 +17,13 @@ class ThemeConfigField extends Struct
     protected ?string $type = null;
 
     /**
+     * @deprecated tag:v6.8.0 - Property will be typed natively as array|string
+     *
      * @var list<string>|string
+     *
+     * @phpstan-ignore shopware.propertyNativeType (Will be natively typed with next major)
      */
-    protected string|array $value;
+    protected $value;
 
     protected ?bool $editable = null;
 
@@ -87,9 +91,11 @@ class ThemeConfigField extends Struct
     }
 
     /**
+     * @deprecated tag:v6.8.0 - reason:return-type-change - Parameter will be natively typed
+     *
      * @return list<string>|string
      */
-    public function getValue(): array|string
+    public function getValue()
     {
         return $this->value;
     }

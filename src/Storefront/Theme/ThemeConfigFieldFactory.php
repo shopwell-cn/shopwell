@@ -14,9 +14,6 @@ class ThemeConfigFieldFactory
         $configField->setName($name);
 
         foreach ($configFieldArray as $key => $value) {
-            if (\is_int($value) && $key === 'value') {
-                dd($value);
-            }
             $setter = 'set' . $key;
             if (!method_exists($configField, $setter)) {
                 throw new InvalidThemeConfigException($key);

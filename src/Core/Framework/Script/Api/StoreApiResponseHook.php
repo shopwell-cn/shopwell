@@ -31,7 +31,7 @@ class StoreApiResponseHook extends FunctionHook implements SalesChannelContextAw
     use ScriptResponseAwareTrait;
     use StoppableHookTrait;
 
-    final public const FUNCTION_NAME = 'response';
+    final public const string FUNCTION_NAME = 'response';
 
     /**
      * @param array<mixed> $request

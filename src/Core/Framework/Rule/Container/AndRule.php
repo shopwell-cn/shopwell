@@ -11,16 +11,10 @@ use Shopwell\Core\Framework\Rule\RuleScope;
 #[Package('fundamentals@after-sales')]
 class AndRule extends Container
 {
-    final public const RULE_NAME = 'andContainer';
+    final public const string RULE_NAME = 'andContainer';
 
     public function match(RuleScope $scope): bool
     {
-        foreach ($this->rules as $rule) {
-            if (!$rule->match($scope)) {
-                return false;
-            }
-        }
-
-        return true;
+        return array_all($this->rules, fn ($rule) => $rule->match($scope));
     }
 }

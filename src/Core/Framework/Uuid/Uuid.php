@@ -16,7 +16,7 @@ class Uuid
     /**
      * Regular expression pattern for matching a valid UUID of any variant.
      */
-    final public const VALID_PATTERN = '^[0-9a-f]{32}$';
+    final public const string VALID_PATTERN = '^[0-9a-f]{32}$';
 
     private static ?UnixTimeGenerator $generator = null;
 

@@ -25,7 +25,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[Package('framework')]
 class MemoryFilesystemAdapter implements FilesystemAdapter
 {
-    final public const DUMMY_FILE_FOR_FORCED_LISTING_IN_FLYSYSTEM_TEST = '______DUMMY_FILE_FOR_FORCED_LISTING_IN_FLYSYSTEM_TEST';
+    final public const string DUMMY_FILE_FOR_FORCED_LISTING_IN_FLYSYSTEM_TEST = '______DUMMY_FILE_FOR_FORCED_LISTING_IN_FLYSYSTEM_TEST';
 
     /**
      * @var InMemoryFile[]

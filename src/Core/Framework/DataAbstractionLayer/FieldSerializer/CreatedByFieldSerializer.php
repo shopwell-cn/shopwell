@@ -31,7 +31,7 @@ class CreatedByFieldSerializer extends FkFieldSerializer
         }
 
         $context = $parameters->getContext()->getContext();
-        $scope = $context->getScope();
+        $scope = $context->scope;
 
         if (!\in_array($scope, $field->getAllowedWriteScopes(), true)) {
             return;

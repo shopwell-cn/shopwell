@@ -13,7 +13,7 @@ use Shopwell\Core\Framework\Rule\RuleScope;
 #[Package('fundamentals@after-sales')]
 class NotRule extends Container
 {
-    final public const RULE_NAME = 'notContainer';
+    final public const string RULE_NAME = 'notContainer';
 
     public function addRule(Rule $rule): void
     {

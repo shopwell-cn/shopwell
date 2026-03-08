@@ -15,9 +15,9 @@ use Symfony\Component\Validator\Constraints\Type;
 #[Package('fundamentals@after-sales')]
 class DateRangeRule extends Rule
 {
-    final public const RULE_NAME = 'dateRange';
+    final public const string RULE_NAME = 'dateRange';
 
-    private const DATETIME_FORMAT = 'Y-m-d\TH:i:s';
+    private const string DATETIME_FORMAT = 'Y-m-d\TH:i:s';
 
     /**
      * @internal

@@ -23,7 +23,7 @@ use Twig\Error\SyntaxError;
 #[Package('fundamentals@after-sales')]
 class ScriptRule extends Rule
 {
-    final public const RULE_NAME = 'scriptRule';
+    final public const string RULE_NAME = 'scriptRule';
 
     protected string $script = '';
 

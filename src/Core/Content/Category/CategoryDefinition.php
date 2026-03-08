@@ -49,25 +49,25 @@ use Shopwell\Core\System\Tag\TagDefinition;
 #[Package('discovery')]
 class CategoryDefinition extends EntityDefinition
 {
-    final public const ENTITY_NAME = 'category';
+    final public const string ENTITY_NAME = 'category';
 
-    final public const TYPE_PAGE = 'page';
+    final public const string TYPE_PAGE = 'page';
 
-    final public const TYPE_LINK = 'link';
+    final public const string TYPE_LINK = 'link';
 
-    final public const TYPE_FOLDER = 'folder';
+    final public const string TYPE_FOLDER = 'folder';
 
-    final public const LINK_TYPE_EXTERNAL = 'external';
+    final public const string LINK_TYPE_EXTERNAL = 'external';
 
-    final public const LINK_TYPE_CATEGORY = 'category';
+    final public const string LINK_TYPE_CATEGORY = 'category';
 
-    final public const LINK_TYPE_PRODUCT = 'product';
+    final public const string LINK_TYPE_PRODUCT = 'product';
 
-    final public const LINK_TYPE_LANDING_PAGE = 'landing_page';
+    final public const string LINK_TYPE_LANDING_PAGE = 'landing_page';
 
-    final public const PRODUCT_ASSIGNMENT_TYPE_PRODUCT = 'product';
+    final public const string PRODUCT_ASSIGNMENT_TYPE_PRODUCT = 'product';
 
-    final public const PRODUCT_ASSIGNMENT_TYPE_PRODUCT_STREAM = 'product_stream';
+    final public const string PRODUCT_ASSIGNMENT_TYPE_PRODUCT_STREAM = 'product_stream';
 
     public function getEntityName(): string
     {

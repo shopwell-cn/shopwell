@@ -47,7 +47,7 @@ class EntityProtectionValidator implements EventSubscriberInterface
 
             foreach ($protections as $protection) {
                 $protectionInstance = $definition->getProtections()->get($protection);
-                if (!$protectionInstance || $protectionInstance->isAllowed($context->getScope())) {
+                if (!$protectionInstance || $protectionInstance->isAllowed($context->scope)) {
                     continue;
                 }
 
@@ -64,12 +64,12 @@ class EntityProtectionValidator implements EventSubscriberInterface
         $readProtection = $definition->getProtections()->get(ReadProtection::class);
         $context = $event->getContext();
 
-        if ($readProtection && !$readProtection->isAllowed($context->getScope())) {
+        if ($readProtection && !$readProtection->isAllowed($context->scope)) {
             throw new AccessDeniedHttpException(
                 \sprintf(
                     'Read access to entity "%s" not allowed for scope "%s".',
                     $definition->getEntityName(),
-                    $context->getScope()
+                    $context->scope
                 )
             );
         }
@@ -92,12 +92,12 @@ class EntityProtectionValidator implements EventSubscriberInterface
             $definition = $this->definitionRegistry->getByEntityName($command->getEntityName());
 
             $writeProtection = $definition->getProtections()->get(WriteProtection::class);
-            if ($writeProtection && !$writeProtection->isAllowed($event->getContext()->getScope())) {
+            if ($writeProtection && !$writeProtection->isAllowed($event->getContext()->scope)) {
                 throw new AccessDeniedHttpException(
                     \sprintf(
                         'Write access to entity "%s" are not allowed in scope "%s".',
                         $command->getEntityName(),
-                        $event->getContext()->getScope()
+                        $event->getContext()->scope
                     )
                 );
             }
@@ -118,13 +118,13 @@ class EntityProtectionValidator implements EventSubscriberInterface
 
             $associationDefinition = $field->getReferenceDefinition();
             $readProtection = $associationDefinition->getProtections()->get(ReadProtection::class);
-            if ($readProtection && !$readProtection->isAllowed($context->getScope())) {
+            if ($readProtection && !$readProtection->isAllowed($context->scope)) {
                 throw new AccessDeniedHttpException(
                     \sprintf(
                         'Read access to nested association "%s" on entity "%s" not allowed for scope "%s".',
                         $associationName,
                         $definition->getEntityName(),
-                        $context->getScope()
+                        $context->scope
                     )
                 );
             }

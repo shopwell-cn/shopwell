@@ -36,7 +36,7 @@ class StateMachineStateFieldSerializer extends FkFieldSerializer
         }
 
         // Allow the change of the stateMachineState if the scope is one of the allowed ones.
-        $scope = $parameters->getContext()->getContext()->getScope();
+        $scope = $parameters->getContext()->getContext()->scope;
         if (\in_array($scope, $field->getAllowedWriteScopes(), true)) {
             return parent::encode($field, $existence, $data, $parameters);
         }

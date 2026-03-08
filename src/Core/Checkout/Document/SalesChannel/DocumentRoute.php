@@ -30,7 +30,7 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Package('after-sales')]
 final class DocumentRoute extends AbstractDocumentRoute
 {
-    public const ACCEPT_WILDCARD = '*/*';
+    public const string ACCEPT_WILDCARD = '*/*';
 
     /**
      * @internal

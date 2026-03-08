@@ -15,7 +15,7 @@ class VersionParser
     /**
      * @var string Regex pattern for validating Shopwell versions
      */
-    private const VALID_VERSION_PATTERN = '#^\d\.\d+\.\d+\.(\d+|x)(-\w+)?#';
+    private const string VALID_VERSION_PATTERN = '#^\d\.\d+\.\d+\.(\d+|x)(-\w+)?#';
 
     /**
      * @return array{version: string, revision: string|null}

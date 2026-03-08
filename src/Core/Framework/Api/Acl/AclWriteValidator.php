@@ -49,7 +49,7 @@ class AclWriteValidator implements EventSubscriberInterface
             $source = $context->getSource();
         }
 
-        if ($context->getScope() === Context::SYSTEM_SCOPE || !$source instanceof AdminApiSource || $source->isAdmin()) {
+        if ($context->scope === Context::SYSTEM_SCOPE || !$source instanceof AdminApiSource || $source->isAdmin()) {
             return;
         }
 

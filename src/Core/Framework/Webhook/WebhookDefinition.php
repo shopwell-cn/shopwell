@@ -20,7 +20,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[Package('framework')]
 class WebhookDefinition extends EntityDefinition
 {
-    final public const ENTITY_NAME = 'webhook';
+    final public const string ENTITY_NAME = 'webhook';
 
     public function getEntityName(): string
     {

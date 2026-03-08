@@ -11,7 +11,7 @@ use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 #[Package('framework')]
 class ScriptExecutionFailedException extends ScriptException
 {
-    public const ERROR_CODE = 'FRAMEWORK_SCRIPT_EXECUTION_FAILED';
+    public const string ERROR_CODE = 'FRAMEWORK_SCRIPT_EXECUTION_FAILED';
 
     public function __construct(
         string $hook,

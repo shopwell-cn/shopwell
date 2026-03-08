@@ -11,7 +11,7 @@ use Shopwell\Core\Framework\Rule\RuleScope;
 #[Package('fundamentals@after-sales')]
 class XorRule extends Container
 {
-    final public const RULE_NAME = 'xorContainer';
+    final public const string RULE_NAME = 'xorContainer';
 
     public function match(RuleScope $scope): bool
     {

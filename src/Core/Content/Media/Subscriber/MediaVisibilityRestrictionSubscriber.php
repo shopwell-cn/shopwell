@@ -35,7 +35,7 @@ class MediaVisibilityRestrictionSubscriber implements EventSubscriberInterface
 
     public function securePrivateFolders(EntitySearchedEvent $event): void
     {
-        if ($event->getContext()->getScope() === Context::SYSTEM_SCOPE) {
+        if ($event->getContext()->scope === Context::SYSTEM_SCOPE) {
             return;
         }
 
@@ -48,7 +48,7 @@ class MediaVisibilityRestrictionSubscriber implements EventSubscriberInterface
 
     public function securePrivateMediaAggregation(BeforeEntityAggregationEvent $event): void
     {
-        if ($event->getContext()->getScope() === Context::SYSTEM_SCOPE) {
+        if ($event->getContext()->scope === Context::SYSTEM_SCOPE) {
             return;
         }
 

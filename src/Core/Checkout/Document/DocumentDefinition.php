@@ -26,7 +26,7 @@ use Shopwell\Core\System\NumberRange\DataAbstractionLayer\NumberRangeField;
 #[Package('after-sales')]
 class DocumentDefinition extends EntityDefinition
 {
-    final public const ENTITY_NAME = 'document';
+    final public const string ENTITY_NAME = 'document';
 
     public function getEntityName(): string
     {
