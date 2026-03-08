@@ -20,12 +20,12 @@ use Shopwell\Core\Framework\Log\Package;
 #[Package('inventory')]
 class ProductFeatureSetDefinition extends EntityDefinition
 {
-    final public const ENTITY_NAME = 'product_feature_set';
+    final public const string ENTITY_NAME = 'product_feature_set';
 
-    final public const TYPE_PRODUCT_ATTRIBUTE = 'product';
-    final public const TYPE_PRODUCT_PROPERTY = 'property';
-    final public const TYPE_PRODUCT_CUSTOM_FIELD = 'customField';
-    final public const TYPE_PRODUCT_REFERENCE_PRICE = 'referencePrice';
+    final public const string TYPE_PRODUCT_ATTRIBUTE = 'product';
+    final public const string TYPE_PRODUCT_PROPERTY = 'property';
+    final public const string TYPE_PRODUCT_CUSTOM_FIELD = 'customField';
+    final public const string TYPE_PRODUCT_REFERENCE_PRICE = 'referencePrice';
 
     public function getEntityName(): string
     {

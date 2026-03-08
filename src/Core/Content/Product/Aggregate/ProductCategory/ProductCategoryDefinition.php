@@ -16,7 +16,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[Package('inventory')]
 class ProductCategoryDefinition extends MappingEntityDefinition
 {
-    final public const ENTITY_NAME = 'product_category';
+    final public const string ENTITY_NAME = 'product_category';
 
     public function getEntityName(): string
     {

@@ -46,7 +46,7 @@ use Shopwell\Core\System\TaxProvider\TaxProviderDefinition;
 #[Package('fundamentals@after-sales')]
 class RuleDefinition extends EntityDefinition
 {
-    final public const ENTITY_NAME = 'rule';
+    final public const string ENTITY_NAME = 'rule';
 
     public function getEntityName(): string
     {

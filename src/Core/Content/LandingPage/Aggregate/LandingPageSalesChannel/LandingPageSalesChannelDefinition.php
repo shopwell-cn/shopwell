@@ -16,7 +16,7 @@ use Shopwell\Core\System\SalesChannel\SalesChannelDefinition;
 #[Package('discovery')]
 class LandingPageSalesChannelDefinition extends MappingEntityDefinition
 {
-    final public const ENTITY_NAME = 'landing_page_sales_channel';
+    final public const string ENTITY_NAME = 'landing_page_sales_channel';
 
     public function getEntityName(): string
     {

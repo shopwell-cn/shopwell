@@ -49,7 +49,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 #[Package('fundamentals@after-sales')]
 class ImportExport
 {
-    private const PART_FILE_SUFFIX = '.offset_';
+    private const string PART_FILE_SUFFIX = '.offset_';
 
     private ?int $total = null;
 

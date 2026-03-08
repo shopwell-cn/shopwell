@@ -23,7 +23,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[Package('fundamentals@after-sales')]
 class RuleConditionDefinition extends EntityDefinition
 {
-    final public const ENTITY_NAME = 'rule_condition';
+    final public const string ENTITY_NAME = 'rule_condition';
 
     public function getEntityName(): string
     {

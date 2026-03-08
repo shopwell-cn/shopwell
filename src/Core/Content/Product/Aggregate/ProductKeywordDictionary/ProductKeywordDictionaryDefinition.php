@@ -18,7 +18,7 @@ use Shopwell\Core\System\Language\LanguageDefinition;
 #[Package('inventory')]
 class ProductKeywordDictionaryDefinition extends EntityDefinition
 {
-    final public const ENTITY_NAME = 'product_keyword_dictionary';
+    final public const string ENTITY_NAME = 'product_keyword_dictionary';
 
     public function getEntityName(): string
     {

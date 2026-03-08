@@ -14,7 +14,7 @@ use Shopwell\Core\Framework\Rule\RuleScope;
 #[Package('fundamentals@after-sales')]
 class OrderTrackingCodeRule extends FlowRule
 {
-    public const RULE_NAME = 'orderTrackingCode';
+    public const string RULE_NAME = 'orderTrackingCode';
 
     /**
      * @internal

@@ -13,7 +13,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[Package('inventory')]
 class ProductFeatureSetTranslationDefinition extends EntityTranslationDefinition
 {
-    final public const ENTITY_NAME = ProductFeatureSetDefinition::ENTITY_NAME . '_translation';
+    final public const string ENTITY_NAME = ProductFeatureSetDefinition::ENTITY_NAME . '_translation';
 
     public function getCollectionClass(): string
     {

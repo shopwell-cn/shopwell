@@ -17,7 +17,7 @@ use Shopwell\Core\Framework\Rule\RuleScope;
 #[Package('fundamentals@after-sales')]
 class OrderDocumentTypeRule extends FlowRule
 {
-    public const RULE_NAME = 'orderDocumentType';
+    public const string RULE_NAME = 'orderDocumentType';
 
     /**
      * @param list<string> $documentIds

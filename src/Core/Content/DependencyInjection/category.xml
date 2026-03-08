@@ -109,11 +109,5 @@
         <service id="Shopwell\Core\Content\Category\DataAbstractionLayer\CategoryNonExistentExceptionHandler">
             <tag name="shopwell.dal.exception_handler"/>
         </service>
-
-        <service id="Shopwell\Core\Content\Category\Cms\CategoryNavigationCmsElementResolver">
-            <argument type="service" id="Shopwell\Core\Content\Category\Service\NavigationLoader"/>
-
-            <tag name="shopwell.cms.data_resolver"/>
-        </service>
     </services>
 </container>

@@ -20,7 +20,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[Package('discovery')]
 class MediaThumbnailSizeDefinition extends EntityDefinition
 {
-    final public const ENTITY_NAME = 'media_thumbnail_size';
+    final public const string ENTITY_NAME = 'media_thumbnail_size';
 
     public function getEntityName(): string
     {

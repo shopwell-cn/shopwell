@@ -23,7 +23,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[Package('inventory')]
 class ProductConfiguratorSettingDefinition extends EntityDefinition
 {
-    final public const ENTITY_NAME = 'product_configurator_setting';
+    final public const string ENTITY_NAME = 'product_configurator_setting';
 
     public function getEntityName(): string
     {

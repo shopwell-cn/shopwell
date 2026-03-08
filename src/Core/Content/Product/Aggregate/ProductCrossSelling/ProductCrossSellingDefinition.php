@@ -29,12 +29,12 @@ use Shopwell\Core\Framework\Log\Package;
 #[Package('inventory')]
 class ProductCrossSellingDefinition extends EntityDefinition
 {
-    final public const ENTITY_NAME = 'product_cross_selling';
-    final public const SORT_BY_PRICE = 'cheapestPrice';
-    final public const SORT_BY_RELEASE_DATE = 'releaseDate';
-    final public const SORT_BY_NAME = 'name';
-    final public const TYPE_PRODUCT_STREAM = 'productStream';
-    final public const TYPE_PRODUCT_LIST = 'productList';
+    final public const string ENTITY_NAME = 'product_cross_selling';
+    final public const string SORT_BY_PRICE = 'cheapestPrice';
+    final public const string SORT_BY_RELEASE_DATE = 'releaseDate';
+    final public const string SORT_BY_NAME = 'name';
+    final public const string TYPE_PRODUCT_STREAM = 'productStream';
+    final public const string TYPE_PRODUCT_LIST = 'productList';
 
     public function getEntityName(): string
     {

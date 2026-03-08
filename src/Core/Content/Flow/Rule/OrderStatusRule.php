@@ -17,7 +17,7 @@ use Shopwell\Core\System\StateMachine\Aggregation\StateMachineState\StateMachine
 #[Package('fundamentals@after-sales')]
 class OrderStatusRule extends FlowRule
 {
-    public const RULE_NAME = 'orderStatus';
+    public const string RULE_NAME = 'orderStatus';
 
     /**
      * @var array<string>

@@ -10,11 +10,11 @@ use Symfony\Component\HttpFoundation\Response;
 #[Package('discovery')]
 class SitemapException extends HttpException
 {
-    public const FILE_NOT_READABLE = 'CONTENT__FILE_IS_NOT_READABLE';
+    public const string FILE_NOT_READABLE = 'CONTENT__FILE_IS_NOT_READABLE';
 
-    public const SITEMAP_ALREADY_LOCKED = 'CONTENT__SITEMAP_ALREADY_LOCKED';
+    public const string SITEMAP_ALREADY_LOCKED = 'CONTENT__SITEMAP_ALREADY_LOCKED';
 
-    public const INVALID_DOMAIN = 'CONTENT__INVALID_DOMAIN';
+    public const string INVALID_DOMAIN = 'CONTENT__INVALID_DOMAIN';
 
     public static function fileNotReadable(string $path): self
     {

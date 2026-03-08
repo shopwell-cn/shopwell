@@ -27,7 +27,7 @@ use Shopwell\Core\System\Tag\TagDefinition;
 #[Package('discovery')]
 class LandingPageDefinition extends EntityDefinition
 {
-    final public const ENTITY_NAME = 'landing_page';
+    final public const string ENTITY_NAME = 'landing_page';
 
     public function getEntityName(): string
     {

@@ -40,6 +40,7 @@ use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Extension\Extension;
+use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 
 /**
@@ -128,6 +129,9 @@ class Framework extends Bundle
         $container->addCompilerPass(new MessageHandlerCompilerPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION, 1000);
         $container->addCompilerPass(new CreateGeneratorScaffoldingCommandPass());
         $container->addCompilerPass(new RedisConnectionsCompilerPass());
+
+        $phpLoader = new PhpFileLoader($container, $configLocator);
+        $phpLoader->load('payment-system.php');
 
         if ($container->getParameter('kernel.environment') === 'test') {
             $container->addCompilerPass(new DisableRateLimiterCompilerPass());

@@ -17,7 +17,7 @@ enum ProductMeasurementEnum: string
     case HEIGHT = 'height';
     case LENGTH = 'length';
     case WEIGHT = 'weight';
-    public const DIMENSIONS_MAPPING = [
+    public const array DIMENSIONS_MAPPING = [
         self::WIDTH->value => MeasurementUnitTypeEnum::LENGTH,
         self::HEIGHT->value => MeasurementUnitTypeEnum::LENGTH,
         self::LENGTH->value => MeasurementUnitTypeEnum::LENGTH,

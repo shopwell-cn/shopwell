@@ -19,7 +19,7 @@ use Shopwell\Core\System\CustomField\CustomFieldDefinition;
 #[Package('inventory')]
 class ProductSearchConfigFieldDefinition extends EntityDefinition
 {
-    final public const ENTITY_NAME = 'product_search_config_field';
+    final public const string ENTITY_NAME = 'product_search_config_field';
 
     public function getEntityName(): string
     {

@@ -17,7 +17,7 @@ use Shopwell\Core\System\Tag\TagDefinition;
 #[Package('fundamentals@after-sales')]
 class OrderTagRule extends FlowRule
 {
-    final public const RULE_NAME = 'orderTag';
+    final public const string RULE_NAME = 'orderTag';
 
     /**
      * @param list<string>|null $identifiers

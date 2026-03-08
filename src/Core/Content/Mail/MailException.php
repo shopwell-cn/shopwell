@@ -10,17 +10,17 @@ use Symfony\Component\HttpFoundation\Response;
 #[Package('after-sales')]
 class MailException extends HttpException
 {
-    final public const GIVEN_OPTION_INVALID = 'MAIL__GIVEN_OPTION_INVALID';
+    final public const string GIVEN_OPTION_INVALID = 'MAIL__GIVEN_OPTION_INVALID';
 
-    final public const GIVEN_AGENT_INVALID = 'MAIL__GIVEN_AGENT_INVALID';
+    final public const string GIVEN_AGENT_INVALID = 'MAIL__GIVEN_AGENT_INVALID';
 
-    final public const MAIL_BODY_TOO_LONG = 'MAIL__MAIL_BODY_TOO_LONG';
+    final public const string MAIL_BODY_TOO_LONG = 'MAIL__MAIL_BODY_TOO_LONG';
 
-    final public const MAIL_TEMPLATE_NOT_FOUND = 'MAIL_TEMPLATE_NOT_FOUND';
+    final public const string MAIL_TEMPLATE_NOT_FOUND = 'MAIL_TEMPLATE_NOT_FOUND';
 
-    final public const MAIL_TRANSPORT_FAILED = 'CONTENT__MAIL_TRANSPORT_FAILED';
+    final public const string MAIL_TRANSPORT_FAILED = 'CONTENT__MAIL_TRANSPORT_FAILED';
 
-    final public const MAIL_OAUTH_ERROR = 'MAIL__OAUTH_ERROR';
+    final public const string MAIL_OAUTH_ERROR = 'MAIL__OAUTH_ERROR';
 
     /**
      * @param string[] $validOptions

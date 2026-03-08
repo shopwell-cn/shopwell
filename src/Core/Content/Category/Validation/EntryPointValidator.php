@@ -22,9 +22,9 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
 #[Package('discovery')]
 class EntryPointValidator implements EventSubscriberInterface
 {
-    private const ERROR_CODE = 'CONTENT__INVALID_CATEGORY_TYPE_AS_ENTRY_POINT';
+    private const string ERROR_CODE = 'CONTENT__INVALID_CATEGORY_TYPE_AS_ENTRY_POINT';
 
-    private const ALLOWED_TYPE_CHANGE = [
+    private const array ALLOWED_TYPE_CHANGE = [
         CategoryDefinition::TYPE_PAGE,
         CategoryDefinition::TYPE_FOLDER,
     ];

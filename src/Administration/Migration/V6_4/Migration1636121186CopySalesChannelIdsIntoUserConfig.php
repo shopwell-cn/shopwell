@@ -43,7 +43,7 @@ class Migration1636121186CopySalesChannelIdsIntoUserConfig extends MigrationStep
                 'user_id' => $userId,
                 '`key`' => self::CONFIG_KEY,
                 '`value`' => json_encode($slicedIds, \JSON_THROW_ON_ERROR),
-                'created_at' => (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT),
+                'created_at' => new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT),
             ]);
         }
     }

@@ -26,7 +26,7 @@ use Shopwell\Core\System\SalesChannel\SalesChannelDefinition;
 #[Package('after-sales')]
 class ProductReviewDefinition extends EntityDefinition
 {
-    final public const ENTITY_NAME = 'product_review';
+    final public const string ENTITY_NAME = 'product_review';
 
     public function getEntityName(): string
     {

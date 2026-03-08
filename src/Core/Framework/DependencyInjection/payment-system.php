@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-use Shopwell\Core\Payment\Gateways\Alipay\AlipayGatewayFactory;
+use Shopwell\Core\Framework\PaymentSystem\Gateways\Alipay\AlipayGatewayFactory;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return function (ContainerConfigurator $container): void {

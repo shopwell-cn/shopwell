@@ -23,7 +23,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[Package('discovery')]
 class MediaFolderConfigurationDefinition extends EntityDefinition
 {
-    final public const ENTITY_NAME = 'media_folder_configuration';
+    final public const string ENTITY_NAME = 'media_folder_configuration';
 
     public function getEntityName(): string
     {

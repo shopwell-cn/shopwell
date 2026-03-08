@@ -25,7 +25,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[Package('inventory')]
 class ProductManufacturerDefinition extends EntityDefinition
 {
-    final public const ENTITY_NAME = 'product_manufacturer';
+    final public const string ENTITY_NAME = 'product_manufacturer';
 
     public function getEntityName(): string
     {

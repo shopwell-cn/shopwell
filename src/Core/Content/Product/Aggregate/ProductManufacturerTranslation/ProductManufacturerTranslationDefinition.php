@@ -16,7 +16,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[Package('inventory')]
 class ProductManufacturerTranslationDefinition extends EntityTranslationDefinition
 {
-    final public const ENTITY_NAME = 'product_manufacturer_translation';
+    final public const string ENTITY_NAME = 'product_manufacturer_translation';
 
     public function getEntityName(): string
     {

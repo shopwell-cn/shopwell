@@ -24,7 +24,7 @@ use Shopwell\Core\System\User\UserDefinition;
 #[Package('fundamentals@after-sales')]
 class ImportExportLogDefinition extends EntityDefinition
 {
-    final public const ENTITY_NAME = 'import_export_log';
+    final public const string ENTITY_NAME = 'import_export_log';
 
     public function getEntityName(): string
     {

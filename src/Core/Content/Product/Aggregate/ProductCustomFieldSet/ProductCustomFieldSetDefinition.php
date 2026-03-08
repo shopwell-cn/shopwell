@@ -16,7 +16,7 @@ use Shopwell\Core\System\CustomField\Aggregate\CustomFieldSet\CustomFieldSetDefi
 #[Package('inventory')]
 class ProductCustomFieldSetDefinition extends MappingEntityDefinition
 {
-    final public const ENTITY_NAME = 'product_custom_field_set';
+    final public const string ENTITY_NAME = 'product_custom_field_set';
 
     public function getEntityName(): string
     {

@@ -18,7 +18,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[Package('inventory')]
 class ProductCrossSellingAssignedProductsDefinition extends EntityDefinition
 {
-    final public const ENTITY_NAME = 'product_cross_selling_assigned_products';
+    final public const string ENTITY_NAME = 'product_cross_selling_assigned_products';
 
     public function getEntityName(): string
     {

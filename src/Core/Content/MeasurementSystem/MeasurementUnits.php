@@ -8,11 +8,11 @@ use Shopwell\Core\Framework\Struct\Struct;
 #[Package('inventory')]
 class MeasurementUnits extends Struct
 {
-    public const DEFAULT_MEASUREMENT_SYSTEM = 'metric';
+    public const string DEFAULT_MEASUREMENT_SYSTEM = 'metric';
 
-    public const DEFAULT_LENGTH_UNIT = 'mm';
+    public const string DEFAULT_LENGTH_UNIT = 'mm';
 
-    public const DEFAULT_WEIGHT_UNIT = 'kg';
+    public const string DEFAULT_WEIGHT_UNIT = 'kg';
 
     /**
      * @param array<string, string> $units

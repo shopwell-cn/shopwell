@@ -25,7 +25,7 @@ use Shopwell\Core\System\SalesChannel\SalesChannelDefinition;
 #[Package('inventory')]
 class ProductExportDefinition extends EntityDefinition
 {
-    final public const ENTITY_NAME = 'product_export';
+    final public const string ENTITY_NAME = 'product_export';
 
     public function getEntityName(): string
     {

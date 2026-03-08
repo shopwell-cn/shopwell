@@ -16,7 +16,7 @@ use Shopwell\Core\System\Tag\TagDefinition;
 #[Package('inventory')]
 class ProductTagDefinition extends MappingEntityDefinition
 {
-    final public const ENTITY_NAME = 'product_tag';
+    final public const string ENTITY_NAME = 'product_tag';
 
     public function getEntityName(): string
     {

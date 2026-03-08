@@ -18,13 +18,13 @@ use Shopwell\Core\System\SalesChannel\SalesChannelDefinition;
 #[Package('inventory')]
 class ProductVisibilityDefinition extends EntityDefinition
 {
-    final public const ENTITY_NAME = 'product_visibility';
+    final public const string ENTITY_NAME = 'product_visibility';
 
-    final public const VISIBILITY_LINK = 10;
+    final public const int VISIBILITY_LINK = 10;
 
-    final public const VISIBILITY_SEARCH = 20;
+    final public const int VISIBILITY_SEARCH = 20;
 
-    final public const VISIBILITY_ALL = 30;
+    final public const int VISIBILITY_ALL = 30;
 
     public function getEntityName(): string
     {

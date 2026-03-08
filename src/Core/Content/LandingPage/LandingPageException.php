@@ -8,7 +8,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[Package('discovery')]
 class LandingPageException extends HttpException
 {
-    public const EXCEPTION_CODE_LANDING_PAGE_NOT_FOUND = 'CONTENT__LANDING_PAGE_NOT_FOUND';
+    public const string EXCEPTION_CODE_LANDING_PAGE_NOT_FOUND = 'CONTENT__LANDING_PAGE_NOT_FOUND';
 
     public static function notFound(string $id): self
     {

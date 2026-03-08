@@ -81,13 +81,13 @@ use Shopwell\Core\System\Unit\UnitDefinition;
 #[Package('inventory')]
 class ProductDefinition extends EntityDefinition
 {
-    final public const ENTITY_NAME = 'product';
+    final public const string ENTITY_NAME = 'product';
 
-    final public const CONFIG_KEY_DEFAULT_CMS_PAGE_PRODUCT = 'core.cms.default_product_cms_page';
+    final public const string CONFIG_KEY_DEFAULT_CMS_PAGE_PRODUCT = 'core.cms.default_product_cms_page';
 
-    final public const TYPE_PHYSICAL = 'physical';
+    final public const string TYPE_PHYSICAL = 'physical';
 
-    final public const TYPE_DIGITAL = 'digital';
+    final public const string TYPE_DIGITAL = 'digital';
 
     public function getEntityName(): string
     {

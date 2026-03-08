@@ -14,7 +14,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[Package('discovery')]
 class MediaTranslationDefinition extends EntityTranslationDefinition
 {
-    final public const ENTITY_NAME = 'media_translation';
+    final public const string ENTITY_NAME = 'media_translation';
 
     public function getEntityName(): string
     {

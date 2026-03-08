@@ -16,7 +16,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[Package('discovery')]
 class LandingPageTranslationDefinition extends EntityTranslationDefinition
 {
-    final public const ENTITY_NAME = 'landing_page_translation';
+    final public const string ENTITY_NAME = 'landing_page_translation';
 
     public function getEntityName(): string
     {

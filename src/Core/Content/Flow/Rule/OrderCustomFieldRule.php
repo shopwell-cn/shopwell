@@ -14,7 +14,7 @@ use Shopwell\Core\Framework\Rule\RuleScope;
 #[Package('fundamentals@after-sales')]
 class OrderCustomFieldRule extends FlowRule
 {
-    final public const RULE_NAME = 'orderCustomField';
+    final public const string RULE_NAME = 'orderCustomField';
 
     /**
      * @var array<string|int|bool|float>|string|int|bool|float|null

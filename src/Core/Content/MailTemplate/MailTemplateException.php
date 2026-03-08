@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 #[Package('after-sales')]
 class MailTemplateException extends HttpException
 {
-    public const MAIL_INVALID_TEMPLATE_CONTENT = 'CONTENT__INVALID_MAIL_TEMPLATE_CONTENT';
+    public const string MAIL_INVALID_TEMPLATE_CONTENT = 'CONTENT__INVALID_MAIL_TEMPLATE_CONTENT';
 
     public static function invalidMailTemplateContent(): self
     {

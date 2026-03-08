@@ -55,7 +55,7 @@ use Shopwell\Core\System\User\UserDefinition;
 #[Package('discovery')]
 class MediaDefinition extends EntityDefinition
 {
-    final public const ENTITY_NAME = 'media';
+    final public const string ENTITY_NAME = 'media';
 
     public function getEntityName(): string
     {

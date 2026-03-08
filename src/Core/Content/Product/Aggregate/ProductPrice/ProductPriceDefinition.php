@@ -22,7 +22,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[Package('inventory')]
 class ProductPriceDefinition extends EntityDefinition
 {
-    final public const ENTITY_NAME = 'product_price';
+    final public const string ENTITY_NAME = 'product_price';
 
     public function getEntityName(): string
     {

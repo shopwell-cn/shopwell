@@ -16,7 +16,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[Package('discovery')]
 class MediaDefaultFolderDefinition extends EntityDefinition
 {
-    final public const ENTITY_NAME = 'media_default_folder';
+    final public const string ENTITY_NAME = 'media_default_folder';
 
     public function getEntityName(): string
     {

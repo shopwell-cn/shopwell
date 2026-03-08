@@ -15,7 +15,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[Package('discovery')]
 class MediaFolderConfigurationMediaThumbnailSizeDefinition extends MappingEntityDefinition
 {
-    final public const ENTITY_NAME = 'media_folder_configuration_media_thumbnail_size';
+    final public const string ENTITY_NAME = 'media_folder_configuration_media_thumbnail_size';
 
     public function getEntityName(): string
     {

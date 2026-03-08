@@ -15,7 +15,7 @@ use Shopwell\Core\System\Tag\TagDefinition;
 #[Package('fundamentals@after-sales')]
 class RuleTagDefinition extends MappingEntityDefinition
 {
-    final public const ENTITY_NAME = 'rule_tag';
+    final public const string ENTITY_NAME = 'rule_tag';
 
     public function getEntityName(): string
     {

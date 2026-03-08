@@ -20,7 +20,7 @@ use Shopwell\Core\System\Language\LanguageDefinition;
 #[Package('inventory')]
 class ProductSearchKeywordDefinition extends EntityDefinition
 {
-    final public const ENTITY_NAME = 'product_search_keyword';
+    final public const string ENTITY_NAME = 'product_search_keyword';
 
     public function getEntityName(): string
     {

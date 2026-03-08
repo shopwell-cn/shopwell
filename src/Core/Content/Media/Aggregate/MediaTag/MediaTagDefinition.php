@@ -16,7 +16,7 @@ use Shopwell\Core\System\Tag\TagDefinition;
 #[Package('discovery')]
 class MediaTagDefinition extends MappingEntityDefinition
 {
-    final public const ENTITY_NAME = 'media_tag';
+    final public const string ENTITY_NAME = 'media_tag';
 
     public function getEntityName(): string
     {

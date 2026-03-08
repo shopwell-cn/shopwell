@@ -21,7 +21,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[Package('fundamentals@after-sales')]
 class ImportExportProfileDefinition extends EntityDefinition
 {
-    final public const ENTITY_NAME = 'import_export_profile';
+    final public const string ENTITY_NAME = 'import_export_profile';
 
     public function getEntityName(): string
     {

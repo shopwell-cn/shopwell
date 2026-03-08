@@ -14,7 +14,7 @@ use Shopwell\Core\Framework\Rule\RuleScope;
 #[Package('fundamentals@after-sales')]
 class OrderCreatedByAdminRule extends FlowRule
 {
-    final public const RULE_NAME = 'orderCreatedByAdmin';
+    final public const string RULE_NAME = 'orderCreatedByAdmin';
 
     /**
      * @internal
