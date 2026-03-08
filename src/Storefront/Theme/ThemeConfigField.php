@@ -95,9 +95,11 @@ class ThemeConfigField extends Struct
     }
 
     /**
-     * @param string|list<string> $value
+     * @deprecated tag:v6.8.0 - reason:parameter-name-change - Parameter will be natively typed
+     *
+     * @param list<string>|string $value
      */
-    public function setValue(array|string $value): void
+    public function setValue($value): void
     {
         $this->value = $value;
     }
