@@ -49,6 +49,11 @@
             <tag name="shopwell.filesystem.factory"/>
         </service>
 
+        <service class="Shopwell\Core\Framework\Adapter\Filesystem\Adapter\AliyunStorageFactory" id="Shopwell\Core\Framework\Adapter\Filesystem\FilesystemFactory.aliyun">
+            <argument>%shopwell.filesystem.batch_write_size%</argument>
+            <tag name="shopwell.filesystem.factory"/>
+        </service>
+
         <service class="Shopwell\Core\Framework\Adapter\Filesystem\Adapter\GoogleStorageFactory" id="Shopwell\Core\Framework\Adapter\Filesystem\FilesystemFactory.google_storage">
             <tag name="shopwell.filesystem.factory"/>
         </service>
