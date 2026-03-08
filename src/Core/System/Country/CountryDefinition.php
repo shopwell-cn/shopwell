@@ -33,13 +33,9 @@ use Shopwell\Core\System\Tax\Aggregate\TaxRule\TaxRuleDefinition;
 #[Package('fundamentals@discovery')]
 class CountryDefinition extends EntityDefinition
 {
-    final public const ENTITY_NAME = 'country';
+    final public const string ENTITY_NAME = 'country';
 
-    final public const TYPE_CUSTOMER_TAX_FREE = 'customer-tax-free';
-
-    final public const TYPE_COMPANY_TAX_FREE = 'company-tax-free';
-
-    final public const DEFAULT_ADDRESS_FORMAT = [
+    final public const array DEFAULT_ADDRESS_FORMAT = [
         ['address/company', 'symbol/dash', 'address/department'],
         ['address/first_name', 'address/last_name'],
         ['address/street'],

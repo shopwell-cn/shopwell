@@ -238,16 +238,6 @@ class CountryEntity extends Entity
         $this->customerTax = $customerTax;
     }
 
-    public function getCompanyTax(): TaxFreeConfig
-    {
-        return $this->companyTax;
-    }
-
-    public function setCompanyTax(TaxFreeConfig $companyTax): void
-    {
-        $this->companyTax = $companyTax;
-    }
-
     public function getPostalCodeRequired(): bool
     {
         return $this->postalCodeRequired;

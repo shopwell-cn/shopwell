@@ -895,6 +895,12 @@ class Migration1536233560BasicData extends MigrationStep
         $connection->insert('country', ['id' => $ruId, 'iso' => 'RU', 'position' => 10, 'iso3' => 'RUS', 'created_at' => new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT)]);
         $connection->insert('country_translation', $languageEn($ruId, 'Russia'));
         $connection->insert('country_translation', $languageZh($ruId, '俄罗斯'));
+
+        $connection->executeStatement(
+            'UPDATE `country` SET
+            `customer_tax` = JSON_OBJECT("enabled", 0, "currencyId", :currencyId, "amount", 0);',
+            ['currencyId' => Defaults::CURRENCY]
+        );
     }
 
     private function createLocale(Connection $connection): void

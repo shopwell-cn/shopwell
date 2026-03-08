@@ -10,7 +10,6 @@ use Shopwell\Core\Checkout\Cart\Extension\CheckoutCartRuleLoaderExtension;
 use Shopwell\Core\Checkout\Cart\LineItem\LineItem;
 use Shopwell\Core\Checkout\Cart\Price\Struct\CartPrice;
 use Shopwell\Core\Checkout\Cart\Tax\AbstractTaxDetector;
-use Shopwell\Core\Checkout\Customer\CustomerEntity;
 use Shopwell\Core\Content\Rule\RuleCollection;
 use Shopwell\Core\Content\Rule\RuleEntity;
 use Shopwell\Core\Defaults;
@@ -22,7 +21,6 @@ use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Util\FloatComparator;
 use Shopwell\Core\Framework\Uuid\Uuid;
 use Shopwell\Core\Profiling\Profiler;
-use Shopwell\Core\System\Country\CountryDefinition;
 use Shopwell\Core\System\Country\CountryEntity;
 use Shopwell\Core\System\SalesChannel\SalesChannelContext;
 use Symfony\Contracts\Cache\CacheInterface;
@@ -31,7 +29,7 @@ use Symfony\Contracts\Service\ResetInterface;
 #[Package('checkout')]
 class CartRuleLoader implements ResetInterface
 {
-    private const MAX_ITERATION = 7;
+    private const int MAX_ITERATION = 7;
 
     private ?RuleCollection $rules = null;
 
@@ -213,7 +211,7 @@ class CartRuleLoader implements ResetInterface
     private function detectTaxType(SalesChannelContext $context, float $cartNetAmount = 0): string
     {
         $currency = $context->getCurrency();
-        $currencyTaxFreeAmount = $currency->getTaxFreeFrom();
+        $currencyTaxFreeAmount = $currency->taxFreeFrom;
         $isReachedCurrencyTaxFreeAmount = $currencyTaxFreeAmount > 0 && $cartNetAmount >= $currencyTaxFreeAmount;
 
         if ($isReachedCurrencyTaxFreeAmount) {
@@ -222,19 +220,10 @@ class CartRuleLoader implements ResetInterface
 
         $country = $context->getShippingLocation()->getCountry();
 
-        if ($context->getCustomer()?->getAccountType() === CustomerEntity::ACCOUNT_TYPE_BUSINESS) {
-            $isReachedCompanyTaxFreeAmount = $this->taxDetector->isCompanyTaxFree($context, $country)
-                && $this->isReachedCountryTaxFreeAmount($context, $country, $cartNetAmount, CountryDefinition::TYPE_COMPANY_TAX_FREE);
+        $isReachedCustomerTaxFreeAmount = $country->getCustomerTax()->getEnabled() && $this->isReachedCountryTaxFreeAmount($context, $country, $cartNetAmount);
 
-            if ($isReachedCompanyTaxFreeAmount) {
-                return CartPrice::TAX_STATE_FREE;
-            }
-        } else {
-            $isReachedCustomerTaxFreeAmount = $country->getCustomerTax()->getEnabled() && $this->isReachedCountryTaxFreeAmount($context, $country, $cartNetAmount);
-
-            if ($isReachedCustomerTaxFreeAmount) {
-                return CartPrice::TAX_STATE_FREE;
-            }
+        if ($isReachedCustomerTaxFreeAmount) {
+            return CartPrice::TAX_STATE_FREE;
         }
 
         if ($this->taxDetector->useGross($context)) {
@@ -258,7 +247,7 @@ class CartRuleLoader implements ResetInterface
 
             $original = $timestamps[$lineItemId];
 
-            $timestamp = $lineItem->getDataTimestamp() !== null ? $lineItem->getDataTimestamp()->format(Defaults::STORAGE_DATE_TIME_FORMAT) : null;
+            $timestamp = $lineItem->getDataTimestamp()?->format(Defaults::STORAGE_DATE_TIME_FORMAT);
 
             if ($original !== $timestamp) {
                 return true;
@@ -276,9 +265,8 @@ class CartRuleLoader implements ResetInterface
         SalesChannelContext $context,
         CountryEntity $country,
         float $cartNetAmount = 0,
-        string $taxFreeType = CountryDefinition::TYPE_CUSTOMER_TAX_FREE
     ): bool {
-        $countryTaxFreeLimit = $taxFreeType === CountryDefinition::TYPE_CUSTOMER_TAX_FREE ? $country->getCustomerTax() : $country->getCompanyTax();
+        $countryTaxFreeLimit = $country->getCustomerTax();
         if (!$countryTaxFreeLimit->getEnabled()) {
             return false;
         }
@@ -290,7 +278,7 @@ class CartRuleLoader implements ResetInterface
         $cartNetAmount /= $this->fetchCurrencyFactor($currency->getId(), $context);
 
         // currency taxFreeAmount === 0.0 mean currency taxFreeFrom is disabled
-        return $currency->getTaxFreeFrom() === 0.0 && FloatComparator::greaterThanOrEquals($cartNetAmount, $countryTaxFreeLimitAmount);
+        return $currency->taxFreeFrom === 0.0 && FloatComparator::greaterThanOrEquals($cartNetAmount, $countryTaxFreeLimitAmount);
     }
 
     private function fetchCurrencyFactor(string $currencyId, SalesChannelContext $context): float

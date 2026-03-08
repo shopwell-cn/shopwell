@@ -21,6 +21,8 @@ class CurrencyEntity extends Entity
     use EntityCustomFieldsTrait;
     use EntityIdTrait;
 
+    public ?float $taxFreeFrom = null;
+
     protected string $isoCode;
 
     protected float $factor;

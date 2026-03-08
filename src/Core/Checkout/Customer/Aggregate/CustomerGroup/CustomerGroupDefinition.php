@@ -24,7 +24,7 @@ use Shopwell\Core\System\SalesChannel\SalesChannelDefinition;
 #[Package('discovery')]
 class CustomerGroupDefinition extends EntityDefinition
 {
-    final public const ENTITY_NAME = 'customer_group';
+    final public const string ENTITY_NAME = 'customer_group';
 
     public function getEntityName(): string
     {
@@ -53,12 +53,6 @@ class CustomerGroupDefinition extends EntityDefinition
             new TranslatedField('name')->addFlags(new ApiAware(), new SearchRanking(SearchRanking::HIGH_SEARCH_RANKING)),
             new BoolField('display_gross', 'displayGross')->addFlags(new ApiAware())->setDescription('If boolean value is `true` gross value is displayed else, net value will be displayed to the customer.'),
             new TranslatedField('customFields')->addFlags(new ApiAware()),
-            // Merchant Registration
-            new BoolField('registration_active', 'registrationActive')->addFlags(new ApiAware())->setDescription('To enable the registration of partner customer group.'),
-            new TranslatedField('registrationTitle')->addFlags(new ApiAware()),
-            new TranslatedField('registrationIntroduction')->addFlags(new ApiAware()),
-            new TranslatedField('registrationOnlyCompanyRegistration')->addFlags(new ApiAware()),
-            new TranslatedField('registrationSeoMetaDescription')->addFlags(new ApiAware()),
             new OneToManyAssociationField('customers', CustomerDefinition::class, 'customer_group_id', 'id')->addFlags(new RestrictDelete()),
             new OneToManyAssociationField('salesChannels', SalesChannelDefinition::class, 'customer_group_id', 'id')->addFlags(new RestrictDelete()),
             new TranslationsAssociationField(CustomerGroupTranslationDefinition::class, 'customer_group_id')->addFlags(new Required()),
