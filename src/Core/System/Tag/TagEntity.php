@@ -8,7 +8,6 @@ use Shopwell\Core\Checkout\Shipping\ShippingMethodCollection;
 use Shopwell\Core\Content\Category\CategoryCollection;
 use Shopwell\Core\Content\LandingPage\LandingPageCollection;
 use Shopwell\Core\Content\Media\MediaCollection;
-use Shopwell\Core\Content\Newsletter\Aggregate\NewsletterRecipient\NewsletterRecipientCollection;
 use Shopwell\Core\Content\Product\ProductCollection;
 use Shopwell\Core\Content\Rule\RuleCollection;
 use Shopwell\Core\Framework\DataAbstractionLayer\Entity;
@@ -21,7 +20,6 @@ class TagEntity extends Entity
     use EntityIdTrait;
 
     protected string $name;
-
     protected ?ProductCollection $products = null;
 
     protected ?MediaCollection $media = null;
@@ -34,21 +32,9 @@ class TagEntity extends Entity
 
     protected ?ShippingMethodCollection $shippingMethods = null;
 
-    protected ?NewsletterRecipientCollection $newsletterRecipients = null;
-
     protected ?LandingPageCollection $landingPages = null;
 
     protected ?RuleCollection $rules = null;
-
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): void
-    {
-        $this->name = $name;
-    }
 
     public function getProducts(): ?ProductCollection
     {
@@ -110,15 +96,6 @@ class TagEntity extends Entity
         $this->shippingMethods = $shippingMethods;
     }
 
-    public function getNewsletterRecipients(): ?NewsletterRecipientCollection
-    {
-        return $this->newsletterRecipients;
-    }
-
-    public function setNewsletterRecipients(NewsletterRecipientCollection $newsletterRecipients): void
-    {
-        $this->newsletterRecipients = $newsletterRecipients;
-    }
 
     public function getLandingPages(): ?LandingPageCollection
     {

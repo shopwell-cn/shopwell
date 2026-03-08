@@ -27,7 +27,7 @@ use Shopwell\Core\System\Country\CountryDefinition;
 #[Package('fundamentals@discovery')]
 class CountryStateDefinition extends EntityDefinition
 {
-    final public const ENTITY_NAME = 'country_state';
+    final public const string ENTITY_NAME = 'country_state';
 
     public function getEntityName(): string
     {

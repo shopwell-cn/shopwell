@@ -60,11 +60,6 @@ class NoRuntimeExceptionInDomainExceptionsRule implements Rule
         $method = $classReflection->getMethod($node->name->name, $scope);
         foreach ($method->getVariants() as $variant) {
             if ($variant->getReturnType()->isSuperTypeOf(new ObjectType(\RuntimeException::class))->yes()) {
-                /** @deprecated tag:v6.8.0 - known violations will be fixed with 6.8.0 so this if can be removed */
-                if ($this->isAKnownViolation($method, $classReflection)) {
-                    return [];
-                }
-
                 return [
                     RuleErrorBuilder::message(
                         \sprintf(

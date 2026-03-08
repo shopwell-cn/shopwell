@@ -103,34 +103,10 @@ class LineItemCollection extends Collection
         );
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - Use hasLineItemWithProductType() method instead.
-     */
-    public function hasLineItemWithState(string $state): bool
-    {
-        Feature::triggerDeprecationOrThrow(
-            'v6.8.0.0',
-            Feature::deprecatedMethodMessage(self::class, 'hasLineItemWithState', 'v6.8.0.0', 'hasLineItemWithProductType')
-        );
-
-        foreach ($this->buildFlat($this) as $lineItem) {
-            if (\in_array($state, $lineItem->getStates(), true)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     public function hasLineItemWithProductType(string $productType): bool
     {
-        foreach ($this->buildFlat($this) as $lineItem) {
-            if ($lineItem->isProductType($productType)) {
-                return true;
-            }
-        }
+        return array_any($this->buildFlat($this), fn($lineItem) => $lineItem->isProductType($productType));
 
-        return false;
     }
 
     /**

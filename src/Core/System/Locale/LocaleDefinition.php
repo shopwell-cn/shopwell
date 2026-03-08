@@ -23,7 +23,7 @@ use Shopwell\Core\System\User\UserDefinition;
 #[Package('discovery')]
 class LocaleDefinition extends EntityDefinition
 {
-    final public const ENTITY_NAME = 'locale';
+    final public const string ENTITY_NAME = 'locale';
 
     public function getEntityName(): string
     {

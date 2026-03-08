@@ -46,14 +46,6 @@ class AddressValidator implements CartValidatorInterface, ResetInterface
 
         $isPhysicalLineItem = $cart->getLineItems()->hasLineItemWithProductType(ProductDefinition::TYPE_PHYSICAL);
 
-        if (!Feature::isActive('v6.8.0.0')) {
-            $isPhysicalLineItem = $cart->getLineItems()->hasLineItemWithProductType(ProductDefinition::TYPE_PHYSICAL);
-
-            Feature::callSilentIfInactive('v6.8.0.0', function () use ($cart, &$isPhysicalLineItem): void {
-                $isPhysicalLineItem = $isPhysicalLineItem || $cart->getLineItems()->hasLineItemWithState(State::IS_PHYSICAL);
-            });
-        }
-
         $validateShipping = $cart->getLineItems()->count() === 0 || $isPhysicalLineItem;
 
         if (!$country->getActive() && $validateShipping) {

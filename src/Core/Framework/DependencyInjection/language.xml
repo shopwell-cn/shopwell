@@ -37,10 +37,6 @@
             <tag name="kernel.event_subscriber"/>
         </service>
 
-        <service id="Shopwell\Core\System\Language\LanguageExceptionHandler">
-            <tag name="shopwell.dal.exception_handler"/>
-        </service>
-
         <service id="Shopwell\Core\System\Language\SalesChannel\LanguageRoute" public="true">
             <argument type="service" id="sales_channel.language.repository"/>
             <argument type="service" id="Shopwell\Core\Framework\Adapter\Cache\CacheTagCollector"/>

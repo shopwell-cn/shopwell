@@ -16,11 +16,11 @@ class DeliveryTimeEntity extends Entity
 {
     use EntityCustomFieldsTrait;
     use EntityIdTrait;
-    final public const DELIVERY_TIME_HOUR = 'hour';
-    final public const DELIVERY_TIME_DAY = 'day';
-    final public const DELIVERY_TIME_WEEK = 'week';
-    final public const DELIVERY_TIME_MONTH = 'month';
-    final public const DELIVERY_TIME_YEAR = 'year';
+    final public const string DELIVERY_TIME_HOUR = 'hour';
+    final public const string DELIVERY_TIME_DAY = 'day';
+    final public const string DELIVERY_TIME_WEEK = 'week';
+    final public const string DELIVERY_TIME_MONTH = 'month';
+    final public const string DELIVERY_TIME_YEAR = 'year';
 
     protected ?string $name = null;
 

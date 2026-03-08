@@ -77,35 +77,6 @@ class OrderConversionContext extends Struct
         return $this;
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - will be removed, use `shouldIncludePersistentData` instead
-     */
-    public function shouldIncludeOrderDate(): bool
-    {
-        Feature::triggerDeprecationOrThrow(
-            'v6.8.0',
-            'The method "OrderConversionContext::shouldIncludeOrderDate" is deprecated and will be removed in v6.8.0. Use "shouldIncludePersistentData" instead.'
-        );
-
-        return $this->includeOrderDate;
-    }
-
-    /**
-     * @deprecated tag:v6.8.0 - will be removed, use `setIncludePersistentData` instead
-     */
-    public function setIncludeOrderDate(bool $includeOrderDate): OrderConversionContext
-    {
-        Feature::triggerDeprecationOrThrow(
-            'v6.8.0',
-            'The method "OrderConversionContext::setIncludeOrderDate" is deprecated and will be removed in v6.8.0. Use "setIncludePersistentData" instead.'
-        );
-
-        $this->includeOrderDate = $includeOrderDate;
-        $this->includePersistentData = $includeOrderDate;
-
-        return $this;
-    }
-
     public function shouldIncludePersistentData(): bool
     {
         return $this->includePersistentData;

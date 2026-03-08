@@ -3,7 +3,6 @@
 namespace Shopwell\Core\Content\Category;
 
 use Shopwell\Core\Content\Category\Exception\CategoryNotFoundException;
-use Shopwell\Core\Content\Cms\Exception\PageNotFoundException;
 use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\HttpException;
 use Shopwell\Core\Framework\Log\Package;
@@ -13,20 +12,13 @@ use Symfony\Component\HttpFoundation\Response;
 #[Package('discovery')]
 class CategoryException extends HttpException
 {
-    public const SERVICE_CATEGORY_NOT_FOUND = 'CHECKOUT__SERVICE_CATEGORY_NOT_FOUND';
-    public const FOOTER_CATEGORY_NOT_FOUND = 'CHECKOUT__FOOTER_CATEGORY_NOT_FOUND';
-    public const AFTER_CATEGORY_NOT_FOUND = 'CONTENT__AFTER_CATEGORY_NOT_FOUND';
-    public const CMS_PAGE_NOT_FOUND = 'CONTENT__CMS_PAGE_NOT_FOUND';
+    public const string SERVICE_CATEGORY_NOT_FOUND = 'CHECKOUT__SERVICE_CATEGORY_NOT_FOUND';
+    public const string FOOTER_CATEGORY_NOT_FOUND = 'CHECKOUT__FOOTER_CATEGORY_NOT_FOUND';
+    public const string AFTER_CATEGORY_NOT_FOUND = 'CONTENT__AFTER_CATEGORY_NOT_FOUND';
+    public const string CMS_PAGE_NOT_FOUND = 'CONTENT__CMS_PAGE_NOT_FOUND';
 
-    /**
-     * @deprecated tag:v6.8.0 - reason:return-type-change - Will return self
-     */
     public static function pageNotFound(string $pageId): ShopwellHttpException
     {
-        if (!Feature::isActive('v6.8.0.0')) {
-            return new PageNotFoundException($pageId);
-        }
-
         return new self(
             Response::HTTP_NOT_FOUND,
             self::CMS_PAGE_NOT_FOUND,

@@ -4,7 +4,6 @@ namespace Shopwell\Storefront\Controller;
 
 use Shopwell\Core\Checkout\Cart\Address\Error\AddressErrorInterface;
 use Shopwell\Core\Checkout\Cart\Cart;
-use Shopwell\Core\Checkout\Cart\Error\ErrorRoute;
 use Shopwell\Core\Content\Media\MediaUrlPlaceholderHandlerInterface;
 use Shopwell\Core\Content\Seo\SeoUrlPlaceholderHandlerInterface;
 use Shopwell\Core\Framework\Adapter\Request\RequestParamHelper;
@@ -233,15 +232,6 @@ abstract class StorefrontController extends AbstractController
                 foreach ($error->getParameters() as $key => $value) {
                     $parameters['%' . $key . '%'] = $value;
                 }
-
-                Feature::callSilentIfInactive('v6.8.0.0', function () use (&$parameters, $error): void {
-                    if ($error->getRoute() instanceof ErrorRoute) {
-                        $parameters['%url%'] = $this->generateUrl(
-                            $error->getRoute()->getKey(),
-                            $error->getRoute()->getParams()
-                        );
-                    }
-                });
 
                 if ($error instanceof AddressErrorInterface && $error->getAddressId() !== null) {
                     $parameters['%url%'] = $this->generateUrl('frontend.account.address.edit.page', [

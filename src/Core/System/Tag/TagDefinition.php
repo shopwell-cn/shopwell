@@ -14,8 +14,6 @@ use Shopwell\Core\Content\LandingPage\Aggregate\LandingPageTag\LandingPageTagDef
 use Shopwell\Core\Content\LandingPage\LandingPageDefinition;
 use Shopwell\Core\Content\Media\Aggregate\MediaTag\MediaTagDefinition;
 use Shopwell\Core\Content\Media\MediaDefinition;
-use Shopwell\Core\Content\Newsletter\Aggregate\NewsletterRecipient\NewsletterRecipientDefinition;
-use Shopwell\Core\Content\Newsletter\Aggregate\NewsletterRecipientTag\NewsletterRecipientTagDefinition;
 use Shopwell\Core\Content\Product\Aggregate\ProductTag\ProductTagDefinition;
 use Shopwell\Core\Content\Product\ProductDefinition;
 use Shopwell\Core\Content\Rule\Aggregate\RuleTag\RuleTagDefinition;
@@ -35,7 +33,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[Package('fundamentals@framework')]
 class TagDefinition extends EntityDefinition
 {
-    final public const ENTITY_NAME = 'tag';
+    final public const string ENTITY_NAME = 'tag';
 
     public function getEntityName(): string
     {
@@ -59,7 +57,7 @@ class TagDefinition extends EntityDefinition
 
     protected function defineFields(): FieldCollection
     {
-        $collection = new FieldCollection([
+        return new FieldCollection([
             new IdField('id', 'id')->addFlags(new PrimaryKey(), new Required(), new ApiAware()),
             new StringField('name', 'name')->addFlags(new Required(), new SearchRanking(SearchRanking::HIGH_SEARCH_RANKING), new ApiAware()),
 
@@ -70,11 +68,8 @@ class TagDefinition extends EntityDefinition
             new ManyToManyAssociationField('customers', CustomerDefinition::class, CustomerTagDefinition::class, 'tag_id', 'customer_id')->addFlags(new CascadeDelete()),
             new ManyToManyAssociationField('orders', OrderDefinition::class, OrderTagDefinition::class, 'tag_id', 'order_id')->addFlags(new CascadeDelete()),
             new ManyToManyAssociationField('shippingMethods', ShippingMethodDefinition::class, ShippingMethodTagDefinition::class, 'tag_id', 'shipping_method_id')->addFlags(new CascadeDelete()),
-            new ManyToManyAssociationField('newsletterRecipients', NewsletterRecipientDefinition::class, NewsletterRecipientTagDefinition::class, 'tag_id', 'newsletter_recipient_id')->addFlags(new CascadeDelete()),
             new ManyToManyAssociationField('landingPages', LandingPageDefinition::class, LandingPageTagDefinition::class, 'tag_id', 'landing_page_id')->addFlags(new CascadeDelete()),
             new ManyToManyAssociationField('rules', RuleDefinition::class, RuleTagDefinition::class, 'tag_id', 'rule_id')->addFlags(new CascadeDelete()),
         ]);
-
-        return $collection;
     }
 }
