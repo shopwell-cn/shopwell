@@ -16,8 +16,7 @@ class CachedDataDictLoader extends AbstractDataDictLoader
     public function __construct(
         private readonly AbstractDataDictLoader $decorated,
         private readonly CacheInterface $cache
-    )
-    {
+    ) {
     }
 
     public function getDecorated(): AbstractDataDictLoader

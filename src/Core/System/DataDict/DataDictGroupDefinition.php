@@ -19,7 +19,6 @@ use Shopwell\Core\Framework\DataAbstractionLayer\FieldCollection;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\System\DataDict\Aggregate\DataDictGroupTranslation\DataDictGroupTranslationDefinition;
 use Shopwell\Core\System\DataDict\Aggregate\DataDictItem\DataDictItemDefinition;
-use Shopwell\Core\System\DataDict\Aggregate\DataDictItemTranslation\DataDictItemTranslationDefinition;
 
 #[Package('data-services')]
 class DataDictGroupDefinition extends EntityDefinition

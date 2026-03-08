@@ -21,6 +21,7 @@ class DataDictItemEntity extends Entity
     public int $position;
 
     public string $groupId;
+
     public string $path;
 
     public ?DataDictGroupEntity $group = null;

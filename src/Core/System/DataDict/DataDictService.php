@@ -9,9 +9,6 @@ class DataDictService
      */
     public function __construct(
         private readonly AbstractDataDictLoader $loader
-    )
-    {
+    ) {
     }
-
-
 }

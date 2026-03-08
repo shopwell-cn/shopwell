@@ -39,18 +39,18 @@ return function (ContainerConfigurator $container): void {
 
     $services->set(DataDictLoader::class)
         ->args([
-            service('data_dict_group.repository')
+            service('data_dict_group.repository'),
         ]);
 
     $services->set(CachedDataDictLoader::class)
         ->decorate(DataDictLoader::class)
         ->args([
-            service(CachedDataDictLoader::class.'.inner'),
+            service(CachedDataDictLoader::class . '.inner'),
             service('cache.object'),
         ]);
 
     $services->set(DataDictService::class)
         ->args([
-            service(DataDictLoader::class)
+            service(DataDictLoader::class),
         ]);
 };
