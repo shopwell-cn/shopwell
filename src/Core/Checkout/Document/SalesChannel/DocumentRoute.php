@@ -11,8 +11,6 @@ use Shopwell\Core\Checkout\Document\Renderer\ZugferdRenderer;
 use Shopwell\Core\Checkout\Document\Service\AbstractDocumentTypeRenderer;
 use Shopwell\Core\Checkout\Document\Service\DocumentGenerator;
 use Shopwell\Core\Checkout\Document\Service\PdfRenderer;
-use Shopwell\Core\Checkout\Order\Aggregate\OrderCustomer\OrderCustomerEntity;
-use Shopwell\Core\Checkout\Order\OrderEntity;
 use Shopwell\Core\Framework\Context;
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Criteria;
@@ -193,41 +191,7 @@ final class DocumentRoute extends AbstractDocumentRoute
             return;
         }
 
-        if (!Feature::isActive('v6.8.0.0')) {
-            // feature flag due to different exceptions
-            Feature::silent('v6.8.0.0', fn () => $this->checkGuestAuth($order, $orderCustomer, $request));
-
-            return;
-        }
-
         $this->guestAuthenticator->validate($order, $request);
-    }
-
-    /**
-     * @deprecated tag:v6.8.0 - was replaced by GuestAuthenticator::validateGuestAuthentication
-     */
-    private function checkGuestAuth(
-        OrderEntity $order,
-        OrderCustomerEntity $orderCustomer,
-        Request $request
-    ): void {
-        $isOrderByGuest = $orderCustomer->getCustomer() !== null && $orderCustomer->getCustomer()->getGuest();
-
-        if (!$isOrderByGuest) {
-            throw DocumentException::customerNotLoggedIn();
-        }
-
-        // Verify email and zip code with this order
-        if ($request->get('email', false) && $request->get('zipcode', false)) {
-            $billingAddress = $order->getBillingAddress();
-            if ($billingAddress === null
-                || strtolower($request->get('email')) !== strtolower($orderCustomer->getEmail())
-                || strtoupper($request->get('zipcode')) !== strtoupper($billingAddress->getZipcode() ?: '')) {
-                throw DocumentException::wrongGuestCredentials();
-            }
-        } else {
-            throw DocumentException::guestNotAuthenticated();
-        }
     }
 
     /**

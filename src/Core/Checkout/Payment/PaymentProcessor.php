@@ -10,18 +10,14 @@ use Shopwell\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStat
 use Shopwell\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStates;
 use Shopwell\Core\Checkout\Payment\Cart\AbstractPaymentTransactionStructFactory;
 use Shopwell\Core\Checkout\Payment\Cart\PaymentHandler\PaymentHandlerRegistry;
-use Shopwell\Core\Checkout\Payment\Cart\Token\JWTFactoryV2;
 use Shopwell\Core\Checkout\Payment\Cart\Token\PaymentToken;
 use Shopwell\Core\Checkout\Payment\Cart\Token\PaymentTokenGenerator;
 use Shopwell\Core\Checkout\Payment\Cart\Token\PaymentTokenLifecycle;
-use Shopwell\Core\Checkout\Payment\Cart\Token\TokenFactoryInterfaceV2;
-use Shopwell\Core\Checkout\Payment\Cart\Token\TokenStruct;
 use Shopwell\Core\Framework\Context;
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Sorting\FieldSorting;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\HttpException;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Struct\ArrayStruct;
@@ -29,8 +25,6 @@ use Shopwell\Core\Framework\Struct\Struct;
 use Shopwell\Core\Framework\Validation\DataBag\RequestDataBag;
 use Shopwell\Core\System\SalesChannel\SalesChannelContext;
 use Shopwell\Core\System\StateMachine\Loader\InitialStateIdLoader;
-use Shopwell\Core\System\SystemConfig\SystemConfigService;
-use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -48,7 +42,6 @@ class PaymentProcessor
      * @internal
      */
     public function __construct(
-        private readonly ?TokenFactoryInterfaceV2 $tokenFactory,
         private readonly PaymentTokenGenerator $paymentTokenGenerator,
         private readonly PaymentTokenLifecycle $paymentTokenLifecycle,
         private readonly PaymentHandlerRegistry $paymentHandlerRegistry,
@@ -58,7 +51,6 @@ class PaymentProcessor
         private readonly AbstractPaymentTransactionStructFactory $paymentTransactionStructFactory,
         private readonly InitialStateIdLoader $initialStateIdLoader,
         private readonly RouterInterface $router,
-        private readonly SystemConfigService $systemConfigService,
     ) {
     }
 
@@ -74,12 +66,9 @@ class PaymentProcessor
             return null;
         }
 
-        if (Feature::isActive('v6.8.0.0') || $this->tokenFactory === null) {
-            $token = $this->getToken($transaction, $finishUrl, $errorUrl, $salesChannelContext);
-            $encodedToken = $this->encodeToken($token);
-        } else {
-            $encodedToken = $this->getOldToken($transaction, $finishUrl, $errorUrl, $salesChannelContext);
-        }
+        $token = $this->getToken($transaction, $finishUrl, $errorUrl, $salesChannelContext);
+        $encodedToken = $this->encodeToken($token);
+
         $returnUrl = $this->getReturnUrl($encodedToken);
 
         try {
@@ -112,33 +101,15 @@ class PaymentProcessor
             if ($encodedToken) {
                 if (($token ?? null) instanceof PaymentToken && $token->jti !== null) {
                     $this->paymentTokenLifecycle->invalidateToken($token->jti);
-                } else {
-                    $this->tokenFactory?->invalidateToken($encodedToken);
                 }
             }
         }
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - reason:parameter-type-change - first parameter will become `PaymentToken $token` instead of being the last optional parameter
-     * @deprecated tag:v6.8.0 - reason:return-type-change - will return `void` instead of `TokenStruct`
-     *
-     * new signature to copy: public function finalize(PaymentToken $token, Request $request, SalesChannelContext $context): void
-     */
-    public function finalize(TokenStruct $token, Request $request, SalesChannelContext $context /* , ?PaymentToken $paymentToken = null */): TokenStruct
+    public function finalize(PaymentToken $token, Request $request, SalesChannelContext $context): void
     {
-        // @deprecated tag:v6.8.0 - remove these two lines
-        $oldToken = $token;
-        $token = (\func_num_args() > 3 && \func_get_arg(3) instanceof PaymentToken) ? \func_get_arg(3) : $token;
-
         $transactionId = $token instanceof PaymentToken ? $token->transactionId : $token->getTransactionId();
         $paymentMethodId = $token instanceof PaymentToken ? $token->paymentMethodId : $token->getPaymentMethodId();
-
-        // @deprecated tag:v6.8.0 - remove this if block, as both parameters are non-nullable in the PaymentToken
-        if ($paymentMethodId === null || $transactionId === null) {
-            \assert($token instanceof TokenStruct);
-            throw PaymentException::invalidToken($token->getToken() ?? '');
-        }
 
         $paymentHandler = $this->paymentHandlerRegistry->getPaymentMethodHandler($paymentMethodId);
         if (!$paymentHandler) {
@@ -166,8 +137,6 @@ class PaymentProcessor
                 $this->paymentTokenLifecycle->invalidateToken($token->jti);
             }
         }
-
-        return $oldToken;
     }
 
     public function validate(
@@ -218,31 +187,6 @@ class PaymentProcessor
         }
 
         return $transaction;
-    }
-
-    private function getOldToken(OrderTransactionEntity $transaction, ?string $finishUrl, ?string $errorUrl, SalesChannelContext $salesChannelContext): string
-    {
-        if (!$this->tokenFactory) {
-            throw new ServiceNotFoundException(JWTFactoryV2::class);
-        }
-
-        $paymentFinalizeTransactionTime = $this->systemConfigService->get('core.cart.paymentFinalizeTransactionTime', $salesChannelContext->getSalesChannelId());
-
-        $paymentFinalizeTransactionTime = \is_numeric($paymentFinalizeTransactionTime)
-            ? (int) $paymentFinalizeTransactionTime * 60
-            : null;
-
-        $tokenStruct = new TokenStruct(
-            null,
-            null,
-            $transaction->getPaymentMethodId(),
-            $transaction->getId(),
-            $finishUrl,
-            $paymentFinalizeTransactionTime,
-            $errorUrl
-        );
-
-        return $this->tokenFactory->generateToken($tokenStruct);
     }
 
     private function getToken(OrderTransactionEntity $transaction, ?string $finishUrl, ?string $errorUrl, SalesChannelContext $salesChannelContext): PaymentToken

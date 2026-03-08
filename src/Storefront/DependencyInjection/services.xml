@@ -348,12 +348,6 @@
             <argument type="service" id="Shopwell\Core\Framework\Adapter\Translation\Translator"/>
         </service>
 
-        <service id="Shopwell\Storefront\Page\Account\Order\AccountOrderDetailPageLoader">
-            <argument type="service" id="Shopwell\Storefront\Page\GenericPageLoader"/>
-            <argument type="service" id="event_dispatcher"/>
-            <argument type="service" id="Shopwell\Core\Checkout\Order\SalesChannel\OrderRoute"/>
-        </service>
-
         <service id="Shopwell\Storefront\Page\Account\Order\AccountEditOrderPageLoader">
             <argument type="service" id="Shopwell\Storefront\Page\GenericPageLoader"/>
             <argument type="service" id="event_dispatcher"/>
@@ -426,17 +420,6 @@
             <argument type="service" id="Shopwell\Core\Maintenance\SalesChannel\Service\SalesChannelCreator"/>
 
             <tag name="console.command"/>
-        </service>
-
-        <!-- @deprecated tag:v6.8.0 Will be removed -->
-        <service id="Shopwell\Storefront\Framework\Cookie\CookieProviderInterface" class="Shopwell\Storefront\Framework\Cookie\CookieProvider">
-            <deprecated package="shopwell/storefront" version="6.7.3.0">The %service_id% service will be removed in v6.8.0.0. Use the CookieGroupCollectEvent instead to introduce cookies.</deprecated>
-        </service>
-
-        <!-- @deprecated tag:v6.8.0 Will be removed -->
-        <service id="Shopwell\Storefront\Framework\Cookie\AppCookieProvider" decorates="Shopwell\Storefront\Framework\Cookie\CookieProviderInterface">
-            <argument type="service" id=".inner"/>
-            <deprecated package="shopwell/storefront" version="6.7.3.0">The %service_id% service will be removed in v6.8.0.0 without replacement</deprecated>
         </service>
 
         <service id="Shopwell\Storefront\Framework\Routing\ResponseHeaderListener">

@@ -34,15 +34,15 @@ class CustomerZipCodeValidator extends ConstraintValidator
             throw CustomerException::unexpectedType($constraint, CustomerZipCodeValidator::class);
         }
 
-        if ($constraint->getCountryId() === null) {
+        if ($constraint->countryId === null) {
             return;
         }
 
-        $country = $this->getCountry($constraint->getCountryId());
+        $country = $this->getCountry($constraint->countryId);
 
         if ($country->getPostalCodeRequired()) {
             if ($value === null || $value === '') {
-                $this->context->buildViolation($constraint->getMessageRequired())
+                $this->context->buildViolation($constraint->messageRequired)
                     ->setCode(NotBlank::IS_BLANK_ERROR)
                     ->addViolation();
 
@@ -64,13 +64,13 @@ class CustomerZipCodeValidator extends ConstraintValidator
             return;
         }
 
-        $caseSensitive = $constraint->isCaseSensitiveCheck() ? '' : 'i';
+        $caseSensitive = $constraint->caseSensitiveCheck ? '' : 'i';
 
         if (preg_match("/^{$pattern}$/" . $caseSensitive, (string) $value, $matches) === 1) {
             return;
         }
 
-        $this->context->buildViolation($constraint->getMessage())
+        $this->context->buildViolation($constraint->message)
             ->setParameter('{{ iso }}', $this->formatValue($country->getIso()))
             ->setCode(CustomerZipCode::ZIP_CODE_INVALID)
             ->addViolation();

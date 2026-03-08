@@ -2,8 +2,6 @@
 
 namespace Shopwell\Storefront\Theme\Exception;
 
-use Shopwell\Core\Framework\DataAbstractionLayer\Write\Validation\RestrictDeleteViolationException;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\HttpException;
 use Shopwell\Core\Framework\Log\Package;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,42 +9,16 @@ use Symfony\Component\HttpFoundation\Response;
 #[Package('framework')]
 class ThemeException extends HttpException
 {
-    public const THEME_MEDIA_IN_USE_EXCEPTION = 'THEME__MEDIA_IN_USE_EXCEPTION';
-    public const THEME_SALES_CHANNEL_NOT_FOUND = 'THEME__SALES_CHANNEL_NOT_FOUND';
-    public const INVALID_THEME_BY_NAME = 'THEME__INVALID_THEME';
-    public const INVALID_THEME_BY_ID = 'THEME__INVALID_THEME_BY_ID';
-    public const INVALID_SCSS_VAR = 'THEME__INVALID_SCSS_VAR';
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed, const is no longer used
-     */
-    public const THEME__COMPILING_ERROR = 'THEME__COMPILING_ERROR';
-    public const ERROR_LOADING_RUNTIME_CONFIG = 'THEME__ERROR_LOADING_RUNTIME_CONFIG';
-    public const ERROR_LOADING_FROM_PLUGIN_REGISTRY = 'THEME__ERROR_LOADING_THEME_FROM_PLUGIN_REGISTRY';
-    public const THEME_ASSIGNMENT = 'THEME__THEME_ASSIGNMENT';
-    public const THEME_CREATION_FAILURE = 'THEME__THEME_CREATION_FAILURE';
-    public const INVALID_THEME_BUNDLE = 'THEME__INVALID_THEME_BUNDLE';
-
-    /**
-     * @deprecated tag:v6.8.0 - will be removed, as the exception is no longer needed, use RestrictDeleteViolationException instead
-     */
-    public static function themeMediaStillInUse(): self
-    {
-        Feature::triggerDeprecationOrThrow(
-            'v6.8.0.0',
-            Feature::deprecatedMethodMessage(
-                self::class,
-                __METHOD__,
-                'v6.8.0.0',
-                RestrictDeleteViolationException::class
-            )
-        );
-
-        return new self(
-            Response::HTTP_BAD_REQUEST,
-            self::THEME_MEDIA_IN_USE_EXCEPTION,
-            'Media entity is still in use by a theme'
-        );
-    }
+    public const string THEME_MEDIA_IN_USE_EXCEPTION = 'THEME__MEDIA_IN_USE_EXCEPTION';
+    public const string THEME_SALES_CHANNEL_NOT_FOUND = 'THEME__SALES_CHANNEL_NOT_FOUND';
+    public const string INVALID_THEME_BY_NAME = 'THEME__INVALID_THEME';
+    public const string INVALID_THEME_BY_ID = 'THEME__INVALID_THEME_BY_ID';
+    public const string INVALID_SCSS_VAR = 'THEME__INVALID_SCSS_VAR';
+    public const string ERROR_LOADING_RUNTIME_CONFIG = 'THEME__ERROR_LOADING_RUNTIME_CONFIG';
+    public const string ERROR_LOADING_FROM_PLUGIN_REGISTRY = 'THEME__ERROR_LOADING_THEME_FROM_PLUGIN_REGISTRY';
+    public const string THEME_ASSIGNMENT = 'THEME__THEME_ASSIGNMENT';
+    public const string THEME_CREATION_FAILURE = 'THEME__THEME_CREATION_FAILURE';
+    public const string INVALID_THEME_BUNDLE = 'THEME__INVALID_THEME_BUNDLE';
 
     public static function salesChannelNotFound(string $salesChannelId): self
     {
@@ -94,8 +66,6 @@ class ThemeException extends HttpException
     }
 
     /**
-     * @deprecated tag:v6.8.0 - reason:return-type-change - Will only return `self` in the future
-     *
      * @param array<string, array<int, string>> $themeSalesChannel
      * @param array<string, array<int, string>> $childThemeSalesChannel
      * @param array<string, string> $assignedSalesChannels
@@ -106,17 +76,7 @@ class ThemeException extends HttpException
         array $childThemeSalesChannel,
         array $assignedSalesChannels,
         ?\Throwable $e = null,
-    ): self|ThemeAssignmentException {
-        if (!Feature::isActive('v6.8.0.0')) {
-            return new ThemeAssignmentException(
-                $themeName,
-                $themeSalesChannel,
-                $childThemeSalesChannel,
-                $assignedSalesChannels,
-                $e,
-            );
-        }
-
+    ): self {
         $parameters = ['themeName' => $themeName];
         $message = 'Unable to deactivate or uninstall theme "{{ themeName }}".';
         $message .= ' Remove the following assignments between theme and sales channel assignments: {{ assignments }}.';
@@ -168,15 +128,8 @@ class ThemeException extends HttpException
         );
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - reason:return-type-change - Will return only self
-     */
-    public static function invalidThemeBundle(string $themeName): self|InvalidThemeBundleException
+    public static function invalidThemeBundle(string $themeName): self
     {
-        if (!Feature::isActive('v6.8.0.0')) {
-            return new InvalidThemeBundleException($themeName);
-        }
-
         return new self(
             Response::HTTP_BAD_REQUEST,
             self::INVALID_THEME_BUNDLE,

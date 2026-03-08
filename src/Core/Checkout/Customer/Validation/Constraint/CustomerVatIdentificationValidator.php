@@ -40,7 +40,7 @@ class CustomerVatIdentificationValidator extends ConstraintValidator
 
         foreach ($vatIds as $vatId) {
             if (!preg_match($vatIdPattern, (string) $vatId)) {
-                $this->context->buildViolation($constraint->getMessage())
+                $this->context->buildViolation($constraint->message)
                     ->setParameter('{{ vatId }}', $this->formatValue($vatId))
                     ->setCode(CustomerVatIdentification::VAT_ID_FORMAT_NOT_CORRECT)
                     ->addViolation();
@@ -52,7 +52,7 @@ class CustomerVatIdentificationValidator extends ConstraintValidator
     {
         $vatIdInformation = $this->connection->fetchAssociative(
             'SELECT check_vat_id_pattern, vat_id_pattern FROM `country` WHERE id = :id',
-            ['id' => Uuid::fromHexToBytes($constraint->getCountryId())]
+            ['id' => Uuid::fromHexToBytes($constraint->countryId)]
         );
 
         if ($vatIdInformation === false) {
@@ -62,7 +62,7 @@ class CustomerVatIdentificationValidator extends ConstraintValidator
         \assert(\array_key_exists('check_vat_id_pattern', $vatIdInformation));
         \assert(\array_key_exists('vat_id_pattern', $vatIdInformation));
 
-        if (!$constraint->getShouldCheck() && !$vatIdInformation['check_vat_id_pattern']) {
+        if (!$constraint->shouldCheck && !$vatIdInformation['check_vat_id_pattern']) {
             return null;
         }
 

@@ -2,9 +2,6 @@
 
 namespace Shopwell\Core\Checkout\Customer\Validation\Constraint;
 
-use Shopwell\Core\Checkout\Customer\CustomerException;
-use Shopwell\Core\Framework\Context;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\System\SalesChannel\SalesChannelContext;
 use Symfony\Component\Validator\Attribute\HasNamedArguments;
@@ -19,82 +16,18 @@ class CustomerEmailUnique extends Constraint
         self::CUSTOMER_EMAIL_NOT_UNIQUE => 'CUSTOMER_EMAIL_NOT_UNIQUE',
     ];
 
-    /**
-     * @deprecated tag:v6.8.0 - $message property access modifier will be changed to protected and is injectable via constructor
-     */
-    public string $message = 'The email address {{ email }} is already in use.';
+    public string $message;
 
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed, use $salesChannelContext instead
-     */
-    protected Context $context;
+    public SalesChannelContext $salesChannelContext;
 
-    protected SalesChannelContext $salesChannelContext;
-
-    /**
-     * @param array{salesChannelContext?: SalesChannelContext}|null $options
-     *
-     * @deprecated tag:v6.8.0 - reason:new-optional-parameter - $options parameter will be removed
-     * @deprecated tag:v6.8.0 - reason:new-optional-parameter - $salesChannelContext will be required and natively typed as constructor property promotion
-     *
-     * @internal
-     */
     #[HasNamedArguments]
-    public function __construct(?array $options = null, ?SalesChannelContext $salesChannelContext = null, string $message = 'The email address {{ email }} is already in use.')
-    {
-        if ($options !== null || $salesChannelContext === null) {
-            Feature::triggerDeprecationOrThrow(
-                'v6.8.0.0',
-                Feature::deprecatedMethodMessage(self::class, __METHOD__, 'v6.8.0.0', 'Use $salesChannelContext argument instead of providing it in $options array')
-            );
-        }
+    public function __construct(
+        SalesChannelContext $salesChannelContext,
+        string $message = 'The email address {{ email }} is already in use.'
+    ) {
+        parent::__construct();
 
-        if ($options === null || Feature::isActive('v6.8.0.0')) {
-            parent::__construct();
-
-            if ($salesChannelContext === null) {
-                throw CustomerException::missingOption('salesChannelContext', self::class);
-            }
-
-            $this->salesChannelContext = $salesChannelContext;
-            $this->message = $message;
-        } else {
-            if (!($options['salesChannelContext'] ?? null) instanceof SalesChannelContext) {
-                throw CustomerException::missingOption('salesChannelContext', self::class);
-            }
-
-            if (!isset($options['context'])) {
-                $options['context'] = $options['salesChannelContext']->getContext();
-            }
-
-            if (!($options['context'] ?? null) instanceof Context) {
-                throw CustomerException::missingOption('context', self::class);
-            }
-
-            parent::__construct($options);
-        }
-    }
-
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed, use getSalesChannelContext instead
-     */
-    public function getContext(): Context
-    {
-        Feature::triggerDeprecationOrThrow(
-            'v6.8.0.0',
-            Feature::deprecatedMethodMessage(self::class, __METHOD__, 'v6.8.0.0', 'getSalesChannelContext->getContext()')
-        );
-
-        return $this->salesChannelContext->getContext();
-    }
-
-    public function getSalesChannelContext(): SalesChannelContext
-    {
-        return $this->salesChannelContext;
-    }
-
-    public function getMessage(): string
-    {
-        return $this->message;
+        $this->salesChannelContext = $salesChannelContext;
+        $this->message = $message;
     }
 }

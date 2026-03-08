@@ -2,7 +2,6 @@
 
 namespace Shopwell\Core\Checkout\Order\SalesChannel;
 
-use Shopwell\Core\Checkout\Cart\CartException;
 use Shopwell\Core\Checkout\Cart\Rule\PaymentMethodRule;
 use Shopwell\Core\Checkout\Customer\SalesChannel\AccountService;
 use Shopwell\Core\Checkout\Customer\Service\GuestAuthenticator;
@@ -115,12 +114,7 @@ class OrderRoute extends AbstractOrderRoute
                 throw OrderException::guestNotAuthenticated();
             }
 
-            if (Feature::isActive('v6.8.0.0')) {
-                // feature flag due to different exceptions
-                $this->guestAuthenticator->validate($order, $request);
-            } else {
-                $this->checkGuestAuth($order, $request);
-            }
+            $this->guestAuthenticator->validate($order, $request);
 
             if (RequestParamHelper::get($request, 'login') && $customerId = $order->getOrderCustomer()?->getCustomerId()) {
                 $newContextToken = $this->accountService->loginById($customerId, $context);
@@ -224,38 +218,5 @@ class OrderRoute extends AbstractOrderRoute
         $latestOrderDate = new \DateTime()->setTimezone(new \DateTimeZone('UTC'))->modify(-abs(30) . ' Day');
 
         return $orders->filter(fn (OrderEntity $order) => $order->getCreatedAt() > $latestOrderDate || $order->getUpdatedAt() > $latestOrderDate);
-    }
-
-    /**
-     * @deprecated tag:v6.8.0 - was replaced by GuestAuthenticator::validateGuestAuthentication
-     */
-    private function checkGuestAuth(?OrderEntity $order, Request $request): void
-    {
-        if ($order === null) {
-            throw OrderException::guestNotAuthenticated();
-        }
-
-        $orderCustomer = $order->getOrderCustomer();
-        if ($orderCustomer === null) {
-            throw CartException::customerNotLoggedIn(); // @phpstan-ignore shopwell.domainException
-        }
-
-        $guest = $orderCustomer->getCustomer() !== null && $orderCustomer->getCustomer()->getGuest();
-        // Throw exception when customer is not guest
-        if (!$guest) {
-            throw CartException::customerNotLoggedIn(); // @phpstan-ignore shopwell.domainException
-        }
-
-        // Verify email and zip code with this order
-        if ($request->get('email', false) && $request->get('zipcode', false)) {
-            $zipCode = $order->getBillingAddress()?->getZipcode();
-            if ($zipCode === null
-                || strtolower($request->get('email')) !== strtolower($orderCustomer->getEmail())
-                || strtoupper($request->get('zipcode')) !== strtoupper($zipCode)) {
-                throw OrderException::wrongGuestCredentials();
-            }
-        } else {
-            throw OrderException::guestNotAuthenticated();
-        }
     }
 }

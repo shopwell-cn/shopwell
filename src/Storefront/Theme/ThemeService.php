@@ -9,7 +9,6 @@ use Shopwell\Core\Framework\DataAbstractionLayer\EntityCollection;
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopwell\Core\Framework\DataAbstractionLayer\Exception\InconsistentCriteriaIdsException;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Criteria;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Notification\NotificationService;
 use Shopwell\Core\Framework\Uuid\Uuid;
@@ -32,8 +31,8 @@ use Symfony\Contracts\Service\ResetInterface;
 #[Package('framework')]
 class ThemeService implements ResetInterface
 {
-    public const CONFIG_THEME_COMPILE_ASYNC = 'core.storefrontSettings.asyncThemeCompilation';
-    public const STATE_NO_QUEUE = 'state-no-queue';
+    public const string CONFIG_THEME_COMPILE_ASYNC = 'core.storefrontSettings.asyncThemeCompilation';
+    public const string STATE_NO_QUEUE = 'state-no-queue';
 
     private bool $notified = false;
 
@@ -293,52 +292,11 @@ class ThemeService implements ResetInterface
      * @throws ThemeException
      * @throws InconsistentCriteriaIdsException
      *
-     * @deprecated tag:v6.8.0 Use `getPlainThemeConfiguration` if you do not need translated labels or help texts or
-     * getThemeConfigurationFieldStructure if you need structure with translations
-     *
-     * @return array<string, mixed>
-     */
-    public function getThemeConfiguration(string $themeId, bool $translate, Context $context): array
-    {
-        Feature::triggerDeprecationOrThrow(
-            'v6.8.0.0',
-            Feature::deprecatedMethodMessage(self::class, __METHOD__, 'v6.8.0.0', 'getPlainThemeConfiguration')
-        );
-
-        return $this->mergedConfigBuilder->getPlainThemeConfiguration($themeId, $context, $translate);
-    }
-
-    /**
-     * @throws InvalidThemeConfigException
-     * @throws ThemeException
-     * @throws InconsistentCriteriaIdsException
-     *
      * @return array<string, mixed>
      */
     public function getPlainThemeConfiguration(string $themeId, Context $context): array
     {
-        if (!Feature::isActive('v6.8.0.0')) {
-            $translate = \func_num_args() === 3 ? func_get_arg(2) : false;
-
-            return $this->mergedConfigBuilder->getPlainThemeConfiguration($themeId, $context, $translate);
-        }
-
         return $this->mergedConfigBuilder->getPlainThemeConfiguration($themeId, $context);
-    }
-
-    /**
-     * @deprecated tag:v6.8.0 Use `getThemeConfigurationFieldStructure` instead
-     *
-     * @return array<string, mixed>
-     */
-    public function getThemeConfigurationStructuredFields(string $themeId, bool $translate, Context $context): array
-    {
-        Feature::triggerDeprecationOrThrow(
-            'v6.8.0.0',
-            Feature::deprecatedMethodMessage(self::class, __METHOD__, 'v6.8.0.0', 'getStructuredThemeConfiguration')
-        );
-
-        return $this->mergedConfigBuilder->getThemeConfigurationFieldStructure($themeId, $context, $translate);
     }
 
     /**
@@ -346,12 +304,6 @@ class ThemeService implements ResetInterface
      */
     public function getThemeConfigurationFieldStructure(string $themeId, Context $context): array
     {
-        if (!Feature::isActive('v6.8.0.0')) {
-            $translate = \func_num_args() === 3 ? func_get_arg(2) : false;
-
-            return $this->mergedConfigBuilder->getThemeConfigurationFieldStructure($themeId, $context, $translate);
-        }
-
         return $this->mergedConfigBuilder->getThemeConfigurationFieldStructure($themeId, $context);
     }
 

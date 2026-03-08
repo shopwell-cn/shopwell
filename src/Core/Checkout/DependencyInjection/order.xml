@@ -15,10 +15,6 @@
             <tag name="shopwell.entity.hookable"/>
         </service>
 
-        <service id="Shopwell\Core\Checkout\Order\OrderExceptionHandler">
-            <tag name="shopwell.dal.exception_handler"/>
-        </service>
-
         <service id="Shopwell\Core\Checkout\Order\Aggregate\OrderCustomer\OrderCustomerDefinition">
             <tag name="shopwell.entity.definition"/>
         </service>

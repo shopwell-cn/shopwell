@@ -19,12 +19,6 @@ readonly class CacheAttribute
         public ?int $maxAge = null,
         public ?int $sMaxAge = null,
         public ?string $policyModifier = null,
-        /**
-         * @deprecated tag:v6.8.0 - Will be removed without replacement
-         *
-         * @var list<string>|null
-         */
-        public ?array $states = null,
     ) {
     }
 
@@ -36,7 +30,6 @@ readonly class CacheAttribute
         return new self(
             maxAge: $attributeValue['clientMaxAge'] ?? null,
             sMaxAge: $attributeValue['sharedMaxAge'] ?? $attributeValue['maxAge'] ?? null,
-            states: $attributeValue['states'] ?? null,
         );
     }
 

@@ -7,7 +7,6 @@ use Shopwell\Core\Content\Media\MediaEntity;
 use Shopwell\Core\Framework\DataAbstractionLayer\Entity;
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityCustomFieldsTrait;
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityIdTrait;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\System\SalesChannel\SalesChannelCollection;
 use Shopwell\Storefront\Theme\Aggregate\ThemeTranslationCollection;
@@ -25,20 +24,6 @@ class ThemeEntity extends Entity
     protected string $author;
 
     protected ?string $description = null;
-
-    /**
-     * @var array<string, mixed>|null
-     *
-     * @deprecated tag:v6.8.0 - Will be removed. Use helpText label keys from structured fields instead
-     */
-    protected ?array $labels = null;
-
-    /**
-     * @var array<string, string>|null
-     *
-     * @deprecated tag:v6.8.0 - Will be removed. Use helpText snippet keys from structured fields instead
-     */
-    protected ?array $helpTexts = null;
 
     protected ?string $previewMediaId = null;
 
@@ -109,54 +94,6 @@ class ThemeEntity extends Entity
     public function setDescription(?string $description): void
     {
         $this->description = $description;
-    }
-
-    /**
-     * @return array<string, mixed>|null
-     *
-     * @deprecated tag:v6.8.0 - Will be removed. Use label snippet keys from structured fields instead
-     */
-    public function getLabels(): ?array
-    {
-        Feature::triggerDeprecationOrThrow('v6.8.0.0', Feature::deprecatedMethodMessage(self::class, __METHOD__, 'v6.8.0.0', 'ThemeConfigField::getLabelSnippetKey'));
-
-        return $this->labels;
-    }
-
-    /**
-     * @param array<string, mixed>|null $labels
-     *
-     * @deprecated tag:v6.8.0 - Will be removed. Use label snippet keys from structured fields instead
-     */
-    public function setLabels(?array $labels): void
-    {
-        Feature::triggerDeprecationOrThrow('v6.8.0.0', Feature::deprecatedMethodMessage(self::class, __METHOD__, 'v6.8.0.0'));
-
-        $this->labels = $labels;
-    }
-
-    /**
-     * @return array<string, string>|null
-     *
-     * @deprecated tag:v6.8.0 - Will be removed. Use helpText snippet keys from structured fields instead
-     */
-    public function getHelpTexts(): ?array
-    {
-        Feature::triggerDeprecationOrThrow('v6.8.0.0', Feature::deprecatedMethodMessage(self::class, __METHOD__, 'v6.8.0.0', 'ThemeConfigField::getHelpTextSnippetKey'));
-
-        return $this->helpTexts;
-    }
-
-    /**
-     * @param array<string, string>|null $helpTexts
-     *
-     * @deprecated tag:v6.8.0 - Will be removed. Use helpText snippet keys from structured fields instead
-     */
-    public function setHelpTexts(?array $helpTexts): void
-    {
-        Feature::triggerDeprecationOrThrow('v6.8.0.0', Feature::deprecatedMethodMessage(self::class, __METHOD__, 'v6.8.0.0'));
-
-        $this->helpTexts = $helpTexts;
     }
 
     public function getPreviewMediaId(): ?string

@@ -24,7 +24,6 @@
         </service>
 
         <service id="Shopwell\Core\Checkout\Payment\PaymentProcessor">
-            <argument type="service" id="Shopwell\Core\Checkout\Payment\Cart\Token\JWTFactoryV2" on-invalid="null"/>
             <argument type="service" id="Shopwell\Core\Checkout\Payment\Cart\Token\PaymentTokenGenerator"/>
             <argument type="service" id="Shopwell\Core\Checkout\Payment\Cart\Token\PaymentTokenLifecycle"/>
             <argument type="service" id="Shopwell\Core\Checkout\Payment\Cart\PaymentHandler\PaymentHandlerRegistry"/>
@@ -34,7 +33,6 @@
             <argument type="service" id="Shopwell\Core\Checkout\Payment\Cart\PaymentTransactionStructFactory"/>
             <argument type="service" id="Shopwell\Core\System\StateMachine\Loader\InitialStateIdLoader"/>
             <argument type="service" id="router"/>
-            <argument type="service" id="Shopwell\Core\System\SystemConfig\SystemConfigService"/>
         </service>
 
         <service id="Shopwell\Core\Checkout\Payment\Controller\PaymentController" public="true">
@@ -64,13 +62,6 @@
             <argument type="service" id="Shopwell\Core\Checkout\Payment\Cart\PaymentHandler\PaymentHandlerRegistry"/>
             <argument type="service" id="Shopwell\Core\Checkout\Payment\Cart\PaymentTransactionStructFactory"/>
             <argument type="service" id="logger"/>
-        </service>
-
-        <service id="Shopwell\Core\Checkout\Payment\Cart\Token\JWTFactoryV2">
-            <argument type="service" id="shopwell.jwt_config"/>
-            <argument type="service" id="Doctrine\DBAL\Connection"/>
-
-            <deprecated package="shopwell/core" version="6.8.0.0">tag:v6.8.0 - The %service_id% service will be removed in v6.8.0.0. Use Shopwell\Core\Checkout\Payment\Cart\Token\PaymentTokenGenerator instead.</deprecated>
         </service>
 
         <service id="Shopwell\Core\Checkout\Payment\Cart\Token\Constraint\PaymentTokenRegisteredValidator">

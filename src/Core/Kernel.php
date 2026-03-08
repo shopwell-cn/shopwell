@@ -9,7 +9,6 @@ use Shopwell\Core\DevOps\Environment\EnvironmentHelper;
 use Shopwell\Core\Framework\Adapter\Database\MySQLFactory;
 use Shopwell\Core\Framework\Api\Controller\FallbackController;
 use Shopwell\Core\Framework\Bundle as ShopwellBundle;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Parameter\AdditionalBundleParameters;
 use Shopwell\Core\Framework\Plugin\KernelPluginCollection;
@@ -304,19 +303,6 @@ class Kernel extends HttpKernel
             (string) $this->shopwellVersionRevision,
             $plugins,
         ]);
-    }
-
-    /**
-     * @deprecated tag:v6.8.0 - removed: all connection variables are configured in MySQLFactory
-     */
-    protected function initializeDatabaseConnectionVariables(): void
-    {
-        Feature::triggerDeprecationOrThrow(
-            'v6.8.0.0',
-            'The method initializeDatabaseConnectionVariables is deprecated and will be removed in 6.8.0.0. All MySQL connection variables are configured in ' . MySQLFactory::class
-        );
-
-        self::$connection = self::getConnection();
     }
 
     protected function dumpContainer(ConfigCache $cache, ContainerBuilder $container, string $class, string $baseClass): void

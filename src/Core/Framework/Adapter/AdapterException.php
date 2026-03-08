@@ -2,12 +2,8 @@
 
 namespace Shopwell\Core\Framework\Adapter;
 
-use Shopwell\Core\Framework\Adapter\Filesystem\Exception\AdapterFactoryNotFoundException;
-use Shopwell\Core\Framework\Adapter\Filesystem\Exception\DuplicateFilesystemFactoryException;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\HttpException;
 use Shopwell\Core\Framework\Log\Package;
-use Shopwell\Core\Framework\Rule\Exception\UnsupportedOperatorException;
 use Symfony\Component\Asset\Exception\InvalidArgumentException;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Node\Expression\AbstractExpression;
@@ -16,43 +12,32 @@ use Twig\Source;
 #[Package('checkout')]
 class AdapterException extends HttpException
 {
-    public const UNEXPECTED_TWIG_EXPRESSION = 'FRAMEWORK__UNEXPECTED_TWIG_EXPRESSION';
-    public const MISSING_EXTENDING_TWIG_TEMPLATE = 'FRAMEWORK__MISSING_EXTENDING_TWIG_TEMPLATE';
-    public const TEMPLATE_SCOPE_DEFINITION_ERROR = 'FRAMEWORK__TEMPLATE_SCOPE_DEFINITION_ERROR';
-    public const TEMPLATE_SW_USE_SYNTAX_ERROR = 'FRAMEWORK__TEMPLATE_SW_USE_SYNTAX_ERROR';
-    public const MISSING_DEPENDENCY_ERROR_CODE = 'FRAMEWORK__FILESYSTEM_ADAPTER_DEPENDENCY_MISSING';
-    public const INVALID_TEMPLATE_SYNTAX = 'FRAMEWORK__INVALID_TEMPLATE_SYNTAX';
-    public const REDIS_UNKNOWN_CONNECTION = 'FRAMEWORK__REDIS_UNKNOWN_CONNECTION';
-    public const INVALID_ASSET_URL = 'FRAMEWORK__INVALID_ASSET_URL';
-    final public const INVALID_ARGUMENT = 'FRAMEWORK__INVALID_ARGUMENT_EXCEPTION';
-    final public const STRING_TEMPLATE_RENDERING_FAILED = 'FRAMEWORK__STRING_TEMPLATE_RENDERING_FAILED';
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed with the next major, as it is unused
-     */
-    final public const CURRENCY_FILTER_ERROR = 'FRAMEWORK__CURRENCY_FILTER_ERROR';
-    final public const SECURITY_FUNCTION_NOT_ALLOWED = 'FRAMEWORK__SECURITY_FUNCTION_NOT_ALLOWED';
-    final public const CACHE_COMPRESSION_ERROR = 'FRAMEWORK__CACHE_COMPRESSION_ERROR';
-    final public const PCRE_FUNCTION_ERROR = 'FRAMEWORK__PCRE_FUNCTION_ERROR';
-    final public const CACHE_DIRECTORY_ERROR = 'FRAMEWORK__CACHE_DIRECTORY_ERROR';
-    final public const CURRENCY_FILTER_MISSING_CONTEXT = 'FRAMEWORK__CURRENCY_FILTER_MISSING_CONTEXT';
-    final public const CURRENCY_FILTER_MISSING_ISO_CODE = 'FRAMEWORK__CURRENCY_FILTER_MISSING_ISO_CODE';
-    final public const FILESYSTEM_FACTORY_NOT_FOUND = 'FRAMEWORK__FILESYSTEM_FACTORY_NOT_FOUND';
-    final public const DUPLICATE_FILESYSTEM_FACTORY = 'FRAMEWORK__DUPLICATE_FILESYSTEM_FACTORY';
-    final public const OPERATOR_NOT_SUPPORTED = 'FRAMEWORK__OPERATOR_NOT_SUPPORTED';
-    final public const MISSING_REQUIRED_PARAMETER = 'FRAMEWORK__MISSING_REQUIRED_PARAMETER';
-    final public const CIRCULAR_REFERENCE_ESI = 'FRAMEWORK__CIRCULAR_REFERENCE_ESI';
-    final public const CACHE_CLEARER_LOCKED = 'FRAMEWORK__CACHE_CLEARER_LOCKED';
-    final public const INVALID_CACHE_POLICY_CONFIGURATION = 'FRAMEWORK__INVALID_CACHE_POLICY_CONFIGURATION';
+    public const string UNEXPECTED_TWIG_EXPRESSION = 'FRAMEWORK__UNEXPECTED_TWIG_EXPRESSION';
+    public const string MISSING_EXTENDING_TWIG_TEMPLATE = 'FRAMEWORK__MISSING_EXTENDING_TWIG_TEMPLATE';
+    public const string TEMPLATE_SCOPE_DEFINITION_ERROR = 'FRAMEWORK__TEMPLATE_SCOPE_DEFINITION_ERROR';
+    public const string TEMPLATE_SW_USE_SYNTAX_ERROR = 'FRAMEWORK__TEMPLATE_SW_USE_SYNTAX_ERROR';
+    public const string MISSING_DEPENDENCY_ERROR_CODE = 'FRAMEWORK__FILESYSTEM_ADAPTER_DEPENDENCY_MISSING';
+    public const string INVALID_TEMPLATE_SYNTAX = 'FRAMEWORK__INVALID_TEMPLATE_SYNTAX';
+    public const string REDIS_UNKNOWN_CONNECTION = 'FRAMEWORK__REDIS_UNKNOWN_CONNECTION';
+    public const string INVALID_ASSET_URL = 'FRAMEWORK__INVALID_ASSET_URL';
+    final public const string INVALID_ARGUMENT = 'FRAMEWORK__INVALID_ARGUMENT_EXCEPTION';
+    final public const string STRING_TEMPLATE_RENDERING_FAILED = 'FRAMEWORK__STRING_TEMPLATE_RENDERING_FAILED';
+    final public const string SECURITY_FUNCTION_NOT_ALLOWED = 'FRAMEWORK__SECURITY_FUNCTION_NOT_ALLOWED';
+    final public const string CACHE_COMPRESSION_ERROR = 'FRAMEWORK__CACHE_COMPRESSION_ERROR';
+    final public const string PCRE_FUNCTION_ERROR = 'FRAMEWORK__PCRE_FUNCTION_ERROR';
+    final public const string CACHE_DIRECTORY_ERROR = 'FRAMEWORK__CACHE_DIRECTORY_ERROR';
+    final public const string CURRENCY_FILTER_MISSING_CONTEXT = 'FRAMEWORK__CURRENCY_FILTER_MISSING_CONTEXT';
+    final public const string CURRENCY_FILTER_MISSING_ISO_CODE = 'FRAMEWORK__CURRENCY_FILTER_MISSING_ISO_CODE';
+    final public const string FILESYSTEM_FACTORY_NOT_FOUND = 'FRAMEWORK__FILESYSTEM_FACTORY_NOT_FOUND';
+    final public const string DUPLICATE_FILESYSTEM_FACTORY = 'FRAMEWORK__DUPLICATE_FILESYSTEM_FACTORY';
+    final public const string OPERATOR_NOT_SUPPORTED = 'FRAMEWORK__OPERATOR_NOT_SUPPORTED';
+    final public const string MISSING_REQUIRED_PARAMETER = 'FRAMEWORK__MISSING_REQUIRED_PARAMETER';
+    final public const string CIRCULAR_REFERENCE_ESI = 'FRAMEWORK__CIRCULAR_REFERENCE_ESI';
+    final public const string CACHE_CLEARER_LOCKED = 'FRAMEWORK__CACHE_CLEARER_LOCKED';
+    final public const string INVALID_CACHE_POLICY_CONFIGURATION = 'FRAMEWORK__INVALID_CACHE_POLICY_CONFIGURATION';
 
-    /**
-     * @deprecated tag:v6.8.0 - reason:return-type-change - Will return self
-     */
-    public static function unsupportedOperator(string $operator, string $class): self|UnsupportedOperatorException
+    public static function unsupportedOperator(string $operator, string $class): self
     {
-        if (!Feature::isActive('v6.8.0.0')) {
-            return new UnsupportedOperatorException($operator, $class);
-        }
-
         return new self(
             Response::HTTP_BAD_REQUEST,
             self::OPERATOR_NOT_SUPPORTED,
@@ -185,23 +170,6 @@ class AdapterException extends HttpException
         );
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed with the next major, as it is unused
-     */
-    public static function currencyFilterError(string $message): self
-    {
-        Feature::triggerDeprecationOrThrow(
-            'v6.8.0.0',
-            Feature::deprecatedMethodMessage(self::class, __METHOD__, 'v6.8.0.0')
-        );
-
-        return new self(
-            Response::HTTP_INTERNAL_SERVER_ERROR,
-            self::CURRENCY_FILTER_ERROR,
-            $message
-        );
-    }
-
     public static function securityFunctionNotAllowed(string $function): self
     {
         return new self(
@@ -260,15 +228,8 @@ class AdapterException extends HttpException
         );
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - It will return a self instance instead of AdapterFactoryNotFoundException - reason:remove-exception
-     */
-    public static function filesystemFactoryNotFound(string $type): AdapterFactoryNotFoundException|self
+    public static function filesystemFactoryNotFound(string $type): self
     {
-        if (!Feature::isActive('v6.8.0.0')) {
-            return new AdapterFactoryNotFoundException($type);
-        }
-
         return new self(
             Response::HTTP_INTERNAL_SERVER_ERROR,
             self::FILESYSTEM_FACTORY_NOT_FOUND,
@@ -277,15 +238,8 @@ class AdapterException extends HttpException
         );
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - It will return a self instance instead of DuplicateFilesystemFactoryException - reason:remove-exception
-     */
-    public static function duplicateFilesystemFactory(string $type): DuplicateFilesystemFactoryException|self
+    public static function duplicateFilesystemFactory(string $type): self
     {
-        if (!Feature::isActive('v6.8.0.0')) {
-            return new DuplicateFilesystemFactoryException($type);
-        }
-
         return new self(
             Response::HTTP_INTERNAL_SERVER_ERROR,
             self::DUPLICATE_FILESYSTEM_FACTORY,

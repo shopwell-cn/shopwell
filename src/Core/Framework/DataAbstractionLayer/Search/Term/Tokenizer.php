@@ -2,7 +2,6 @@
 
 namespace Shopwell\Core\Framework\DataAbstractionLayer\Search\Term;
 
-use Shopwell\Core\Framework\DataAbstractionLayer\Search\Term\Filter\AbstractTokenFilter;
 use Shopwell\Core\Framework\Log\Package;
 
 #[Package('framework')]
@@ -18,17 +17,8 @@ class Tokenizer implements TokenizerInterface
     ) {
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - reason:new-optional-parameter - parameter $tokenMinimumLength will be added
-     */
-    public function tokenize(string $string/* , ?int $tokenMinimumLength = null */): array
+    public function tokenize(string $string, ?int $tokenMinimumLength = null): array
     {
-        if (\func_num_args() === 2) {
-            $tokenMinimumLength = func_get_arg(1) ?? AbstractTokenFilter::DEFAULT_MIN_SEARCH_TERM_LENGTH;
-        } else {
-            $tokenMinimumLength = $this->tokenMinimumLength;
-        }
-
         $string = mb_strtolower(html_entity_decode($string), 'UTF-8');
         $string = str_replace('<', ' <', $string);
         $string = strip_tags($string);

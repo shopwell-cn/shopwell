@@ -6,7 +6,6 @@ use Shopwell\Core\Framework\Context;
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityWriteResult;
 use Shopwell\Core\Framework\Event\NestedEvent;
 use Shopwell\Core\Framework\Event\NestedEventCollection;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 
 /**
@@ -33,11 +32,6 @@ class EntityWrittenContainerEvent extends NestedEvent
         return $this->context;
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - reason:return-type-change - Will only return NestedEventCollection
-     *
-     * @return NestedEventCollection<EntityWrittenEvent<IDStructure>>|null
-     */
     public function getEvents(): ?NestedEventCollection
     {
         return $this->events;
@@ -133,27 +127,6 @@ class EntityWrittenContainerEvent extends NestedEvent
     public function getDeletedPrimaryKeys(string $entity): array
     {
         return $this->findPrimaryKeys($entity, fn (EntityWriteResult $result) => $result->getOperation() === EntityWriteResult::OPERATION_DELETE);
-    }
-
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed with the next major as it is unused
-     *
-     * @return list<IDStructure>
-     */
-    public function getPrimaryKeysWithPayload(string $entity): array
-    {
-        Feature::triggerDeprecationOrThrow(
-            'v6.8.0.0',
-            Feature::deprecatedMethodMessage(self::class, __METHOD__, 'v6.8.0.0'),
-        );
-
-        return $this->findPrimaryKeys($entity, function (EntityWriteResult $result) {
-            if ($result->getOperation() === EntityWriteResult::OPERATION_DELETE) {
-                return true;
-            }
-
-            return $result->getPayload() !== [];
-        });
     }
 
     /**

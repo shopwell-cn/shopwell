@@ -5,7 +5,6 @@ namespace Shopwell\Core\Checkout\Customer;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Token\RegisteredClaims;
 use Shopwell\Core\Checkout\Customer\Struct\ImitateCustomerToken;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\JWT\SalesChannel\JWTGenerator;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Validation\DataValidationDefinition;
@@ -32,69 +31,6 @@ class ImitateCustomerTokenGenerator extends JWTGenerator
         private readonly DataValidator $validator,
     ) {
         parent::__construct($this->configuration, $this->validator);
-    }
-
-    /**
-     * @deprecated tag:v6.8.0 - will be removed, use `encode` method instead
-     */
-    public function generate(string $salesChannelId, string $customerId, string $userId): string
-    {
-        Feature::triggerDeprecationOrThrow('v6.8.0.0', Feature::deprecatedMethodMessage(ImitateCustomerTokenGenerator::class, 'generate', 'v6.8.0.0', 'parse'));
-
-        $tokenData = [
-            'salesChannelId' => $salesChannelId,
-            'customerId' => $customerId,
-            'userId' => $userId,
-        ];
-
-        $data = json_encode($tokenData);
-
-        if ($data === false) {
-            throw CustomerException::invalidImitationToken($salesChannelId . ':' . $customerId . ':' . $userId);
-        }
-
-        return $this->encrypt(hash_hmac(self::HMAC_HASH_ALGORITHM, $data, $this->appSecret) . '.' . time());
-    }
-
-    /**
-     * @deprecated tag:v6.8.0 - will be removed, use `decode` method instead
-     */
-    public function validate(string $givenToken, string $salesChannelId, string $customerId, string $userId): void
-    {
-        Feature::triggerDeprecationOrThrow('v6.8.0.0', Feature::deprecatedMethodMessage(ImitateCustomerTokenGenerator::class, 'validate', 'v6.8.0.0', 'parse'));
-
-        $tokenData = $this->decrypt($givenToken);
-
-        $tokenData = explode('.', $tokenData);
-
-        if (\count($tokenData) !== 2) {
-            throw CustomerException::invalidImitationToken($givenToken);
-        }
-
-        $hash = $tokenData[0];
-        $timeDiff = time() - (int) $tokenData[1];
-
-        if ($timeDiff > self::TOKEN_LIFETIME) {
-            throw CustomerException::invalidImitationToken($givenToken);
-        }
-
-        $givenTokenData = [
-            'salesChannelId' => $salesChannelId,
-            'customerId' => $customerId,
-            'userId' => $userId,
-        ];
-
-        $data = json_encode($givenTokenData);
-
-        if ($data === false) {
-            throw CustomerException::invalidImitationToken($givenToken);
-        }
-
-        $expectedHash = hash_hmac(self::HMAC_HASH_ALGORITHM, $data, $this->appSecret);
-
-        if (!hash_equals($hash, $expectedHash)) {
-            throw CustomerException::invalidImitationToken($givenToken);
-        }
     }
 
     protected function getJWTStructClass(): string

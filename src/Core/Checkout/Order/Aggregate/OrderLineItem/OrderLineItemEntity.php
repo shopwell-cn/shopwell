@@ -85,13 +85,6 @@ class OrderLineItemEntity extends Entity
 
     protected ?OrderTransactionCaptureRefundPositionCollection $orderTransactionCaptureRefundPositions = null;
 
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed without replacement. Use payload.productType instead.
-     *
-     * @var array<int, string>
-     */
-    protected array $states = [];
-
     protected ?OrderLineItemDownloadCollection $downloads = null;
 
     protected ?PromotionEntity $promotion = null;

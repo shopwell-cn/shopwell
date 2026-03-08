@@ -3,9 +3,7 @@
 namespace Shopwell\Core\Checkout\Payment;
 
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityCollection;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
-use Shopwell\Core\Framework\Rule\RuleIdMatcher;
 use Shopwell\Core\System\SalesChannel\SalesChannelContext;
 
 /**
@@ -14,27 +12,6 @@ use Shopwell\Core\System\SalesChannel\SalesChannelContext;
 #[Package('checkout')]
 class PaymentMethodCollection extends EntityCollection
 {
-    /**
-     * @deprecated tag:v6.8.0 use RuleIdMatcher instead
-     */
-    public function filterByActiveRules(SalesChannelContext $salesChannelContext): PaymentMethodCollection
-    {
-        Feature::triggerDeprecationOrThrow(
-            'v6.8.0.0',
-            Feature::deprecatedMethodMessage(self::class, __METHOD__, 'v6.8.0.0', RuleIdMatcher::class)
-        );
-
-        return $this->filter(
-            function (PaymentMethodEntity $paymentMethod) use ($salesChannelContext) {
-                if ($paymentMethod->getAvailabilityRuleId() === null) {
-                    return true;
-                }
-
-                return \in_array($paymentMethod->getAvailabilityRuleId(), $salesChannelContext->getRuleIds(), true);
-            }
-        );
-    }
-
     /**
      * @return array<string>
      */

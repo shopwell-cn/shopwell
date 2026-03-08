@@ -3,7 +3,6 @@
 namespace Shopwell\Storefront\Theme\Controller;
 
 use Shopwell\Core\Framework\Context;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Routing\ApiRouteScope;
 use Shopwell\Core\PlatformRequest;
@@ -46,14 +45,6 @@ class ThemeController extends AbstractController
     #[Route(path: '/api/_action/theme/{themeId}/configuration', name: 'api.action.theme.configuration', methods: ['GET'])]
     public function configuration(string $themeId, Context $context): JsonResponse
     {
-        if (!Feature::isActive('v6.8.0.0')) {
-            $themeConfiguration = Feature::silent('v6.8.0.0', function () use ($themeId, $context) {
-                return $this->themeService->getThemeConfiguration($themeId, true, $context);
-            });
-
-            return new JsonResponse($themeConfiguration);
-        }
-
         $themeConfiguration = $this->themeService->getPlainThemeConfiguration($themeId, $context);
 
         return new JsonResponse($themeConfiguration);
@@ -165,14 +156,6 @@ class ThemeController extends AbstractController
     #[Route(path: '/api/_action/theme/{themeId}/structured-fields', name: 'api.action.theme.structuredFields', methods: ['GET'])]
     public function structuredFields(string $themeId, Context $context): JsonResponse
     {
-        if (!Feature::isActive('v6.8.0.0')) {
-            $themeConfiguration = Feature::silent('v6.8.0.0', function () use ($themeId, $context) {
-                return $this->themeService->getThemeConfigurationStructuredFields($themeId, true, $context);
-            });
-
-            return new JsonResponse($themeConfiguration);
-        }
-
         $themeConfiguration = $this->themeService->getThemeConfigurationFieldStructure($themeId, $context);
 
         return new JsonResponse($themeConfiguration);

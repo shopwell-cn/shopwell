@@ -4,7 +4,6 @@ namespace Shopwell\Storefront\Theme\Aggregate;
 
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityCustomFieldsTrait;
 use Shopwell\Core\Framework\DataAbstractionLayer\TranslationEntity;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Storefront\Theme\ThemeEntity;
 
@@ -17,20 +16,6 @@ class ThemeTranslationEntity extends TranslationEntity
 
     protected ?string $description = null;
 
-    /**
-     * @var array<string, string>|null
-     *
-     * @deprecated tag:v6.8.0 - Will be removed. Use label snippet keys from structured fields instead
-     */
-    protected ?array $labels = null;
-
-    /**
-     * @var array<string, string>|null
-     *
-     * @deprecated tag:v6.8.0 - Will be removed. Use helpText snippet keys from structured fields instead
-     */
-    protected ?array $helpTexts = null;
-
     protected ?ThemeEntity $theme = null;
 
     public function getDescription(): ?string
@@ -41,54 +26,6 @@ class ThemeTranslationEntity extends TranslationEntity
     public function setDescription(?string $description): void
     {
         $this->description = $description;
-    }
-
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed. Use label snippet keys from structured fields instead
-     *
-     * @return array<string, string>|null
-     */
-    public function getLabels(): ?array
-    {
-        Feature::triggerDeprecationOrThrow('v6.8.0.0', Feature::deprecatedMethodMessage(self::class, __METHOD__, 'v6.8.0.0', 'ThemeConfigField::getLabelSnippetKey'));
-
-        return $this->labels;
-    }
-
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed. Use label snippet keys from structured fields instead
-     *
-     * @param array<string, string>|null $labels
-     */
-    public function setLabels(?array $labels): void
-    {
-        Feature::triggerDeprecationOrThrow('v6.8.0.0', Feature::deprecatedMethodMessage(self::class, __METHOD__, 'v6.8.0.0'));
-
-        $this->labels = $labels;
-    }
-
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed. Use helpText snippet keys from structured fields instead
-     *
-     * @return array<string, string>|null
-     */
-    public function getHelpTexts(): ?array
-    {
-        Feature::triggerDeprecationOrThrow('v6.8.0.0', Feature::deprecatedMethodMessage(self::class, __METHOD__, 'v6.8.0.0', 'ThemeConfigField::getHelpTextSnippetKey'));
-
-        return $this->helpTexts;
-    }
-
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed. Use helpText snippet keys from structured fields instead
-     *
-     * @param array<string, string>|null $helpTexts
-     */
-    public function setHelpTexts(?array $helpTexts): void
-    {
-        Feature::triggerDeprecationOrThrow('v6.8.0.0', Feature::deprecatedMethodMessage(self::class, __METHOD__, 'v6.8.0.0'));
-
-        $this->helpTexts = $helpTexts;
     }
 
     public function getThemeId(): ?string

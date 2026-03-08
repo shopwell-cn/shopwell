@@ -4,11 +4,8 @@ namespace Shopwell\Core\Checkout\Promotion;
 
 use Shopwell\Core\Checkout\Cart\LineItem\LineItem;
 use Shopwell\Core\Checkout\Promotion\Aggregate\PromotionDiscount\PromotionDiscountEntity;
-use Shopwell\Core\Checkout\Promotion\Cart\Discount\Filter\Exception\FilterPickerNotFoundException;
-use Shopwell\Core\Checkout\Promotion\Cart\Discount\Filter\Exception\FilterSorterNotFoundException;
 use Shopwell\Core\Checkout\Promotion\Exception\InvalidCodePatternException;
 use Shopwell\Core\Checkout\Promotion\Exception\PatternNotComplexEnoughException;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\HttpException;
 use Shopwell\Core\Framework\Log\Package;
 use Symfony\Component\HttpFoundation\Response;
@@ -205,10 +202,6 @@ class PromotionException extends HttpException
 
     public static function filterSorterNotFound(string $key): self
     {
-        if (!Feature::isActive('v6.8.0.0')) {
-            return new FilterSorterNotFoundException($key);
-        }
-
         return new self(
             Response::HTTP_BAD_REQUEST,
             self::FILTER_SORTER_NOT_FOUND,
@@ -219,10 +212,6 @@ class PromotionException extends HttpException
 
     public static function filterPickerNotFoundException(string $key): self
     {
-        if (!Feature::isActive('v6.8.0.0')) {
-            return new FilterPickerNotFoundException($key);
-        }
-
         return new self(
             Response::HTTP_BAD_REQUEST,
             self::FILTER_PICKER_NOT_FOUND,

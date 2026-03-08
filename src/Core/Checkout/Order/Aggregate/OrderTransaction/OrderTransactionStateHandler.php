@@ -4,7 +4,6 @@ namespace Shopwell\Core\Checkout\Order\Aggregate\OrderTransaction;
 
 use Shopwell\Core\Framework\Context;
 use Shopwell\Core\Framework\DataAbstractionLayer\Exception\InconsistentCriteriaIdsException;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\System\StateMachine\Aggregation\StateMachineTransition\StateMachineTransitionActions;
 use Shopwell\Core\System\StateMachine\Exception\IllegalTransitionException;
@@ -110,23 +109,6 @@ class OrderTransactionStateHandler
             ),
             $context
         );
-    }
-
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed. Use OrderTransactionStateHandler::paidPartially instead
-     *
-     * @throws InconsistentCriteriaIdsException
-     * @throws StateMachineException
-     * @throws IllegalTransitionException
-     */
-    public function payPartially(string $transactionId, Context $context): void
-    {
-        Feature::triggerDeprecationOrThrow(
-            'v6.8.0.0',
-            Feature::deprecatedMethodMessage(self::class, __METHOD__, 'v6.8.0.0', 'OrderTransactionStateHandler::paidPartially')
-        );
-
-        $this->paidPartially($transactionId, $context);
     }
 
     /**

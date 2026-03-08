@@ -2,7 +2,6 @@
 
 namespace Shopwell\Storefront\Theme;
 
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Struct\Struct;
 
@@ -11,34 +10,16 @@ class ThemeConfigField extends Struct
 {
     protected string $name;
 
-    /**
-     * @var array<string, array<string, string>>|null
-     *
-     * @deprecated tag:v6.8.0 - Property will be removed. Use translations via labelSnippetKey instead
-     */
-    protected ?array $label = null;
-
     protected string $labelSnippetKey;
-
-    /**
-     * @var array<string, array<string, string>>|null
-     *
-     * @deprecated tag:v6.8.0 - Property will be removed. Use translations via helpTextSnippetKey instead
-     */
-    protected ?array $helpText = null;
 
     protected string $helpTextSnippetKey;
 
     protected ?string $type = null;
 
     /**
-     * @deprecated tag:v6.8.0 - Property will be typed natively as array|string
-     *
      * @var list<string>|string
-     *
-     * @phpstan-ignore shopwell.propertyNativeType (Will be natively typed with next major)
      */
-    protected $value;
+    protected string|array $value;
 
     protected ?bool $editable = null;
 
@@ -75,30 +56,6 @@ class ThemeConfigField extends Struct
         $this->name = $name;
     }
 
-    /**
-     * @return array<string, array<string, string>>|null
-     *
-     * @deprecated tag:v6.8.0 - Property will be removed. Use translations via labelSnippetKey instead
-     */
-    public function getLabel(): ?array
-    {
-        Feature::triggerDeprecationOrThrow('v6.8.0.0', Feature::deprecatedMethodMessage(self::class, __METHOD__, 'v6.8.0.0', 'getLabelSnippetKey'));
-
-        return $this->label;
-    }
-
-    /**
-     * @param array<string, array<string, string>>|null $label
-     *
-     * @deprecated tag:v6.8.0 - Property will be removed. Use translations via labelSnippetKey instead
-     */
-    public function setLabel(?array $label): void
-    {
-        Feature::triggerDeprecationOrThrow('v6.8.0.0', Feature::deprecatedMethodMessage(self::class, __METHOD__, 'v6.8.0.0'));
-
-        $this->label = $label;
-    }
-
     public function getLabelSnippetKey(): string
     {
         return $this->labelSnippetKey;
@@ -130,21 +87,17 @@ class ThemeConfigField extends Struct
     }
 
     /**
-     * @deprecated tag:v6.8.0 - reason:return-type-change - Parameter will be natively typed
-     *
      * @return list<string>|string
      */
-    public function getValue()
+    public function getValue(): array|string
     {
         return $this->value;
     }
 
     /**
-     * @deprecated tag:v6.8.0 - reason:parameter-name-change - Parameter will be natively typed
-     *
-     * @param list<string>|string $value
+     * @param string|list<string> $value
      */
-    public function setValue($value): void
+    public function setValue(array|string $value): void
     {
         $this->value = $value;
     }
@@ -227,30 +180,6 @@ class ThemeConfigField extends Struct
     public function setBlockOrder(?int $blockOrder): void
     {
         $this->blockOrder = $blockOrder;
-    }
-
-    /**
-     * @return array<string, array<string, string>>|null
-     *
-     * @deprecated tag:v6.8.0 - Property will be removed. Use translations via helpTextSnippetKey instead
-     */
-    public function getHelpText(): ?array
-    {
-        Feature::triggerDeprecationOrThrow('v6.8.0.0', Feature::deprecatedMethodMessage(self::class, __METHOD__, 'v6.8.0.0', 'getHelpTextSnippetKey'));
-
-        return $this->helpText;
-    }
-
-    /**
-     * @param array<string, array<string, string>>|null $helpText
-     *
-     * @deprecated tag:v6.8.0 - Property will be removed. Use translations via helpTextSnippetKey instead
-     */
-    public function setHelpText(?array $helpText): void
-    {
-        Feature::triggerDeprecationOrThrow('v6.8.0.0', Feature::deprecatedMethodMessage(self::class, __METHOD__, 'v6.8.0.0'));
-
-        $this->helpText = $helpText;
     }
 
     /**
