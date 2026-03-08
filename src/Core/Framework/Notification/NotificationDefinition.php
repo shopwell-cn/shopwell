@@ -24,7 +24,7 @@ use Shopwell\Core\System\User\UserDefinition;
 #[Package('framework')]
 class NotificationDefinition extends EntityDefinition
 {
-    final public const ENTITY_NAME = 'notification';
+    final public const string ENTITY_NAME = 'notification';
 
     public function getEntityName(): string
     {

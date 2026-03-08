@@ -13,7 +13,7 @@ class MigrationCollectionLoader
     /**
      * Execute all migrations
      */
-    final public const VERSION_SELECTION_ALL = 'all';
+    final public const string VERSION_SELECTION_ALL = 'all';
 
     /**
      * Blue-green safe:
@@ -23,14 +23,14 @@ class MigrationCollectionLoader
      * - rollback possible from 6.(a+1).1 to 6.(a+1).0 possible
      * - but rollback to 6.a.* not possible anymore!
      */
-    final public const VERSION_SELECTION_BLUE_GREEN = 'blue-green';
+    final public const string VERSION_SELECTION_BLUE_GREEN = 'blue-green';
 
     /**
      * Executing the migrations of the penultimate major. This should always be safe
      */
-    final public const VERSION_SELECTION_SAFE = 'safe';
+    final public const string VERSION_SELECTION_SAFE = 'safe';
 
-    final public const VALID_VERSION_SELECTION_VALUES = [
+    final public const array VALID_VERSION_SELECTION_VALUES = [
         self::VERSION_SELECTION_ALL,
         self::VERSION_SELECTION_BLUE_GREEN,
         self::VERSION_SELECTION_SAFE,

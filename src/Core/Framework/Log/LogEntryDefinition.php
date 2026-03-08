@@ -16,7 +16,7 @@ use Shopwell\Core\Framework\DataAbstractionLayer\FieldCollection;
 #[Package('framework')]
 class LogEntryDefinition extends EntityDefinition
 {
-    final public const ENTITY_NAME = 'log_entry';
+    final public const string ENTITY_NAME = 'log_entry';
 
     public function getEntityName(): string
     {

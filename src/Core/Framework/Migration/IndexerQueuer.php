@@ -10,7 +10,7 @@ use Shopwell\Core\Framework\Uuid\Uuid;
 #[Package('framework')]
 class IndexerQueuer
 {
-    final public const INDEXER_KEY = 'core.scheduled_indexers';
+    final public const string INDEXER_KEY = 'core.scheduled_indexers';
 
     /**
      * @internal
