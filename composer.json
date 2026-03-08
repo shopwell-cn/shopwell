@@ -102,6 +102,7 @@
     "monolog/monolog": "^3.3.1",
     "nyholm/psr7": "^1.5",
     "opensearch-project/opensearch-php": "^2.3.1",
+    "payum/payum-bundle": "^2.7",
     "pentatrion/vite-bundle": "^8.1",
     "phpseclib/phpseclib": "^3.0",
     "psr/cache": "^3.0.0",
@@ -173,6 +174,7 @@
     "twig/intl-extra": "^3.10.0",
     "twig/string-extra": "^3.10.0",
     "twig/twig": "^3.21.1",
+    "wechatpay/wechatpay": "^1.4",
     "zircote/swagger-php": "^4.9.2"
   },
   "require-dev": {
