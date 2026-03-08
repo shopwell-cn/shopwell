@@ -50,10 +50,6 @@ class NavigationPageLoader implements NavigationPageLoaderInterface
         $page->setNavigationId($category->getId());
         $page->setCategory($category);
 
-        if ($category->getCmsPage()) {
-            $page->setCmsPage($category->getCmsPage());
-        }
-
         if ($page->getMetaInformation()) {
             $canonical = ($navigationId === $context->getSalesChannel()->getNavigationCategoryId())
                 ? $this->seoUrlReplacer->generate('frontend.home.page')
