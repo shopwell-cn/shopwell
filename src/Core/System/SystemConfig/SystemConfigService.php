@@ -9,7 +9,6 @@ use Shopwell\Core\Framework\Adapter\Cache\CacheTagCollector;
 use Shopwell\Core\Framework\Bundle;
 use Shopwell\Core\Framework\DataAbstractionLayer\Doctrine\MultiInsertQueryQueue;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\ConfigJsonField;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Util\Json;
 use Shopwell\Core\Framework\Uuid\Exception\InvalidUuidException;

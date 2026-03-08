@@ -11,7 +11,6 @@ use OpenSearchDSL\Query\Joining\NestedQuery;
 use OpenSearchDSL\Query\TermLevel\PrefixQuery;
 use OpenSearchDSL\Query\TermLevel\TermQuery;
 use OpenSearchDSL\Query\TermLevel\TermsQuery;
-use Shopwell\Core\Framework\Adapter\Storage\AbstractKeyValueStorage;
 use Shopwell\Core\Framework\Context;
 use Shopwell\Core\Framework\DataAbstractionLayer\Dbal\EntityDefinitionQueryHelper;
 use Shopwell\Core\Framework\DataAbstractionLayer\DefinitionInstanceRegistry;
@@ -23,10 +22,8 @@ use Shopwell\Core\Framework\DataAbstractionLayer\Field\LongTextField;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\PriceField;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\StringField;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\TranslatedField;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\System\CustomField\CustomFieldService;
-use Shopwell\Elasticsearch\Product\ElasticsearchOptimizeSwitch;
 use Shopwell\Elasticsearch\Product\SearchFieldConfig;
 
 /**
@@ -43,7 +40,6 @@ class TokenQueryBuilder
     public function __construct(
         private readonly DefinitionInstanceRegistry $definitionRegistry,
         private readonly CustomFieldService $customFieldService,
-        private readonly AbstractKeyValueStorage $storage,
         private readonly int $minGram = 4,
         private readonly bool $useLanguageAnalyzer = true
     ) {
@@ -291,7 +287,7 @@ class TokenQueryBuilder
 
     private function isSortableTranslatedField(TranslatedField $field): bool
     {
-        return $field->useForSorting() && (Feature::isActive('v6.8.0.0') || $this->storage->has(ElasticsearchOptimizeSwitch::FLAG));
+        return $field->useForSorting();
     }
 
     /**

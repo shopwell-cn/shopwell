@@ -2,7 +2,6 @@
 
 namespace Shopwell\Core\Checkout\Cart\Order;
 
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Struct\Struct;
 

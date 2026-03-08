@@ -2,7 +2,6 @@
 
 namespace Shopwell\Core\System\Language;
 
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\HttpException;
 use Shopwell\Core\Framework\Log\Package;
 use Symfony\Component\HttpFoundation\Response;

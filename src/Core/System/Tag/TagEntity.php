@@ -20,6 +20,7 @@ class TagEntity extends Entity
     use EntityIdTrait;
 
     protected string $name;
+
     protected ?ProductCollection $products = null;
 
     protected ?MediaCollection $media = null;
@@ -95,7 +96,6 @@ class TagEntity extends Entity
     {
         $this->shippingMethods = $shippingMethods;
     }
-
 
     public function getLandingPages(): ?LandingPageCollection
     {

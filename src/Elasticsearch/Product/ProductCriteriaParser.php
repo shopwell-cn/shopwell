@@ -9,14 +9,12 @@ use OpenSearchDSL\Query\TermLevel\RangeQuery;
 use OpenSearchDSL\Query\TermLevel\TermQuery;
 use Shopwell\Core\Content\Product\ProductDefinition;
 use Shopwell\Core\Content\Product\SalesChannel\ProductAvailableFilter;
-use Shopwell\Core\Framework\Adapter\Storage\AbstractKeyValueStorage;
 use Shopwell\Core\Framework\Context;
 use Shopwell\Core\Framework\DataAbstractionLayer\Dbal\EntityDefinitionQueryHelper;
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityDefinition;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Filter\Filter;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Filter\RangeFilter;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\System\CustomField\CustomFieldService;
 use Shopwell\Elasticsearch\Framework\DataAbstractionLayer\CriteriaParser;
@@ -30,10 +28,9 @@ class ProductCriteriaParser extends CriteriaParser
     public function __construct(
         EntityDefinitionQueryHelper $helper,
         CustomFieldService $customFieldService,
-        private readonly AbstractKeyValueStorage $storage,
         private readonly CriteriaParser $decorated
     ) {
-        parent::__construct($helper, $customFieldService, $storage);
+        parent::__construct($helper, $customFieldService);
     }
 
     public function parseFilter(Filter $filter, EntityDefinition $definition, string $root, Context $context): BuilderInterface
@@ -43,13 +40,6 @@ class ProductCriteriaParser extends CriteriaParser
         }
 
         if ($filter instanceof ProductAvailableFilter) {
-            /**
-             * @deprecated tag:v6.8.0 - this if statement will be always true
-             */
-            if (!Feature::isActive('v6.8.0.0') && !$this->storage->has(ElasticsearchOptimizeSwitch::FLAG)) {
-                return $this->decorated->parseFilter($filter, $definition, $root, $context);
-            }
-
             $query = new BoolQuery();
 
             $query->add(
@@ -64,13 +54,6 @@ class ProductCriteriaParser extends CriteriaParser
         }
 
         if ($filter instanceof EqualsFilter && \str_contains($filter->getField(), 'categoriesRo.id')) {
-            /**
-             * @deprecated tag:v6.8.0 - this if statement will be always true
-             */
-            if (!Feature::isActive('v6.8.0.0') && !$this->storage->has(ElasticsearchOptimizeSwitch::FLAG)) {
-                return $this->decorated->parseFilter($filter, $definition, $root, $context);
-            }
-
             if ($filter->getValue() === null) {
                 return new BoolQuery([
                     BoolQuery::MUST_NOT => new ExistsQuery('categoryTree'),
