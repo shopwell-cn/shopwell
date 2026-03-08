@@ -8,7 +8,6 @@ use Shopwell\Core\Content\Media\MediaUrlPlaceholderHandlerInterface;
 use Shopwell\Core\Content\Seo\SeoUrlPlaceholderHandlerInterface;
 use Shopwell\Core\Framework\Adapter\Request\RequestParamHelper;
 use Shopwell\Core\Framework\Adapter\Twig\TemplateFinder;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Routing\RequestTransformerInterface;
 use Shopwell\Core\Framework\Script\Execution\Hook;

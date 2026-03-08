@@ -9,5 +9,4 @@ return function (ContainerConfigurator $container): void {
 
     $services->set(TaxProviderDefinition::class)->tag('shopwell.entity.definition');
     $services->set(TaxProviderTranslationDefinition::class)->tag('shopwell.entity.definition');
-
 };

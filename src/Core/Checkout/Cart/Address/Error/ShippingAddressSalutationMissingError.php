@@ -3,7 +3,6 @@
 namespace Shopwell\Core\Checkout\Cart\Address\Error;
 
 use Shopwell\Core\Checkout\Customer\Aggregate\CustomerAddress\CustomerAddressEntity;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 
 #[Package('checkout')]

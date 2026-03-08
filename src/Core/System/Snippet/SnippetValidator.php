@@ -2,7 +2,6 @@
 
 namespace Shopwell\Core\System\Snippet;
 
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\System\Snippet\Files\AbstractSnippetFile;
 use Shopwell\Core\System\Snippet\Files\GenericSnippetFile;

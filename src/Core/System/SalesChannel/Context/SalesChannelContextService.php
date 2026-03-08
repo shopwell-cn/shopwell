@@ -2,7 +2,6 @@
 
 namespace Shopwell\Core\System\SalesChannel\Context;
 
-use Shopwell\Core\Checkout\Cart\AbstractCartPersister;
 use Shopwell\Core\Checkout\Cart\CartRuleLoader;
 use Shopwell\Core\Checkout\Cart\SalesChannel\CartService;
 use Shopwell\Core\Checkout\CheckoutPermissions;

@@ -32,7 +32,6 @@
         <service id="Shopwell\Elasticsearch\Framework\DataAbstractionLayer\CriteriaParser">
             <argument type="service" id="Shopwell\Core\Framework\DataAbstractionLayer\Dbal\EntityDefinitionQueryHelper"/>
             <argument type="service" id="Shopwell\Core\System\CustomField\CustomFieldService"/>
-            <argument type="service" id="Shopwell\Core\Framework\Adapter\Storage\AbstractKeyValueStorage" />
         </service>
 
         <service id="Shopwell\Elasticsearch\Framework\ElasticsearchHelper" public="true">
@@ -268,7 +267,6 @@
         <service id="Shopwell\Elasticsearch\TokenQueryBuilder">
             <argument type="service" id="Shopwell\Core\Framework\DataAbstractionLayer\DefinitionInstanceRegistry"/>
             <argument type="service" id="Shopwell\Core\System\CustomField\CustomFieldService"/>
-            <argument type="service" id="Shopwell\Core\Framework\Adapter\Storage\AbstractKeyValueStorage" />
             <argument>%elasticsearch.analysis.filter.sw_ngram_filter.min_gram%</argument>
             <argument>%elasticsearch.use_language_analyzer%</argument>
         </service>
@@ -583,13 +581,7 @@
         <service id="Shopwell\Elasticsearch\Product\ProductCriteriaParser" decorates="Shopwell\Elasticsearch\Framework\DataAbstractionLayer\CriteriaParser">
             <argument type="service" id="Shopwell\Core\Framework\DataAbstractionLayer\Dbal\EntityDefinitionQueryHelper"/>
             <argument type="service" id="Shopwell\Core\System\CustomField\CustomFieldService"/>
-            <argument type="service" id="Shopwell\Core\Framework\Adapter\Storage\AbstractKeyValueStorage" />
             <argument type="service" id=".inner"/>
-        </service>
-
-        <service id="Shopwell\Elasticsearch\Product\ElasticsearchOptimizeSwitch">
-            <argument type="service" id="Shopwell\Core\Framework\Adapter\Storage\AbstractKeyValueStorage" />
-            <tag name="kernel.event_subscriber"/>
         </service>
 
         <service id="Shopwell\Elasticsearch\Admin\AdminElasticsearchEntitySearcher"

@@ -10,10 +10,8 @@ use Shopwell\Core\Checkout\Customer\Aggregate\CustomerAddress\CustomerAddressEnt
 use Shopwell\Core\Checkout\Customer\Validation\Constraint\CustomerZipCode;
 use Shopwell\Core\Checkout\Gateway\SalesChannel\AbstractCheckoutGatewayRoute;
 use Shopwell\Core\Content\Product\ProductDefinition;
-use Shopwell\Core\Content\Product\State;
 use Shopwell\Core\Framework\Adapter\Translation\AbstractTranslator;
 use Shopwell\Core\Framework\DataAbstractionLayer\Exception\InconsistentCriteriaIdsException;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Validation\BuildValidationEvent;
 use Shopwell\Core\Framework\Validation\DataBag\DataBag;

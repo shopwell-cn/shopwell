@@ -36,7 +36,7 @@ use Shopwell\Core\Framework\Uuid\Uuid;
 #[Package('framework')]
 class EntityDefinitionQueryHelper
 {
-    final public const HAS_TO_MANY_JOIN = 'has_to_many_join';
+    final public const string HAS_TO_MANY_JOIN = 'has_to_many_join';
 
     public static function escape(string $string): string
     {

@@ -33,7 +33,6 @@ class BillingAddressSalutationMissingError extends SalutationMissingError
         return self::KEY;
     }
 
-
     public function getAddressId(): ?string
     {
         return $this->address->getId();

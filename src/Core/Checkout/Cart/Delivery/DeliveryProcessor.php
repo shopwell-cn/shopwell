@@ -15,7 +15,6 @@ use Shopwell\Core\Checkout\CheckoutPermissions;
 use Shopwell\Core\Checkout\Shipping\ShippingMethodCollection;
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Criteria;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Profiling\Profiler;
 use Shopwell\Core\System\SalesChannel\SalesChannelContext;

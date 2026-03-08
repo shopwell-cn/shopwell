@@ -5,7 +5,6 @@ namespace Shopwell\Core\Checkout\Cart\LineItem;
 use Shopwell\Core\Checkout\Cart\CartException;
 use Shopwell\Core\Checkout\Cart\Price\Struct\PriceCollection;
 use Shopwell\Core\Checkout\Cart\Price\Struct\QuantityPriceDefinition;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Struct\Collection;
 
@@ -105,8 +104,7 @@ class LineItemCollection extends Collection
 
     public function hasLineItemWithProductType(string $productType): bool
     {
-        return array_any($this->buildFlat($this), fn($lineItem) => $lineItem->isProductType($productType));
-
+        return array_any($this->buildFlat($this), fn ($lineItem) => $lineItem->isProductType($productType));
     }
 
     /**

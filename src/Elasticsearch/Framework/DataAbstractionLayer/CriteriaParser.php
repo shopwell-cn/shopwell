@@ -24,7 +24,6 @@ use OpenSearchDSL\Query\TermLevel\WildcardQuery;
 use OpenSearchDSL\Sort\FieldSort;
 use Shopwell\Core\Checkout\Cart\Price\Struct\CartPrice;
 use Shopwell\Core\Defaults;
-use Shopwell\Core\Framework\Adapter\Storage\AbstractKeyValueStorage;
 use Shopwell\Core\Framework\Context;
 use Shopwell\Core\Framework\DataAbstractionLayer\Dbal\EntityDefinitionQueryHelper;
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityDefinition;
@@ -65,14 +64,12 @@ use Shopwell\Core\Framework\DataAbstractionLayer\Search\Filter\SuffixFilter;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Filter\XOrFilter;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Sorting\CountSorting;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Sorting\FieldSorting;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Uuid\Uuid;
 use Shopwell\Core\System\CustomField\CustomFieldService;
 use Shopwell\Elasticsearch\ElasticsearchException;
 use Shopwell\Elasticsearch\Framework\ElasticsearchDateHistogramAggregation;
 use Shopwell\Elasticsearch\Framework\ElasticsearchHelper;
-use Shopwell\Elasticsearch\Product\ElasticsearchOptimizeSwitch;
 use Shopwell\Elasticsearch\Sort\CountSort;
 
 #[Package('framework')]
@@ -84,7 +81,6 @@ class CriteriaParser
     public function __construct(
         private readonly EntityDefinitionQueryHelper $helper,
         private readonly CustomFieldService $customFieldService,
-        private readonly AbstractKeyValueStorage $storage
     ) {
     }
 
@@ -1184,9 +1180,6 @@ class CriteriaParser
             return true;
         }
 
-        /**
-         * @deprecated tag:v6.8.0 - remove (Feature::isActive('v6.8.0.0') || $this->storage->has(ElasticsearchOptimizeSwitch::FLAG)) part as it will be always true
-         */
-        return $field->useForSorting() && (Feature::isActive('v6.8.0.0') || $this->storage->has(ElasticsearchOptimizeSwitch::FLAG));
+        return $field->useForSorting();
     }
 }

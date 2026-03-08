@@ -3,7 +3,6 @@
 namespace Shopwell\Core\System\Country;
 
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityCollection;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 
 /**
