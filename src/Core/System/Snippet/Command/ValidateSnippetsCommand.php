@@ -17,15 +17,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 
 /**
- * @deprecated tag:v6.8.0 - reason:becomes-internal - Will be internal in v6.8.0
- * @deprecated tag:v6.8.0 - reason:parameter-name-change - alias 'snippets:validate' will be removed
+ * @internal
  *
  * @phpstan-type Snippets array<string, string|array<string, mixed>>
  */
 #[AsCommand(
     name: 'translation:validate',
     description: 'Validates completeness and correct pluralization of snippets',
-    aliases: ['snippets:validate'],
 )]
 #[Package('discovery')]
 class ValidateSnippetsCommand extends Command

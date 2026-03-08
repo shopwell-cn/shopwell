@@ -5,13 +5,11 @@ namespace Shopwell\Core\Checkout\Cart\Order;
 use Shopwell\Core\Checkout\Cart\LineItem\LineItem;
 use Shopwell\Core\Content\Product\Aggregate\ProductDownload\ProductDownloadCollection;
 use Shopwell\Core\Content\Product\ProductDefinition;
-use Shopwell\Core\Content\Product\State;
 use Shopwell\Core\Defaults;
 use Shopwell\Core\Framework\Context;
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsAnyFilter;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 
 #[Package('checkout')]
@@ -37,13 +35,8 @@ class LineItemDownloadLoader
 
         foreach ($lineItems as $key => $lineItem) {
             $productId = $lineItem['referencedId'] ?? null;
-            $states = $lineItem['states'] ?? null;
             $productType = $lineItem['payload'][LineItem::PAYLOAD_PRODUCT_TYPE] ?? null;
             $isLineItemDownloadable = $productType === ProductDefinition::TYPE_DIGITAL;
-
-            if (!Feature::isActive('v6.8.0.0')) {
-                $isLineItemDownloadable = $isLineItemDownloadable || (\is_array($states) && \in_array(State::IS_DOWNLOAD, $states, true));
-            }
 
             $downloads = $lineItem['downloads'] ?? null;
             if (!$productId || !$isLineItemDownloadable || $downloads) {

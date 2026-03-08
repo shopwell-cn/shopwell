@@ -5,11 +5,6 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="Shopwell\Core\Framework\Adapter\Cache\CacheStateSubscriber">
-            <argument type="service" id="Shopwell\Core\Checkout\Cart\SalesChannel\CartService"/>
-            <tag name="kernel.event_subscriber"/>
-        </service>
-
         <service id="Shopwell\Core\Framework\Adapter\Cache\StampedeProtectionConfigurator" public="true">
             <argument>%shopwell.cache.disable_stampede_protection%</argument>
         </service>
@@ -191,13 +186,6 @@
         </service>
 
         <service id="esi" class="Shopwell\Core\Framework\Adapter\Kernel\EsiDecoration" />
-
-        <service id="Shopwell\Core\Framework\Adapter\Cache\Http\CacheControlListener" autoconfigure="true" autowire="true">
-            <argument>%shopwell.http_cache.reverse_proxy.enabled%</argument>
-            <argument type="service" id="event_dispatcher"/>
-
-            <tag name="kernel.event_listener" event="Shopwell\Core\Framework\Event\BeforeSendResponseEvent" />
-        </service>
 
         <service id="Shopwell\Core\Framework\Adapter\Cache\ReverseProxy\ReverseProxyCache">
             <argument type="service" id="Shopwell\Core\Framework\Adapter\Cache\ReverseProxy\AbstractReverseProxyGateway"/>

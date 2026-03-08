@@ -165,11 +165,6 @@ class PaymentProcessor
             if ($token instanceof PaymentToken && $token->jti !== null) {
                 $this->paymentTokenLifecycle->invalidateToken($token->jti);
             }
-
-            // @deprecated tag:v6.8.0 - remove this if block
-            if ($token instanceof TokenStruct && $token->getToken() !== null) {
-                $this->tokenFactory?->invalidateToken($token->getToken());
-            }
         }
 
         return $oldToken;

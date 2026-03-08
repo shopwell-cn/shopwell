@@ -3,28 +3,17 @@
 namespace Shopwell\Core\Checkout\Cart\Address\Error;
 
 use Shopwell\Core\Checkout\Cart\Error\Error;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 
 #[Package('checkout')]
 class BillingAddressBlockedError extends Error implements AddressErrorInterface
 {
-    private const KEY = 'billing-address-blocked';
+    private const string KEY = 'billing-address-blocked';
 
-    /**
-     * @deprecated tag:v6.8.0 - reason:parameter-type-change - $addressId will be required and non-nullable
-     */
     public function __construct(
         protected readonly string $name,
-        protected readonly ?string $addressId = null,
+        protected readonly string $addressId,
     ) {
-        if (!$addressId) {
-            Feature::triggerDeprecationOrThrow(
-                'v6.8.0.0',
-                'Not passing an $addressId is deprecated and will not be allowed in v6.8.0.0. Please provide a valid address ID.'
-            );
-        }
-
         $this->message = \sprintf(
             'Billings to billing address %s are not possible.',
             $name

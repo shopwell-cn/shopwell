@@ -14,7 +14,6 @@ use Shopwell\Core\Content\Product\ProductEntity;
 use Shopwell\Core\Framework\DataAbstractionLayer\Entity;
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityCustomFieldsTrait;
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityIdTrait;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 
 #[Package('checkout')]
@@ -406,36 +405,6 @@ class OrderLineItemEntity extends Entity
     public function setPromotion(?PromotionEntity $promotion): void
     {
         $this->promotion = $promotion;
-    }
-
-    /**
-     * @return array<int, string>
-     *
-     * @deprecated tag:v6.8.0 - Will be removed. Use getPayloadValue(\'productType\') instead.
-     */
-    public function getStates(): array
-    {
-        Feature::triggerDeprecationOrThrow(
-            'v6.8.0.0',
-            Feature::deprecatedMethodMessage(self::class, 'getStates', 'v6.8.0.0', 'getPayloadValue(\'productType\')')
-        );
-
-        return $this->states;
-    }
-
-    /**
-     * @param array<int, string> $states
-     *
-     * @deprecated tag:v6.8.0 - Will be removed. Use setPayloadValue('productType', value) instead.
-     */
-    public function setStates(array $states): void
-    {
-        Feature::triggerDeprecationOrThrow(
-            'v6.8.0.0',
-            Feature::deprecatedMethodMessage(self::class, 'hasState', 'v6.8.0.0', 'setPayloadValue(\'productType\', value)')
-        );
-
-        $this->states = $states;
     }
 
     public function getDownloads(): ?OrderLineItemDownloadCollection

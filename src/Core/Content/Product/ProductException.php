@@ -3,12 +3,9 @@
 namespace Shopwell\Core\Content\Product;
 
 use Shopwell\Core\Content\Product\Exception\ProductNotFoundException;
-use Shopwell\Core\Content\Product\Exception\ReviewNotActiveExeption;
 use Shopwell\Core\Content\Product\Exception\VariantNotFoundException;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\HttpException;
 use Shopwell\Core\Framework\Log\Package;
-use Shopwell\Core\Framework\Routing\RoutingException;
 use Shopwell\Core\System\Currency\CurrencyEntity;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -95,15 +92,8 @@ class ProductException extends HttpException
         );
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - reason:return-type-change - Will only return `self` in the future
-     */
-    public static function reviewNotActive(): self|ReviewNotActiveExeption
+    public static function reviewNotActive(): self
     {
-        if (!Feature::isActive('v6.8.0.0')) {
-            return new ReviewNotActiveExeption();
-        }
-
         return new self(
             Response::HTTP_FORBIDDEN,
             self::PRODUCT_REVIEW_NOT_ACTIVE,
@@ -144,15 +134,8 @@ class ProductException extends HttpException
         return new VariantNotFoundException($productId, $options);
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - reason:return-type-change - Will only return `self` in the future
-     */
-    public static function missingRequestParameter(string $name): self|RoutingException
+    public static function missingRequestParameter(string $name): self
     {
-        if (!Feature::isActive('v6.8.0.0')) {
-            return RoutingException::missingRequestParameter($name);
-        }
-
         return new self(
             Response::HTTP_BAD_REQUEST,
             self::MISSING_REQUEST_PARAMETER_CODE,

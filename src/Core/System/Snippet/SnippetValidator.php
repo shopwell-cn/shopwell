@@ -75,15 +75,10 @@ readonly class SnippetValidator
             }
         }
 
-        /**
-         * @deprecated tag:v6.8.0 - Validation of legacy snippet locales will be removed
-         */
-        $legacyMissingSnippets = $this->findMissingSnippets($snippetFileMappings, ['en-GB', 'de-DE']);
-
-        $missingSnippets = $this->findMissingSnippets($snippetFileMappings, ['en', 'de']);
+        $missingSnippets = $this->findMissingSnippets($snippetFileMappings, ['en', 'zh']);
 
         return new SnippetValidationStruct(
-            new MissingSnippetCollection(array_merge($missingSnippets->getElements(), $legacyMissingSnippets->getElements())),
+            new MissingSnippetCollection($missingSnippets->getElements()),
             $invalidPluralization,
         );
     }

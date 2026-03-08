@@ -2,7 +2,6 @@
 
 namespace Shopwell\Core\Checkout\Payment\Cart\Recurring;
 
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Struct\Struct;
 
@@ -25,25 +24,5 @@ class RecurringDataStruct extends Struct
          */
         protected \DateTimeInterface $nextSchedule,
     ) {
-    }
-
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed without replacement
-     */
-    public function getSubscriptionId(): string
-    {
-        Feature::triggerDeprecationOrThrow('v6.8.0.0', Feature::deprecatedMethodMessage(self::class, __METHOD__, 'v6.8.0.0'));
-
-        return $this->subscriptionId;
-    }
-
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed without replacement
-     */
-    public function getNextSchedule(): \DateTimeInterface
-    {
-        Feature::triggerDeprecationOrThrow('v6.8.0.0', Feature::deprecatedMethodMessage(self::class, __METHOD__, 'v6.8.0.0'));
-
-        return $this->nextSchedule;
     }
 }

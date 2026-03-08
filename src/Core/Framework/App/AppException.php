@@ -15,7 +15,6 @@ use Shopwell\Core\Framework\App\Exception\UserAbortedCommandException;
 use Shopwell\Core\Framework\App\ShopId\FingerprintComparisonResult;
 use Shopwell\Core\Framework\App\ShopId\ShopId;
 use Shopwell\Core\Framework\App\Validation\Error\Error;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\HttpException;
 use Shopwell\Core\Framework\Log\Package;
 use Symfony\Component\HttpFoundation\Response;
@@ -205,21 +204,6 @@ class AppException extends HttpException
         );
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed without replacement in next major version as it is unused
-     */
-    public static function installationFailed(string $appName, string $reason): self
-    {
-        Feature::triggerDeprecationOrThrow('v6.8.0.0', Feature::deprecatedMethodMessage(self::class, __METHOD__, 'v6.8.0.0'));
-
-        return new self(
-            Response::HTTP_INTERNAL_SERVER_ERROR,
-            self::INSTALLATION_FAILED,
-            'App installation for "{{ appName }}" failed: {{ reason }}',
-            ['appName' => $appName, 'reason' => $reason],
-        );
-    }
-
     public static function createFromXmlFileFlowError(string $xmlFile, string $message, ?\Throwable $previous = null): self
     {
         return new self(
@@ -246,20 +230,6 @@ class AppException extends HttpException
         );
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed without replacement in next major version as it is unused
-     */
-    public static function checkoutGatewayPayloadInvalid(): self
-    {
-        Feature::triggerDeprecationOrThrow('v6.8.0.0', Feature::deprecatedMethodMessage(self::class, __METHOD__, 'v6.8.0.0'));
-
-        return new self(
-            Response::HTTP_BAD_REQUEST,
-            self::CHECKOUT_GATEWAY_PAYLOAD_INVALID_CODE,
-            'The checkout gateway payload is invalid'
-        );
-    }
-
     public static function interrupted(string $errorMessage, ?\Throwable $e = null): self
     {
         return new self(
@@ -281,20 +251,6 @@ class AppException extends HttpException
             'The transaction with id {{ transactionId }} is invalid or could not be found.',
             ['transactionId' => $transactionId],
             $e
-        );
-    }
-
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed without replacement in next major version as it is unused
-     */
-    public static function inAppPurchaseGatewayUrlEmpty(): self
-    {
-        Feature::triggerDeprecationOrThrow('v6.8.0.0', Feature::deprecatedMethodMessage(self::class, __METHOD__, 'v6.8.0.0'));
-
-        return new self(
-            Response::HTTP_BAD_REQUEST,
-            self::INVALID_CONFIGURATION,
-            'No In-App Purchases gateway url set. Please update your manifest file.',
         );
     }
 
@@ -355,24 +311,6 @@ class AppException extends HttpException
             Response::HTTP_NOT_FOUND,
             self::APP_ACTION_NOT_FOUND,
             'The requested app action does not exist',
-        );
-    }
-
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed. Use `StoreException::jwksNotFound` instead
-     */
-    public static function jwksNotFound(?\Throwable $e = null): self
-    {
-        Feature::triggerDeprecationOrThrow(
-            'v6.8.0.0',
-            Feature::deprecatedClassMessage(self::class, 'v6.8.0.0'),
-        );
-
-        return new self(
-            statusCode: Response::HTTP_INTERNAL_SERVER_ERROR,
-            errorCode: self::JWKS_KEY_NOT_FOUND,
-            message: 'Unable to retrieve JWKS key',
-            previous: $e
         );
     }
 

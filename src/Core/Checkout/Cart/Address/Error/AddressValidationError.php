@@ -3,30 +3,19 @@
 namespace Shopwell\Core\Checkout\Cart\Address\Error;
 
 use Shopwell\Core\Checkout\Cart\Error\Error;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Symfony\Component\Validator\ConstraintViolationList;
 
 #[Package('checkout')]
 class AddressValidationError extends Error implements AddressErrorInterface
 {
-    private const KEY = 'address-invalid';
+    private const string KEY = 'address-invalid';
 
-    /**
-     * @deprecated tag:v6.8.0 - reason:parameter-type-change - $addressId will be required and non-nullable
-     */
     public function __construct(
         protected readonly bool $isBillingAddress,
         protected readonly ConstraintViolationList $violations,
-        protected readonly ?string $addressId = null,
+        protected readonly string $addressId,
     ) {
-        if (!$addressId) {
-            Feature::triggerDeprecationOrThrow(
-                'v6.8.0.0',
-                'Not passing an $addressId is deprecated and will not be allowed in v6.8.0.0. Please provide a valid address ID.'
-            );
-        }
-
         $this->message = \sprintf(
             'Please check your %s address for missing or invalid values.',
             $isBillingAddress ? 'billing' : 'shipping'

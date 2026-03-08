@@ -444,12 +444,6 @@ frame-ancestors 'none';
             <tag name="shopwell.app_script.twig.extension"/>
         </service>
 
-        <service id="Shopwell\Core\Framework\Adapter\Twig\BackwardCompatibleIntlExtension">
-            <argument type="service" id="twig.extension.intl"/>
-            <tag name="twig.extension"/>
-        </service>
-
-
         <service id="Shopwell\Core\Framework\Adapter\Twig\SecurityExtension">
             <argument>%shopwell.twig.allowed_php_functions%</argument>
             <tag name="twig.extension"/>
@@ -688,7 +682,6 @@ frame-ancestors 'none';
 
         <service id="Shopwell\Core\Framework\Adapter\Cache\Http\CacheStore" public="true">
             <argument type="service" id="cache.http"/>
-            <argument type="service" id="Shopwell\Core\Framework\Adapter\Cache\Http\CacheStateValidator"/>
             <argument type="service" id="event_dispatcher"/>
             <argument type="service" id="Shopwell\Core\Framework\Adapter\Cache\Http\HttpCacheKeyGenerator"/>
             <argument type="service" id="Shopwell\Core\Framework\Routing\MaintenanceModeResolver"/>
@@ -702,10 +695,6 @@ frame-ancestors 'none';
             <argument>%kernel.cache.hash%</argument>
             <argument type="service" id="event_dispatcher"/>
             <argument>%shopwell.http_cache.ignored_url_parameters%</argument>
-        </service>
-
-        <service id="Shopwell\Core\Framework\Adapter\Cache\Http\CacheStateValidator">
-            <argument>%shopwell.cache.invalidation.http_cache%</argument>
         </service>
 
         <service id="Shopwell\Core\Framework\Util\Backtrace\BacktraceCollector"/>

@@ -48,7 +48,7 @@ use Shopwell\Core\Framework\Uuid\Uuid;
 use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
 
 /**
- * @deprecated tag:v6.8.0 - reason:becomes-internal - Will be internal in v6.8.0
+ * @internal
  */
 #[Package('framework')]
 class OpenApiDefinitionSchemaBuilder

@@ -8,11 +8,9 @@ use Shopwell\Core\Checkout\Order\OrderEntity;
 use Shopwell\Core\Content\Flow\Dispatching\DelayableAction;
 use Shopwell\Core\Content\Flow\Dispatching\StorableFlow;
 use Shopwell\Core\Content\Product\ProductDefinition;
-use Shopwell\Core\Content\Product\State;
 use Shopwell\Core\Framework\Context;
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopwell\Core\Framework\Event\OrderAware;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 
 /**
@@ -71,10 +69,7 @@ class GrantDownloadAccessAction extends FlowAction implements DelayableAction
         $downloadIds = [];
 
         foreach ($lineItems->filterGoodsFlat() as $lineItem) {
-            $isDigital = Feature::isActive('v6.8.0.0')
-                ? $lineItem->getPayloadValue(LineItem::PAYLOAD_PRODUCT_TYPE) === ProductDefinition::TYPE_DIGITAL
-                : (\in_array(State::IS_DOWNLOAD, $lineItem->getStates(), true)
-                    || $lineItem->getPayloadValue(LineItem::PAYLOAD_PRODUCT_TYPE) === ProductDefinition::TYPE_DIGITAL);
+            $isDigital = $lineItem->getPayloadValue(LineItem::PAYLOAD_PRODUCT_TYPE) === ProductDefinition::TYPE_DIGITAL;
 
             if (!$lineItem->getDownloads() || !$isDigital) {
                 continue;

@@ -50,10 +50,7 @@ class PermissionCollection extends StoreCollection
         return $permissionCollections;
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - reason:return-type-change - Will only return string
-     */
-    protected function getExpectedClass(): ?string
+    protected function getExpectedClass(): string
     {
         return PermissionStruct::class;
     }

@@ -12,7 +12,7 @@ use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
 /**
- * @deprecated tag:v6.8.0 - class will be marked internal - reason:becomes-internal
+ * @internal
  */
 #[Package('framework')]
 class CurrencyFilter extends AbstractExtension
@@ -35,18 +35,11 @@ class CurrencyFilter extends AbstractExtension
     }
 
     /**
-     * @deprecated tag:v6.8.0 - arguments will be type-hinted - reason:becomes-internal
-     *
      * @param array<string, mixed> $twigContext
-     * @param float $price
-     * @param string|null $currencyIsoCode
-     * @param string|null $languageId
      *
      * @throws InconsistentCriteriaIdsException
-     *
-     * @return float|string
      */
-    public function formatCurrency($twigContext, $price, $currencyIsoCode = null, $languageId = null, ?int $decimals = null)
+    public function formatCurrency(array $twigContext, float $price, ?string $currencyIsoCode = null, ?string $languageId = null, ?int $decimals = null): float|string
     {
         if (!\array_key_exists('context', $twigContext)
             || (
@@ -81,10 +74,6 @@ class CurrencyFilter extends AbstractExtension
 
         if ($languageId === null) {
             $languageId = $context->getLanguageId();
-        }
-
-        if ($price === null) {
-            $price = 0.0;
         }
 
         return $this->currencyFormatter->formatCurrencyByLanguage($price, $currencyIsoCode, $languageId, $context, $decimals);

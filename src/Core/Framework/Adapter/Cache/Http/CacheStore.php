@@ -26,8 +26,8 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 #[Package('framework')]
 class CacheStore implements StoreInterface
 {
-    final public const TAG_HEADER = 'sw-cache-tags';
-    private const HALF_HOUR = 1800;
+    final public const string TAG_HEADER = 'sw-cache-tags';
+    private const int HALF_HOUR = 1800;
 
     /**
      * @var array<string, bool>
@@ -45,7 +45,6 @@ class CacheStore implements StoreInterface
      */
     public function __construct(
         private readonly TagAwareAdapterInterface&CacheInterface $cache,
-        private readonly CacheStateValidator $stateValidator,
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly HttpCacheKeyGenerator $cacheKeyGenerator,
         private readonly MaintenanceModeResolver $maintenanceResolver,
@@ -112,15 +111,6 @@ class CacheStore implements StoreInterface
             }
         }
 
-        if (!Feature::isActive('v6.8.0.0') && !Feature::isActive('PERFORMANCE_TWEAKS') && !Feature::isActive('CACHE_REWORK')) {
-            $isValid = Feature::silent('v6.8.0.0', function () use ($request, $response): bool {
-                return $this->stateValidator->isValid($request, $response);
-            });
-            if (!$isValid) {
-                return null;
-            }
-        }
-
         $event = new HttpCacheHitEvent($item, $request, $response);
 
         $this->eventDispatcher->dispatch($event);
@@ -139,15 +129,6 @@ class CacheStore implements StoreInterface
         // maintenance mode active and current ip is whitelisted > disable caching
         if ($this->maintenanceResolver->isMaintenanceRequest($request)) {
             return $key->key;
-        }
-
-        if (!Feature::isActive('v6.8.0.0') && !Feature::isActive('PERFORMANCE_TWEAKS') && !Feature::isActive('CACHE_REWORK')) {
-            $isValid = Feature::silent('v6.8.0.0', function () use ($request, $response): bool {
-                return $this->stateValidator->isValid($request, $response);
-            });
-            if (!$isValid) {
-                return $key->key;
-            }
         }
 
         $tags = $this->collector->get($request);

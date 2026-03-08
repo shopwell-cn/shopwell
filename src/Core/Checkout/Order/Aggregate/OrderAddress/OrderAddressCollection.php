@@ -3,7 +3,6 @@
 namespace Shopwell\Core\Checkout\Order\Aggregate\OrderAddress;
 
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityCollection;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\System\Country\Aggregate\CountryState\CountryStateCollection;
 use Shopwell\Core\System\Country\CountryCollection;
@@ -38,34 +37,6 @@ class OrderAddressCollection extends EntityCollection
     public function filterByCountryStateId(string $id): self
     {
         return $this->filter(fn (OrderAddressEntity $orderAddress) => $orderAddress->getCountryStateId() === $id);
-    }
-
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed
-     *
-     * @return array<string>
-     */
-    public function getVatIds(): array
-    {
-        Feature::triggerDeprecationOrThrow(
-            'v6.8.0.0',
-            Feature::deprecatedMethodMessage(self::class, __METHOD__, 'v6.8.0.0')
-        );
-
-        return $this->fmap(fn (OrderAddressEntity $orderAddress) => $orderAddress->getVatId());
-    }
-
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed
-     */
-    public function filterByVatId(string $id): self
-    {
-        Feature::triggerDeprecationOrThrow(
-            'v6.8.0.0',
-            Feature::deprecatedMethodMessage(self::class, __METHOD__, 'v6.8.0.0')
-        );
-
-        return $this->filter(fn (OrderAddressEntity $orderAddress) => $orderAddress->getVatId() === $id);
     }
 
     public function getCountries(): CountryCollection

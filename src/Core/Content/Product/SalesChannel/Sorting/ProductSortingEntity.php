@@ -30,14 +30,10 @@ class ProductSortingEntity extends Entity
     protected bool $locked;
 
     /**
-     * @deprecated tag:v6.8.0 - reason:new-optional-parameter - parameter $fallbackSorting will be added
-     *
      * @return array<FieldSorting>
      */
-    public function createDalSorting(/* ?FieldSorting $fallbackSorting = null */): array
+    public function createDalSorting(?FieldSorting $fallbackSorting = null): array
     {
-        $fallbackSorting = \func_num_args() === 1 ? func_get_arg(0) : null;
-
         $sorting = [];
 
         $fields = $this->fields;

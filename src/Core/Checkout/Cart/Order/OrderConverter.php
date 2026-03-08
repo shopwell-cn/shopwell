@@ -47,31 +47,21 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 #[Package('checkout')]
 class OrderConverter
 {
-    /**
-     * @deprecated tag:v6.8.0 - not used anymore and will be removed
-     */
-    final public const CART_CONVERTED_TO_ORDER_EVENT = 'cart.convertedToOrder.event';
+    final public const string ORIGINAL_ID = 'originalId';
 
-    /**
-     * @deprecated tag:v6.8.0 - not used anymore and will be removed
-     */
-    final public const CART_TYPE = 'recalculation';
+    final public const string ORIGINAL_ADDRESS_ID = 'originalAddressId';
 
-    final public const ORIGINAL_ID = 'originalId';
+    final public const string ORIGINAL_ADDRESS_VERSION_ID = 'originalAddressVersionId';
 
-    final public const ORIGINAL_ADDRESS_ID = 'originalAddressId';
+    final public const string ORIGINAL_ORDER_NUMBER = 'originalOrderNumber';
 
-    final public const ORIGINAL_ADDRESS_VERSION_ID = 'originalAddressVersionId';
+    final public const string ORIGINAL_DOWNLOADS = 'originalDownloads';
 
-    final public const ORIGINAL_ORDER_NUMBER = 'originalOrderNumber';
+    final public const string ORIGINAL_PRIMARY_ORDER_DELIVERY = 'originalPrimaryOrderDelivery';
 
-    final public const ORIGINAL_DOWNLOADS = 'originalDownloads';
+    final public const string ORIGINAL_PRIMARY_ORDER_TRANSACTION = 'originalPrimaryOrderTransaction';
 
-    final public const ORIGINAL_PRIMARY_ORDER_DELIVERY = 'originalPrimaryOrderDelivery';
-
-    final public const ORIGINAL_PRIMARY_ORDER_TRANSACTION = 'originalPrimaryOrderTransaction';
-
-    final public const ADMIN_EDIT_ORDER_PERMISSIONS = [
+    final public const array ADMIN_EDIT_ORDER_PERMISSIONS = [
         CheckoutPermissions::ALLOW_PRODUCT_PRICE_OVERWRITES => true,
         CheckoutPermissions::SKIP_PRODUCT_RECALCULATION => true,
         CheckoutPermissions::SKIP_DELIVERY_PRICE_RECALCULATION => true,
@@ -111,9 +101,6 @@ class OrderConverter
      */
     public function convertToOrder(Cart $cart, SalesChannelContext $context, OrderConversionContext $conversionContext): array
     {
-        /** @deprecated tag:v6.8.0 - `$isRecalculation` will be removed without replacement */
-        $isRecalculation = !Feature::isActive('v6.8.0.0') && ($cart->getBehavior()?->isRecalculation() ?? false);
-
         if ($conversionContext->shouldIncludeDeliveries()) {
             foreach ($cart->getDeliveries() as $delivery) {
                 if ($delivery->hasExtensionOfType(self::ORIGINAL_ADDRESS_ID, IdStruct::class) || $delivery->getLocation()->getAddress() !== null || $delivery->hasExtensionOfType(self::ORIGINAL_ID, IdStruct::class)) {
@@ -162,8 +149,7 @@ class OrderConverter
 
             // In order to reference the primary order delivery we need to set ids. The primary order delivery is the
             // order delivery with the highest shipping costs (i.e. _not_ a shipping discount).
-            /** @deprecated tag:v6.8.0 - `$isRecalculation` will be removed from condition without replacement */
-            if ((!$isRecalculation || !$cart->getBehavior()?->hasPermission(CheckoutPermissions::SKIP_PRIMARY_ORDER_IDS)) && $cart->getDeliveries()->count() > 0) {
+            if ((!$cart->getBehavior()?->hasPermission(CheckoutPermissions::SKIP_PRIMARY_ORDER_IDS)) && $cart->getDeliveries()->count() > 0) {
                 usort(
                     $data['deliveries'],
                     function (array $deliveryA, array $deliveryB) {
@@ -204,8 +190,7 @@ class OrderConverter
                 $context->getContext()
             );
 
-            /** @deprecated tag:v6.8.0 - `$isRecalculation` will be removed from condition without replacement */
-            if ((!$isRecalculation || !$cart->getBehavior()?->hasPermission(CheckoutPermissions::SKIP_PRIMARY_ORDER_IDS)) && $cart->getTransactions()->count() > 0) {
+            if ((!$cart->getBehavior()?->hasPermission(CheckoutPermissions::SKIP_PRIMARY_ORDER_IDS)) && $cart->getTransactions()->count() > 0) {
                 $data['transactions'][0]['id'] ??= Uuid::randomHex();
                 $data['primaryOrderTransactionId'] = $data['transactions'][0]['id'];
             }

@@ -3,7 +3,6 @@
 namespace Shopwell\Core\Framework\Adapter\Twig\Extension;
 
 use Shopwell\Core\Framework\Adapter\AdapterException;
-use Shopwell\Core\Framework\Adapter\Twig\TokenParser\MacroOverrideTokenParserMacro;
 use Shopwell\Core\Framework\Adapter\Twig\TokenParser\ReturnNodeTokenParser;
 use Shopwell\Core\Framework\Adapter\Twig\TokenParser\SwMacroFunctionTokenParser;
 use Shopwell\Core\Framework\DataAbstractionLayer\FieldVisibility;
@@ -44,7 +43,6 @@ class PhpSyntaxExtension extends AbstractExtension
             new ContinueTokenParser(),
             new ReturnNodeTokenParser(),
             new SwMacroFunctionTokenParser(),
-            new MacroOverrideTokenParserMacro(), /** @deprecated tag:v6.8.0 - Will be removed use `sw_macro_function` instead of macro in app scripts */
         ];
     }
 

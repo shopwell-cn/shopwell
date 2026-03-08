@@ -3,8 +3,6 @@
 namespace Shopwell\Core\Framework\Store;
 
 use GuzzleHttp\Exception\ClientException;
-use Shopwell\Core\Framework\App\AppException;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\HttpException;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Store\Exception\ExtensionNotFoundException;
@@ -124,15 +122,8 @@ class StoreException extends HttpException
         );
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - reason:return-type-change - Will return self
-     */
-    public static function jwksNotFound(?\Throwable $e = null): self|AppException
+    public static function jwksNotFound(?\Throwable $e = null): self
     {
-        if (!Feature::isActive('v6.8.0.0')) {
-            return AppException::jwksNotFound($e);
-        }
-
         return new self(
             statusCode: Response::HTTP_INTERNAL_SERVER_ERROR,
             errorCode: self::JWKS_KEY_NOT_FOUND,

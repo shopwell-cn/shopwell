@@ -370,8 +370,6 @@
             <argument type="service" id="Shopwell\Core\Checkout\Customer\ImitateCustomerTokenGenerator"/>
             <argument type="service" id="Shopwell\Core\Checkout\Customer\SalesChannel\LogoutRoute"/>
             <argument type="service" id="Shopwell\Core\System\SalesChannel\Context\SalesChannelContextFactory"/>
-            <argument type="service" id="event_dispatcher"/>
-            <argument type="service" id="Shopwell\Core\Framework\Validation\DataValidator"/>
         </service>
 
         <service id="Shopwell\Core\Checkout\Customer\DeleteUnusedGuestCustomerService">

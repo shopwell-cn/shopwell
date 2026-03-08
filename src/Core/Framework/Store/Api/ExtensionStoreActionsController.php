@@ -4,12 +4,10 @@ namespace Shopwell\Core\Framework\Store\Api;
 
 use Composer\IO\NullIO;
 use Shopwell\Core\Framework\Context;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Plugin\PluginManagementService;
 use Shopwell\Core\Framework\Plugin\PluginService;
 use Shopwell\Core\Framework\Routing\ApiRouteScope;
-use Shopwell\Core\Framework\Routing\RoutingException;
 use Shopwell\Core\Framework\Store\Services\AbstractExtensionLifecycle;
 use Shopwell\Core\Framework\Store\Services\ExtensionDownloader;
 use Shopwell\Core\Framework\Store\StoreException;
@@ -67,11 +65,6 @@ class ExtensionStoreActionsController extends AbstractController
         /** @var UploadedFile|null $file */
         $file = $request->files->get('file');
         if (!$file) {
-            if (!Feature::isActive('v6.8.0.0')) {
-                // @deprecated tag:v6.8.0 - remove this if block
-                throw RoutingException::missingRequestParameter('file'); // @phpstan-ignore shopwell.domainException
-            }
-
             throw StoreException::missingRequestParameter('file');
         }
 

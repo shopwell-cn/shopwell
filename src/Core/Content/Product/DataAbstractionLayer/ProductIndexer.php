@@ -21,7 +21,6 @@ use Shopwell\Core\Framework\DataAbstractionLayer\Indexing\EntityIndexerRegistry;
 use Shopwell\Core\Framework\DataAbstractionLayer\Indexing\EntityIndexingMessage;
 use Shopwell\Core\Framework\DataAbstractionLayer\Indexing\InheritanceUpdater;
 use Shopwell\Core\Framework\DataAbstractionLayer\Indexing\ManyToManyIdFieldUpdater;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Plugin\Exception\DecorationPatternException;
 use Shopwell\Core\Framework\Uuid\Uuid;
@@ -32,22 +31,17 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 #[Package('framework')]
 class ProductIndexer extends EntityIndexer
 {
-    final public const INHERITANCE_UPDATER = 'product.inheritance';
-    final public const STOCK_UPDATER = 'product.stock';
-    final public const VARIANT_LISTING_UPDATER = 'product.variant-listing';
-    final public const CHILD_COUNT_UPDATER = 'product.child-count';
-    final public const MANY_TO_MANY_ID_FIELD_UPDATER = 'product.many-to-many-id-field';
-    final public const CATEGORY_DENORMALIZER_UPDATER = 'product.category-denormalizer';
-    final public const CHEAPEST_PRICE_UPDATER = 'product.cheapest-price';
-    final public const RATING_AVERAGE_UPDATER = 'product.rating-average';
-    final public const STREAM_UPDATER = 'product.stream';
-    final public const SEARCH_KEYWORD_UPDATER = 'product.search-keyword';
-
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed, as product states are deprecated.
-     */
-    final public const STATES_UPDATER = 'product.states';
-    private const UPDATE_IDS_CHUNK_SIZE = 50;
+    final public const string INHERITANCE_UPDATER = 'product.inheritance';
+    final public const string STOCK_UPDATER = 'product.stock';
+    final public const string VARIANT_LISTING_UPDATER = 'product.variant-listing';
+    final public const string CHILD_COUNT_UPDATER = 'product.child-count';
+    final public const string MANY_TO_MANY_ID_FIELD_UPDATER = 'product.many-to-many-id-field';
+    final public const string CATEGORY_DENORMALIZER_UPDATER = 'product.category-denormalizer';
+    final public const string CHEAPEST_PRICE_UPDATER = 'product.cheapest-price';
+    final public const string RATING_AVERAGE_UPDATER = 'product.rating-average';
+    final public const string STREAM_UPDATER = 'product.stream';
+    final public const string SEARCH_KEYWORD_UPDATER = 'product.search-keyword';
+    private const int UPDATE_IDS_CHUNK_SIZE = 50;
 
     /**
      * @internal
@@ -70,7 +64,6 @@ class ProductIndexer extends EntityIndexer
         private readonly CheapestPriceUpdater $cheapestPriceUpdater,
         private readonly AbstractProductStreamUpdater $streamUpdater,
         private readonly MessageBusInterface $messageBus,
-        private readonly ?StatesUpdater $statesUpdater
     ) {
     }
 
@@ -214,12 +207,6 @@ class ProductIndexer extends EntityIndexer
         if ($message->allow(self::SEARCH_KEYWORD_UPDATER)) {
             Profiler::trace('product:indexer:search-keywords', function () use ($ids, $context): void {
                 $this->searchKeywordUpdater->update($ids, $context);
-            });
-        }
-
-        if (!Feature::isActive('v6.8.0.0') && $message->allow(self::STATES_UPDATER)) {
-            Profiler::trace('product:indexer:states', function () use ($ids, $context): void {
-                $this->statesUpdater?->update($ids, $context);
             });
         }
 

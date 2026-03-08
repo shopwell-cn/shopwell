@@ -11,13 +11,6 @@ use Shopwell\Core\Framework\Log\Package;
 class IncrementGatewayRegistry
 {
     /**
-     * @deprecated tag:v6.8.0 - Constant will be removed. The increment-based message queue statistics are deprecated.
-     */
-    final public const MESSAGE_QUEUE_POOL = 'message_queue';
-
-    final public const USER_ACTIVITY_POOL = 'user_activity';
-
-    /**
      * @param AbstractIncrementer[] $gateways
      */
     public function __construct(private readonly iterable $gateways)

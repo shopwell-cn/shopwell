@@ -3,6 +3,7 @@
 namespace Shopwell\Core\Framework\Adapter\Twig\Extension;
 
 use Shopwell\Core\Framework\Adapter\Twig\TemplateFinder;
+use Shopwell\Core\Framework\Adapter\Twig\TemplateFinderInterface;
 use Shopwell\Core\Framework\Adapter\Twig\TemplateScopeDetector;
 use Shopwell\Core\Framework\Adapter\Twig\TokenParser\ExtendsTokenParser;
 use Shopwell\Core\Framework\Adapter\Twig\TokenParser\IncludeTokenParser;
@@ -16,11 +17,9 @@ class NodeExtension extends AbstractExtension
 {
     /**
      * @internal
-     *
-     * @deprecated tag:v6.8.0  - replace TemplateFinder with TemplateFinderInterface
      */
     public function __construct(
-        private readonly TemplateFinder $finder,
+        private readonly TemplateFinderInterface $finder,
         private readonly TemplateScopeDetector $templateScopeDetector,
     ) {
     }

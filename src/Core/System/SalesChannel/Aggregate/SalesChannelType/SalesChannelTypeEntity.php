@@ -76,32 +76,13 @@ class SalesChannelTypeEntity extends Entity
         $this->descriptionLong = $descriptionLong;
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - reason:return-type-change - return type will be nullable and condition will be removed
-     */
-    public function getCoverUrl(): string
-    {
-        if ($this->coverUrl === null) {
-            return '';
-        }
-
-        return $this->coverUrl;
-    }
-
     public function setCoverUrl(?string $coverUrl): void
     {
         $this->coverUrl = $coverUrl;
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - reason:return-type-change - return type will be nullable and condition will be removed
-     */
-    public function getIconName(): string
+    public function getIconName(): ?string
     {
-        if ($this->iconName === null) {
-            return '';
-        }
-
         return $this->iconName;
     }
 
@@ -111,16 +92,10 @@ class SalesChannelTypeEntity extends Entity
     }
 
     /**
-     * @return list<string>
-     *
-     * @deprecated tag:v6.8.0 - reason:return-type-change - return type will be nullable and condition will be removed
+     * @return list<string>|null
      */
-    public function getScreenshotUrls(): array
+    public function getScreenshotUrls(): ?array
     {
-        if ($this->screenshotUrls === null) {
-            return [];
-        }
-
         return $this->screenshotUrls;
     }
 

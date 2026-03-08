@@ -10,10 +10,8 @@ use Shopwell\Core\Checkout\Cart\Exception\LineItemNotFoundException;
 use Shopwell\Core\Checkout\Customer\Exception\AddressNotFoundException;
 use Shopwell\Core\Checkout\Order\Exception\EmptyCartException;
 use Shopwell\Core\Content\Flow\Exception\CustomerDeletedException;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\HttpException;
 use Shopwell\Core\Framework\Log\Package;
-use Shopwell\Core\Framework\Rule\Exception\UnsupportedOperatorException;
 use Shopwell\Core\Framework\Script\Execution\Hook;
 use Shopwell\Core\Framework\ShopwellHttpException;
 use Symfony\Component\HttpFoundation\Response;
@@ -450,15 +448,8 @@ class CartException extends HttpException
         );
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - reason:return-type-change - Will return self
-     */
-    public static function unsupportedOperator(string $operator, string $class): self|UnsupportedOperatorException
+    public static function unsupportedOperator(string $operator, string $class): self
     {
-        if (!Feature::isActive('v6.8.0.0')) {
-            return new UnsupportedOperatorException($operator, $class);
-        }
-
         return new self(
             Response::HTTP_BAD_REQUEST,
             self::RULE_OPERATOR_NOT_SUPPORTED,

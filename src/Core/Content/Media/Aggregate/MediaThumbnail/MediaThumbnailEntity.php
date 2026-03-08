@@ -7,7 +7,6 @@ use Shopwell\Core\Content\Media\MediaEntity;
 use Shopwell\Core\Framework\DataAbstractionLayer\Entity;
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityCustomFieldsTrait;
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityIdTrait;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 
 #[Package('discovery')]
@@ -24,17 +23,11 @@ class MediaThumbnailEntity extends Entity
 
     protected ?string $url = '';
 
-    /**
-     * @deprecated tag:v6.8.0 - Will be non-nullable
-     */
-    protected ?string $mediaId;
+    protected string $mediaId;
 
     protected ?MediaEntity $media = null;
 
-    /**
-     * @deprecated tag:v6.8.0 - Will be non-nullable
-     */
-    protected ?string $mediaThumbnailSizeId = null;
+    protected string $mediaThumbnailSizeId;
 
     protected ?MediaThumbnailSizeEntity $mediaThumbnailSize = null;
 
@@ -58,34 +51,18 @@ class MediaThumbnailEntity extends Entity
         $this->height = $height;
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - reason:return-type-change - return type will be nullable and condition will be removed
-     */
-    public function getUrl(): string
+    public function getUrl(): ?string
     {
-        if ($this->url === null) {
-            return '';
-        }
-
         return $this->url;
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - reason:parameter-type-extension - parameter $url will be nullable
-     */
-    public function setUrl(string $url): void
+    public function setUrl(?string $url): void
     {
         $this->url = $url;
     }
 
     public function getMediaId(): string
     {
-        if (!isset($this->mediaId)) {
-            Feature::triggerDeprecationOrThrow('v6.8.0.0', '$mediaId must not be null');
-
-            return '';
-        }
-
         return $this->mediaId;
     }
 
@@ -104,17 +81,8 @@ class MediaThumbnailEntity extends Entity
         $this->media = $media;
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - reason:return-type-change - return type will be only string and condition will be removed
-     */
-    public function getMediaThumbnailSizeId(): ?string
+    public function getMediaThumbnailSizeId(): string
     {
-        if (!isset($this->mediaThumbnailSizeId)) {
-            Feature::triggerDeprecationOrThrow('v6.8.0.0', '$mediaThumbnailSizeId must not be null');
-
-            return null;
-        }
-
         return $this->mediaThumbnailSizeId;
     }
 

@@ -5,7 +5,6 @@ namespace Shopwell\Core\Framework\Store\Api;
 use GuzzleHttp\Exception\ClientException;
 use Shopwell\Core\Framework\Api\Context\AdminApiSource;
 use Shopwell\Core\Framework\Api\Context\Exception\InvalidContextSourceException;
-use Shopwell\Core\Framework\Api\Context\Exception\InvalidContextSourceUserException;
 use Shopwell\Core\Framework\Context;
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Criteria;
@@ -16,6 +15,7 @@ use Shopwell\Core\Framework\Store\Exception\StoreInvalidCredentialsException;
 use Shopwell\Core\Framework\Store\Exception\StoreTokenMissingException;
 use Shopwell\Core\Framework\Store\Services\AbstractExtensionDataProvider;
 use Shopwell\Core\Framework\Store\Services\StoreClient;
+use Shopwell\Core\Framework\Store\StoreException;
 use Shopwell\Core\PlatformRequest;
 use Shopwell\Core\System\User\UserCollection;
 use Shopwell\Core\System\User\UserEntity;
@@ -159,7 +159,7 @@ class StoreController extends AbstractController
 
         $userId = $contextSource->getUserId();
         if ($userId === null) {
-            throw new InvalidContextSourceUserException($contextSource::class);
+            throw StoreException::invalidContextSourceUser($contextSource::class);
         }
 
         /** @var UserEntity|null $user */

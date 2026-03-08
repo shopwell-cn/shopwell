@@ -8,7 +8,6 @@ use Shopwell\Core\Framework\DataAbstractionLayer\Entity;
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityCustomFieldsTrait;
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityIdTrait;
 use Shopwell\Core\Framework\Log\Package;
-use Shopwell\Core\System\Salutation\SalutationEntity;
 
 #[Package('checkout')]
 class OrderCustomerEntity extends Entity
@@ -40,8 +39,6 @@ class OrderCustomerEntity extends Entity
     protected ?string $customerId = null;
 
     protected ?CustomerEntity $customer = null;
-
-    protected ?SalutationEntity $salutation = null;
 
     protected ?OrderEntity $order = null;
 
@@ -153,16 +150,6 @@ class OrderCustomerEntity extends Entity
     public function setOrder(OrderEntity $order): void
     {
         $this->order = $order;
-    }
-
-    public function getSalutation(): ?SalutationEntity
-    {
-        return $this->salutation;
-    }
-
-    public function setSalutation(SalutationEntity $salutation): void
-    {
-        $this->salutation = $salutation;
     }
 
     public function getOrderId(): string

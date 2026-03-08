@@ -15,11 +15,9 @@ use Shopwell\Core\System\SalesChannel\SalesChannelContext;
 class CartTransformer
 {
     /**
-     * @deprecated tag:v6.8.0 - reason:parameter-name-change - parameter `$setOrderDate` will be renamed to `$setPersistentData`
-     *
      * @return array<string, mixed>
      */
-    public static function transform(Cart $cart, SalesChannelContext $context, string $stateId, bool $setOrderDate = true): array
+    public static function transform(Cart $cart, SalesChannelContext $context, string $stateId, bool $setPersistentData = true): array
     {
         $currency = $context->getCurrency();
 
@@ -38,7 +36,7 @@ class CartTransformer
             'source' => $cart->getSource(),
         ];
 
-        if ($setOrderDate) {
+        if ($setPersistentData) {
             $data['orderDateTime'] = new \DateTimeImmutable()->format(Defaults::STORAGE_DATE_TIME_FORMAT);
             $data['deepLinkCode'] = Random::getBase64UrlString(32);
         }
