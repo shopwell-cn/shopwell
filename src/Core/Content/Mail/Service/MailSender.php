@@ -7,7 +7,6 @@ use Psr\Log\LoggerInterface;
 use Shopwell\Core\Content\Mail\MailException;
 use Shopwell\Core\Content\Mail\Message\SendMailMessage;
 use Shopwell\Core\Framework\Log\Package;
-use Shopwell\Core\Framework\MessageQueue\Subscriber\MessageQueueSizeRestrictListener;
 use Shopwell\Core\Framework\Plugin\Exception\DecorationPatternException;
 use Shopwell\Core\Framework\Util\Hasher;
 use Shopwell\Core\Maintenance\Staging\Event\SetupStagingEvent;
@@ -19,17 +18,9 @@ use Symfony\Component\Mime\Email;
 #[Package('after-sales')]
 class MailSender extends AbstractMailSender
 {
-    public const DISABLE_MAIL_DELIVERY = 'core.mailerSettings.disableDelivery';
+    public const string DISABLE_MAIL_DELIVERY = 'core.mailerSettings.disableDelivery';
 
-    /**
-     * @deprecated tag:v6.8.0 - Use the configuration option `shopwell.messenger.message_max_kib_size` instead.
-     *
-     * Referenced from {@see MessageQueueSizeRestrictListener::MESSAGE_SIZE_LIMIT}
-     * The maximum size of a message in the message queue is used to determine if a mail should be sent directly or via the message queue.
-     */
-    public const MAIL_MESSAGE_SIZE_LIMIT = MessageQueueSizeRestrictListener::MESSAGE_SIZE_LIMIT;
-
-    private const BASE_FILE_SYSTEM_PATH = 'mail-data/';
+    private const string BASE_FILE_SYSTEM_PATH = 'mail-data/';
 
     /**
      * @internal

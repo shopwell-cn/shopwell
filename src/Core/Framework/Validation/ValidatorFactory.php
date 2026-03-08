@@ -12,8 +12,6 @@ use Symfony\Component\Validator\Validation;
 class ValidatorFactory
 {
     /**
-     * @deprecated tag:v6.8.0 reason:new-optional-parameter - Parameter $allowExtraFields will be added
-     *
      * @template TClassToCreate of object
      *
      * @param array<string, mixed> $data
@@ -21,10 +19,8 @@ class ValidatorFactory
      *
      * @return TClassToCreate
      */
-    public static function create(array $data, string $class /* , bool $allowExtraFields = false */): object
+    public static function create(array $data, string $class, bool $allowExtraFields = false): object
     {
-        $allowExtraFields = \func_num_args() > 2 && \func_get_arg(2);
-
         $validator = Validation::createValidator();
         $constraints = self::getConstraints($class);
         $violations = $validator->validate($data, new Collection($constraints, allowExtraFields: $allowExtraFields));

@@ -163,11 +163,8 @@
 
         <service id="Shopwell\Core\Framework\Adapter\Cache\Http\CacheResponseSubscriber">
             <argument type="service" id="Shopwell\Core\Checkout\Cart\SalesChannel\CartService"/>
-            <argument>%shopwell.http.cache.default_ttl%</argument>
             <argument>%shopwell.http.cache.enabled%</argument>
             <argument type="service" id="Shopwell\Core\Framework\Routing\MaintenanceModeResolver"/>
-            <argument>%shopwell.http_cache.stale_while_revalidate%</argument>
-            <argument>%shopwell.http_cache.stale_if_error%</argument>
             <argument type="service" id="Shopwell\Core\Framework\Adapter\Cache\Http\CacheHeadersService"/>
             <argument type="service" id="Shopwell\Core\Framework\Adapter\Cache\Http\CachePolicyProvider"/>
 

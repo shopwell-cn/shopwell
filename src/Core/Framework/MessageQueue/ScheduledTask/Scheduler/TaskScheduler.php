@@ -6,7 +6,6 @@ use Shopwell\Core\Defaults;
 use Shopwell\Core\Framework\Context;
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Aggregation\Metric\MinAggregation;
-use Shopwell\Core\Framework\DataAbstractionLayer\Search\AggregationResult\AggregationResult;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\AggregationResult\Metric\MinResult;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Filter\AndFilter;
@@ -15,7 +14,6 @@ use Shopwell\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Filter\NotFilter;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Filter\OrFilter;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Filter\RangeFilter;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\MessageQueue\MessageQueueException;
 use Shopwell\Core\Framework\MessageQueue\ScheduledTask\ScheduledTask;
@@ -57,33 +55,6 @@ class TaskScheduler
         foreach ($tasks as $task) {
             $this->queueTask($task, $context);
         }
-    }
-
-    /**
-     * @deprecated tag:v6.8.0 - will be removed as it is not used anywhere
-     */
-    public function getNextExecutionTime(): ?\DateTimeInterface
-    {
-        Feature::triggerDeprecationOrThrow(
-            'v6.8.0.0',
-            Feature::deprecatedMethodMessage(self::class, __METHOD__, 'v6.8.0.0')
-        );
-
-        $criteria = $this->buildCriteriaForNextScheduledTask();
-        /** @var AggregationResult $aggregation */
-        $aggregation = $this->scheduledTaskRepository
-            ->aggregate($criteria, Context::createDefaultContext())
-            ->get('nextExecutionTime');
-
-        /** @var MinResult $aggregation */
-        if (!$aggregation instanceof MinResult) {
-            return null;
-        }
-        if ($aggregation->getMin() === null) {
-            return null;
-        }
-
-        return new \DateTime((string) $aggregation->getMin());
     }
 
     public function getMinRunInterval(): ?int

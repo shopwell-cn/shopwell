@@ -8,7 +8,6 @@ use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Exception\TableNotFoundException;
 use Shopwell\Core\Defaults;
 use Shopwell\Core\DevOps\Environment\EnvironmentHelper;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Util\Database\TableHelper;
 
@@ -84,22 +83,11 @@ abstract class MigrationStep
     }
 
     /**
-     * @deprecated tag:v6.8.0 - reason:exception-change - Will throw {@see \Shopwell\Core\Framework\Util\UtilException} instead of {@see TableNotFoundException}
-     *
      * @param non-empty-string $table
      */
     protected function indexExists(Connection $connection, string $table, string $index): bool
     {
-        if (Feature::isActive('v6.8.0.0')) {
-            return TableHelper::indexExists($connection, $table, $index);
-        }
-
-        $exists = $connection->fetchOne(
-            'SHOW INDEXES FROM `' . $table . '` WHERE `key_name` LIKE :index',
-            ['index' => $index]
-        );
-
-        return !empty($exists);
+        return TableHelper::indexExists($connection, $table, $index);
     }
 
     protected function dropTableIfExists(Connection $connection, string $table): void

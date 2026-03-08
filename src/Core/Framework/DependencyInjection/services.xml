@@ -36,11 +36,6 @@ frame-ancestors 'none';
 
         <parameter key="shopwell_http_cache_enabled_default">1</parameter>
         <parameter key="shopwell.http.cache.enabled">%env(default:shopwell_http_cache_enabled_default:SHOPWELL_HTTP_CACHE_ENABLED)%</parameter>
-
-        <!-- @deprecated tag:v6.8.0 Will be removed -->
-        <parameter key="shopwell_http_cache_default_ttl_default">7200</parameter>
-        <!-- @deprecated tag:v6.8.0 Will be removed -->
-        <parameter key="shopwell.http.cache.default_ttl">%env(default:shopwell_http_cache_default_ttl_default:SHOPWELL_HTTP_DEFAULT_TTL)%</parameter>
     </parameters>
 
     <monolog:config>

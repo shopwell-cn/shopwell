@@ -14,20 +14,20 @@ use Shopwell\Core\Framework\Log\Package;
  * @phpstan-type RelationData array{TABLE_NAME: string, COLUMN_NAME: string, CONSTRAINT_NAME: string, REFERENCED_TABLE_NAME: string, REFERENCED_COLUMN_NAME: string}
  * @phpstan-type ForeignKeyData array{TABLE_NAME: string, COLUMN_NAME: list<string>, REFERENCED_TABLE_NAME: string, REFERENCED_COLUMN_NAME: list<string>}
  *
- * @deprecated tag:v6.8.0 - reason:becomes-internal - Will be internal with next major
+ * @internal
  */
 #[Package('framework')]
 class MakeVersionableMigrationHelper
 {
-    private const DROP_FOREIGN_KEY = 'ALTER TABLE `%s` DROP FOREIGN KEY `%s`';
-    private const DROP_KEY = 'ALTER TABLE `%s` DROP KEY `%s`';
-    private const ADD_FOREIGN_KEY = 'ALTER TABLE `%s` ADD CONSTRAINT `%s` FOREIGN KEY (%s, `%s`) REFERENCES `%s` (%s, `%s`) ON DELETE %s ON UPDATE CASCADE';
-    private const ADD_NEW_COLUMN_WITH_DEFAULT = 'ALTER TABLE `%s` ADD `%s` binary(16) NOT NULL DEFAULT 0x%s AFTER `%s`';
-    private const ADD_NEW_COLUMN_NULLABLE = 'ALTER TABLE `%s` ADD `%s` binary(16) NULL AFTER `%s`';
-    private const MODIFY_PRIMARY_KEY_IN_MAIN = 'ALTER TABLE `%s` DROP PRIMARY KEY, ADD `%s` binary(16) NOT NULL DEFAULT 0x%s AFTER `%s`, ADD PRIMARY KEY (`%s`, `%s`)';
-    private const MODIFY_PRIMARY_KEY_IN_RELATION = 'ALTER TABLE `%s` DROP PRIMARY KEY, ADD PRIMARY KEY (%s, `%s`)';
-    private const ADD_KEY = 'ALTER TABLE `%s` ADD INDEX `fk.%s.%s` (%s)';
-    private const FIND_RELATIONSHIPS_QUERY = <<<EOD
+    private const string DROP_FOREIGN_KEY = 'ALTER TABLE `%s` DROP FOREIGN KEY `%s`';
+    private const string DROP_KEY = 'ALTER TABLE `%s` DROP KEY `%s`';
+    private const string ADD_FOREIGN_KEY = 'ALTER TABLE `%s` ADD CONSTRAINT `%s` FOREIGN KEY (%s, `%s`) REFERENCES `%s` (%s, `%s`) ON DELETE %s ON UPDATE CASCADE';
+    private const string ADD_NEW_COLUMN_WITH_DEFAULT = 'ALTER TABLE `%s` ADD `%s` binary(16) NOT NULL DEFAULT 0x%s AFTER `%s`';
+    private const string ADD_NEW_COLUMN_NULLABLE = 'ALTER TABLE `%s` ADD `%s` binary(16) NULL AFTER `%s`';
+    private const string MODIFY_PRIMARY_KEY_IN_MAIN = 'ALTER TABLE `%s` DROP PRIMARY KEY, ADD `%s` binary(16) NOT NULL DEFAULT 0x%s AFTER `%s`, ADD PRIMARY KEY (`%s`, `%s`)';
+    private const string MODIFY_PRIMARY_KEY_IN_RELATION = 'ALTER TABLE `%s` DROP PRIMARY KEY, ADD PRIMARY KEY (%s, `%s`)';
+    private const string ADD_KEY = 'ALTER TABLE `%s` ADD INDEX `fk.%s.%s` (%s)';
+    private const string FIND_RELATIONSHIPS_QUERY = <<<EOD
 SELECT
     TABLE_NAME,
     COLUMN_NAME,

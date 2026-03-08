@@ -15,7 +15,6 @@
         </service>
 
         <service id="Shopwell\Core\Framework\MessageQueue\Subscriber\MessageQueueStatsSubscriber">
-            <argument type="service" id="shopwell.increment.gateway.registry"/>
             <argument type="service" id="Shopwell\Core\Framework\MessageQueue\Stats\StatsService"/>
 
             <tag name="kernel.event_subscriber"/>

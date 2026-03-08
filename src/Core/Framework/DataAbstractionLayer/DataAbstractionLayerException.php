@@ -3,8 +3,6 @@
 namespace Shopwell\Core\Framework\DataAbstractionLayer;
 
 use Shopwell\Core\Framework\Api\Exception\MissingPrivilegeException;
-use Shopwell\Core\Framework\DataAbstractionLayer\Dbal\Exception\FieldAccessorBuilderNotFoundException;
-use Shopwell\Core\Framework\DataAbstractionLayer\Dbal\Exception\InvalidSortingDirectionException;
 use Shopwell\Core\Framework\DataAbstractionLayer\Dbal\Exception\ParentAssociationCanNotBeFetched;
 use Shopwell\Core\Framework\DataAbstractionLayer\Dbal\Exception\UnmappedFieldException;
 use Shopwell\Core\Framework\DataAbstractionLayer\Exception\DefinitionNotFoundException;
@@ -43,109 +41,88 @@ use Symfony\Component\Validator\Exception\ValidatorException;
 #[Package('framework')]
 class DataAbstractionLayerException extends HttpException
 {
-    public const INVALID_FIELD_SERIALIZER_CODE = 'FRAMEWORK__INVALID_FIELD_SERIALIZER';
-    public const INVALID_CRON_INTERVAL_CODE = 'FRAMEWORK__INVALID_CRON_INTERVAL_FORMAT';
-    public const INVALID_DATE_INTERVAL_CODE = 'FRAMEWORK__INVALID_DATE_INTERVAL_FORMAT';
-    public const INVALID_CRITERIA_IDS = 'FRAMEWORK__INVALID_CRITERIA_IDS';
-    public const INVALID_API_CRITERIA_IDS = 'FRAMEWORK__INVALID_API_CRITERIA_IDS';
-    public const CANNOT_CREATE_NEW_VERSION = 'FRAMEWORK__CANNOT_CREATE_NEW_VERSION';
-    public const VERSION_MERGE_ALREADY_LOCKED = 'FRAMEWORK__VERSION_MERGE_ALREADY_LOCKED';
-    public const INVALID_LANGUAGE_ID = 'FRAMEWORK__INVALID_LANGUAGE_ID';
-    public const VERSION_NO_COMMITS_FOUND = 'FRAMEWORK__VERSION_NO_COMMITS_FOUND';
-    public const VERSION_NOT_EXISTS = 'FRAMEWORK__VERSION_NOT_EXISTS';
-    public const ENTITY_NOT_VERSION_AWARE = 'FRAMEWORK__ENTITY_NOT_VERSION_AWARE';
-    public const MIGRATION_STUB_NOT_FOUND = 'FRAMEWORK__MIGRATION_STUB_NOT_FOUND';
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed with the next major as it is unused
-     */
-    public const MIGRATION_DIRECTORY_NOT_FOUND = 'FRAMEWORK__MIGRATION_DIRECTORY_NOT_FOUND';
-    public const FIELD_TYPE_NOT_FOUND = 'FRAMEWORK__FIELD_TYPE_NOT_FOUND';
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed with the next major as it is unused
-     */
-    public const PLUGIN_NOT_FOUND = 'FRAMEWORK__PLUGIN_NOT_FOUND';
-    public const INVALID_FILTER_QUERY = 'FRAMEWORK__INVALID_FILTER_QUERY';
-    public const INVALID_RANGE_FILTER_PARAMS = 'FRAMEWORK__INVALID_RANGE_FILTER_PARAMS';
-    public const INVALID_SORT_QUERY = 'FRAMEWORK__INVALID_SORT_QUERY';
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed with the next major as it is unused
-     */
-    public const UNABLE_TO_FETCH_FOREIGN_KEY = 'FRAMEWORK__UNABLE_TO_FETCH_FOREIGN_KEY';
-    public const REFERENCE_FIELD_BY_STORAGE_NAME_NOT_FOUND = 'FRAMEWORK__REFERENCE_FIELD_BY_STORAGE_NAME_NOT_FOUND';
-    public const INCONSISTENT_PRIMARY_KEY = 'FRAMEWORK__INCONSISTENT_PRIMARY_KEY';
-    public const VERSION_FIELD_NOT_FOUND = 'FRAMEWORK__VERSION_FIELD_NOT_FOUND';
-    public const FIELD_NOT_FOUND = 'FRAMEWORK__FIELD_NOT_FOUND';
-    public const FIELD_BY_STORAGE_NAME_NOT_FOUND = 'FRAMEWORK__FIELD_BY_STORAGE_NAME_NOT_FOUND';
-    public const MISSING_PARENT_FOREIGN_KEY = 'FRAMEWORK__MISSING_PARENT_FOREIGN_KEY';
-    public const INVALID_WRITE_INPUT = 'FRAMEWORK__INVALID_WRITE_INPUT';
-    public const DECODE_HANDLED_BY_HYDRATOR = 'FRAMEWORK__DECODE_HANDLED_BY_HYDRATOR';
-    public const ATTRIBUTE_NOT_FOUND = 'FRAMEWORK__ATTRIBUTE_NOT_FOUND';
-    public const EXPECTED_ARRAY_WITH_TYPE = 'FRAMEWORK__EXPECTED_ARRAY_WITH_TYPE';
-    public const EXPECTED_FIELD_VALUE_TYPE_WITH_VALUE = 'FRAMEWORK__EXPECTED_FIELD_VALUE_TYPE_WITH_VALUE';
-    public const REPOSITORY_ITERATOR_EXPECTED_STRING_LAST_ID = 'FRAMEWORK__REPOSITORY_ITERATOR_EXPECTED_STRING_LAST_ID';
-    public const INVALID_AGGREGATION_NAME = 'FRAMEWORK__INVALID_AGGREGATION_NAME';
-    public const MISSING_FIELD_VALUE = 'FRAMEWORK__MISSING_FIELD_VALUE';
-    public const NOT_CUSTOM_FIELDS_SUPPORT = 'FRAMEWORK__NOT_CUSTOM_FIELDS_SUPPORT';
-    public const INTERNAL_FIELD_ACCESS_NOT_ALLOWED = 'FRAMEWORK__INTERNAL_FIELD_ACCESS_NOT_ALLOWED';
-    public const PROPERTY_NOT_FOUND = 'FRAMEWORK__PROPERTY_NOT_FOUND';
-    public const NOT_AN_INSTANCE_OF_ENTITY_COLLECTION = 'FRAMEWORK__NOT_AN_INSTANCE_OF_ENTITY_COLLECTION';
-    public const REFERENCE_FIELD_NOT_FOUND = 'FRAMEWORK__REFERENCE_FIELD_NOT_FOUND';
-    public const NO_ID_FOR_ASSOCIATION = 'FRAMEWORK__NO_ID_FOR_ASSOCIATION';
-    public const MISSING_ASSOCIATION = 'FRAMEWORK__MISSING_ASSOCIATION';
-    public const NO_INVERSE_ASSOCIATION_FOUND = 'FRAMEWORK__NO_INVERSE_ASSOCIATION_FOUND';
-    public const NOT_SUPPORTED_FIELD_FOR_AGGREGATION = 'FRAMEWORK__NOT_SUPPORTED_FIELD_FOR_AGGREGATION';
-    public const INVALID_DATE_FORMAT = 'FRAMEWORK__INVALID_DATE_FORMAT';
-    public const INVALID_DATE_HISTOGRAM_INTERVAL = 'FRAMEWORK__INVALID_DATE_HISTOGRAM_INTERVAL';
-    public const INVALID_TIMEZONE = 'FRAMEWORK__INVALID_TIMEZONE';
-    public const INVALID_ENUM_FIELD = 'FRAMEWORK__INVALID_ENUM_FIELD';
-    public const CANNOT_FIND_PARENT_STORAGE_FIELD = 'FRAMEWORK__CAN_NOT_FIND_PARENT_STORAGE_FIELD';
-    public const INVALID_PARENT_ASSOCIATION_EXCEPTION = 'FRAMEWORK__INVALID_PARENT_ASSOCIATION_EXCEPTION';
-    public const PARENT_FIELD_KEY_CONSTRAINT_MISSING = 'FRAMEWORK__PARENT_FIELD_KEY_CONSTRAINT_MISSING';
-    public const PARENT_FIELD_NOT_FOUND_EXCEPTION = 'FRAMEWORK__PARENT_FIELD_NOT_FOUND_EXCEPTION';
-    public const PRIMARY_KEY_NOT_PROVIDED = 'FRAMEWORK__PRIMARY_KEY_NOT_PROVIDED';
-    public const NO_GENERATOR_FOR_FIELD_TYPE = 'FRAMEWORK__NO_GENERATOR_FOR_FIELD_TYPE';
-    public const FOREIGN_KEY_NOT_FOUND_IN_DEFINITION = 'FRAMEWORK__FOREIGN_KEY_NOT_FOUND_IN_DEFINITION';
-    public const INVALID_CHUNK_SIZE = 'FRAMEWORK__INVALID_CHUNK_SIZE';
-    public const HOOK_INJECTION_EXCEPTION = 'FRAMEWORK__HOOK_INJECTION_EXCEPTION';
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed with the next major as it is unused
-     */
-    public const FRAMEWORK_DEPRECATED_DEFINITION_CALL = 'FRAMEWORK__DEPRECATED_DEFINITION_CALL';
-    public const UNSUPPORTED_QUERY_FILTER = 'FRAMEWORK__UNSUPPORTED_QUERY_FILTER';
-    public const INVALID_SORT_DIRECTION = 'FRAMEWORK__INVALID_SORT_DIRECTION';
-    public const PRODUCT_SEARCH_CONFIGURATION_NOT_FOUND = 'FRAMEWORK__PRODUCT_SEARCH_CONFIGURATION_NOT_FOUND';
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed with the next major as it is unused
-     */
-    public const ENTITY_NOT_VERSIONABLE = 'FRAMEWORK__DAL_ENTITY_NOT_VERSIONABLE';
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed with the next major as it is unused
-     */
-    public const INVALID_UUID = 'FRAMEWORK__DAL_INVALID_UUID';
-    public const INVALID_COMPRESSED_CRITERIA_PARAMETER = 'FRAMEWORK__INVALID_COMPRESSED_CRITERIA_PARAMETER';
-    public const DBAL_UNMAPPED_FIELD = 'FRAMEWORK__DBAL_UNMAPPED_FIELD';
-    public const DBAL_UNEXPECTED_FIELD_TYPE = 'FRAMEWORK__DBAL_UNEXPECTED_FIELD_TYPE';
-    public const DBAL_INVALID_IDENTIFIER = 'FRAMEWORK__DBAL_INVALID_IDENTIFIER';
-    public const DBAL_MISSING_VERSION_FIELD = 'FRAMEWORK__DBAL_MISSING_VERSION_FIELD';
-    public const DBAL_NO_TRANSLATION_DEFINITION = 'FRAMEWORK__DBAL_NO_TRANSLATION_DEFINITION';
-    public const DBAL_MISSING_TRANSLATED_STORAGE_AWARE_PROPERTY = 'FRAMEWORK__DBAL_MISSING_TRANSLATED_STORAGE_AWARE_PROPERTY';
-    public const DBAL_PRIMARY_KEY_NOT_STORAGE_AWARE = 'FRAMEWORK__DBAL_PRIMARY_KEY_NOT_STORAGE_AWARE';
-    public const DBAL_ONLY_STORAGE_AWARE_FIELDS_IN_READ_CONDITION = 'FRAMEWORK__DBAL_ONLY_STORAGE_AWARE_FIELDS_IN_READ_CONDITION';
-    public const DBAL_ONLY_STORAGE_AWARE_FIELDS_AS_TRANSLATED = 'FRAMEWORK__DBAL_ONLY_STORAGE_AWARE_FIELDS_AS_TRANSLATED';
-    public const DBAL_FIELD_ACCESSOR_BUILDER_NOT_FOUND = 'FRAMEWORK__DBAL_FIELD_ACCESSOR_BUILDER_NOT_FOUND';
-    public const DBAL_CANNOT_BUILD_ACCESSOR = 'FRAMEWORK__DBAL_CANNOT_BUILD_ACCESSOR';
-    public const DBAL_UNEXPECTED_ASSOCIATION_FIELD_CLASS = 'FRAMEWORK__DBAL_UNEXPECTED_ASSOCIATION_FIELD_CLASS';
-    public const DBAL_EXPECTED_ASSOCIATION_FIELD_IN_FIRST_LEVEL_OF_JOIN_GROUP = 'FRAMEWORK__DBAL_EXPECTED_ASSOCIATION_FIELD_IN_FIRST_LEVEL_OF_JOIN_GROUP';
-    public const ENTITY_INDEXER_NOT_FOUND = 'FRAMEWORK__ENTITY_INDEXER_NOT_FOUND';
-    public const INVALID_SYNC_OPERATION_EXCEPTION = 'FRAMEWORK__DAL_INVALID_SYNC_OPERATION';
-    public const FOREIGN_KEY_HAS_NO_ASSOCIATION_FIELD = 'FRAMEWORK__FOREIGN_KEY_HAS_NO_ASSOCIATION_FIELD';
-    public const WRONG_FIELD_TYPE_FOR_EXTENSION = 'FRAMEWORK__WRONG_FIELD_TYPE_FOR_EXTENSION';
-    public const DBAL_SERIALIZED_FIELD_REQUIRES_INDEXER = 'FRAMEWORK__DBAL_SERIALIZED_FIELD_REQUIRES_INDEXER';
-    public const INVALID_WRITE_CONTEXT = 'FRAMEWORK__DAL_INVALID_WRITE_CONTEXT';
-    public const TREE_UPDATER_ERROR = 'FRAMEWORK__DAL_TREE_UPDATER_ERROR';
-    public const ASSOCIATION_NOT_INHERITED = 'FRAMEWORK__DAL_ASSOCIATION_NOT_INHERITED';
-    public const ENTITY_HYDRATOR_ERROR = 'FRAMEWORK__DAL_ENTITY_HYDRATOR_ERROR';
-    public const UNABLE_TO_LOAD_PATH = 'FRAMEWORK__DAL_UNABLE_TO_LOAD_PATH';
+    public const string INVALID_FIELD_SERIALIZER_CODE = 'FRAMEWORK__INVALID_FIELD_SERIALIZER';
+    public const string INVALID_CRON_INTERVAL_CODE = 'FRAMEWORK__INVALID_CRON_INTERVAL_FORMAT';
+    public const string INVALID_DATE_INTERVAL_CODE = 'FRAMEWORK__INVALID_DATE_INTERVAL_FORMAT';
+    public const string INVALID_CRITERIA_IDS = 'FRAMEWORK__INVALID_CRITERIA_IDS';
+    public const string INVALID_API_CRITERIA_IDS = 'FRAMEWORK__INVALID_API_CRITERIA_IDS';
+    public const string CANNOT_CREATE_NEW_VERSION = 'FRAMEWORK__CANNOT_CREATE_NEW_VERSION';
+    public const string VERSION_MERGE_ALREADY_LOCKED = 'FRAMEWORK__VERSION_MERGE_ALREADY_LOCKED';
+    public const string INVALID_LANGUAGE_ID = 'FRAMEWORK__INVALID_LANGUAGE_ID';
+    public const string VERSION_NO_COMMITS_FOUND = 'FRAMEWORK__VERSION_NO_COMMITS_FOUND';
+    public const string VERSION_NOT_EXISTS = 'FRAMEWORK__VERSION_NOT_EXISTS';
+    public const string ENTITY_NOT_VERSION_AWARE = 'FRAMEWORK__ENTITY_NOT_VERSION_AWARE';
+    public const string MIGRATION_STUB_NOT_FOUND = 'FRAMEWORK__MIGRATION_STUB_NOT_FOUND';
+
+    public const string FIELD_TYPE_NOT_FOUND = 'FRAMEWORK__FIELD_TYPE_NOT_FOUND';
+
+    public const string INVALID_FILTER_QUERY = 'FRAMEWORK__INVALID_FILTER_QUERY';
+    public const string INVALID_RANGE_FILTER_PARAMS = 'FRAMEWORK__INVALID_RANGE_FILTER_PARAMS';
+    public const string INVALID_SORT_QUERY = 'FRAMEWORK__INVALID_SORT_QUERY';
+
+    public const string REFERENCE_FIELD_BY_STORAGE_NAME_NOT_FOUND = 'FRAMEWORK__REFERENCE_FIELD_BY_STORAGE_NAME_NOT_FOUND';
+    public const string INCONSISTENT_PRIMARY_KEY = 'FRAMEWORK__INCONSISTENT_PRIMARY_KEY';
+    public const string VERSION_FIELD_NOT_FOUND = 'FRAMEWORK__VERSION_FIELD_NOT_FOUND';
+    public const string FIELD_NOT_FOUND = 'FRAMEWORK__FIELD_NOT_FOUND';
+    public const string FIELD_BY_STORAGE_NAME_NOT_FOUND = 'FRAMEWORK__FIELD_BY_STORAGE_NAME_NOT_FOUND';
+    public const string MISSING_PARENT_FOREIGN_KEY = 'FRAMEWORK__MISSING_PARENT_FOREIGN_KEY';
+    public const string INVALID_WRITE_INPUT = 'FRAMEWORK__INVALID_WRITE_INPUT';
+    public const string DECODE_HANDLED_BY_HYDRATOR = 'FRAMEWORK__DECODE_HANDLED_BY_HYDRATOR';
+    public const string ATTRIBUTE_NOT_FOUND = 'FRAMEWORK__ATTRIBUTE_NOT_FOUND';
+    public const string EXPECTED_ARRAY_WITH_TYPE = 'FRAMEWORK__EXPECTED_ARRAY_WITH_TYPE';
+    public const string EXPECTED_FIELD_VALUE_TYPE_WITH_VALUE = 'FRAMEWORK__EXPECTED_FIELD_VALUE_TYPE_WITH_VALUE';
+    public const string REPOSITORY_ITERATOR_EXPECTED_STRING_LAST_ID = 'FRAMEWORK__REPOSITORY_ITERATOR_EXPECTED_STRING_LAST_ID';
+    public const string INVALID_AGGREGATION_NAME = 'FRAMEWORK__INVALID_AGGREGATION_NAME';
+    public const string MISSING_FIELD_VALUE = 'FRAMEWORK__MISSING_FIELD_VALUE';
+    public const string NOT_CUSTOM_FIELDS_SUPPORT = 'FRAMEWORK__NOT_CUSTOM_FIELDS_SUPPORT';
+    public const string INTERNAL_FIELD_ACCESS_NOT_ALLOWED = 'FRAMEWORK__INTERNAL_FIELD_ACCESS_NOT_ALLOWED';
+    public const string PROPERTY_NOT_FOUND = 'FRAMEWORK__PROPERTY_NOT_FOUND';
+    public const string NOT_AN_INSTANCE_OF_ENTITY_COLLECTION = 'FRAMEWORK__NOT_AN_INSTANCE_OF_ENTITY_COLLECTION';
+    public const string REFERENCE_FIELD_NOT_FOUND = 'FRAMEWORK__REFERENCE_FIELD_NOT_FOUND';
+    public const string NO_ID_FOR_ASSOCIATION = 'FRAMEWORK__NO_ID_FOR_ASSOCIATION';
+    public const string MISSING_ASSOCIATION = 'FRAMEWORK__MISSING_ASSOCIATION';
+    public const string NO_INVERSE_ASSOCIATION_FOUND = 'FRAMEWORK__NO_INVERSE_ASSOCIATION_FOUND';
+    public const string NOT_SUPPORTED_FIELD_FOR_AGGREGATION = 'FRAMEWORK__NOT_SUPPORTED_FIELD_FOR_AGGREGATION';
+    public const string INVALID_DATE_FORMAT = 'FRAMEWORK__INVALID_DATE_FORMAT';
+    public const string INVALID_DATE_HISTOGRAM_INTERVAL = 'FRAMEWORK__INVALID_DATE_HISTOGRAM_INTERVAL';
+    public const string INVALID_TIMEZONE = 'FRAMEWORK__INVALID_TIMEZONE';
+    public const string INVALID_ENUM_FIELD = 'FRAMEWORK__INVALID_ENUM_FIELD';
+    public const string CANNOT_FIND_PARENT_STORAGE_FIELD = 'FRAMEWORK__CAN_NOT_FIND_PARENT_STORAGE_FIELD';
+    public const string INVALID_PARENT_ASSOCIATION_EXCEPTION = 'FRAMEWORK__INVALID_PARENT_ASSOCIATION_EXCEPTION';
+    public const string PARENT_FIELD_KEY_CONSTRAINT_MISSING = 'FRAMEWORK__PARENT_FIELD_KEY_CONSTRAINT_MISSING';
+    public const string PARENT_FIELD_NOT_FOUND_EXCEPTION = 'FRAMEWORK__PARENT_FIELD_NOT_FOUND_EXCEPTION';
+    public const string PRIMARY_KEY_NOT_PROVIDED = 'FRAMEWORK__PRIMARY_KEY_NOT_PROVIDED';
+    public const string NO_GENERATOR_FOR_FIELD_TYPE = 'FRAMEWORK__NO_GENERATOR_FOR_FIELD_TYPE';
+    public const string FOREIGN_KEY_NOT_FOUND_IN_DEFINITION = 'FRAMEWORK__FOREIGN_KEY_NOT_FOUND_IN_DEFINITION';
+    public const string INVALID_CHUNK_SIZE = 'FRAMEWORK__INVALID_CHUNK_SIZE';
+    public const string HOOK_INJECTION_EXCEPTION = 'FRAMEWORK__HOOK_INJECTION_EXCEPTION';
+    public const string UNSUPPORTED_QUERY_FILTER = 'FRAMEWORK__UNSUPPORTED_QUERY_FILTER';
+    public const string INVALID_SORT_DIRECTION = 'FRAMEWORK__INVALID_SORT_DIRECTION';
+    public const string PRODUCT_SEARCH_CONFIGURATION_NOT_FOUND = 'FRAMEWORK__PRODUCT_SEARCH_CONFIGURATION_NOT_FOUND';
+    public const string INVALID_COMPRESSED_CRITERIA_PARAMETER = 'FRAMEWORK__INVALID_COMPRESSED_CRITERIA_PARAMETER';
+    public const string DBAL_UNMAPPED_FIELD = 'FRAMEWORK__DBAL_UNMAPPED_FIELD';
+    public const string DBAL_UNEXPECTED_FIELD_TYPE = 'FRAMEWORK__DBAL_UNEXPECTED_FIELD_TYPE';
+    public const string DBAL_INVALID_IDENTIFIER = 'FRAMEWORK__DBAL_INVALID_IDENTIFIER';
+    public const string DBAL_MISSING_VERSION_FIELD = 'FRAMEWORK__DBAL_MISSING_VERSION_FIELD';
+    public const string DBAL_NO_TRANSLATION_DEFINITION = 'FRAMEWORK__DBAL_NO_TRANSLATION_DEFINITION';
+    public const string DBAL_MISSING_TRANSLATED_STORAGE_AWARE_PROPERTY = 'FRAMEWORK__DBAL_MISSING_TRANSLATED_STORAGE_AWARE_PROPERTY';
+    public const string DBAL_PRIMARY_KEY_NOT_STORAGE_AWARE = 'FRAMEWORK__DBAL_PRIMARY_KEY_NOT_STORAGE_AWARE';
+    public const string DBAL_ONLY_STORAGE_AWARE_FIELDS_IN_READ_CONDITION = 'FRAMEWORK__DBAL_ONLY_STORAGE_AWARE_FIELDS_IN_READ_CONDITION';
+    public const string DBAL_ONLY_STORAGE_AWARE_FIELDS_AS_TRANSLATED = 'FRAMEWORK__DBAL_ONLY_STORAGE_AWARE_FIELDS_AS_TRANSLATED';
+    public const string DBAL_FIELD_ACCESSOR_BUILDER_NOT_FOUND = 'FRAMEWORK__DBAL_FIELD_ACCESSOR_BUILDER_NOT_FOUND';
+    public const string DBAL_CANNOT_BUILD_ACCESSOR = 'FRAMEWORK__DBAL_CANNOT_BUILD_ACCESSOR';
+    public const string DBAL_UNEXPECTED_ASSOCIATION_FIELD_CLASS = 'FRAMEWORK__DBAL_UNEXPECTED_ASSOCIATION_FIELD_CLASS';
+    public const string DBAL_EXPECTED_ASSOCIATION_FIELD_IN_FIRST_LEVEL_OF_JOIN_GROUP = 'FRAMEWORK__DBAL_EXPECTED_ASSOCIATION_FIELD_IN_FIRST_LEVEL_OF_JOIN_GROUP';
+    public const string ENTITY_INDEXER_NOT_FOUND = 'FRAMEWORK__ENTITY_INDEXER_NOT_FOUND';
+    public const string INVALID_SYNC_OPERATION_EXCEPTION = 'FRAMEWORK__DAL_INVALID_SYNC_OPERATION';
+    public const string FOREIGN_KEY_HAS_NO_ASSOCIATION_FIELD = 'FRAMEWORK__FOREIGN_KEY_HAS_NO_ASSOCIATION_FIELD';
+    public const string WRONG_FIELD_TYPE_FOR_EXTENSION = 'FRAMEWORK__WRONG_FIELD_TYPE_FOR_EXTENSION';
+    public const string DBAL_SERIALIZED_FIELD_REQUIRES_INDEXER = 'FRAMEWORK__DBAL_SERIALIZED_FIELD_REQUIRES_INDEXER';
+    public const string INVALID_WRITE_CONTEXT = 'FRAMEWORK__DAL_INVALID_WRITE_CONTEXT';
+    public const string TREE_UPDATER_ERROR = 'FRAMEWORK__DAL_TREE_UPDATER_ERROR';
+    public const string ASSOCIATION_NOT_INHERITED = 'FRAMEWORK__DAL_ASSOCIATION_NOT_INHERITED';
+    public const string ENTITY_HYDRATOR_ERROR = 'FRAMEWORK__DAL_ENTITY_HYDRATOR_ERROR';
+    public const string UNABLE_TO_LOAD_PATH = 'FRAMEWORK__DAL_UNABLE_TO_LOAD_PATH';
 
     public static function invalidSerializerField(string $expectedClass, Field $field): self
     {
@@ -342,24 +319,6 @@ class DataAbstractionLayerException extends HttpException
         );
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed with the next major as it is unused
-     */
-    public static function migrationDirectoryNotFound(string $path): self
-    {
-        Feature::triggerDeprecationOrThrow(
-            'v6.8.0.0',
-            Feature::deprecatedMethodMessage(self::class, __METHOD__, 'v6.8.0.0'),
-        );
-
-        return new self(
-            Response::HTTP_INTERNAL_SERVER_ERROR,
-            self::MIGRATION_DIRECTORY_NOT_FOUND,
-            'Migration directory not found: {{ path }}.',
-            ['path' => $path]
-        );
-    }
-
     public static function fieldHasNoType(string $fieldName): self
     {
         return new self(
@@ -367,44 +326,6 @@ class DataAbstractionLayerException extends HttpException
             self::FIELD_TYPE_NOT_FOUND,
             'Field {{ fieldName }} has no type',
             ['fieldName' => $fieldName]
-        );
-    }
-
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed with the next major as it is unused
-     */
-    public static function pluginNotFound(string $pluginName): self
-    {
-        Feature::triggerDeprecationOrThrow(
-            'v6.8.0.0',
-            Feature::deprecatedMethodMessage(self::class, __METHOD__, 'v6.8.0.0'),
-        );
-
-        return new self(
-            Response::HTTP_INTERNAL_SERVER_ERROR,
-            self::PLUGIN_NOT_FOUND,
-            'Plugin {{ fieldName }} not be found',
-            ['pluginName' => $pluginName]
-        );
-    }
-
-    /**
-     * @param array<string> $primaryKey
-     *
-     * @deprecated tag:v6.8.0 - Will be removed with the next major as it is unused
-     */
-    public static function unableToFetchForeignKey(string $entity, array $primaryKey): self
-    {
-        Feature::triggerDeprecationOrThrow(
-            'v6.8.0.0',
-            Feature::deprecatedMethodMessage(self::class, __METHOD__, 'v6.8.0.0'),
-        );
-
-        return new self(
-            Response::HTTP_INTERNAL_SERVER_ERROR,
-            self::UNABLE_TO_FETCH_FOREIGN_KEY,
-            'Unable to fetch foreign key for {{ entity }} with primary key {{ primaryKey }}',
-            ['entity' => $entity, 'primaryKey' => implode(', ', $primaryKey)]
         );
     }
 
@@ -524,24 +445,6 @@ class DataAbstractionLayerException extends HttpException
     public static function missingTranslation(string $path, int $index): self
     {
         return new MissingTranslationLanguageException($path, $index);
-    }
-
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed with the next major as it is unused
-     */
-    public static function invalidUuid(string $uuid): self
-    {
-        Feature::triggerDeprecationOrThrow(
-            'v6.8.0.0',
-            Feature::deprecatedMethodMessage(self::class, __METHOD__, 'v6.8.0.0'),
-        );
-
-        return new self(
-            Response::HTTP_BAD_REQUEST,
-            self::INVALID_UUID,
-            'Invalid UUID provided: {{ uuid }}',
-            ['uuid' => $uuid]
-        );
     }
 
     public static function canNotFindAttribute(string $attribute, string $property): self
@@ -907,10 +810,6 @@ class DataAbstractionLayerException extends HttpException
 
     public static function invalidSortingDirection(string $direction): self
     {
-        if (!Feature::isActive('v6.8.0.0')) {
-            return new InvalidSortingDirectionException($direction);
-        }
-
         return new self(
             Response::HTTP_BAD_REQUEST,
             self::INVALID_SORT_DIRECTION,
@@ -1000,27 +899,9 @@ class DataAbstractionLayerException extends HttpException
     }
 
     /**
-     * @deprecated tag:v6.8.0 - Will be removed with the next major as it is unused
-     */
-    public static function entityNotVersionable(string $entityName): self
-    {
-        Feature::triggerDeprecationOrThrow(
-            'v6.8.0.0',
-            Feature::deprecatedMethodMessage(self::class, __METHOD__, 'v6.8.0.0'),
-        );
-
-        return new self(
-            Response::HTTP_INTERNAL_SERVER_ERROR,
-            self::ENTITY_NOT_VERSIONABLE,
-            'Entity {{ entityName }} is not versionable',
-            ['entityName' => $entityName]
-        );
-    }
-
-    /**
      * @deprecated tag:v6.8.0 - reason:return-type-change - Will return self only
      */
-    public static function noTranslationDefinition(string $entityName): self|\RuntimeException
+    public static function noTranslationDefinition(string $entityName): self
     {
         return new self(
             Response::HTTP_INTERNAL_SERVER_ERROR,
@@ -1030,9 +911,6 @@ class DataAbstractionLayerException extends HttpException
         );
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - reason:return-type-change - Will return self only
-     */
     public static function missingTranslatedStorageAwareProperty(string $propertyName, string $translationEntityName): self|\RuntimeException
     {
         return new self(
@@ -1043,10 +921,7 @@ class DataAbstractionLayerException extends HttpException
         );
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - reason:return-type-change - Will return self only
-     */
-    public static function primaryKeyNotStorageAware(): self|\RuntimeException
+    public static function primaryKeyNotStorageAware(): self
     {
         return new self(
             Response::HTTP_INTERNAL_SERVER_ERROR,
@@ -1055,10 +930,7 @@ class DataAbstractionLayerException extends HttpException
         );
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - reason:return-type-change - Will return self only
-     */
-    public static function onlyStorageAwareFieldsInReadCondition(): self|\RuntimeException
+    public static function onlyStorageAwareFieldsInReadCondition(): self
     {
         return new self(
             Response::HTTP_INTERNAL_SERVER_ERROR,
@@ -1067,10 +939,7 @@ class DataAbstractionLayerException extends HttpException
         );
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - reason:return-type-change - Will return self only
-     */
-    public static function onlyStorageAwareFieldsAsTranslated(): self|\RuntimeException
+    public static function onlyStorageAwareFieldsAsTranslated(): self
     {
         return new self(
             Response::HTTP_INTERNAL_SERVER_ERROR,
@@ -1079,12 +948,8 @@ class DataAbstractionLayerException extends HttpException
         );
     }
 
-    public static function fieldAccessorBuilderNotFound(string $propertyName): self|FieldAccessorBuilderNotFoundException
+    public static function fieldAccessorBuilderNotFound(string $propertyName): self
     {
-        if (!Feature::isActive('v6.8.0.0')) {
-            return new FieldAccessorBuilderNotFoundException($propertyName);
-        }
-
         return new self(
             Response::HTTP_INTERNAL_SERVER_ERROR,
             self::DBAL_FIELD_ACCESSOR_BUILDER_NOT_FOUND,
@@ -1093,10 +958,7 @@ class DataAbstractionLayerException extends HttpException
         );
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - reason:return-type-change - Will return self only
-     */
-    public static function cannotBuildAccessor(string $propertyName, string $root): self|\RuntimeException
+    public static function cannotBuildAccessor(string $propertyName, string $root): self
     {
         return new self(
             Response::HTTP_INTERNAL_SERVER_ERROR,

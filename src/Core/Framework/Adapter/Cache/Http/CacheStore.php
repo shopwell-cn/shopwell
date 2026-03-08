@@ -7,7 +7,6 @@ use Shopwell\Core\Framework\Adapter\Cache\CacheTagCollector;
 use Shopwell\Core\Framework\Adapter\Cache\Event\HttpCacheHitEvent;
 use Shopwell\Core\Framework\Adapter\Cache\Event\HttpCacheStoreEvent;
 use Shopwell\Core\Framework\Adapter\Cache\Message\RefreshHttpCacheMessage;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Routing\MaintenanceModeResolver;
 use Shopwell\Core\PlatformRequest;
@@ -40,8 +39,6 @@ class CacheStore implements StoreInterface
      * @internal
      *
      * @param array<string, mixed> $sessionOptions
-     *
-     * @deprecated tag:v6.8.0 - Parameter $stateValidator will be removed
      */
     public function __construct(
         private readonly TagAwareAdapterInterface&CacheInterface $cache,

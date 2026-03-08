@@ -12,12 +12,8 @@ use Symfony\Component\HttpFoundation\Response;
 #[Package('framework')]
 class NotificationException extends HttpException
 {
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed with the next major, as it is unused
-     */
-    public const WRONG_GATEWAY_CLASS = 'FRAMEWORK__INCREMENT_WRONG_GATEWAY_CLASS';
-    public const INVALID_REQUEST_PARAMETER_CODE = 'FRAMEWORK__NOTIFICATION_INVALID_REQUEST_PARAMETER';
-    public const API_NOTIFICATION_THROTTLED = 'FRAMEWORK__NOTIFICATION_THROTTLED';
+    public const string INVALID_REQUEST_PARAMETER_CODE = 'FRAMEWORK__NOTIFICATION_INVALID_REQUEST_PARAMETER';
+    public const string API_NOTIFICATION_THROTTLED = 'FRAMEWORK__NOTIFICATION_THROTTLED';
 
     /**
      * @param class-string<ContextSource> $actual

@@ -7,7 +7,6 @@ use Shopwell\Core\Checkout\Cart\Price\CashRounding;
 use Shopwell\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStates;
 use Shopwell\Core\Defaults;
 use Shopwell\Core\Framework\Context;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Uuid\Uuid;
 
@@ -20,7 +19,6 @@ readonly class OrderAmountService
     public function __construct(
         private Connection $connection,
         private CashRounding $rounding,
-        private bool $timeZoneSupportEnabled,
     ) {
     }
 
@@ -33,13 +31,10 @@ readonly class OrderAmountService
 
         $accessor = '`order`.order_date_time';
 
-        // @deprecated tag:v6.8.0 - time zone support always enabled, remove if, but keep content
-        if ($this->timeZoneSupportEnabled || Feature::isActive('v6.8.0.0')) {
-            $accessor = 'IFNULL(CONVERT_TZ(' . $accessor . ', :dbtimezone, :timezone), ' . $accessor . ')';
+        $accessor = 'IFNULL(CONVERT_TZ(' . $accessor . ', :dbtimezone, :timezone), ' . $accessor . ')';
 
-            $query->setParameter('dbtimezone', '+00:00');
-            $query->setParameter('timezone', $timezone);
-        }
+        $query->setParameter('dbtimezone', '+00:00');
+        $query->setParameter('timezone', $timezone);
 
         $query->select(
             'DATE_FORMAT(' . $accessor . ', \'%Y-%m-%d\') as `date`',

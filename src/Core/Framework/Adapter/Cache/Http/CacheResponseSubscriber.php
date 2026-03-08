@@ -30,28 +30,16 @@ use Symfony\Component\HttpKernel\KernelEvents;
 #[Package('framework')]
 class CacheResponseSubscriber implements EventSubscriberInterface
 {
-    private const POLICY_AREA_STOREFRONT = 'storefront';
-    private const POLICY_AREA_STORE_API = 'store_api';
+    private const string POLICY_AREA_STOREFRONT = 'storefront';
+    private const string POLICY_AREA_STORE_API = 'store_api';
 
     /**
      * @internal
      */
     public function __construct(
         private readonly CartService $cartService,
-        /**
-         * @deprecated tag:v6.8.0 - Will be removed, use cache policies instead
-         */
-        private readonly int $defaultTtl,
         private readonly bool $httpCacheEnabled,
         private readonly MaintenanceModeResolver $maintenanceResolver,
-        /**
-         * @deprecated tag:v6.8.0 - Will be removed, use cache policies instead
-         */
-        private readonly ?string $staleWhileRevalidate,
-        /**
-         * @deprecated tag:v6.8.0 - Will be removed, use cache policies instead
-         */
-        private readonly ?string $staleIfError,
         private readonly CacheHeadersService $cacheHeadersService,
         private readonly CachePolicyProvider $policyProvider,
     ) {
