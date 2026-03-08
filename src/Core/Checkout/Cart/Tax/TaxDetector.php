@@ -5,7 +5,6 @@ namespace Shopwell\Core\Checkout\Cart\Tax;
 use Shopwell\Core\Checkout\Cart\Price\Struct\CartPrice;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Plugin\Exception\DecorationPatternException;
-use Shopwell\Core\System\Country\CountryEntity;
 use Shopwell\Core\System\SalesChannel\SalesChannelContext;
 
 #[Package('checkout')]
@@ -18,7 +17,7 @@ class TaxDetector extends AbstractTaxDetector
 
     public function useGross(SalesChannelContext $context): bool
     {
-        return $context->getCurrentCustomerGroup()->getDisplayGross();
+        return $context->getCurrentCustomerGroup()->displayGross;
     }
 
     public function isNetDelivery(SalesChannelContext $context): bool
@@ -30,7 +29,7 @@ class TaxDetector extends AbstractTaxDetector
             return true;
         }
 
-        return $this->isCompanyTaxFree($context, $shippingLocationCountry);
+        return false;
     }
 
     public function getTaxState(SalesChannelContext $context): string
@@ -44,39 +43,5 @@ class TaxDetector extends AbstractTaxDetector
         }
 
         return CartPrice::TAX_STATE_NET;
-    }
-
-    public function isCompanyTaxFree(SalesChannelContext $context, CountryEntity $shippingLocationCountry): bool
-    {
-        $customer = $context->getCustomer();
-
-        $countryCompanyTaxFree = $shippingLocationCountry->getCompanyTax()->getEnabled();
-
-        if (!$countryCompanyTaxFree || !$customer || !$customer->getCompany()) {
-            return false;
-        }
-
-        if (!$shippingLocationCountry->getIsEu()) {
-            return true;
-        }
-
-        $vatPattern = $shippingLocationCountry->getVatIdPattern();
-        $vatIds = array_filter($customer->getVatIds() ?? []);
-
-        if ($vatIds === []) {
-            return false;
-        }
-
-        if ($vatPattern !== null && $vatPattern !== '' && $shippingLocationCountry->getCheckVatIdPattern()) {
-            $regex = '/^' . $vatPattern . '$/';
-
-            foreach ($vatIds as $vatId) {
-                if (!preg_match($regex, $vatId)) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
     }
 }

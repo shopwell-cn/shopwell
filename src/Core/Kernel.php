@@ -36,12 +36,12 @@ class Kernel extends HttpKernel
 {
     use MicroKernelTrait;
 
-    final public const CONFIG_EXTS = '.{php,xml,yaml,yml}';
+    final public const string CONFIG_EXTS = '.{php,xml,yaml,yml}';
 
     /**
      * @var string Fallback version if nothing is provided via kernel constructor
      */
-    final public const SHOPWELL_FALLBACK_VERSION = '6.7.9999999-dev';
+    final public const string SHOPWELL_FALLBACK_VERSION = '6.7.9999999-dev';
 
     protected static ?Connection $connection = null;
 

@@ -16,12 +16,12 @@ class CustomerGroupTranslationCollection extends EntityCollection
      */
     public function getCustomerGroupIds(): array
     {
-        return $this->fmap(fn (CustomerGroupTranslationEntity $customerGroupTranslation) => $customerGroupTranslation->getCustomerGroupId());
+        return $this->fmap(fn (CustomerGroupTranslationEntity $customerGroupTranslation) => $customerGroupTranslation->customerGroupId);
     }
 
     public function filterByCustomerGroupId(string $id): self
     {
-        return $this->filter(fn (CustomerGroupTranslationEntity $customerGroupTranslation) => $customerGroupTranslation->getCustomerGroupId() === $id);
+        return $this->filter(fn (CustomerGroupTranslationEntity $customerGroupTranslation) => $customerGroupTranslation->customerGroupId === $id);
     }
 
     /**

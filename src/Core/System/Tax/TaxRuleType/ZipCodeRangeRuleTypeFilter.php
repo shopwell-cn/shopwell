@@ -10,7 +10,7 @@ use Shopwell\Core\System\Tax\Aggregate\TaxRule\TaxRuleEntity;
 #[Package('checkout')]
 class ZipCodeRangeRuleTypeFilter extends AbstractTaxRuleTypeFilter
 {
-    final public const TECHNICAL_NAME = 'zip_code_range';
+    final public const string TECHNICAL_NAME = 'zip_code_range';
 
     public function match(TaxRuleEntity $taxRuleEntity, ?CustomerEntity $customer, ShippingLocation $shippingLocation): bool
     {

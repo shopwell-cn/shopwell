@@ -10,7 +10,7 @@ use Shopwell\Core\System\Tax\Aggregate\TaxRule\TaxRuleEntity;
 #[Package('checkout')]
 class IndividualStatesRuleTypeFilter extends AbstractTaxRuleTypeFilter
 {
-    final public const TECHNICAL_NAME = 'individual_states';
+    final public const string TECHNICAL_NAME = 'individual_states';
 
     public function match(TaxRuleEntity $taxRuleEntity, ?CustomerEntity $customer, ShippingLocation $shippingLocation): bool
     {
