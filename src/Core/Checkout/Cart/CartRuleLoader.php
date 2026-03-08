@@ -289,7 +289,7 @@ class CartRuleLoader implements ResetInterface
 
         $currency = $context->getCurrency();
         if ($currencyId === $currency->getId()) {
-            return $currency->getFactor();
+            return $currency->factor;
         }
 
         if (\array_key_exists($currencyId, $this->currencyFactor)) {

@@ -145,7 +145,7 @@ class BaseSalesChannelContextFactory extends AbstractBaseSalesChannelContextFact
             $currency->getId(),
             $context->getLanguageIdChain(),
             $context->getVersionId(),
-            $currency->getFactor(),
+            $currency->factor,
             true,
             CartPrice::TAX_STATE_GROSS,
             $itemRounding
@@ -295,7 +295,7 @@ class BaseSalesChannelContextFactory extends AbstractBaseSalesChannelContextFact
             return [$countryConfig->getItemRounding(), $countryConfig->getTotalRounding()];
         }
 
-        return [$currency->getItemRounding(), $currency->getTotalRounding()];
+        return [$currency->itemRounding, $currency->totalRounding];
     }
 
     private function getLanguageInfo(Context $context): LanguageInfo

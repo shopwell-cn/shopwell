@@ -402,7 +402,7 @@ class PromotionCollector implements CartDataCollectorInterface
             return [];
         }
 
-        $factor = $context->getCurrency()->getIsSystemDefault() ? 1.0 : $context->getCurrency()->getFactor();
+        $factor = $context->getCurrency()->getIsSystemDefault() ? 1.0 : $context->getCurrency()->factor;
 
         $lineItems = [];
 

@@ -127,7 +127,7 @@ class ProductException extends HttpException
             Response::HTTP_BAD_REQUEST,
             'PRODUCT__NO_PRICE_FOR_CURRENCY',
             'No price found for currency "{{ currency }}"',
-            ['currency' => $currency->getName() ?? $currency->getShortName() ?? $currency->getIsoCode()]
+            ['currency' => $currency->name ?? $currency->shortName ?? $currency->isoCode]
         );
     }
 

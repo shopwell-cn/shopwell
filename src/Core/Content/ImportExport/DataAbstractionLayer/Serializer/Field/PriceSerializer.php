@@ -123,7 +123,7 @@ class PriceSerializer extends FieldSerializer
             ->getEntities()
             ->first();
 
-        return $currency ? $currency->getIsoCode() : $currencyId;
+        return $currency ? $currency->isoCode : $currencyId;
     }
 
     private function getCurrencyIdFromIso(string $iso, Context $context): ?string

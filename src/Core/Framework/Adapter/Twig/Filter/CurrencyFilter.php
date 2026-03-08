@@ -62,7 +62,7 @@ class CurrencyFilter extends AbstractExtension
         }
 
         if (!$currencyIsoCode && $twigContext['context'] instanceof SalesChannelContext) {
-            $currencyIsoCode = $twigContext['context']->getCurrency()->getIsoCode();
+            $currencyIsoCode = $twigContext['context']->getCurrency()->isoCode;
         }
 
         if (!$currencyIsoCode) {

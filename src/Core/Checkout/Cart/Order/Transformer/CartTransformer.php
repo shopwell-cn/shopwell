@@ -28,7 +28,7 @@ class CartTransformer
             'shippingCosts' => $cart->getShippingCosts(),
             'stateId' => $stateId,
             'currencyId' => $currency->getId(),
-            'currencyFactor' => $currency->getFactor(),
+            'currencyFactor' => $currency->factor,
             'salesChannelId' => $context->getSalesChannelId(),
             'lineItems' => [],
             'deliveries' => [],

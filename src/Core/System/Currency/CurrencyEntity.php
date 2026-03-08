@@ -23,15 +23,15 @@ class CurrencyEntity extends Entity
 
     public ?float $taxFreeFrom = null;
 
-    protected string $isoCode;
+    public string $isoCode;
 
-    protected float $factor;
+    public float $factor;
 
     protected string $symbol;
 
-    protected ?string $shortName = null;
+    public ?string $shortName = null;
 
-    protected ?string $name = null;
+    public ?string $name = null;
 
     protected int $position;
 
@@ -53,69 +53,9 @@ class CurrencyEntity extends Entity
 
     protected ?CurrencyCountryRoundingCollection $countryRoundings = null;
 
-    protected CashRoundingConfig $itemRounding;
+    public CashRoundingConfig $itemRounding;
 
-    protected CashRoundingConfig $totalRounding;
-
-    public function getIsoCode(): string
-    {
-        return $this->isoCode;
-    }
-
-    public function setIsoCode(string $isoCode): void
-    {
-        $this->isoCode = $isoCode;
-    }
-
-    public function getFactor(): float
-    {
-        return $this->factor;
-    }
-
-    public function setFactor(float $factor): void
-    {
-        $this->factor = $factor;
-    }
-
-    public function getSymbol(): string
-    {
-        return $this->symbol;
-    }
-
-    public function setSymbol(string $symbol): void
-    {
-        $this->symbol = $symbol;
-    }
-
-    public function getShortName(): ?string
-    {
-        return $this->shortName;
-    }
-
-    public function setShortName(?string $shortName): void
-    {
-        $this->shortName = $shortName;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(?string $name): void
-    {
-        $this->name = $name;
-    }
-
-    public function getPosition(): int
-    {
-        return $this->position;
-    }
-
-    public function setPosition(int $position): void
-    {
-        $this->position = $position;
-    }
+    public CashRoundingConfig $totalRounding;
 
     public function getTranslations(): ?CurrencyTranslationCollection
     {
@@ -207,23 +147,4 @@ class CurrencyEntity extends Entity
         $this->countryRoundings = $countryRoundings;
     }
 
-    public function getItemRounding(): CashRoundingConfig
-    {
-        return $this->itemRounding;
-    }
-
-    public function setItemRounding(CashRoundingConfig $itemRounding): void
-    {
-        $this->itemRounding = $itemRounding;
-    }
-
-    public function getTotalRounding(): CashRoundingConfig
-    {
-        return $this->totalRounding;
-    }
-
-    public function setTotalRounding(CashRoundingConfig $totalRounding): void
-    {
-        $this->totalRounding = $totalRounding;
-    }
 }

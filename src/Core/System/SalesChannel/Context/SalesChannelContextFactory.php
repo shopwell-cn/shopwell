@@ -99,7 +99,7 @@ class SalesChannelContextFactory extends AbstractSalesChannelContextFactory
             $base->getCurrencyId(),
             $base->getContext()->getLanguageIdChain(),
             $base->getContext()->getVersionId(),
-            $base->getCurrency()->getFactor(),
+            $base->getCurrency()->factor,
             true,
             CartPrice::TAX_STATE_GROSS,
             $itemRounding
@@ -298,6 +298,6 @@ class SalesChannelContextFactory extends AbstractSalesChannelContextFactory
             return [$countryConfig->getItemRounding(), $countryConfig->getTotalRounding()];
         }
 
-        return [$context->getCurrency()->getItemRounding(), $context->getCurrency()->getTotalRounding()];
+        return [$context->getCurrency()->itemRounding, $context->getCurrency()->totalRounding];
     }
 }
