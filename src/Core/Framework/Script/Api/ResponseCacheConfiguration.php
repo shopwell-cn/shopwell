@@ -2,7 +2,6 @@
 
 namespace Shopwell\Core\Framework\Script\Api;
 
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 
 #[Package('framework')]
@@ -38,21 +37,6 @@ class ResponseCacheConfiguration
         $this->enabled = false;
 
         return $this;
-    }
-
-    /**
-     * `maxAge()` allows you to define how long the result should be cached (by reverse proxies or in the framework cache pools).
-     *
-     * @deprecated tag:v6.8.0 - will be removed, use sharedMaxAge to have same effect or clientMaxAge to set client-side caching.
-     */
-    public function maxAge(int $maxAge): self
-    {
-        Feature::triggerDeprecationOrThrow(
-            'v6.8.0.0',
-            Feature::deprecatedMethodMessage(self::class, __METHOD__, 'v6.8.0.0', 'Use sharedMaxAge() and clientMaxAge() instead.')
-        );
-
-        return $this->sharedMaxAge($maxAge);
     }
 
     /**

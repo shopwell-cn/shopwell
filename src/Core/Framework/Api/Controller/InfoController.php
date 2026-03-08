@@ -19,7 +19,6 @@ use Shopwell\Core\Framework\Bundle;
 use Shopwell\Core\Framework\Context;
 use Shopwell\Core\Framework\Event\BusinessEventCollector;
 use Shopwell\Core\Framework\Feature;
-use Shopwell\Core\Framework\Increment\Exception\IncrementGatewayNotFoundException;
 use Shopwell\Core\Framework\Increment\IncrementGatewayRegistry;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\MessageQueue\Stats\StatsService;
@@ -93,32 +92,6 @@ class InfoController extends AbstractController
         $data = $this->definitionService->generate(OpenApi3Generator::FORMAT, DefinitionService::API, $apiType);
 
         return new JsonResponse($data);
-    }
-
-    /**
-     * @deprecated tag:v6.8.0 - Route will be removed. Use /api/_info/message-stats.json instead.
-     */
-    #[Route(path: '/api/_info/queue.json', name: 'api.info.queue', methods: ['GET'])]
-    public function queue(): JsonResponse
-    {
-        if (Feature::isActive('v6.8.0.0')) { // avoiding polluting logs, as our code still calling this endpoint
-            Feature::triggerDeprecationOrThrow('v6.8.0.0', Feature::deprecatedMethodMessage(__CLASS__, __METHOD__, 'v6.8.0.0', '\Shopwell\Core\Framework\Api\Controller\InfoController::messageStats'));
-        }
-
-        try {
-            $gateway = $this->incrementGatewayRegistry->get(IncrementGatewayRegistry::MESSAGE_QUEUE_POOL);
-        } catch (IncrementGatewayNotFoundException) {
-            // In case message_queue pool is disabled
-            return new JsonResponse([]);
-        }
-
-        // Fetch unlimited message_queue_stats
-        $entries = $gateway->list('message_queue_stats', -1);
-
-        return new JsonResponse(array_map(static fn (array $entry) => [
-            'name' => $entry['key'],
-            'size' => $entry['count'],
-        ], array_values($entries)));
     }
 
     #[Route(path: '/api/_info/message-stats.json', name: 'api.info.message-stats', methods: ['GET'])]

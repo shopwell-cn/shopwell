@@ -2,11 +2,8 @@
 
 namespace Shopwell\Core\Framework\Rule;
 
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\HttpException;
 use Shopwell\Core\Framework\Log\Package;
-use Shopwell\Core\Framework\Rule\Exception\UnsupportedOperatorException;
-use Shopwell\Core\Framework\Rule\Exception\UnsupportedValueException;
 use Shopwell\Core\Framework\Script\Exception\ScriptExecutionFailedException;
 use Shopwell\Core\Framework\Script\ScriptException;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,10 +11,10 @@ use Symfony\Component\HttpFoundation\Response;
 #[Package('fundamentals@after-sales')]
 class RuleException extends HttpException
 {
-    final public const RULE_OPERATOR_NOT_SUPPORTED = 'FRAMEWORK__RULE_OPERATOR_NOT_SUPPORTED';
-    public const VALUE_NOT_SUPPORTED = 'CONTENT__RULE_VALUE_NOT_SUPPORTED';
-    public const MULTIPLE_NOT_RULES = 'CONTENT__TOO_MANY_NOT_RULES';
-    public const INVALID_DATE_RANGE_USAGE = 'FRAMEWORK__INVALID_DATE_RANGE_USAGE';
+    final public const string RULE_OPERATOR_NOT_SUPPORTED = 'FRAMEWORK__RULE_OPERATOR_NOT_SUPPORTED';
+    public const string VALUE_NOT_SUPPORTED = 'CONTENT__RULE_VALUE_NOT_SUPPORTED';
+    public const string MULTIPLE_NOT_RULES = 'CONTENT__TOO_MANY_NOT_RULES';
+    public const string INVALID_DATE_RANGE_USAGE = 'FRAMEWORK__INVALID_DATE_RANGE_USAGE';
 
     public static function scriptExecutionFailed(string $hook, string $scriptName, \Throwable $previous): ScriptException
     {
@@ -25,15 +22,8 @@ class RuleException extends HttpException
         return new ScriptExecutionFailedException($hook, $scriptName, $previous);
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - reason:return-type-change - Will return self
-     */
-    public static function unsupportedOperator(string $operator, string $class): self|UnsupportedOperatorException
+    public static function unsupportedOperator(string $operator, string $class): self
     {
-        if (!Feature::isActive('v6.8.0.0')) {
-            return new UnsupportedOperatorException($operator, $class);
-        }
-
         return new self(
             Response::HTTP_BAD_REQUEST,
             self::RULE_OPERATOR_NOT_SUPPORTED,
@@ -42,15 +32,8 @@ class RuleException extends HttpException
         );
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - reason:return-type-change - Will return self
-     */
-    public static function unsupportedValue(string $type, string $class): self|UnsupportedValueException
+    public static function unsupportedValue(string $type, string $class): self
     {
-        if (!Feature::isActive('v6.8.0.0')) {
-            return new UnsupportedValueException($type, $class);
-        }
-
         return new self(
             Response::HTTP_BAD_REQUEST,
             self::VALUE_NOT_SUPPORTED,

@@ -3,7 +3,6 @@
 namespace Shopwell\Core\Content\Seo\SalesChannel;
 
 use Shopwell\Core\Framework\DataAbstractionLayer\Entity;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 
 #[Package('inventory')]
@@ -51,19 +50,6 @@ class SeoResolverData
     public function getIds(string $entityName): array
     {
         return array_keys($this->entityMap[$entityName]);
-    }
-
-    /**
-     * @deprecated tag:v6.8.0 - use getAll instead
-     */
-    public function get(string $entityName, string $id): Entity
-    {
-        Feature::triggerDeprecationOrThrow(
-            'v6.8.0',
-            Feature::deprecatedMethodMessage(self::class, __METHOD__, 'v6.8.0', 'getAll')
-        );
-
-        return array_values($this->getAll($entityName, $id))[0];
     }
 
     /**

@@ -2,7 +2,6 @@
 
 namespace Shopwell\Core\System\Snippet;
 
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\System\Snippet\Command\ValidateSnippetsCommand;
 use Shopwell\Core\System\Snippet\Struct\InvalidPluralizationCollection;
@@ -21,21 +20,8 @@ class SnippetFixer
     {
     }
 
-    /**
-     * @deprecated tag:v6.8.0 reason:new-optional-parameter - Will get a second parameter `$invalidPluralization`
-     */
-    public function fix(MissingSnippetCollection $missingSnippetCollection /* , InvalidPluralizationCollection $invalidPluralization */): void
+    public function fix(MissingSnippetCollection $missingSnippetCollection, InvalidPluralizationCollection $invalidPluralization): void
     {
-        /** @var InvalidPluralizationCollection $invalidPluralization */
-        $invalidPluralization = \func_num_args() === 2 ? func_get_arg(1) : new InvalidPluralizationCollection();
-
-        if (!Feature::isActive('v6.8.0.0') && \func_num_args() < 2) {
-            Feature::triggerDeprecationOrThrow(
-                'v6.8.0.0',
-                'New required parameter `$invalidPluralization` missing'
-            );
-        }
-
         $this->fixMissingSnippets($missingSnippetCollection);
 
         if ($invalidPluralization->count() < 1) {

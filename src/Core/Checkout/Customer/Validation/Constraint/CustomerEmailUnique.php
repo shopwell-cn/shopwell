@@ -13,9 +13,9 @@ use Symfony\Component\Validator\Constraint;
 #[Package('checkout')]
 class CustomerEmailUnique extends Constraint
 {
-    final public const CUSTOMER_EMAIL_NOT_UNIQUE = '79d30fe0-febf-421e-ac9b-1bfd5c9007f7';
+    final public const string CUSTOMER_EMAIL_NOT_UNIQUE = '79d30fe0-febf-421e-ac9b-1bfd5c9007f7';
 
-    protected const ERROR_NAMES = [
+    protected const array ERROR_NAMES = [
         self::CUSTOMER_EMAIL_NOT_UNIQUE => 'CUSTOMER_EMAIL_NOT_UNIQUE',
     ];
 

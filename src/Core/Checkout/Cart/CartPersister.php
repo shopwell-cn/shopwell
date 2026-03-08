@@ -11,7 +11,6 @@ use Shopwell\Core\Checkout\CheckoutPermissions;
 use Shopwell\Core\Defaults;
 use Shopwell\Core\Framework\DataAbstractionLayer\Doctrine\RetryableQuery;
 use Shopwell\Core\Framework\DataAbstractionLayer\Util\StatementHelper;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Plugin\Exception\DecorationPatternException;
 use Shopwell\Core\Framework\Uuid\Exception\InvalidUuidException;
@@ -74,11 +73,6 @@ class CartPersister extends AbstractCartPersister
      */
     public function save(Cart $cart, SalesChannelContext $context): void
     {
-        /** @deprecated tag:v6.8.0 - Condition will be removed */
-        if (!Feature::isActive('v6.8.0.0') && $cart->getBehavior()?->isRecalculation()) {
-            return;
-        }
-
         $shouldPersist = $this->shouldPersist($cart);
 
         $event = new CartVerifyPersistEvent($context, $cart, $shouldPersist);

@@ -8,8 +8,6 @@ use Shopwell\Core\Checkout\Cart\LineItem\LineItem;
 use Shopwell\Core\Checkout\Cart\Price\QuantityPriceCalculator;
 use Shopwell\Core\Checkout\Cart\Price\Struct\QuantityPriceDefinition;
 use Shopwell\Core\Content\Product\ProductDefinition;
-use Shopwell\Core\Content\Product\State;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\System\SalesChannel\SalesChannelContext;
 
@@ -62,12 +60,6 @@ class CustomCartProcessor implements CartProcessorInterface, CartDataCollectorIn
             );
 
             $isDownloadLineItem = $lineItem->isProductType(ProductDefinition::TYPE_DIGITAL);
-
-            if (!Feature::isActive('v6.8.0.0')) {
-                Feature::callSilentIfInactive('v6.8.0.0', function () use ($lineItem, &$isDownloadLineItem): void {
-                    $isDownloadLineItem = $isDownloadLineItem || $lineItem->hasState(State::IS_DOWNLOAD);
-                });
-            }
 
             $lineItem->setShippingCostAware(!$isDownloadLineItem);
 

@@ -86,10 +86,6 @@ class OrderRoute extends AbstractOrderRoute
         if ($context->getCustomer()) {
             $criteria->addFilter(new EqualsFilter('order.orderCustomer.customerId', $context->getCustomerId()));
         } elseif ($deepLinkFilter === null) {
-            // @deprecated tag:v6.8.0 - remove this if block
-            if (!Feature::isActive('v6.8.0.0')) {
-                throw CartException::customerNotLoggedIn(); // @phpstan-ignore shopwell.domainException
-            }
             throw OrderException::customerNotLoggedIn();
         }
 

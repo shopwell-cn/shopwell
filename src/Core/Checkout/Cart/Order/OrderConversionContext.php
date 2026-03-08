@@ -19,11 +19,6 @@ class OrderConversionContext extends Struct
 
     protected bool $includeTransactions = true;
 
-    /**
-     * @deprecated tag:v6.8.0 - will be removed, use `includePersistentData` instead
-     */
-    protected bool $includeOrderDate = true;
-
     protected bool $includePersistentData = true;
 
     protected bool $includeOrderNumber = true;
@@ -84,7 +79,6 @@ class OrderConversionContext extends Struct
     public function setIncludePersistentData(bool $includePersistentData): OrderConversionContext
     {
         $this->includePersistentData = $includePersistentData;
-        $this->includeOrderDate = $includePersistentData;
 
         return $this;
     }
@@ -99,23 +93,6 @@ class OrderConversionContext extends Struct
         $this->includeOrderNumber = $includeOrderNumber;
 
         return $this;
-    }
-
-    /**
-     * @param array<array-key, mixed> $options
-     *
-     * @return $this
-     */
-    public function assign(array $options)
-    {
-        /** @deprecated tag:v6.8.0 - remove overwrite of assign function */
-        if (isset($options['includeOrderDate'])) {
-            $options['includePersistentData'] = $options['includeOrderDate'];
-        } elseif (isset($options['includePersistentData'])) {
-            $options['includeOrderDate'] = $options['includePersistentData'];
-        }
-
-        return parent::assign($options);
     }
 
     public function getApiAlias(): string

@@ -3,7 +3,6 @@
 namespace Shopwell\Storefront\Controller;
 
 use Shopwell\Core\Content\Product\Exception\ProductNotFoundException;
-use Shopwell\Core\Content\Product\Exception\ReviewNotActiveExeption;
 use Shopwell\Core\Content\Product\Exception\VariantNotFoundException;
 use Shopwell\Core\Content\Product\SalesChannel\FindVariant\AbstractFindProductVariantRoute;
 use Shopwell\Core\Content\Product\SalesChannel\Review\AbstractProductReviewLoader;
@@ -153,30 +152,15 @@ class ProductController extends StorefrontController
     )]
     public function saveReview(string $productId, RequestDataBag $data, SalesChannelContext $context): Response
     {
-        if (!Feature::isActive('v6.8.0.0')) {
-            try {
-                $this->productReviewSaveRoute->save($productId, $data, $context);
-            } catch (ConstraintViolationException $formViolations) {
-                return $this->forwardToRoute('frontend.product.reviews', [
-                    'productId' => $productId,
-                    'success' => -1,
-                    'formViolations' => $formViolations,
-                    'data' => $data,
-                ], ['productId' => $productId]);
-            } catch (ReviewNotActiveExeption) {
-                throw StorefrontException::reviewNotActive();
-            }
-        } else {
-            try {
-                $this->productReviewSaveRoute->save($productId, $data, $context);
-            } catch (ConstraintViolationException $formViolations) {
-                return $this->forwardToRoute('frontend.product.reviews', [
-                    'productId' => $productId,
-                    'success' => -1,
-                    'formViolations' => $formViolations,
-                    'data' => $data,
-                ], ['productId' => $productId]);
-            }
+        try {
+            $this->productReviewSaveRoute->save($productId, $data, $context);
+        } catch (ConstraintViolationException $formViolations) {
+            return $this->forwardToRoute('frontend.product.reviews', [
+                'productId' => $productId,
+                'success' => -1,
+                'formViolations' => $formViolations,
+                'data' => $data,
+            ], ['productId' => $productId]);
         }
 
         $forwardParams = [

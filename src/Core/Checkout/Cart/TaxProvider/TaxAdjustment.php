@@ -94,7 +94,7 @@ class TaxAdjustment
 
         foreach ($lineItems as $lineItem) {
             if (!$lineItem->getPrice()) {
-                throw CartException::missingLineItemPrice($lineItem->getUniqueIdentifier());
+                throw CartException::missingLineItemPrice($lineItem->uniqueIdentifier);
             }
 
             // trickle down for nested line items
@@ -103,12 +103,12 @@ class TaxAdjustment
             }
 
             // line item has no tax sum provided
-            if (!\array_key_exists($lineItem->getUniqueIdentifier(), $taxes)) {
+            if (!\array_key_exists($lineItem->uniqueIdentifier, $taxes)) {
                 continue;
             }
 
             // apply provided taxes
-            $tax = $taxes[$lineItem->getUniqueIdentifier()];
+            $tax = $taxes[$lineItem->uniqueIdentifier];
             $lineItem->getPrice()->setCalculatedTaxes($tax);
         }
     }

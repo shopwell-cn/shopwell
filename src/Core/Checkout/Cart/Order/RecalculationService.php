@@ -94,27 +94,6 @@ class RecalculationService
     }
 
     /**
-     * @deprecated tag:v6.8.0 - Will be removed and is replaced by {@see recalculate}
-     *
-     * @param array<string, array<string, bool>|string> $salesChannelContextOptions
-     *
-     * @throws CustomerNotLoggedInException
-     * @throws CartException
-     * @throws OrderException
-     * @throws EmptyCartException
-     * @throws InconsistentCriteriaIdsException
-     */
-    public function recalculateOrder(string $orderId, Context $context, array $salesChannelContextOptions = []): void
-    {
-        Feature::triggerDeprecationOrThrow(
-            'v6.8.0.0',
-            Feature::deprecatedMethodMessage(self::class, __METHOD__, 'v6.8.0.0', self::class . '::recalculate')
-        );
-
-        $this->recalculate($orderId, $context, $salesChannelContextOptions);
-    }
-
-    /**
      * @throws OrderException
      * @throws InconsistentCriteriaIdsException
      * @throws CartException
@@ -202,45 +181,6 @@ class RecalculationService
         ];
 
         return $this->recalculate($orderId, $context, $options);
-    }
-
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed. Use {@see applyAutomaticPromotions} instead.
-     */
-    public function toggleAutomaticPromotion(string $orderId, Context $context, bool $skipAutomaticPromotions = true): Cart
-    {
-        Feature::triggerDeprecationOrThrow(
-            'v6.8.0.0',
-            Feature::deprecatedMethodMessage(self::class, __METHOD__, 'v6.8.0.0', self::class . '::applyAutomaticPromotions')
-        );
-
-        $order = $this->fetchOrder($orderId, $context);
-
-        $options = [
-            SalesChannelContextService::PERMISSIONS => [
-                ...OrderConverter::ADMIN_EDIT_ORDER_PERMISSIONS,
-                CheckoutPermissions::PIN_AUTOMATIC_PROMOTIONS => false,
-                CheckoutPermissions::PIN_MANUAL_PROMOTIONS => false,
-                CheckoutPermissions::SKIP_AUTOMATIC_PROMOTIONS => $skipAutomaticPromotions,
-            ],
-        ];
-
-        $salesChannelContext = $this->orderConverter->assembleSalesChannelContext(
-            $order,
-            $context,
-            $options,
-        );
-
-        $cart = $this->orderConverter->convertToCart($order, $context);
-
-        $recalculatedCart = $this->recalculateCart($cart, $salesChannelContext);
-
-        $conversionContext = $this->getOrderConversionContext()->setIncludeDeliveries(!$skipAutomaticPromotions);
-        $orderData = $this->orderConverter->convertToOrder($recalculatedCart, $salesChannelContext, $conversionContext);
-
-        $this->upsertRecalculatedOrder($orderData, $order, $salesChannelContext->getContext(), true);
-
-        return $recalculatedCart;
     }
 
     /**
@@ -439,8 +379,7 @@ class RecalculationService
     {
         // we switch to the live version that we don't have to consider live version fallbacks inside the calculation
         return $context->live(function ($live) use ($cart): Cart {
-            /** @deprecated tag:v6.8.0 - `$isRecalculation` will be removed */
-            $behavior = new CartBehavior($live->getPermissions(), true, isRecalculation: !Feature::isActive('v6.8.0.0'));
+            $behavior = new CartBehavior($live->getPermissions(), true);
 
             // all prices are now prepared for calculation - starts the cart calculation
             $cart = $this->processor->process($cart, $live, $behavior);

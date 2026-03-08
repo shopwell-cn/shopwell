@@ -16,8 +16,6 @@ use Shopwell\Core\Checkout\Order\Aggregate\OrderLineItemDownload\OrderLineItemDo
 use Shopwell\Core\Checkout\Promotion\Cart\PromotionProcessor;
 use Shopwell\Core\Content\Product\ProductDefinition;
 use Shopwell\Core\Content\Product\ProductEntity;
-use Shopwell\Core\Content\Product\State;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Uuid\Uuid;
 
@@ -81,12 +79,6 @@ class LineItemTransformer
             'payload' => $lineItem->getPayload(),
         ];
 
-        if (!Feature::isActive('v6.8.0.0')) {
-            Feature::callSilentIfInactive('v6.8.0.0', function () use (&$data, $lineItem): void {
-                $data['states'] = $lineItem->getStates();
-            });
-        }
-
         $downloads = $lineItem->getExtensionOfType(OrderConverter::ORIGINAL_DOWNLOADS, OrderLineItemDownloadCollection::class);
         if ($downloads instanceof OrderLineItemDownloadCollection) {
             $data['downloads'] = array_values($downloads->map(fn (OrderLineItemDownloadEntity $download): array => ['id' => $download->getId()]));
@@ -148,10 +140,6 @@ class LineItemTransformer
             ->setStackable($entity->getStackable())
             ->addExtension(OrderConverter::ORIGINAL_ID, new IdStruct($id));
 
-        if (!Feature::isActive('v6.8.0.0')) {
-            $lineItem->setStates($entity->getStates());
-        }
-
         if ($entity->getPayload() !== null) {
             $lineItem->setPayload($entity->getPayload());
         }
@@ -197,12 +185,6 @@ class LineItemTransformer
 
         $isDownloadState = $entity->getPayloadValue(LineItem::PAYLOAD_PRODUCT_TYPE) === ProductDefinition::TYPE_DIGITAL;
 
-        if (!Feature::isActive('v6.8.0.0')) {
-            Feature::callSilentIfInactive('v6.8.0.0', function () use (&$isDownloadState, $entity): void {
-                $isDownloadState = $isDownloadState || \in_array(State::IS_DOWNLOAD, $entity->getStates(), true);
-            });
-        }
-
         if ($isNonProduct || ($isProduct && $isDownloadState)) {
             $item->setShippingCostAware(false);
 
@@ -239,12 +221,6 @@ class LineItemTransformer
         $lineItem->setQuantityInformation($quantityInformation);
 
         $isPhysicalLineItem = $lineItem->isProductType(ProductDefinition::TYPE_PHYSICAL);
-
-        if (!Feature::isActive('v6.8.0.0')) {
-            Feature::callSilentIfInactive('v6.8.0.0', function () use ($lineItem, &$isPhysicalLineItem): void {
-                $isPhysicalLineItem = $isPhysicalLineItem || $lineItem->hasState(State::IS_PHYSICAL);
-            });
-        }
 
         if ($isPhysicalLineItem) {
             $deliveryTime = null;

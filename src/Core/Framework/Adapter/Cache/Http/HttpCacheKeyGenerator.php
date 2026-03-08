@@ -4,7 +4,6 @@ namespace Shopwell\Core\Framework\Adapter\Cache\Http;
 
 use Shopwell\Core\Framework\Adapter\Cache\Event\HttpCacheCookieEvent;
 use Shopwell\Core\Framework\Adapter\Cache\Event\HttpCacheKeyEvent;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Util\Hasher;
 use Shopwell\Core\SalesChannelRequest;
@@ -20,25 +19,13 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 #[Package('framework')]
 class HttpCacheKeyGenerator
 {
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed as it is already part of the cache cookie
-     */
-    final public const CURRENCY_COOKIE = 'sw-currency';
-    final public const CONTEXT_CACHE_COOKIE = 'sw-cache-hash';
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed use cache cookie event instead
-     */
-    final public const SYSTEM_STATE_COOKIE = 'sw-states';
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed use cache cookie event instead
-     */
-    final public const INVALIDATION_STATES_HEADER = 'sw-invalidation-states';
+    final public const string CONTEXT_CACHE_COOKIE = 'sw-cache-hash';
     /**
      * Header to hint reverse proxy that cache was dynamically bypassed (and url still can be cached for other requests).
      * This allows decreasing TTLs for `hit-for-pass` objects in reverse proxies for such cases, while keeping higher TTLs
      * for generally not-cacheable pages.
      */
-    final public const HEADER_DYNAMIC_CACHE_BYPASS = 'sw-dynamic-cache-bypass';
+    final public const string HEADER_DYNAMIC_CACHE_BYPASS = 'sw-dynamic-cache-bypass';
 
     /**
      * Virtual path of the "domain"
@@ -128,18 +115,6 @@ class HttpCacheKeyGenerator
             }
 
             return;
-        }
-
-        /** @deprecated tag:v6.8.0 - Currency cookie will be removed */
-        if (!Feature::isActive('v6.8.0.0') && !Feature::isActive('PERFORMANCE_TWEAKS') && !Feature::isActive('CACHE_REWORK')) {
-            if ($currencyCookie = $this->getCookieValue($request, $response, self::CURRENCY_COOKIE)) {
-                $event->add(
-                    self::CURRENCY_COOKIE,
-                    $currencyCookie
-                );
-
-                return;
-            }
         }
 
         if ($request->attributes->has(SalesChannelRequest::ATTRIBUTE_DOMAIN_CURRENCY_ID)) {

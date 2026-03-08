@@ -8,7 +8,6 @@ use Shopwell\Core\Checkout\Cart\Price\Struct\CalculatedPrice;
 use Shopwell\Core\Checkout\Cart\Price\Struct\PriceDefinitionInterface;
 use Shopwell\Core\Checkout\Cart\Price\Struct\QuantityPriceDefinition;
 use Shopwell\Core\Content\Media\MediaEntity;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Rule\Rule;
 use Shopwell\Core\Framework\Struct\Struct;
@@ -20,17 +19,38 @@ use Shopwell\Core\Framework\Uuid\Uuid;
 #[Package('checkout')]
 class LineItem extends Struct
 {
-    final public const CREDIT_LINE_ITEM_TYPE = 'credit';
-    final public const PRODUCT_LINE_ITEM_TYPE = 'product';
-    final public const CUSTOM_LINE_ITEM_TYPE = 'custom';
-    final public const PROMOTION_LINE_ITEM_TYPE = 'promotion';
-    final public const DISCOUNT_LINE_ITEM = 'discount';
-    final public const CONTAINER_LINE_ITEM = 'container';
-    final public const QUANTITY_LINE_ITEM = 'quantity';
+    final public const string CREDIT_LINE_ITEM_TYPE = 'credit';
+    final public const string PRODUCT_LINE_ITEM_TYPE = 'product';
+    final public const string CUSTOM_LINE_ITEM_TYPE = 'custom';
+    final public const string PROMOTION_LINE_ITEM_TYPE = 'promotion';
+    final public const string DISCOUNT_LINE_ITEM = 'discount';
+    final public const string CONTAINER_LINE_ITEM = 'container';
+    final public const string QUANTITY_LINE_ITEM = 'quantity';
 
-    final public const IDENTIFIER_MAX_LENGTH = 100;
+    final public const int IDENTIFIER_MAX_LENGTH = 100;
 
-    final public const PAYLOAD_PRODUCT_TYPE = 'productType';
+    final public const string PAYLOAD_PRODUCT_TYPE = 'productType';
+
+    public bool $modified = false;
+
+    /**
+     * The data timestamp can be used to record when the line item was last updated with data from the database.
+     * Updating the data timestamp must be done by the corresponding cart data collector.
+     */
+    public ?\DateTimeInterface $dataTimestamp = null;
+
+    /**
+     * Data data context hash can be used, like the data timestamp, to check if the line item was calculated with the same
+     * context hash or not
+     */
+    public ?string $dataContextHash = null;
+
+    /**
+     * Used as a unique id to identify a line item over multiple nested levels
+     */
+    public string $uniqueIdentifier;
+
+    public bool $modifiedByApp = false;
 
     /**
      * @var array<mixed>
@@ -63,35 +83,7 @@ class LineItem extends Struct
 
     protected ?QuantityInformation $quantityInformation = null;
 
-    protected bool $modified = false;
-
     protected bool $shippingCostAware = true;
-
-    /**
-     * The data timestamp can be used to record when the line item was last updated with data from the database.
-     * Updating the data timestamp must be done by the corresponding cart data collector.
-     */
-    protected ?\DateTimeInterface $dataTimestamp = null;
-
-    /**
-     * Data data context hash can be used, like the data timestamp, to check if the line item was calculated with the same
-     * context hash or not
-     */
-    protected ?string $dataContextHash = null;
-
-    /**
-     * Used as a unique id to identify a line item over multiple nested levels
-     */
-    protected string $uniqueIdentifier;
-
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed, use payload.productType() instead
-     *
-     * @var array<int, string>
-     */
-    protected array $states = [];
-
-    protected bool $modifiedByApp = false;
 
     /**
      * @var array<string, bool>
@@ -222,10 +214,8 @@ class LineItem extends Struct
 
     /**
      * @return mixed|null
-     *
-     * @deprecated tag:v6.8.0 - reason:return-type-change - will use "strong" return type `mixed`
      */
-    public function getPayloadValue(string $key)
+    public function getPayloadValue(string $key): mixed
     {
         if (!$this->hasPayloadValue($key)) {
             return null;
@@ -469,11 +459,6 @@ class LineItem extends Struct
         return $this;
     }
 
-    public function isModified(): bool
-    {
-        return $this->modified;
-    }
-
     public function markModified(): void
     {
         $this->modified = true;
@@ -487,94 +472,6 @@ class LineItem extends Struct
     public function getApiAlias(): string
     {
         return 'cart_line_item';
-    }
-
-    /**
-     * @see LineItem::$dataTimestamp
-     */
-    public function getDataTimestamp(): ?\DateTimeInterface
-    {
-        return $this->dataTimestamp;
-    }
-
-    /**
-     * @see LineItem::$dataTimestamp
-     */
-    public function setDataTimestamp(?\DateTimeInterface $dataTimestamp): void
-    {
-        $this->dataTimestamp = $dataTimestamp;
-    }
-
-    /**
-     * @see LineItem::$dataContextHash
-     */
-    public function getDataContextHash(): ?string
-    {
-        return $this->dataContextHash;
-    }
-
-    /**
-     * @see LineItem::$dataContextHash
-     */
-    public function setDataContextHash(?string $dataContextHash): void
-    {
-        $this->dataContextHash = $dataContextHash;
-    }
-
-    public function getUniqueIdentifier(): string
-    {
-        return $this->uniqueIdentifier;
-    }
-
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed, use getProductType() instead
-     *
-     * @codeCoverageIgnore
-     *
-     * @return array<int, string>
-     */
-    public function getStates(): array
-    {
-        Feature::triggerDeprecationOrThrow(
-            'v6.8.0.0',
-            Feature::deprecatedMethodMessage(self::class, 'getStates', 'v6.8.0.0', 'getPayloadValue(\'productType\')')
-        );
-
-        return $this->states;
-    }
-
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed, use setPayloadValue('productType', $type) instead
-     *
-     * @codeCoverageIgnore
-     *
-     * @param array<int, string> $states
-     */
-    public function setStates(array $states): LineItem
-    {
-        Feature::triggerDeprecationOrThrow(
-            'v6.8.0.0',
-            Feature::deprecatedMethodMessage(self::class, 'setStates', 'v6.8.0.0', 'setPayloadValue(\'productType\', $type)')
-        );
-
-        $this->states = $states;
-
-        return $this;
-    }
-
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed, use isProductType() instead
-     *
-     * @codeCoverageIgnore
-     */
-    public function hasState(string $state): bool
-    {
-        Feature::triggerDeprecationOrThrow(
-            'v6.8.0.0',
-            Feature::deprecatedMethodMessage(self::class, 'hasState', 'v6.8.0.0', 'isProductType')
-        );
-
-        return \in_array($state, $this->states, true);
     }
 
     public function isProductType(string $type): bool
@@ -594,11 +491,6 @@ class LineItem extends Struct
     public function markModifiedByApp(): void
     {
         $this->modifiedByApp = true;
-    }
-
-    public function isModifiedByApp(): bool
-    {
-        return $this->modifiedByApp;
     }
 
     /**
@@ -666,7 +558,7 @@ class LineItem extends Struct
 
             $lineItem->quantity = $newQuantity;
             $priceDefinition = $lineItem->getPriceDefinition();
-            if ($priceDefinition && $priceDefinition instanceof QuantityPriceDefinition) {
+            if ($priceDefinition instanceof QuantityPriceDefinition) {
                 $priceDefinition->setQuantity($lineItem->getQuantity());
             }
         }

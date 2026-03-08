@@ -10,14 +10,11 @@ class DomainVerificationRequestStruct extends Struct
 {
     protected string $fileName;
 
-    /**
-     * @deprecated tag:v6.8.0 - reason:parameter-name-change - Parameter `filename` will be renamed to `fileName` and become a promoted property
-     */
     public function __construct(
         protected string $content,
-        string $filename,
+        string $fileName,
     ) {
-        $this->fileName = $filename;
+        $this->fileName = $fileName;
     }
 
     public function getContent(): string

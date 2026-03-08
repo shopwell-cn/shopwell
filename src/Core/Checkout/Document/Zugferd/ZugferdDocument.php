@@ -10,13 +10,10 @@ use horstoeko\zugferd\codelists\ZugferdUnitCodes;
 use horstoeko\zugferd\ZugferdDocumentBuilder;
 use horstoeko\zugferd\ZugferdDocumentValidator;
 use Shopwell\Core\Checkout\Cart\Price\AmountCalculator;
-use Shopwell\Core\Checkout\Cart\Price\CashRounding;
 use Shopwell\Core\Checkout\Cart\Price\Struct\CalculatedPrice;
 use Shopwell\Core\Checkout\Cart\Price\Struct\CartPrice;
 use Shopwell\Core\Checkout\Cart\Price\Struct\PriceCollection;
-use Shopwell\Core\Checkout\Cart\Tax\PercentageTaxRuleBuilder;
 use Shopwell\Core\Checkout\Cart\Tax\Struct\CalculatedTax;
-use Shopwell\Core\Checkout\Cart\Tax\TaxCalculator;
 use Shopwell\Core\Checkout\Document\DocumentConfiguration;
 use Shopwell\Core\Checkout\Document\DocumentException;
 use Shopwell\Core\Checkout\Order\Aggregate\OrderAddress\OrderAddressEntity;
@@ -69,22 +66,8 @@ class ZugferdDocument
     ) {
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - added new parameter $calculator
-     */
-    public function getContent(OrderEntity $order/* , AmountCalculator $calculator */): string
+    public function getContent(OrderEntity $order, AmountCalculator $calculator): string
     {
-        $calculator = func_get_arg(1);
-        if (!$calculator instanceof AmountCalculator) {
-            Feature::triggerDeprecationOrThrow('v6.8.0.0', 'New required parameter $calculator missing');
-
-            $calculator = new AmountCalculator(
-                new CashRounding(),
-                new PercentageTaxRuleBuilder(),
-                new TaxCalculator()
-            );
-        }
-
         $this->summary($order, $calculator);
         $validation = new ZugferdDocumentValidator($this->zugferdBuilder)->validateDocument();
         if ($validation->count()) {
@@ -335,25 +318,6 @@ class ZugferdDocument
         Feature::triggerDeprecationOrThrow('v6.8.0.0', 'Method and parameter will be removed. Use addMappedPrice instead.');
 
         $this->allowanceAmount += $allowanceAmount;
-    }
-
-    /**
-     * @deprecated tag:v6.8.0 - Use getPriceWithFallback instead
-     */
-    protected function getPrice(CalculatedTax $tax): float
-    {
-        Feature::triggerDeprecationOrThrow(
-            'v6.8.0.0',
-            Feature::deprecatedMethodMessage(self::class, __METHOD__, 'v6.8.0.0', 'getPriceWithFallback')
-        );
-
-        $price = $tax->getPrice();
-
-        if ($this->isGross) {
-            $price -= $tax->getTax();
-        }
-
-        return $price;
     }
 
     protected function getPriceWithFallback(?CalculatedTax $tax, ?CalculatedPrice $fallbackPrice = null): float

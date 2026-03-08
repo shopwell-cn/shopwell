@@ -416,7 +416,6 @@
             <argument type="service" id="Shopwell\Core\Content\Product\DataAbstractionLayer\CheapestPriceUpdater"/>
             <argument type="service" id="Shopwell\Core\Content\Product\DataAbstractionLayer\ProductStreamUpdater"/>
             <argument type="service" id="messenger.default_bus"/>
-            <argument type="service" id="Shopwell\Core\Content\Product\DataAbstractionLayer\StatesUpdater" on-invalid="null"/>
             <tag name="shopwell.entity_indexer" priority="100"/>
         </service>
 

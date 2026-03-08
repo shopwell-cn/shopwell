@@ -6,7 +6,6 @@ use Shopwell\Core\Framework\Api\Context\AdminApiSource;
 use Shopwell\Core\Framework\Api\Context\Exception\InvalidContextSourceException;
 use Shopwell\Core\Framework\Api\Exception\ExpectationFailedException;
 use Shopwell\Core\Framework\Api\Exception\InvalidSalesChannelIdException;
-use Shopwell\Core\Framework\Api\Exception\InvalidSyncOperationException;
 use Shopwell\Core\Framework\Api\Exception\InvalidVersionNameException;
 use Shopwell\Core\Framework\Api\Exception\LiveVersionDeleteException;
 use Shopwell\Core\Framework\Api\Exception\MissingPrivilegeException;
@@ -15,7 +14,6 @@ use Shopwell\Core\Framework\Api\Exception\ResourceNotFoundException;
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityDefinition;
 use Shopwell\Core\Framework\DataAbstractionLayer\Exception\DefinitionNotFoundException;
 use Shopwell\Core\Framework\DataAbstractionLayer\Exception\MissingReverseAssociation;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\HttpException;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Routing\Exception\SalesChannelNotFoundException;
@@ -202,19 +200,6 @@ class ApiException extends HttpException
     public static function expectationFailed(array $fails): ShopwellHttpException
     {
         return new ExpectationFailedException($fails);
-    }
-
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed with the next major as it is unused
-     */
-    public static function invalidSyncOperation(string $message): ShopwellHttpException
-    {
-        Feature::triggerDeprecationOrThrow(
-            'v6.8.0.0',
-            Feature::deprecatedMethodMessage(self::class, __METHOD__, 'v6.8.0.0'),
-        );
-
-        return new InvalidSyncOperationException($message);
     }
 
     public static function invalidSalesChannelId(string $salesChannelId): ShopwellHttpException

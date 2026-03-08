@@ -4,11 +4,9 @@ namespace Shopwell\Core\Checkout\Payment\Controller;
 
 use Shopwell\Core\Checkout\Cart\Order\OrderConverter;
 use Shopwell\Core\Checkout\Order\OrderCollection;
-use Shopwell\Core\Checkout\Payment\Cart\Token\JWTFactoryV2;
 use Shopwell\Core\Checkout\Payment\Cart\Token\PaymentToken;
 use Shopwell\Core\Checkout\Payment\Cart\Token\PaymentTokenGenerator;
 use Shopwell\Core\Checkout\Payment\Cart\Token\PaymentTokenLifecycle;
-use Shopwell\Core\Checkout\Payment\Cart\Token\TokenFactoryInterfaceV2;
 use Shopwell\Core\Checkout\Payment\Cart\Token\TokenStruct;
 use Shopwell\Core\Checkout\Payment\PaymentException;
 use Shopwell\Core\Checkout\Payment\PaymentProcessor;
@@ -20,11 +18,9 @@ use Shopwell\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\JWT\JWTException;
 use Shopwell\Core\Framework\Log\Package;
-use Shopwell\Core\Framework\Routing\RoutingException;
 use Shopwell\Core\Framework\ShopwellException;
 use Shopwell\Core\System\SalesChannel\SalesChannelContext;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,7 +38,6 @@ class PaymentController extends AbstractController
     public function __construct(
         private readonly PaymentProcessor $paymentProcessor,
         private readonly OrderConverter $orderConverter,
-        private readonly ?TokenFactoryInterfaceV2 $tokenFactory,
         private readonly PaymentTokenGenerator $paymentTokenGenerator,
         private readonly PaymentTokenLifecycle $paymentTokenLifecycle,
         private readonly EntityRepository $orderRepository
@@ -66,21 +61,7 @@ class PaymentController extends AbstractController
         $paymentToken = RequestParamHelper::get($request, '_sw_payment_token');
 
         if (!\is_string($paymentToken)) {
-            // @deprecated tag:v6.8.0 - remove this if block
-            if (!Feature::isActive('v6.8.0.0')) {
-                throw RoutingException::missingRequestParameter('_sw_payment_token'); // @phpstan-ignore-line shopwell.domainException
-            }
             throw PaymentException::missingRequestParameter('_sw_payment_token');
-        }
-
-        if (!Feature::isActive('v6.8.0.0')) {
-            $return = null;
-            Feature::silent('v6.8.0.0', function () use (&$return, $paymentToken, $request): void {
-                $return = $this->deprecatedBehavior($paymentToken, $request);
-            });
-            \assert($return instanceof Response);
-
-            return $return;
         }
 
         try {
@@ -129,78 +110,6 @@ class PaymentController extends AbstractController
                 $this->paymentTokenLifecycle->invalidateToken($token->jti);
             }
         }
-    }
-
-    /**
-     * @deprecated tag:v6.8.0 - remove
-     */
-    private function deprecatedBehavior(string $paymentToken, Request $request): Response
-    {
-        if ($this->tokenFactory === null) {
-            throw new ServiceNotFoundException(JWTFactoryV2::class);
-        }
-
-        $token = $this->tokenFactory->parseToken($paymentToken);
-
-        if (Feature::isActive('REPEATED_PAYMENT_FINALIZE') && !$this->paymentTokenLifecycle->isConsumable($token->getToken() ?? '')) {
-            $this->handleResponse($token);
-        }
-
-        if ($token->isExpired()) {
-            $token->setException(PaymentException::tokenExpired($paymentToken));
-            if ($token->getToken() !== null) {
-                $this->tokenFactory->invalidateToken($token->getToken());
-            }
-
-            return $this->handleResponse($token);
-        }
-
-        $transactionId = $token->getTransactionId();
-        if (!$transactionId) {
-            $token->setException(PaymentException::invalidToken($token->getToken() ?? ''));
-
-            return $this->handleResponse($token);
-        }
-
-        $salesChannelContext = $this->assembleSalesChannelContext($transactionId, $paymentToken);
-
-        $result = $this->paymentProcessor->finalize(
-            $token,
-            $request,
-            $salesChannelContext
-        );
-
-        return $this->handleResponse($result);
-    }
-
-    /**
-     * @deprecated tag:v6.8.0 - replaced by handleSuccess and handleError
-     */
-    private function handleResponse(TokenStruct $token): Response
-    {
-        if ($token->getException() === null) {
-            $finishUrl = $token->getFinishUrl();
-            if ($finishUrl) {
-                return new RedirectResponse($finishUrl);
-            }
-
-            return new JsonResponse(null, Response::HTTP_NO_CONTENT);
-        }
-
-        if ($token->getErrorUrl() === null) {
-            return new JsonResponse(null, Response::HTTP_NO_CONTENT);
-        }
-
-        $url = $token->getErrorUrl();
-
-        $exception = $token->getException();
-        if ($exception instanceof ShopwellException) {
-            return new RedirectResponse(
-                $url . (parse_url($url, \PHP_URL_QUERY) ? '&' : '?') . 'error-code=' . $exception->getErrorCode()
-            );
-        }
-
-        return new RedirectResponse($url);
     }
 
     private function handleError(\Throwable $exception, ?PaymentToken $token): Response

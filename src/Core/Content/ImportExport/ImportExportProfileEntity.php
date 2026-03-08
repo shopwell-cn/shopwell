@@ -6,7 +6,6 @@ use Shopwell\Core\Content\ImportExport\Aggregate\ImportExportLog\ImportExportLog
 use Shopwell\Core\Content\ImportExport\Processing\Mapping\Mapping;
 use Shopwell\Core\Framework\DataAbstractionLayer\Entity;
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityIdTrait;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 
 #[Package('fundamentals@after-sales')]
@@ -14,16 +13,11 @@ class ImportExportProfileEntity extends Entity
 {
     use EntityIdTrait;
 
-    final public const TYPE_IMPORT = 'import';
-    final public const TYPE_EXPORT = 'export';
-    final public const TYPE_IMPORT_EXPORT = 'import-export';
+    final public const string TYPE_IMPORT = 'import';
+    final public const string TYPE_EXPORT = 'export';
+    final public const string TYPE_IMPORT_EXPORT = 'import-export';
 
     protected string $technicalName;
-
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed
-     */
-    protected string $label;
 
     protected bool $systemDefault;
 
@@ -62,32 +56,6 @@ class ImportExportProfileEntity extends Entity
     public function setTechnicalName(string $technicalName): void
     {
         $this->technicalName = $technicalName;
-    }
-
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed
-     */
-    public function getLabel(): string
-    {
-        Feature::triggerDeprecationOrThrow(
-            'v6.8.0.0',
-            Feature::deprecatedMethodMessage(self::class, __METHOD__, 'v6.8.0.0')
-        );
-
-        return $this->label;
-    }
-
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed
-     */
-    public function setLabel(string $label): void
-    {
-        Feature::triggerDeprecationOrThrow(
-            'v6.8.0.0',
-            Feature::deprecatedMethodMessage(self::class, __METHOD__, 'v6.8.0.0')
-        );
-
-        $this->label = $label;
     }
 
     public function getSystemDefault(): bool

@@ -24,11 +24,9 @@ use Shopwell\Core\Content\Product\ProductDefinition;
 use Shopwell\Core\Content\Product\ProductEntity;
 use Shopwell\Core\Content\Product\SalesChannel\Price\AbstractProductPriceCalculator;
 use Shopwell\Core\Content\Product\SalesChannel\SalesChannelProductEntity;
-use Shopwell\Core\Content\Product\State;
 use Shopwell\Core\Defaults;
 use Shopwell\Core\Framework\DataAbstractionLayer\Cache\EntityCacheKeyGenerator;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\Flag\RuleAreas;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Util\Hasher;
 use Shopwell\Core\Framework\Uuid\Uuid;
@@ -39,32 +37,7 @@ use Shopwell\Core\System\Tax\TaxEntity;
 #[Package('inventory')]
 class ProductCartProcessor implements CartProcessorInterface, CartDataCollectorInterface
 {
-    final public const CUSTOM_PRICE = 'customPrice';
-
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed and is replaced by {@see CheckoutPermissions::ALLOW_PRODUCT_PRICE_OVERWRITES}
-     */
-    final public const ALLOW_PRODUCT_PRICE_OVERWRITES = CheckoutPermissions::ALLOW_PRODUCT_PRICE_OVERWRITES;
-
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed and is replaced by {@see CheckoutPermissions::ALLOW_PRODUCT_PRICE_OVERWRITES}
-     */
-    final public const ALLOW_PRODUCT_LABEL_OVERWRITES = CheckoutPermissions::ALLOW_PRODUCT_LABEL_OVERWRITES;
-
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed and is replaced by {@see CheckoutPermissions::SKIP_PRODUCT_RECALCULATION}
-     */
-    final public const SKIP_PRODUCT_RECALCULATION = CheckoutPermissions::SKIP_PRODUCT_RECALCULATION;
-
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed and is replaced by {@see CheckoutPermissions::SKIP_PRODUCT_STOCK_VALIDATION}
-     */
-    final public const SKIP_PRODUCT_STOCK_VALIDATION = CheckoutPermissions::SKIP_PRODUCT_STOCK_VALIDATION;
-
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed and is replaced by {@see CheckoutPermissions::KEEP_INACTIVE_PRODUCT}
-     */
-    final public const KEEP_INACTIVE_PRODUCT = CheckoutPermissions::KEEP_INACTIVE_PRODUCT;
+    final public const string CUSTOM_PRICE = 'customPrice';
 
     /**
      * @internal
@@ -158,12 +131,6 @@ class ProductCartProcessor implements CartProcessorInterface, CartDataCollectorI
                 $item->setPrice($this->calculator->calculate($definition, $context));
                 $isDownloadLineItem = $item->isProductType(ProductDefinition::TYPE_DIGITAL);
 
-                if (!Feature::isActive('v6.8.0.0')) {
-                    Feature::callSilentIfInactive('v6.8.0.0', function () use ($item, &$isDownloadLineItem): void {
-                        $isDownloadLineItem = $isDownloadLineItem || $item->hasState(State::IS_DOWNLOAD);
-                    });
-                }
-
                 $item->setShippingCostAware(!$isDownloadLineItem);
             }
 
@@ -206,11 +173,11 @@ class ProductCartProcessor implements CartProcessorInterface, CartDataCollectorI
         );
 
         // product data was never detected and the product is not inside the data collection
-        if ($product !== null || $item->getDataTimestamp() !== null) {
+        if ($product !== null || $item->dataTimestamp !== null) {
             return;
         }
 
-        if ($behavior->hasPermission(self::KEEP_INACTIVE_PRODUCT)) {
+        if ($behavior->hasPermission(CheckoutPermissions::KEEP_INACTIVE_PRODUCT)) {
             return;
         }
 
@@ -250,7 +217,7 @@ class ProductCartProcessor implements CartProcessorInterface, CartDataCollectorI
 
     private function validateStock(LineItem $item, Cart $cart, LineItemCollection $scope, CartBehavior $behavior): void
     {
-        if ($behavior->hasPermission(self::SKIP_PRODUCT_STOCK_VALIDATION)) {
+        if ($behavior->hasPermission(CheckoutPermissions::SKIP_PRODUCT_STOCK_VALIDATION)) {
             return;
         }
 
@@ -322,7 +289,7 @@ class ProductCartProcessor implements CartProcessorInterface, CartDataCollectorI
         $label = trim($lineItem->getLabel() ?? '');
 
         // set the label if its empty or the context does not have the permission to overwrite it
-        if ($label === '' || !$behavior->hasPermission(self::ALLOW_PRODUCT_LABEL_OVERWRITES)) {
+        if ($label === '' || !$behavior->hasPermission(CheckoutPermissions::ALLOW_PRODUCT_LABEL_OVERWRITES)) {
             $lineItem->setLabel($product->getTranslation('name'));
         }
 
@@ -338,13 +305,6 @@ class ProductCartProcessor implements CartProcessorInterface, CartDataCollectorI
         $lineItem->setPayloadValue(LineItem::PAYLOAD_PRODUCT_TYPE, $product->getType());
 
         $isPhysicalLineItem = $lineItem->isProductType(ProductDefinition::TYPE_PHYSICAL);
-
-        if (!Feature::isActive('v6.8.0.0')) {
-            Feature::callSilentIfInactive('v6.8.0.0', function () use ($lineItem, $product, &$isPhysicalLineItem): void {
-                $lineItem->setStates($product->getStates());
-                $isPhysicalLineItem = $isPhysicalLineItem || $lineItem->hasState(State::IS_PHYSICAL);
-            });
-        }
 
         if ($isPhysicalLineItem) {
             $lineItem->setDeliveryInformation(
@@ -478,19 +438,19 @@ class ProductCartProcessor implements CartProcessorInterface, CartDataCollectorI
             }
 
             // user change line item quantity or price?
-            if ($lineItem->isModified()) {
+            if ($lineItem->modified) {
                 $ids[] = $id;
 
                 continue;
             }
 
-            if ($lineItem->getDataTimestamp() === null) {
+            if ($lineItem->dataTimestamp === null) {
                 $ids[] = $id;
 
                 continue;
             }
 
-            if ($lineItem->getDataContextHash() !== $hash) {
+            if ($lineItem->dataContextHash !== $hash) {
                 $ids[] = $id;
 
                 continue;
@@ -503,7 +463,7 @@ class ProductCartProcessor implements CartProcessorInterface, CartDataCollectorI
                 continue;
             }
 
-            $changes[$id] = $lineItem->getDataTimestamp()->format(Defaults::STORAGE_DATE_TIME_FORMAT);
+            $changes[$id] = $lineItem->dataTimestamp->format(Defaults::STORAGE_DATE_TIME_FORMAT);
         }
 
         if ($changes === []) {
@@ -550,16 +510,16 @@ class ProductCartProcessor implements CartProcessorInterface, CartDataCollectorI
     {
         if ($lineItem->getPriceDefinition() !== null
             && $lineItem->hasExtension(self::CUSTOM_PRICE)
-            && $behavior->hasPermission(self::ALLOW_PRODUCT_PRICE_OVERWRITES)) {
+            && $behavior->hasPermission(CheckoutPermissions::ALLOW_PRODUCT_PRICE_OVERWRITES)) {
             return false;
         }
 
         if ($lineItem->getPriceDefinition() !== null
-            && $behavior->hasPermission(self::SKIP_PRODUCT_RECALCULATION)) {
+            && $behavior->hasPermission(CheckoutPermissions::SKIP_PRODUCT_RECALCULATION)) {
             return false;
         }
 
-        if ($lineItem->getPriceDefinition() !== null && $lineItem->isModifiedByApp()) {
+        if ($lineItem->getPriceDefinition() !== null && $lineItem->modifiedByApp) {
             return false;
         }
 

@@ -40,7 +40,6 @@
         <service id="Shopwell\Core\Checkout\Payment\Controller\PaymentController" public="true">
             <argument type="service" id="Shopwell\Core\Checkout\Payment\PaymentProcessor"/>
             <argument type="service" id="Shopwell\Core\Checkout\Cart\Order\OrderConverter"/>
-            <argument type="service" id="Shopwell\Core\Checkout\Payment\Cart\Token\JWTFactoryV2" on-invalid="null"/>
             <argument type="service" id="Shopwell\Core\Checkout\Payment\Cart\Token\PaymentTokenGenerator"/>
             <argument type="service" id="Shopwell\Core\Checkout\Payment\Cart\Token\PaymentTokenLifecycle"/>
             <argument type="service" id="order.repository"/>

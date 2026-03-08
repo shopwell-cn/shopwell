@@ -9,10 +9,8 @@ use Shopwell\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Filter\MultiFilter;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Plugin\Exception\DecorationPatternException;
-use Shopwell\Core\Framework\Routing\RoutingException;
 use Shopwell\Core\Framework\Routing\StoreApiRouteScope;
 use Shopwell\Core\PlatformRequest;
 use Shopwell\Core\System\SalesChannel\SalesChannelContext;
@@ -60,11 +58,6 @@ class DownloadRoute extends AbstractDownloadRoute
         }
 
         if ($downloadId === null || $orderId === null) {
-            // @deprecated tag:v6.8.0 - remove this if block
-            if (!Feature::isActive('v6.8.0.0')) {
-                // @phpstan-ignore-next-line
-                throw RoutingException::missingRequestParameter(!$downloadId ? 'downloadId' : 'orderId');
-            }
             throw CustomerException::missingRequestParameter(!$downloadId ? 'downloadId' : 'orderId');
         }
 

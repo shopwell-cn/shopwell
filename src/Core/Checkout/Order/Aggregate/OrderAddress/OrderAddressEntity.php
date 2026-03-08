@@ -7,11 +7,9 @@ use Shopwell\Core\Checkout\Order\OrderEntity;
 use Shopwell\Core\Framework\DataAbstractionLayer\Entity;
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityCustomFieldsTrait;
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityIdTrait;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\System\Country\Aggregate\CountryState\CountryStateEntity;
 use Shopwell\Core\System\Country\CountryEntity;
-use Shopwell\Core\System\Salutation\SalutationEntity;
 
 #[Package('checkout')]
 class OrderAddressEntity extends Entity
@@ -41,11 +39,6 @@ class OrderAddressEntity extends Entity
 
     protected ?string $title = null;
 
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed
-     */
-    protected ?string $vatId = null;
-
     protected ?string $phoneNumber = null;
 
     protected ?string $additionalAddressLine1 = null;
@@ -57,8 +50,6 @@ class OrderAddressEntity extends Entity
     protected ?CountryStateEntity $countryState = null;
 
     protected ?OrderEntity $order = null;
-
-    protected ?SalutationEntity $salutation = null;
 
     protected ?OrderDeliveryCollection $orderDeliveries = null;
 
@@ -178,32 +169,6 @@ class OrderAddressEntity extends Entity
         $this->title = $title;
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed
-     */
-    public function getVatId(): ?string
-    {
-        Feature::triggerDeprecationOrThrow(
-            'v6.8.0.0',
-            Feature::deprecatedMethodMessage(self::class, __METHOD__, 'v6.8.0.0')
-        );
-
-        return $this->vatId;
-    }
-
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed
-     */
-    public function setVatId(?string $vatId): void
-    {
-        Feature::triggerDeprecationOrThrow(
-            'v6.8.0.0',
-            Feature::deprecatedMethodMessage(self::class, __METHOD__, 'v6.8.0.0')
-        );
-
-        $this->vatId = $vatId;
-    }
-
     public function getPhoneNumber(): ?string
     {
         return $this->phoneNumber;
@@ -262,16 +227,6 @@ class OrderAddressEntity extends Entity
     public function setOrder(OrderEntity $order): void
     {
         $this->order = $order;
-    }
-
-    public function getSalutation(): ?SalutationEntity
-    {
-        return $this->salutation;
-    }
-
-    public function setSalutation(SalutationEntity $salutation): void
-    {
-        $this->salutation = $salutation;
     }
 
     public function getOrderDeliveries(): ?OrderDeliveryCollection

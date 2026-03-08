@@ -4,8 +4,6 @@ namespace Shopwell\Core\Content\Flow;
 
 use Doctrine\DBAL\Exception as DBALException;
 use Shopwell\Core\Content\Flow\Dispatching\TransactionFailedException;
-use Shopwell\Core\Content\Flow\Exception\CustomTriggerByNameNotFoundException;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\HttpException;
 use Shopwell\Core\Framework\Log\Package;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,24 +11,17 @@ use Symfony\Component\HttpFoundation\Response;
 #[Package('after-sales')]
 class FlowException extends HttpException
 {
-    final public const METHOD_NOT_COMPATIBLE = 'METHOD_NOT_COMPATIBLE';
-    final public const FLOW_ACTION_TRANSACTION_ABORTED = 'FLOW_ACTION_TRANSACTION_ABORTED';
-    final public const FLOW_ACTION_TRANSACTION_COMMIT_FAILED = 'FLOW_ACTION_TRANSACTION_COMMIT_FAILED';
-    final public const FLOW_ACTION_TRANSACTION_UNCAUGHT_EXCEPTION = 'FLOW_ACTION_TRANSACTION_UNCAUGHT_EXCEPTION';
-    final public const CUSTOM_TRIGGER_BY_NAME_NOT_FOUND = 'FLOW_ACTION_CUSTOM_TRIGGER_BY_NAME_NOT_FOUND';
-    final public const FLOW_ACTION_STATE_MACHINE_NOT_FOUND = 'FLOW_ACTION_STATE_MACHINE_NOT_FOUND';
-    final public const INVALID_SERIALIZER_FIELD = 'FLOW_INVALID_SERIALIZER_FIELD';
-    final public const MISSING_REQUIRED_SEQUENCE_FIELD = 'CONTENT__FLOW_MISSING_REQUIRED_SEQUENCE_FIELD';
+    final public const string METHOD_NOT_COMPATIBLE = 'METHOD_NOT_COMPATIBLE';
+    final public const string FLOW_ACTION_TRANSACTION_ABORTED = 'FLOW_ACTION_TRANSACTION_ABORTED';
+    final public const string FLOW_ACTION_TRANSACTION_COMMIT_FAILED = 'FLOW_ACTION_TRANSACTION_COMMIT_FAILED';
+    final public const string FLOW_ACTION_TRANSACTION_UNCAUGHT_EXCEPTION = 'FLOW_ACTION_TRANSACTION_UNCAUGHT_EXCEPTION';
+    final public const string CUSTOM_TRIGGER_BY_NAME_NOT_FOUND = 'FLOW_ACTION_CUSTOM_TRIGGER_BY_NAME_NOT_FOUND';
+    final public const string FLOW_ACTION_STATE_MACHINE_NOT_FOUND = 'FLOW_ACTION_STATE_MACHINE_NOT_FOUND';
+    final public const string INVALID_SERIALIZER_FIELD = 'FLOW_INVALID_SERIALIZER_FIELD';
+    final public const string MISSING_REQUIRED_SEQUENCE_FIELD = 'CONTENT__FLOW_MISSING_REQUIRED_SEQUENCE_FIELD';
 
-    /**
-     * @deprecated tag:v6.8.0 - reason:return-type-change - Will return self
-     */
-    public static function customTriggerByNameNotFound(string $eventName): self|CustomTriggerByNameNotFoundException
+    public static function customTriggerByNameNotFound(string $eventName): self
     {
-        if (!Feature::isActive('v6.8.0.0')) {
-            return new CustomTriggerByNameNotFoundException($eventName);
-        }
-
         return new self(
             Response::HTTP_NOT_FOUND,
             self::CUSTOM_TRIGGER_BY_NAME_NOT_FOUND,

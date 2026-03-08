@@ -2,7 +2,6 @@
 
 namespace Shopwell\Core\Framework\DataAbstractionLayer;
 
-use Shopwell\Core\Framework\Api\Exception\InvalidSyncOperationException;
 use Shopwell\Core\Framework\Api\Exception\MissingPrivilegeException;
 use Shopwell\Core\Framework\DataAbstractionLayer\Dbal\Exception\FieldAccessorBuilderNotFoundException;
 use Shopwell\Core\Framework\DataAbstractionLayer\Dbal\Exception\InvalidSortingDirectionException;
@@ -1169,12 +1168,8 @@ class DataAbstractionLayerException extends HttpException
     /**
      * @deprecated tag:v6.8.0 - reason:return-type-change - Will return only self
      */
-    public static function invalidSyncOperationException(string $message): self|InvalidSyncOperationException
+    public static function invalidSyncOperationException(string $message): self
     {
-        if (!Feature::isActive('v6.8.0.0')) {
-            return new InvalidSyncOperationException($message);
-        }
-
         return new self(
             Response::HTTP_BAD_REQUEST,
             self::INVALID_SYNC_OPERATION_EXCEPTION,

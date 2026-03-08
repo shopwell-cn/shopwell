@@ -6,7 +6,6 @@ use Shopwell\Core\Checkout\Cart\Delivery\Struct\DeliveryDate;
 use Shopwell\Core\Checkout\Customer\Aggregate\CustomerWishlistProduct\CustomerWishlistProductCollection;
 use Shopwell\Core\Checkout\Order\Aggregate\OrderLineItem\OrderLineItemCollection;
 use Shopwell\Core\Content\Category\CategoryCollection;
-use Shopwell\Core\Content\Cms\CmsPageEntity;
 use Shopwell\Core\Content\Product\Aggregate\ProductConfiguratorSetting\ProductConfiguratorSettingCollection;
 use Shopwell\Core\Content\Product\Aggregate\ProductCrossSelling\ProductCrossSellingCollection;
 use Shopwell\Core\Content\Product\Aggregate\ProductCrossSellingAssignedProducts\ProductCrossSellingAssignedProductsCollection;
@@ -30,7 +29,6 @@ use Shopwell\Core\Framework\DataAbstractionLayer\EntityCustomFieldsTrait;
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityIdTrait;
 use Shopwell\Core\Framework\DataAbstractionLayer\Pricing\Price;
 use Shopwell\Core\Framework\DataAbstractionLayer\Pricing\PriceCollection;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\System\CustomField\Aggregate\CustomFieldSet\CustomFieldSetCollection;
 use Shopwell\Core\System\DeliveryTime\DeliveryTimeEntity;
@@ -174,10 +172,6 @@ class ProductEntity extends Entity implements \Stringable
 
     protected ?ProductMediaCollection $media = null;
 
-    protected ?string $cmsPageId = null;
-
-    protected ?CmsPageEntity $cmsPage = null;
-
     /**
      * @var array<string, array<string, array<string, string>>>|null
      */
@@ -249,13 +243,6 @@ class ProductEntity extends Entity implements \Stringable
     protected ?ProductStreamCollection $streams = null;
 
     protected ?ProductDownloadCollection $downloads = null;
-
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed, please use type field instead.
-     *
-     * @var array<int, string>
-     */
-    protected array $states = [];
 
     public function __construct()
     {
@@ -733,42 +720,6 @@ class ProductEntity extends Entity implements \Stringable
         $this->cover = $cover;
     }
 
-    public function getCmsPage(): ?CmsPageEntity
-    {
-        return $this->cmsPage;
-    }
-
-    public function setCmsPage(CmsPageEntity $cmsPage): void
-    {
-        $this->cmsPage = $cmsPage;
-    }
-
-    public function getCmsPageId(): ?string
-    {
-        return $this->cmsPageId;
-    }
-
-    public function setCmsPageId(string $cmsPageId): void
-    {
-        $this->cmsPageId = $cmsPageId;
-    }
-
-    /**
-     * @return array<string, array<string, array<string, string>>>|null
-     */
-    public function getSlotConfig(): ?array
-    {
-        return $this->slotConfig;
-    }
-
-    /**
-     * @param array<string, array<string, array<string, string>>> $slotConfig
-     */
-    public function setSlotConfig(array $slotConfig): void
-    {
-        $this->slotConfig = $slotConfig;
-    }
-
     public function getParent(): ?ProductEntity
     {
         return $this->parent;
@@ -1227,36 +1178,6 @@ class ProductEntity extends Entity implements \Stringable
     public function setDownloads(ProductDownloadCollection $downloads): void
     {
         $this->downloads = $downloads;
-    }
-
-    /**
-     * @return array<int, string>
-     *
-     * @deprecated tag:v6.8.0 - Will be removed. Use getType instead.
-     */
-    public function getStates(): array
-    {
-        Feature::triggerDeprecationOrThrow(
-            'v6.8.0.0',
-            Feature::deprecatedMethodMessage(self::class, 'getStates', 'v6.8.0.0', 'getType')
-        );
-
-        return $this->states;
-    }
-
-    /**
-     * @param array<int, string> $states
-     *
-     * @deprecated tag:v6.8.0 -- Will be removed. Use setType instead.
-     */
-    public function setStates(array $states): void
-    {
-        Feature::triggerDeprecationOrThrow(
-            'v6.8.0.0',
-            Feature::deprecatedMethodMessage(self::class, 'getStates', 'v6.8.0.0', 'getType')
-        );
-
-        $this->states = $states;
     }
 
     public function getType(): string

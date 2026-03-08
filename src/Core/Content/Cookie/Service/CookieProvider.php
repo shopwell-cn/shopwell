@@ -25,11 +25,11 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[Package('framework')]
 class CookieProvider
 {
-    final public const SNIPPET_NAME_COOKIE_GROUP_REQUIRED = 'cookie.groupRequired';
-    final public const SNIPPET_NAME_COOKIE_GROUP_STATISTICAL = 'cookie.groupStatistical';
-    final public const SNIPPET_NAME_COOKIE_GROUP_COMFORT_FEATURES = 'cookie.groupComfortFeatures';
-    final public const SNIPPET_NAME_COOKIE_GROUP_MARKETING = 'cookie.groupMarketing';
-    final public const COOKIE_ENTRY_CONFIG_HASH_COOKIE = 'cookie-config-hash';
+    final public const string SNIPPET_NAME_COOKIE_GROUP_REQUIRED = 'cookie.groupRequired';
+    final public const string SNIPPET_NAME_COOKIE_GROUP_STATISTICAL = 'cookie.groupStatistical';
+    final public const string SNIPPET_NAME_COOKIE_GROUP_COMFORT_FEATURES = 'cookie.groupComfortFeatures';
+    final public const string SNIPPET_NAME_COOKIE_GROUP_MARKETING = 'cookie.groupMarketing';
+    final public const string COOKIE_ENTRY_CONFIG_HASH_COOKIE = 'cookie-config-hash';
 
     private readonly string $sessionName;
 

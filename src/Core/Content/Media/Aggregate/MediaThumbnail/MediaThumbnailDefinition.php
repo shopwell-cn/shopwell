@@ -56,8 +56,7 @@ class MediaThumbnailDefinition extends EntityDefinition
             new IdField('id', 'id')->addFlags(new ApiAware(), new PrimaryKey(), new Required())->setDescription('Unique identity of media thumbnail.'),
 
             new FkField('media_id', 'mediaId', MediaDefinition::class)->addFlags(new ApiAware(), new Required())->setDescription('Unique identity of media.'),
-            /** @deprecated tag:v6.8.0 - Will be required */
-            new FkField('media_thumbnail_size_id', 'mediaThumbnailSizeId', MediaThumbnailSizeDefinition::class)->addFlags(new ApiAware()),
+            new FkField('media_thumbnail_size_id', 'mediaThumbnailSizeId', MediaThumbnailSizeDefinition::class)->addFlags(new ApiAware(), new Required()),
 
             new IntField('width', 'width')->addFlags(new ApiAware(), new Required(), new WriteProtected(Context::SYSTEM_SCOPE))->setDescription('Width of the thumbnail.'),
             new IntField('height', 'height')->addFlags(new ApiAware(), new Required(), new WriteProtected(Context::SYSTEM_SCOPE))->setDescription('Height of the thumbnail.'),

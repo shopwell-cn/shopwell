@@ -4,10 +4,7 @@ namespace Shopwell\Core\System\SalesChannel;
 
 use Shopwell\Core\Checkout\Cart\CartException;
 use Shopwell\Core\Checkout\Customer\Exception\CustomerNotFoundByIdException;
-use Shopwell\Core\Checkout\Order\OrderException;
 use Shopwell\Core\Checkout\Payment\PaymentException;
-use Shopwell\Core\Framework\DataAbstractionLayer\Write\Validation\RestrictDeleteViolationException;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\HttpException;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\ShopwellHttpException;
@@ -86,15 +83,8 @@ class SalesChannelException extends HttpException
         );
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - reason:return-type-change - Will return self
-     */
-    public static function orderNotFound(string $orderId): self|OrderException
+    public static function orderNotFound(string $orderId): self
     {
-        if (!Feature::isActive('v6.8.0.0')) {
-            return OrderException::orderNotFound($orderId);
-        }
-
         return new self(
             Response::HTTP_NOT_FOUND,
             self::ORDER_NOT_FOUND_CODE,
@@ -147,30 +137,6 @@ class SalesChannelException extends HttpException
     public static function unknownPaymentMethod(string $paymentMethodId): ShopwellHttpException
     {
         return PaymentException::unknownPaymentMethodById($paymentMethodId);
-    }
-
-    /**
-     * @deprecated tag:v6.8.0 - will be removed, as the exception is no longer needed, use RestrictDeleteViolationException instead
-     */
-    public static function salesChannelDomainInUse(?\Throwable $previous = null): ShopwellHttpException
-    {
-        Feature::triggerDeprecationOrThrow(
-            'v6.8.0.0',
-            Feature::deprecatedMethodMessage(
-                self::class,
-                __METHOD__,
-                'v6.8.0.0',
-                RestrictDeleteViolationException::class
-            )
-        );
-
-        return new self(
-            Response::HTTP_BAD_REQUEST,
-            self::SALES_CHANNEL_DOMAIN_IN_USE,
-            'The sales channel domain cannot be deleted because it is still referenced in product exports.',
-            [],
-            $previous
-        );
     }
 
     public static function invalidType(string $message): self

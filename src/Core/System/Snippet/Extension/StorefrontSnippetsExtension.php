@@ -14,7 +14,7 @@ use Symfony\Component\Translation\MessageCatalogueInterface;
 #[Package('discovery')]
 final class StorefrontSnippetsExtension extends Extension
 {
-    public const NAME = 'storefront.snippets';
+    public const string NAME = 'storefront.snippets';
 
     /**
      * @internal shopwell owns the __constructor, but the properties are public API

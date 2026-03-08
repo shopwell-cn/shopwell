@@ -6,7 +6,6 @@ use Shopwell\Core\Checkout\Cart\LineItem\LineItem;
 use Shopwell\Core\Checkout\Cart\Price\Struct\PriceCollection;
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityCollection;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Sorting\FieldSorting;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 
 /**
@@ -80,32 +79,7 @@ class OrderLineItemCollection extends EntityCollection
 
     public function hasLineItemWithType(string $type): bool
     {
-        foreach ($this->buildFlat($this) as $lineItem) {
-            if ($lineItem->getPayloadValue(LineItem::PAYLOAD_PRODUCT_TYPE) === $type) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * @deprecated tag:v6.8.0 - Use hasLineItemWithType() instead.
-     */
-    public function hasLineItemWithState(string $state): bool
-    {
-        Feature::triggerDeprecationOrThrow(
-            'v6.8.0.0',
-            Feature::deprecatedMethodMessage(self::class, 'hasLineItemWithState', 'v6.8.0.0', 'hasLineItemWithType')
-        );
-
-        foreach ($this->buildFlat($this) as $lineItem) {
-            if (\in_array($state, $lineItem->getStates(), true)) {
-                return true;
-            }
-        }
-
-        return false;
+        return array_any($this->buildFlat($this), fn ($lineItem) => $lineItem->getPayloadValue(LineItem::PAYLOAD_PRODUCT_TYPE) === $type);
     }
 
     public function getApiAlias(): string

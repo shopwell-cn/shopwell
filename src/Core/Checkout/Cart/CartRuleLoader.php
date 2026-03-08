@@ -95,8 +95,8 @@ class CartRuleLoader implements ResetInterface
                 $hasDeferredErrors = false;
             }
 
-            $timestamps = $cart->getLineItems()->fmap(static fn (LineItem $lineItem) => $lineItem->getDataTimestamp()?->format(Defaults::STORAGE_DATE_TIME_FORMAT));
-            $dataHashes = $cart->getLineItems()->fmap(static fn (LineItem $lineItem) => $lineItem->getDataContextHash());
+            $timestamps = $cart->getLineItems()->fmap(static fn (LineItem $lineItem) => $lineItem->dataTimestamp?->format(Defaults::STORAGE_DATE_TIME_FORMAT));
+            $dataHashes = $cart->getLineItems()->fmap(static fn (LineItem $lineItem) => $lineItem->dataContextHash);
 
             $result = $this->extensions->publish(
                 name: CheckoutCartRuleLoaderExtension::NAME,
@@ -247,13 +247,13 @@ class CartRuleLoader implements ResetInterface
 
             $original = $timestamps[$lineItemId];
 
-            $timestamp = $lineItem->getDataTimestamp()?->format(Defaults::STORAGE_DATE_TIME_FORMAT);
+            $timestamp = $lineItem->dataTimestamp?->format(Defaults::STORAGE_DATE_TIME_FORMAT);
 
             if ($original !== $timestamp) {
                 return true;
             }
 
-            if ($dataHashes[$lineItemId] !== $lineItem->getDataContextHash()) {
+            if ($dataHashes[$lineItemId] !== $lineItem->dataContextHash) {
                 return true;
             }
         }

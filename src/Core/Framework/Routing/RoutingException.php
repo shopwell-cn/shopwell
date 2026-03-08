@@ -2,7 +2,6 @@
 
 namespace Shopwell\Core\Framework\Routing;
 
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\HttpException;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Routing\Exception\CustomerNotLoggedInRoutingException;
@@ -13,21 +12,17 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 #[Package('framework')]
 class RoutingException extends HttpException
 {
-    public const MISSING_REQUEST_PARAMETER_CODE = 'FRAMEWORK__MISSING_REQUEST_PARAMETER';
-    public const INVALID_REQUEST_PARAMETER_CODE = 'FRAMEWORK__INVALID_REQUEST_PARAMETER';
-    public const APP_INTEGRATION_NOT_FOUND = 'FRAMEWORK__APP_INTEGRATION_NOT_FOUND';
-    public const LANGUAGE_NOT_FOUND = 'FRAMEWORK__LANGUAGE_NOT_FOUND';
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed with the next major, as it is unused
-     */
-    public const SALES_CHANNEL_MAINTENANCE_MODE = 'FRAMEWORK__ROUTING_SALES_CHANNEL_MAINTENANCE';
+    public const string MISSING_REQUEST_PARAMETER_CODE = 'FRAMEWORK__MISSING_REQUEST_PARAMETER';
+    public const string INVALID_REQUEST_PARAMETER_CODE = 'FRAMEWORK__INVALID_REQUEST_PARAMETER';
+    public const string APP_INTEGRATION_NOT_FOUND = 'FRAMEWORK__APP_INTEGRATION_NOT_FOUND';
+    public const string LANGUAGE_NOT_FOUND = 'FRAMEWORK__LANGUAGE_NOT_FOUND';
 
-    public const CUSTOMER_NOT_LOGGED_IN_CODE = 'FRAMEWORK__ROUTING_CUSTOMER_NOT_LOGGED_IN';
-    public const ACCESS_DENIED_FOR_XML_HTTP_REQUEST = 'FRAMEWORK__ACCESS_DENIED_FOR_XML_HTTP_REQUEST';
-    public const CURRENCY_NOT_FOUND = 'FRAMEWORK__ROUTING_CURRENCY_NOT_FOUND';
-    public const MISSING_PRIVILEGE = 'FRAMEWORK__ROUTING_MISSING_PRIVILEGE';
-    public const INVALID_ROUTE_SCOPE = 'FRAMEWORK__ROUTING_INVALID_ROUTE_SCOPE';
-    public const MISSING_MAIN_REQUEST = 'FRAMEWORK__MAIN_REQUEST_MISSING';
+    public const string CUSTOMER_NOT_LOGGED_IN_CODE = 'FRAMEWORK__ROUTING_CUSTOMER_NOT_LOGGED_IN';
+    public const string ACCESS_DENIED_FOR_XML_HTTP_REQUEST = 'FRAMEWORK__ACCESS_DENIED_FOR_XML_HTTP_REQUEST';
+    public const string CURRENCY_NOT_FOUND = 'FRAMEWORK__ROUTING_CURRENCY_NOT_FOUND';
+    public const string MISSING_PRIVILEGE = 'FRAMEWORK__ROUTING_MISSING_PRIVILEGE';
+    public const string INVALID_ROUTE_SCOPE = 'FRAMEWORK__ROUTING_INVALID_ROUTE_SCOPE';
+    public const string MISSING_MAIN_REQUEST = 'FRAMEWORK__MAIN_REQUEST_MISSING';
 
     public static function invalidRequestParameter(string $name): self
     {
@@ -130,15 +125,8 @@ class RoutingException extends HttpException
         return new InvalidRouteScopeException($routeName);
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - reason:return-type-change - Will only return self in the future
-     */
-    public static function missingMainRequest(): self|\InvalidArgumentException
+    public static function missingMainRequest(): self
     {
-        if (!Feature::isActive('v6.8.0.0')) {
-            return new \InvalidArgumentException('Unable to check the request scope without main request.');
-        }
-
         return new self(
             Response::HTTP_BAD_REQUEST,
             self::MISSING_MAIN_REQUEST,

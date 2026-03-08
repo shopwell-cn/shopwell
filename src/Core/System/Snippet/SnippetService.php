@@ -12,7 +12,6 @@ use Shopwell\Core\Framework\DataAbstractionLayer\Search\Aggregation\Bucket\Terms
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\AggregationResult\Bucket\TermsResult;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopwell\Core\Framework\Extensions\ExtensionDispatcher;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Uuid\Uuid;
 use Shopwell\Core\System\Snippet\Aggregate\SnippetSet\SnippetSetCollection;
@@ -106,10 +105,6 @@ class SnippetService
         $this->eventDispatcher->dispatch($event);
 
         $unusedThemes = $event->getUnusedThemes();
-        if (!Feature::isActive('v6.8.0.0')) {
-            $usingThemes = $event->getUsedThemes();
-            $unusedThemes = $this->getUnusedThemes($usingThemes, $unusedThemes);
-        }
 
         $snippetCollection = $snippetFileCollection->filter(fn (AbstractSnippetFile $snippetFile) => !\in_array($snippetFile->getTechnicalName(), $unusedThemes, true));
 
@@ -152,7 +147,6 @@ class SnippetService
                     $snippetSetId,
                     $fallbackLocale,
                     $salesChannelId,
-                    $unusedThemes
                 ) => array_replace_recursive(
                     $snippets,
                     $this->fetchSnippetsFromDatabase($snippetSetId, $unusedThemes)
@@ -253,20 +247,6 @@ class SnippetService
         }
 
         return array_pop($sets);
-    }
-
-    /**
-     * @deprecated tag:v6.8.0 - reason:visibility-change - will be removed
-     * Keeping this method for backwards compatibility (if it's redeclared in the child classes - child method return
-     * value will be used, otherwise value of $unusedThemes received via event is returned)
-     *
-     * @param list<string> $usingThemes
-     *
-     * @return list<string>
-     */
-    protected function getUnusedThemes(array $usingThemes = []/* , array $unusedThemes */): array
-    {
-        return \func_num_args() === 2 ? \func_get_arg(1) : [];
     }
 
     /**
