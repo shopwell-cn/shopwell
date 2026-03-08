@@ -40,7 +40,6 @@ use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Extension\Extension;
-use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 
 /**
@@ -96,9 +95,6 @@ class Framework extends Bundle
         $loader->load('telemetry.xml');
         $loader->load('notification.xml');
         $loader->load('sso.xml');
-
-        $phpLoader = new PhpFileLoader($container, $configLocator);
-        $phpLoader->load('payment-system.php');
 
         if ($container->getParameter('kernel.environment') === 'test') {
             $loader->load('services_test.xml');

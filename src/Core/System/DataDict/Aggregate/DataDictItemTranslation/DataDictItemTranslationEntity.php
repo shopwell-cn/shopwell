@@ -12,5 +12,6 @@ class DataDictItemTranslationEntity extends TranslationEntity
     use EntityCustomFieldsTrait;
 
     public ?string $name;
+
     public ?string $description;
 }
