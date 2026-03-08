@@ -94,7 +94,7 @@ class CartDataCollectorSubscriber extends AbstractDataCollector implements Event
     {
         $this->data = [
             'cart' => $this->getCartData(),
-            'currency' => $this->salesChannelContext?->getCurrency()->getIsoCode(),
+            'currency' => $this->salesChannelContext,
             'collectors' => $this->cartCollectors,
             'processors' => $this->cartProcessors,
         ];

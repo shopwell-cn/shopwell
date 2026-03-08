@@ -35,7 +35,7 @@ class CurrencyPriceCalculator
         $value = $context->getTaxState() === CartPrice::TAX_STATE_GROSS ? $currency->getGross() : $currency->getNet();
 
         if ($currency->getCurrencyId() !== $context->getCurrencyId()) {
-            $value *= $context->getCurrency()->getFactor();
+            $value *= $context->getCurrency()->factor;
         }
 
         $taxRules = $this->percentageTaxRuleBuilder->buildCollectionRules($prices->getCalculatedTaxes(), $prices->getTotalPriceAmount());
