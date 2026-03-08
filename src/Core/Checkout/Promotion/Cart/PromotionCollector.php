@@ -22,7 +22,6 @@ use Shopwell\Core\Checkout\Promotion\PromotionEntity;
 use Shopwell\Core\Checkout\Promotion\PromotionException;
 use Shopwell\Core\Framework\DataAbstractionLayer\Exception\InconsistentCriteriaIdsException;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Criteria;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Util\HtmlSanitizer;
 use Shopwell\Core\Framework\Uuid\Uuid;
@@ -34,47 +33,10 @@ class PromotionCollector implements CartDataCollectorInterface
 {
     use PromotionCartInformationTrait;
 
-    /**
-     * Existing set of promotions will not be changed.
-     * Promotions may **not** be recalculated based on their price definition.
-     *
-     * Takes precedence over {@see PIN_MANUAL_PROMOTIONS} and {@see PIN_MANUAL_PROMOTIONS}.
-     *
-     * @deprecated tag:v6.8.0 - Will be removed and is replaced by {@see CheckoutPermissions::SKIP_PROMOTION}
-     */
-    final public const SKIP_PROMOTION = CheckoutPermissions::SKIP_PROMOTION;
+    private const string CACHE_KEY_CODE = 'promotions-code';
+    private const string CACHE_KEY_AUTO = 'promotions-auto';
 
-    /**
-     * Skips the addition of automatic promotion.
-     * If {@see PIN_AUTOMATIC_PROMOTIONS} is not set, all existing automatic promotions will be deleted.
-     *
-     * @deprecated tag:v6.8.0 - Will be removed and is replaced by {@see CheckoutPermissions::SKIP_AUTOMATIC_PROMOTIONS}
-     */
-    final public const SKIP_AUTOMATIC_PROMOTIONS = CheckoutPermissions::SKIP_AUTOMATIC_PROMOTIONS;
-
-    /**
-     * Existing set of manual/fixed promotions will not be changed,
-     * but new manual/fixed promotions can be added.
-     * Promotions may be recalculated based on their price definition.
-     *
-     * @deprecated tag:v6.8.0 - Will be removed and is replaced by {@see CheckoutPermissions::PIN_MANUAL_PROMOTIONS}
-     */
-    final public const PIN_MANUAL_PROMOTIONS = CheckoutPermissions::PIN_MANUAL_PROMOTIONS;
-
-    /**
-     * Existing set of automatic promotions will not be changed.
-     * Promotions may be recalculated based on their price definition.
-     *
-     * Takes precedence over {@see SKIP_AUTOMATIC_PROMOTIONS}.
-     *
-     * @deprecated tag:v6.8.0 - Will be removed and is replaced by {@see CheckoutPermissions::PIN_AUTOMATIC_PROMOTIONS}
-     */
-    final public const PIN_AUTOMATIC_PROMOTIONS = CheckoutPermissions::PIN_AUTOMATIC_PROMOTIONS;
-
-    private const CACHE_KEY_CODE = 'promotions-code';
-    private const CACHE_KEY_AUTO = 'promotions-auto';
-
-    private const REQUIRED_DAL_ASSOCIATIONS = [
+    private const array REQUIRED_DAL_ASSOCIATIONS = [
         'personaRules',
         'personaCustomers',
         'cartRules',
@@ -177,11 +139,7 @@ class PromotionCollector implements CartDataCollectorInterface
                 $this->addPromotionNotFoundError($this->htmlSanitizer->sanitize((string) $code, null, true), $original);
             }
 
-            // when being in a recalculation, having notifications about the removal of automatic promotion is desired
-            // addition notifications are handled as usual in the PromotionCalculator
-            /** @deprecated tag:v6.8.0 - `$isRecalculation` will be removed without replacement */
-            $isRecalculation = !Feature::isActive('v6.8.0.0') && $behavior->isRecalculation();
-            if ($isRecalculation || $behavior->hasPermission(CheckoutPermissions::AUTOMATIC_PROMOTION_DELETION_NOTICES)) {
+            if ($behavior->hasPermission(CheckoutPermissions::AUTOMATIC_PROMOTION_DELETION_NOTICES)) {
                 $oldPromotions = $original->getLineItems()
                     ->filter(static fn (LineItem $item) => $item->getType() === PromotionProcessor::LINE_ITEM_TYPE && !$item->getReferencedId())
                     ->getElements();
@@ -216,12 +174,12 @@ class PromotionCollector implements CartDataCollectorInterface
 
         $discountLineItems = new LineItemCollection();
 
-        if ($behavior->hasPermission(self::PIN_MANUAL_PROMOTIONS)) {
+        if ($behavior->hasPermission(CheckoutPermissions::PIN_MANUAL_PROMOTIONS)) {
             foreach ($promotionLineItems->filter(static fn (LineItem $item) => (bool) $item->getReferencedId()) as $lineItem) {
                 $discountLineItems->add($lineItem);
             }
         }
-        if ($behavior->hasPermission(self::PIN_AUTOMATIC_PROMOTIONS)) {
+        if ($behavior->hasPermission(CheckoutPermissions::PIN_AUTOMATIC_PROMOTIONS)) {
             foreach ($promotionLineItems->filter(static fn (LineItem $item) => !$item->getReferencedId()) as $lineItem) {
                 $discountLineItems->add($lineItem);
             }

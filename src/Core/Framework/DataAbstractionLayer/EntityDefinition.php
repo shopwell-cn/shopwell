@@ -59,13 +59,6 @@ abstract class EntityDefinition
     private ?FieldVisibility $fieldVisibility = null;
 
     /**
-     * @deprecated tag:v6.8.0 - Method will be removed as it does nothing
-     */
-    public function __construct()
-    {
-    }
-
-    /**
      * @return class-string<EntityDefinition>
      */
     final public function getClass(): string

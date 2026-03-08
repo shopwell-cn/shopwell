@@ -141,13 +141,6 @@
 
         <service id="Shopwell\Storefront\Theme\MD5ThemePathBuilder"/>
 
-        <service id="Shopwell\Storefront\Theme\Message\DeleteThemeFilesHandler">
-            <argument type="service" id="shopwell.filesystem.theme"/>
-            <argument type="service" id="Shopwell\Storefront\Theme\AbstractThemePathBuilder"/>
-
-            <tag name="messenger.message_handler" />
-        </service>
-
         <service id="Shopwell\Storefront\Theme\Message\CompileThemeHandler">
             <argument type="service" id="Shopwell\Storefront\Theme\ThemeCompiler"/>
             <argument type="service" id="Shopwell\Storefront\Theme\ConfigLoader\AbstractConfigLoader"/>
@@ -366,10 +359,6 @@
 
         <service id="Shopwell\Storefront\Theme\DatabaseSalesChannelThemeLoader" public="true">
             <argument type="service" id="Doctrine\DBAL\Connection"/>
-        </service>
-
-        <service id="Shopwell\Storefront\Theme\DataAbstractionLayer\ThemeExceptionHandler">
-            <tag name="shopwell.dal.exception_handler"/>
         </service>
 
         <service id="Shopwell\Storefront\Theme\ThemeFilesystemResolver" public="true">

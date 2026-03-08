@@ -10,7 +10,6 @@ use Shopwell\Core\Framework\DataAbstractionLayer\Field\UpdatedByField;
 use Shopwell\Core\Framework\DataAbstractionLayer\Write\DataStack\KeyValuePair;
 use Shopwell\Core\Framework\DataAbstractionLayer\Write\EntityExistence;
 use Shopwell\Core\Framework\DataAbstractionLayer\Write\WriteParameterBag;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 
 /**
@@ -41,11 +40,6 @@ class UpdatedByFieldSerializer extends FkFieldSerializer
         }
 
         $userId = $context->getSource()->getUserId();
-
-        /** @deprecated tag:v6.8.0 - remove early return */
-        if (!$userId && !Feature::isActive('v6.8.0.0')) {
-            return;
-        }
 
         $data->setValue($userId);
 

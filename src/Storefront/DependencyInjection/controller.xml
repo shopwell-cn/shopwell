@@ -22,7 +22,6 @@
             <argument type="service" id="Shopwell\Core\Checkout\Order\SalesChannel\SetPaymentOrderRoute"/>
             <argument type="service" id="Shopwell\Core\Checkout\Payment\SalesChannel\HandlePaymentMethodRoute"/>
             <argument type="service" id="event_dispatcher"/>
-            <argument type="service" id="Shopwell\Storefront\Page\Account\Order\AccountOrderDetailPageLoader"/>
             <argument type="service" id="Shopwell\Core\Checkout\Order\SalesChannel\OrderRoute"/>
             <argument type="service" id="Shopwell\Core\System\SalesChannel\Context\SalesChannelContextService"/>
             <argument type="service" id="Shopwell\Core\System\SystemConfig\SystemConfigService"/>

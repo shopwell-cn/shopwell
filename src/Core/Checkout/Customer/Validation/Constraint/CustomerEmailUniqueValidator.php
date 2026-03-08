@@ -48,7 +48,7 @@ class CustomerEmailUniqueValidator extends ConstraintValidator
                 return true;
             }
 
-            if ($entry['bound_sales_channel_id'] !== $constraint->getSalesChannelContext()->getSalesChannelId()) {
+            if ($entry['bound_sales_channel_id'] !== $constraint->salesChannelContext->getSalesChannelId()) {
                 return false;
             }
 
@@ -60,7 +60,7 @@ class CustomerEmailUniqueValidator extends ConstraintValidator
             return;
         }
 
-        $this->context->buildViolation($constraint->getMessage())
+        $this->context->buildViolation($constraint->message)
             ->setParameter('{{ email }}', $this->formatValue($value))
             ->setCode(CustomerEmailUnique::CUSTOMER_EMAIL_NOT_UNIQUE)
             ->addViolation();

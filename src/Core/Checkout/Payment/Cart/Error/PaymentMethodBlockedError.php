@@ -3,35 +3,32 @@
 namespace Shopwell\Core\Checkout\Payment\Cart\Error;
 
 use Shopwell\Core\Checkout\Cart\Error\Error;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 
 #[Package('checkout')]
 class PaymentMethodBlockedError extends Error
 {
-    private const KEY = 'payment-method-blocked';
+    private const string KEY = 'payment-method-blocked';
 
-    /**
-     * @deprecated tag:v6.8.0 - reason:parameter-type-change - The order of parameters will be changed to: $id, $name, $reason
-     * @deprecated tag:v6.8.0 - reason:parameter-type-change - $id will be of type string
-     * @deprecated tag:v6.8.0 - reason:parameter-type-change - $reason will be of type string
-     */
+    protected readonly string $id;
+
+    protected readonly string $name;
+
+    protected readonly string $reason;
+
     public function __construct(
-        protected readonly string $name,
-        protected readonly ?string $reason = null,
-        protected readonly ?string $id = null,
+        string $id,
+        string $name,
+        string $reason
     ) {
-        if ($id === null || $reason === null) {
-            Feature::triggerDeprecationOrThrow(
-                'v6.8.0.0',
-                'Passing null for $id or $reason is deprecated and will not be allowed in v6.8.0.0. Please provide valid string values for both parameters.'
-            );
-        }
+        $this->id = $id;
+        $this->name = $name;
+        $this->reason = $reason;
 
         $this->message = \sprintf(
             'Payment method %s not available. Reason: %s',
             $name,
-            $reason ?? 'No reason provided.',
+            $reason
         );
 
         parent::__construct($this->message);
@@ -46,10 +43,7 @@ class PaymentMethodBlockedError extends Error
         ];
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - reason:parameter-type-change - $id will be of type string
-     */
-    public function getPaymentMethodId(): ?string
+    public function getPaymentMethodId(): string
     {
         return $this->id;
     }
@@ -59,23 +53,14 @@ class PaymentMethodBlockedError extends Error
         return $this->name;
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - reason:parameter-type-change - $reason will be of type string
-     */
-    public function getReason(): ?string
+    public function getReason(): string
     {
         return $this->reason;
     }
 
     public function getId(): string
     {
-        if (Feature::isActive('v6.8.0.0')) {
-            \assert($this->id !== null);
-
-            return \sprintf('%s-%s', self::KEY, $this->id);
-        }
-
-        return \sprintf('%s-%s', self::KEY, $this->name);
+        return \sprintf('%s-%s', self::KEY, $this->id);
     }
 
     public function getMessageKey(): string

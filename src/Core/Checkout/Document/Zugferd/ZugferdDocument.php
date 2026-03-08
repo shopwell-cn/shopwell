@@ -30,24 +30,9 @@ use Shopwell\Core\System\SalesChannel\SalesChannelDefinition;
 #[Package('after-sales')]
 class ZugferdDocument
 {
-    public const CHARGE_AMOUNT = 'chargeAmount';
-    public const LINE_TOTAL_AMOUNT = 'lineTotalAmount';
-    public const ALLOWANCE_AMOUNT = 'allowanceAmount';
-
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed. Use mappedPrices instead
-     */
-    protected float $chargeAmount = 0.0;
-
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed. Use mappedPrices instead
-     */
-    protected float $lineTotalAmount = 0.0;
-
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed. Use mappedPrices instead
-     */
-    protected float $allowanceAmount = 0.0;
+    public const string CHARGE_AMOUNT = 'chargeAmount';
+    public const string LINE_TOTAL_AMOUNT = 'lineTotalAmount';
+    public const string ALLOWANCE_AMOUNT = 'allowanceAmount';
 
     protected float $paidAmount = 0.0;
 
@@ -156,9 +141,6 @@ class ZugferdDocument
         }
 
         $this->addMappedPrice(self::LINE_TOTAL_AMOUNT, $price);
-        if (!Feature::isActive('v6.8.0.0')) {
-            $this->addLineTotalAmount($totalNet);
-        }
 
         $this->zugferdBuilder
             ->addNewPosition($parentPosition . $lineItem->getPosition())
@@ -199,13 +181,6 @@ class ZugferdDocument
         foreach ($lineItem->getPrice()->getCalculatedTaxes() as $calculatedTax) {
             $actualAmount = $this->getPriceWithFallback($calculatedTax, $lineItem->getPrice());
 
-            if (!Feature::isActive('v6.8.0.0')) {
-                if ($isCharge) {
-                    $this->addChargeAmount($actualAmount);
-                } else {
-                    $this->addAllowanceAmount($actualAmount);
-                }
-            }
             $this->zugferdBuilder->addDocumentAllowanceCharge(
                 ...[
                     'actualAmount' => abs($actualAmount),
@@ -288,36 +263,6 @@ class ZugferdDocument
     public function getBuilder(): ZugferdDocumentBuilder
     {
         return $this->zugferdBuilder;
-    }
-
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed. Use addMappedPrice instead
-     */
-    protected function addChargeAmount(float $chargeAmount): void
-    {
-        Feature::triggerDeprecationOrThrow('v6.8.0.0', 'Method and parameter will be removed. Use addMappedPrice instead.');
-
-        $this->chargeAmount += $chargeAmount;
-    }
-
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed. Use addMappedPrice instead
-     */
-    protected function addLineTotalAmount(float $lineTotalAmount): void
-    {
-        Feature::triggerDeprecationOrThrow('v6.8.0.0', 'Method and parameter will be removed. Use addMappedPrice instead.');
-
-        $this->lineTotalAmount += $lineTotalAmount;
-    }
-
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed. Use addMappedPrice instead
-     */
-    protected function addAllowanceAmount(float $allowanceAmount): void
-    {
-        Feature::triggerDeprecationOrThrow('v6.8.0.0', 'Method and parameter will be removed. Use addMappedPrice instead.');
-
-        $this->allowanceAmount += $allowanceAmount;
     }
 
     protected function getPriceWithFallback(?CalculatedTax $tax, ?CalculatedPrice $fallbackPrice = null): float

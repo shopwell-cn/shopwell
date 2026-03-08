@@ -13,7 +13,6 @@ use Shopwell\Core\Framework\Context;
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Validation\BuildValidationEvent;
 use Shopwell\Core\Framework\Validation\DataBag\DataBag;
@@ -23,7 +22,6 @@ use Shopwell\Core\Framework\Validation\DataValidator;
 use Shopwell\Core\Framework\Validation\Exception\ConstraintViolationException;
 use Shopwell\Core\System\SalesChannel\SalesChannelContext;
 use Shopwell\Core\System\StateMachine\Aggregation\StateMachineState\StateMachineStateEntity;
-use Shopwell\Core\System\StateMachine\StateMachineException;
 use Shopwell\Core\System\StateMachine\StateMachineRegistry;
 use Shopwell\Core\System\StateMachine\Transition;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -167,10 +165,6 @@ class OrderService
         $toPlace = $stateMachineStates->get('toPlace');
 
         if (!$toPlace) {
-            // @deprecated tag:v6.8.0 - remove this if block
-            if (!Feature::isActive('v6.8.0.0')) {
-                throw StateMachineException::stateMachineStateNotFound('order_delivery', $transition); // @phpstan-ignore shopwell.domainException
-            }
             throw OrderException::stateMachineStateNotFound('order_delivery', $transition);
         }
 
@@ -180,10 +174,6 @@ class OrderService
     public function isPaymentChangeableByTransactionState(OrderEntity $order): bool
     {
         $state = $order->getPrimaryOrderTransaction()?->getStateMachineState()?->getTechnicalName();
-
-        if (!Feature::isActive('v6.8.0.0')) {
-            $state = $order->getTransactions()?->last()?->getStateMachineState()?->getTechnicalName();
-        }
 
         if (!$state) {
             return true;

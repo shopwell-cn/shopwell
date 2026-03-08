@@ -4,11 +4,8 @@ namespace Shopwell\Core\Framework\DataAbstractionLayer\Event;
 
 use Shopwell\Core\Framework\Context;
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityWriteResult;
-use Shopwell\Core\Framework\DataAbstractionLayer\Write\EntityExistence;
 use Shopwell\Core\Framework\Event\GenericEvent;
 use Shopwell\Core\Framework\Event\NestedEvent;
-use Shopwell\Core\Framework\Event\NestedEventCollection;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 
 /**
@@ -23,21 +20,9 @@ class EntityWrittenEvent extends NestedEvent implements GenericEvent
     protected ?array $ids = null;
 
     /**
-     * @deprecated tag:v6.8.0 - Will be removed with the next major as it is unused
-     */
-    protected NestedEventCollection $events;
-
-    /**
      * @var list<array<string, mixed>>|null
      */
     protected ?array $payloads = null;
-
-    /**
-     * @var list<EntityExistence>
-     *
-     * @deprecated tag:v6.8.0 - Will be removed with the next major as it is unused
-     */
-    protected ?array $existences = null;
 
     protected string $name;
 
@@ -51,7 +36,6 @@ class EntityWrittenEvent extends NestedEvent implements GenericEvent
         protected Context $context,
         protected array $errors = []
     ) {
-        $this->events = new NestedEventCollection();
         $this->name = $this->entityName . '.written';
     }
 
@@ -94,31 +78,6 @@ class EntityWrittenEvent extends NestedEvent implements GenericEvent
     }
 
     /**
-     * @deprecated tag:v6.8.0 - Will be removed with the next major as it is unused
-     */
-    public function hasErrors(): bool
-    {
-        Feature::triggerDeprecationOrThrow(
-            'v6.8.0.0',
-            Feature::deprecatedMethodMessage(self::class, __METHOD__, 'v6.8.0.0'),
-        );
-
-        return $this->errors !== [];
-    }
-
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed with the next major as it is unused
-     */
-    public function addEvent(NestedEvent $event): void
-    {
-        Feature::triggerDeprecationOrThrow(
-            'v6.8.0.0',
-            Feature::deprecatedMethodMessage(self::class, __METHOD__, 'v6.8.0.0'),
-        );
-        $this->events->add($event);
-    }
-
-    /**
      * @return list<array<string, mixed>>
      */
     public function getPayloads(): array
@@ -131,29 +90,6 @@ class EntityWrittenEvent extends NestedEvent implements GenericEvent
         }
 
         return $this->payloads;
-    }
-
-    /**
-     * @return list<EntityExistence>
-     *
-     * @deprecated tag:v6.8.0 - Will be removed with the next major as it is unused
-     */
-    public function getExistences(): array
-    {
-        Feature::triggerDeprecationOrThrow(
-            'v6.8.0.0',
-            Feature::deprecatedMethodMessage(self::class, __METHOD__, 'v6.8.0.0'),
-        );
-        if ($this->existences === null) {
-            $this->existences = [];
-            foreach ($this->writeResults as $entityWriteResult) {
-                if ($entityWriteResult->getExistence()) {
-                    $this->existences[] = $entityWriteResult->getExistence();
-                }
-            }
-        }
-
-        return $this->existences;
     }
 
     /**

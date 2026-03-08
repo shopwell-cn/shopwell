@@ -3,7 +3,6 @@
 namespace Shopwell\Storefront\Theme;
 
 use Shopwell\Core\Framework\Adapter\Cache\CacheTagCollector;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\System\SalesChannel\SalesChannelContext;
 
@@ -46,20 +45,6 @@ class ThemeConfigValueAccessor
         }
 
         $themeConfig = [];
-
-        // @deprecated tag:v6.8.0 - Obsolete. Remove with next major version.
-        if (!Feature::isActive('v6.8.0.0')) {
-            $themeConfig = [
-                'breakpoint' => [
-                    'xs' => 0,
-                    'sm' => 576,
-                    'md' => 768,
-                    'lg' => 992,
-                    'xl' => 1200,
-                    'xxl' => 1400,
-                ],
-            ];
-        }
 
         if (!$themeId) {
             return $this->themeConfig[$key] = $this->flatten($themeConfig, null);

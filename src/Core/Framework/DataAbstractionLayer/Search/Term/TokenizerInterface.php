@@ -8,9 +8,7 @@ use Shopwell\Core\Framework\Log\Package;
 interface TokenizerInterface
 {
     /**
-     * @deprecated tag:v6.8.0 - reason:new-optional-parameter - parameter $tokenMinimumLength will be added
-     *
      * @return list<string>
      */
-    public function tokenize(string $string/* , ?int $tokenMinimumLength = null */): array;
+    public function tokenize(string $string, ?int $tokenMinimumLength = null): array;
 }

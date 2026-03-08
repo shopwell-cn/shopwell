@@ -61,12 +61,9 @@ class EntityWriteGateway implements EntityWriteGatewayInterface
     ) {
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - reason:parameter-name-change - Parameter `parameters` will be renamed to `parameterBag` in v6.8.0 to match name of interface
-     */
-    public function prefetchExistences(WriteParameterBag $parameters): void
+    public function prefetchExistences(WriteParameterBag $parameterBag): void
     {
-        $this->primaryKeyBag = $parameters->getPrimaryKeyBag();
+        $this->primaryKeyBag = $parameterBag->getPrimaryKeyBag();
         $primaryKeyBag = $this->primaryKeyBag;
 
         if ($primaryKeyBag->isPrefetchingCompleted()) {
@@ -74,7 +71,7 @@ class EntityWriteGateway implements EntityWriteGatewayInterface
         }
 
         foreach ($primaryKeyBag->getPrimaryKeys() as $entity => $pks) {
-            $this->prefetch($this->definitionInstanceRegistry->getByEntityName($entity), $pks, $parameters);
+            $this->prefetch($this->definitionInstanceRegistry->getByEntityName($entity), $pks, $parameterBag);
         }
 
         $primaryKeyBag->setPrefetchingCompleted(true);

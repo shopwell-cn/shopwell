@@ -3,7 +3,6 @@
 namespace Shopwell\Storefront\Page\Robots\Parser;
 
 use Shopwell\Core\Framework\Context;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Storefront\Page\Robots\Event\RobotsDirectiveParsingEvent;
 use Shopwell\Storefront\Page\Robots\Event\RobotsUnknownDirectiveEvent;
@@ -143,27 +142,5 @@ class RobotsDirectiveParser
         $this->eventDispatcher->dispatch($parsingEvent);
 
         return $parsingEvent->parsedResult;
-    }
-
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed with next major, as string parsing is deprecated
-     */
-    public static function parseDirectiveFromString(string $line): ?RobotsDirective
-    {
-        Feature::triggerDeprecationOrThrow(
-            'v6.8.0.0',
-            Feature::deprecatedMethodMessage(self::class, __METHOD__, 'v6.8.0.0', 'the `parse()` method of the `RobotsDirectiveParser` service to parse the whole `robots.txt` file')
-        );
-
-        $parts = explode(':', $line, 2);
-
-        $directiveType = mb_strtolower($parts[0] ?? '');
-        $directiveTypeEnum = RobotsDirectiveType::tryFromInsensitive($directiveType);
-
-        if ($directiveTypeEnum === null || !$directiveTypeEnum->isPathBased()) {
-            return null;
-        }
-
-        return new RobotsDirective($directiveTypeEnum, trim($parts[1] ?? ''));
     }
 }

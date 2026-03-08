@@ -16,18 +16,13 @@ use Shopwell\Core\Checkout\Customer\Exception\CustomerWishlistNotFoundException;
 use Shopwell\Core\Checkout\Customer\Exception\DuplicateWishlistProductException;
 use Shopwell\Core\Checkout\Customer\Exception\InvalidImitateCustomerTokenException;
 use Shopwell\Core\Checkout\Customer\Exception\PasswordPoliciesUpdatedException;
-use Shopwell\Core\Checkout\Customer\Validation\Constraint\CustomerEmailUnique;
 use Shopwell\Core\Checkout\Order\Exception\GuestNotAuthenticatedException;
 use Shopwell\Core\Checkout\Order\Exception\WrongGuestCredentialsException;
-use Shopwell\Core\Content\Product\Exception\ProductNotFoundException;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\HttpException;
 use Shopwell\Core\Framework\Log\Package;
-use Shopwell\Core\Framework\Rule\Exception\UnsupportedOperatorException;
 use Shopwell\Core\Framework\ShopwellHttpException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Constraint;
-use Symfony\Component\Validator\Exception\MissingOptionsException;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
 use Symfony\Component\Validator\Exception\ValidatorException;
@@ -314,15 +309,8 @@ class CustomerException extends HttpException
         );
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - reason:return-type-change - Will return self
-     */
-    public static function unsupportedOperator(string $operator, string $class): self|UnsupportedOperatorException
+    public static function unsupportedOperator(string $operator, string $class): self
     {
-        if (!Feature::isActive('v6.8.0.0')) {
-            return new UnsupportedOperatorException($operator, $class);
-        }
-
         return new self(
             Response::HTTP_BAD_REQUEST,
             self::OPERATOR_NOT_SUPPORTED,
@@ -351,15 +339,8 @@ class CustomerException extends HttpException
         );
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - reason:return-type-change - Will return self
-     */
-    public static function productNotFound(string $productId): self|ProductNotFoundException
+    public static function productNotFound(string $productId): self
     {
-        if (!Feature::isActive('v6.8.0.0')) {
-            return new ProductNotFoundException($productId);
-        }
-
         return new self(
             Response::HTTP_BAD_REQUEST,
             self::MISSING_REQUEST_PARAMETER_CODE,
@@ -368,15 +349,8 @@ class CustomerException extends HttpException
         );
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - reason:return-type-change - Will return self
-     */
-    public static function missingOption(string $option, string $constraint): self|MissingOptionsException
+    public static function missingOption(string $option, string $constraint): self
     {
-        if (!Feature::isActive('v6.8.0.0')) {
-            return new MissingOptionsException(\sprintf('Option "%s" must be given for constraint %s', $option, $constraint), ['context']);
-        }
-
         return new self(
             Response::HTTP_BAD_REQUEST,
             self::MISSING_OPTION,
@@ -385,15 +359,8 @@ class CustomerException extends HttpException
         );
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - reason:return-type-change - Will return self
-     */
-    public static function unexpectedType(Constraint $constraint, string $class): self|UnexpectedTypeException
+    public static function unexpectedType(Constraint $constraint, string $class): self
     {
-        if (!Feature::isActive('v6.8.0.0')) {
-            return new UnexpectedTypeException($constraint, CustomerEmailUnique::class);
-        }
-
         return new self(
             Response::HTTP_INTERNAL_SERVER_ERROR,
             self::UNEXPECTED_TYPE,
@@ -402,15 +369,8 @@ class CustomerException extends HttpException
         );
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - reason:return-type-change - Will return self
-     */
-    public static function invalidOption(string $option, string $type, string $constraint): self|\InvalidArgumentException
+    public static function invalidOption(string $option, string $type, string $constraint): self
     {
-        if (!Feature::isActive('v6.8.0.0')) {
-            return new \InvalidArgumentException(\sprintf('Option "%s" must be of type "%s" for constraint %s', $option, $type, $constraint));
-        }
-
         return new self(
             Response::HTTP_BAD_REQUEST,
             self::INVALID_OPTION,

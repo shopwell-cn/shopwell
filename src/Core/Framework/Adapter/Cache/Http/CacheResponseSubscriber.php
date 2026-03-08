@@ -2,19 +2,14 @@
 
 namespace Shopwell\Core\Framework\Adapter\Cache\Http;
 
-use Shopwell\Core\Checkout\Cart\Cart;
 use Shopwell\Core\Checkout\Cart\SalesChannel\CartService;
-use Shopwell\Core\Framework\Adapter\Cache\CacheStateSubscriber;
-use Shopwell\Core\Framework\Adapter\Request\RequestParamHelper;
 use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Routing\MaintenanceModeResolver;
 use Shopwell\Core\Framework\Routing\StoreApiRouteScope;
 use Shopwell\Core\PlatformRequest;
-use Shopwell\Core\System\SalesChannel\Context\SalesChannelContextService;
 use Shopwell\Core\System\SalesChannel\SalesChannelContext;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
@@ -110,22 +105,7 @@ class CacheResponseSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $route = $request->attributes->get('_route');
-        /** @phpstan-ignore shopwell.storefrontRouteUsage (Do not use Storefront routes in the core. Will be fixed with https://github.com/shopwell/shopwell/issues/12968) */
-        if ($route === 'frontend.checkout.configure') {
-            if (!Feature::isActive('v6.8.0.0') && !Feature::isActive('PERFORMANCE_TWEAKS') && !Feature::isActive('CACHE_REWORK')) {
-                $this->setCurrencyCookie($request, $response);
-            }
-        }
-
         $cart = $this->cartService->getCart($context->getToken(), $context);
-
-        /** @deprecated tag:v6.8.0 - states can be removed */
-        if (Feature::isActive('v6.8.0.0') || Feature::isActive('PERFORMANCE_TWEAKS') || Feature::isActive('CACHE_REWORK')) {
-            $states = [];
-        } else {
-            $states = $this->updateSystemState($cart, $context, $request, $response);
-        }
 
         // The cache hash reflects the internal state of the context to properly cache pages
         // when multiple permutations exist (e.g. different currencies etc)
@@ -169,44 +149,6 @@ class CacheResponseSubscriber implements EventSubscriberInterface
 
                 return;
             }
-        }
-
-        /** @deprecated tag:v6.8.0 - can be removed when cache states are always empty */
-        if (!Feature::isActive('v6.8.0.0') && !Feature::isActive('PERFORMANCE_TWEAKS') && !Feature::isActive('CACHE_REWORK')) {
-            if ($this->hasInvalidationState($cacheAttribute->states ?? [], $states)) {
-                $this->noCache($request, $response, $area);
-
-                return;
-            }
-        }
-
-        if (!Feature::isActive('v6.8.0.0') && !Feature::isActive('PERFORMANCE_TWEAKS') && !Feature::isActive('CACHE_REWORK')) {
-            $response->headers->set(
-                HttpCacheKeyGenerator::INVALIDATION_STATES_HEADER,
-                implode(',', $cacheAttribute->states ?? [])
-            );
-        }
-
-        // old behavior
-        if (!Feature::isActive('CACHE_REWORK') && !Feature::isActive('v6.8.0.0')) {
-            if ($this->isNoStoreRoute($request)) {
-                $this->addNoStoreHeader($request, $response);
-
-                return;
-            }
-
-            $sMaxAge = $cacheAttribute->sMaxAge ?? $this->defaultTtl;
-            $response->setSharedMaxAge($sMaxAge);
-
-            if ($this->staleIfError !== null) {
-                $response->headers->addCacheControlDirective('stale-if-error', $this->staleIfError);
-            }
-
-            if ($this->staleWhileRevalidate !== null) {
-                $response->headers->addCacheControlDirective('stale-while-revalidate', $this->staleWhileRevalidate);
-            }
-
-            return;
         }
 
         $this->applyPolicy($request, $response, $area, true, $cacheAttribute);
@@ -273,55 +215,6 @@ class CacheResponseSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * System states can be used to stop caching routes at certain states. For example,
-     * the checkout routes are no longer cached if the customer has products in the cart or is logged in.
-     *
-     * @return list<string>
-     */
-    private function updateSystemState(Cart $cart, SalesChannelContext $context, Request $request, Response $response): array
-    {
-        $states = $this->getSystemStates($request, $context, $cart);
-
-        if ($states === []) {
-            if ($request->cookies->has(HttpCacheKeyGenerator::SYSTEM_STATE_COOKIE)) {
-                $response->headers->removeCookie(HttpCacheKeyGenerator::SYSTEM_STATE_COOKIE);
-                $response->headers->clearCookie(HttpCacheKeyGenerator::SYSTEM_STATE_COOKIE);
-            }
-
-            return [];
-        }
-
-        $newStates = implode(',', $states);
-
-        if ($request->cookies->get(HttpCacheKeyGenerator::SYSTEM_STATE_COOKIE) !== $newStates) {
-            $cookie = Cookie::create(HttpCacheKeyGenerator::SYSTEM_STATE_COOKIE, $newStates);
-            $cookie->setSecureDefault($request->isSecure());
-
-            $response->headers->setCookie($cookie);
-        }
-
-        return $states;
-    }
-
-    /**
-     * @return list<string>
-     */
-    private function getSystemStates(Request $request, SalesChannelContext $context, Cart $cart): array
-    {
-        $states = [];
-        $swStates = (string) $request->cookies->get(HttpCacheKeyGenerator::SYSTEM_STATE_COOKIE);
-        if ($swStates !== '') {
-            $states = array_flip(explode(',', $swStates));
-        }
-
-        $states = $this->switchState($states, CacheStateSubscriber::STATE_LOGGED_IN, $context->getCustomer() !== null);
-
-        $states = $this->switchState($states, CacheStateSubscriber::STATE_CART_FILLED, $cart->getLineItems()->count() > 0);
-
-        return array_keys($states);
-    }
-
-    /**
      * @param array<string, int|bool> $states
      *
      * @return array<string, int|bool>
@@ -337,23 +230,6 @@ class CacheResponseSubscriber implements EventSubscriberInterface
         unset($states[$key]);
 
         return $states;
-    }
-
-    /**
-     * @deprecated tag:v6.8.0 - can be removed when currency cookie is removed
-     */
-    private function setCurrencyCookie(Request $request, Response $response): void
-    {
-        $currencyId = RequestParamHelper::get($request, SalesChannelContextService::CURRENCY_ID);
-
-        if (!$currencyId) {
-            return;
-        }
-
-        $cookie = Cookie::create(HttpCacheKeyGenerator::CURRENCY_COOKIE, $currencyId);
-        $cookie->setSecureDefault($request->isSecure());
-
-        $response->headers->setCookie($cookie);
     }
 
     private function isStoreApi(Request $request): bool

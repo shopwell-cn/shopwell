@@ -4,9 +4,6 @@ namespace Shopwell\Core\Checkout\Document;
 
 use Shopwell\Core\Checkout\Cart\CartException;
 use Shopwell\Core\Checkout\Cart\Exception\CustomerNotLoggedInException;
-use Shopwell\Core\Checkout\Order\Exception\GuestNotAuthenticatedException;
-use Shopwell\Core\Checkout\Order\Exception\WrongGuestCredentialsException;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\HttpException;
 use Shopwell\Core\Framework\Log\Package;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,33 +11,33 @@ use Symfony\Component\HttpFoundation\Response;
 #[Package('after-sales')]
 class DocumentException extends HttpException
 {
-    public const INVALID_DOCUMENT_GENERATOR_TYPE_CODE = 'DOCUMENT__INVALID_GENERATOR_TYPE';
+    public const string INVALID_DOCUMENT_GENERATOR_TYPE_CODE = 'DOCUMENT__INVALID_GENERATOR_TYPE';
 
-    public const ORDER_NOT_FOUND = 'DOCUMENT__ORDER_NOT_FOUND';
+    public const string ORDER_NOT_FOUND = 'DOCUMENT__ORDER_NOT_FOUND';
 
-    public const DOCUMENT_NOT_FOUND = 'DOCUMENT__DOCUMENT_NOT_FOUND';
+    public const string DOCUMENT_NOT_FOUND = 'DOCUMENT__DOCUMENT_NOT_FOUND';
 
-    public const GENERATION_ERROR = 'DOCUMENT__GENERATION_ERROR';
+    public const string GENERATION_ERROR = 'DOCUMENT__GENERATION_ERROR';
 
-    public const DOCUMENT_NUMBER_ALREADY_EXISTS = 'DOCUMENT__NUMBER_ALREADY_EXISTS';
+    public const string DOCUMENT_NUMBER_ALREADY_EXISTS = 'DOCUMENT__NUMBER_ALREADY_EXISTS';
 
-    public const DOCUMENT_GENERATION_ERROR = 'DOCUMENT__GENERATION_ERROR';
+    public const string DOCUMENT_GENERATION_ERROR = 'DOCUMENT__GENERATION_ERROR';
 
-    public const DOCUMENT_INVALID_RENDERER_TYPE = 'DOCUMENT__INVALID_RENDERER_TYPE';
+    public const string DOCUMENT_INVALID_RENDERER_TYPE = 'DOCUMENT__INVALID_RENDERER_TYPE';
 
-    public const INVALID_REQUEST_PARAMETER_CODE = 'FRAMEWORK__INVALID_REQUEST_PARAMETER';
+    public const string INVALID_REQUEST_PARAMETER_CODE = 'FRAMEWORK__INVALID_REQUEST_PARAMETER';
 
-    public const FILE_EXTENSION_NOT_SUPPORTED = 'DOCUMENT__FILE_EXTENSION_NOT_SUPPORTED';
+    public const string FILE_EXTENSION_NOT_SUPPORTED = 'DOCUMENT__FILE_EXTENSION_NOT_SUPPORTED';
 
-    public const CANNOT_CREATE_ZIP_FILE = 'DOCUMENT__CANNOT_CREATE_ZIP_FILE';
+    public const string CANNOT_CREATE_ZIP_FILE = 'DOCUMENT__CANNOT_CREATE_ZIP_FILE';
 
-    public const DOCUMENT_ZIP_READ_ERROR = 'DOCUMENT__ZIP_READ_ERROR';
+    public const string DOCUMENT_ZIP_READ_ERROR = 'DOCUMENT__ZIP_READ_ERROR';
 
-    public const DOCUMENT_FILE_TYPE_UNAVAILABLE = 'DOCUMENT__FILE_TYPE_UNAVAILABLE';
+    public const string DOCUMENT_FILE_TYPE_UNAVAILABLE = 'DOCUMENT__FILE_TYPE_UNAVAILABLE';
 
-    public const DOCUMENT_ACCEPT_HEADER_MIME_TYPES_NOT_SUPPORTED = 'DOCUMENT__ACCEPT_HEADER_MIME_TYPES_NOT_SUPPORTED';
+    public const string DOCUMENT_ACCEPT_HEADER_MIME_TYPES_NOT_SUPPORTED = 'DOCUMENT__ACCEPT_HEADER_MIME_TYPES_NOT_SUPPORTED';
 
-    public const DOCUMENT_FILE_TYPE_NOT_SUPPORTED = 'DOCUMENT__FILE_TYPE_NOT_SUPPORTED';
+    public const string DOCUMENT_FILE_TYPE_NOT_SUPPORTED = 'DOCUMENT__FILE_TYPE_NOT_SUPPORTED';
 
     public static function invalidDocumentGeneratorType(string $type): self
     {
@@ -144,26 +141,6 @@ class DocumentException extends HttpException
             'The parameter "{{ parameter }}" is invalid.',
             ['parameter' => $name]
         );
-    }
-
-    /**
-     * @deprecated tag:v6.8.0 - not used anymore, use CustomerException::guestNotAuthenticated() instead
-     */
-    public static function guestNotAuthenticated(): GuestNotAuthenticatedException
-    {
-        Feature::triggerDeprecationOrThrow('v6.8.0.0', 'DocumentException::guestNotAuthenticated is deprecated and will be removed in v6.8.0. Use CustomerException::guestNotAuthenticated() instead.');
-
-        return new GuestNotAuthenticatedException();
-    }
-
-    /**
-     * @deprecated tag:v6.8.0 - not used anymore, use CustomerException::wrongGuestCredentials() instead
-     */
-    public static function wrongGuestCredentials(): WrongGuestCredentialsException
-    {
-        Feature::triggerDeprecationOrThrow('v6.8.0.0', 'DocumentException::wrongGuestCredentials is deprecated and will be removed in v6.8.0. Use CustomerException::wrongGuestCredentials() instead.');
-
-        return new WrongGuestCredentialsException();
     }
 
     public static function unsupportedDocumentFileExtension(string $fileExtension): self

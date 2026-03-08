@@ -4,9 +4,7 @@ namespace Shopwell\Core\Checkout\Shipping;
 
 use Shopwell\Core\Checkout\Shipping\Aggregate\ShippingMethodPrice\ShippingMethodPriceCollection;
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityCollection;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
-use Shopwell\Core\Framework\Rule\RuleIdMatcher;
 use Shopwell\Core\System\SalesChannel\SalesChannelContext;
 
 /**
@@ -15,27 +13,6 @@ use Shopwell\Core\System\SalesChannel\SalesChannelContext;
 #[Package('checkout')]
 class ShippingMethodCollection extends EntityCollection
 {
-    /**
-     * @deprecated tag:v6.8.0 use RuleIdMatcher instead
-     */
-    public function filterByActiveRules(SalesChannelContext $salesChannelContext): ShippingMethodCollection
-    {
-        Feature::triggerDeprecationOrThrow(
-            'v6.8.0.0',
-            Feature::deprecatedMethodMessage(self::class, __METHOD__, 'v6.8.0.0', RuleIdMatcher::class)
-        );
-
-        return $this->filter(
-            function (ShippingMethodEntity $shippingMethod) use ($salesChannelContext) {
-                if ($shippingMethod->getAvailabilityRuleId() === null) {
-                    return true;
-                }
-
-                return \in_array($shippingMethod->getAvailabilityRuleId(), $salesChannelContext->getRuleIds(), true);
-            }
-        );
-    }
-
     /**
      * @return array<string>
      */

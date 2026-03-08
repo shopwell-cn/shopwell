@@ -1,5 +1,4 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Shopwell\Core\Checkout\Promotion\Aggregate\PromotionDiscount;
 
@@ -15,54 +14,15 @@ class PromotionDiscountEntity extends Entity
 {
     use EntityIdTrait;
 
-    /**
-     * This scope defines promotion discounts on
-     * the entire cart and its line items.
-     */
-    final public const SCOPE_CART = 'cart';
+    final public const string SCOPE_CART = 'cart';
+    final public const string SCOPE_DELIVERY = 'delivery';
+    final public const string SCOPE_SET = 'set';
+    final public const string SCOPE_SETGROUP = 'setgroup';
 
-    /**
-     * This scope defines promotion discounts on
-     * the delivery costs.
-     */
-    final public const SCOPE_DELIVERY = 'delivery';
-
-    /**
-     * This scope defines promotion discounts on
-     * the whole set of groups
-     */
-    final public const SCOPE_SET = 'set';
-
-    /**
-     * This scope defines promotion discounts on
-     * a specific set group.
-     */
-    final public const SCOPE_SETGROUP = 'setgroup';
-
-    /**
-     * This type defines a percentage
-     * price definition of the discount.
-     */
-    final public const TYPE_PERCENTAGE = 'percentage';
-
-    /**
-     * This type defines an absolute price
-     * definition of the discount in the
-     * current context currency.
-     */
-    final public const TYPE_ABSOLUTE = 'absolute';
-
-    /**
-     * This type defines an fixed item price
-     * definition of the discount.
-     */
-    final public const TYPE_FIXED_UNIT = 'fixed_unit';
-
-    /**
-     * This type defines a fixed price
-     * definition of the discount.
-     */
-    final public const TYPE_FIXED = 'fixed';
+    final public const string TYPE_PERCENTAGE = 'percentage';
+    final public const string TYPE_ABSOLUTE = 'absolute';
+    final public const string TYPE_FIXED_UNIT = 'fixed_unit';
+    final public const string TYPE_FIXED = 'fixed';
 
     protected string $promotionId;
 
@@ -100,20 +60,11 @@ class PromotionDiscountEntity extends Entity
         $this->promotionId = $promotionId;
     }
 
-    /**
-     * Gets the scope of this discount.
-     * This is basically the affected area where the
-     * discount is being used on.
-     */
     public function getScope(): string
     {
         return $this->scope;
     }
 
-    /**
-     * Sets the scope that is being affected
-     * by the value of this discount.
-     */
     public function setScope(string $scope): void
     {
         $this->scope = $scope;
@@ -159,10 +110,6 @@ class PromotionDiscountEntity extends Entity
         $this->discountRules = $discountRules;
     }
 
-    /**
-     * if a promotionDiscountPrice has a value for a currency this value should be
-     * taken for the discount value and not the value of this entity
-     */
     public function getPromotionDiscountPrices(): ?PromotionDiscountPriceCollection
     {
         return $this->promotionDiscountPrices;
@@ -183,29 +130,16 @@ class PromotionDiscountEntity extends Entity
         $this->considerAdvancedRules = $considerAdvancedRules;
     }
 
-    /**
-     * Gets the maximum discount value
-     * of a percentage discount if set for the promotion.
-     */
     public function getMaxValue(): ?float
     {
         return $this->maxValue;
     }
 
-    /**
-     * Sets a maximum discount value for the promotion.
-     * This one will be used to as a threshold for percentage discounts.
-     */
     public function setMaxValue(?float $maxValue): void
     {
         $this->maxValue = $maxValue;
     }
 
-    /**
-     * Gets if the scope is set to a custom setgroup.
-     * The scope contains the groupId, so a prefix
-     * match must occur.
-     */
     public function isScopeSetGroup(): bool
     {
         $prefix = PromotionDiscountEntity::SCOPE_SETGROUP . '-';
@@ -213,29 +147,19 @@ class PromotionDiscountEntity extends Entity
         return mb_strpos($this->scope, $prefix) === 0;
     }
 
-    /**
-     * Gets the assigned groupId if
-     * the discount scope has been set to setgroup.
-     */
     public function getSetGroupId(): string
     {
         if (!$this->isScopeSetGroup()) {
             return '';
         }
-
         $prefix = PromotionDiscountEntity::SCOPE_SETGROUP . '-';
 
         return str_replace($prefix, '', $this->scope);
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - reason:return-type-change - Will return `?string` in the future
-     * @deprecated tag:v6.8.0 - reason:behavior-change - The fallback to empty string will be removed
-     */
-    public function getSorterKey(): string
+    public function getSorterKey(): ?string
     {
-        // @deprecated tag:v6.8.0 - The fallback to empty string will be removed
-        return $this->sorterKey ?? '';
+        return $this->sorterKey;
     }
 
     public function setSorterKey(?string $sorterKey): void
@@ -243,14 +167,9 @@ class PromotionDiscountEntity extends Entity
         $this->sorterKey = $sorterKey;
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - reason:return-type-change - Will return `?string` in the future
-     * @deprecated tag:v6.8.0 - reason:behavior-change - The fallback to empty string will be removed
-     */
-    public function getApplierKey(): string
+    public function getApplierKey(): ?string
     {
-        // @deprecated tag:v6.8.0 - The fallback to empty string will be removed
-        return $this->applierKey ?? '';
+        return $this->applierKey;
     }
 
     public function setApplierKey(?string $applierKey): void
@@ -258,14 +177,9 @@ class PromotionDiscountEntity extends Entity
         $this->applierKey = $applierKey;
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - reason:return-type-change - Will return `?string` in the future
-     * @deprecated tag:v6.8.0 - reason:behavior-change - The fallback to empty string will be removed
-     */
-    public function getUsageKey(): string
+    public function getUsageKey(): ?string
     {
-        // @deprecated tag:v6.8.0 - The fallback to empty string will be removed
-        return $this->usageKey ?? '';
+        return $this->usageKey;
     }
 
     public function setUsageKey(?string $usageKey): void

@@ -32,23 +32,23 @@ class EntityNotExistsValidator extends ConstraintValidator
             return;
         }
 
-        $definition = $this->definitionRegistry->getByEntityName($constraint->getEntity());
+        $definition = $this->definitionRegistry->getByEntityName($constraint->entity);
 
-        $criteria = clone $constraint->getCriteria();
-        $criteria->addFilter(new EqualsFilter($constraint->getPrimaryProperty(), $value));
+        $criteria = clone $constraint->criteria;
+        $criteria->addFilter(new EqualsFilter($constraint->primaryProperty, $value));
 
         // Only one entity is enough to determine existence.
         // As the property can be set in the constraint, the search above does not necessarily return just one entity.
         $criteria->setLimit(1);
 
-        $result = $this->entitySearcher->search($definition, $criteria, $constraint->getContext());
+        $result = $this->entitySearcher->search($definition, $criteria, $constraint->context);
 
         if ($result->getTotal() <= 0) {
             return;
         }
 
-        $this->context->buildViolation($constraint->getMessage())
-            ->setParameter('{{ entity }}', $this->formatValue($constraint->getEntity()))
+        $this->context->buildViolation($constraint->message)
+            ->setParameter('{{ entity }}', $this->formatValue($constraint->entity))
             ->setCode(EntityNotExists::ENTITY_EXISTS)
             ->addViolation();
     }

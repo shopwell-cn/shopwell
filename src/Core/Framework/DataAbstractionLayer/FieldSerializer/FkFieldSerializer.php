@@ -55,8 +55,7 @@ class FkFieldSerializer extends AbstractFieldSerializer
         if ($this->shouldUseContext($field, $data->isRaw(), $value)) {
             try {
                 $value = $parameters->getContext()->get($field->getReferenceDefinition()->getEntityName(), $field->getReferenceField());
-            } catch (\InvalidArgumentException|UnableToLoadPathException) {
-                /** @deprecated tag:v6.8.0 - Remove InvalidArgumentException from catch as it is not thrown anymore */
+            } catch (UnableToLoadPathException) {
                 if ($this->requiresValidation($field, $existence, $value, $parameters)) {
                     $this->validate($this->getConstraints($field), $data, $parameters->getPath());
                 }

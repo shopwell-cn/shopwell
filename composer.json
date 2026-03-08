@@ -495,7 +495,6 @@
   },
   "autoload": {
     "files": [
-      "src/Core/Framework/Adapter/Doctrine/Patch/AbstractAsset.php",
       "src/Core/Framework/Adapter/Database/Mysql.php"
     ],
     "psr-4": {

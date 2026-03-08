@@ -2,56 +2,21 @@
 
 namespace Shopwell\Storefront\Page\Robots\Struct;
 
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Struct\Struct;
 use Shopwell\Storefront\Page\Robots\Parser\ParsedRobots;
-use Shopwell\Storefront\Page\Robots\Parser\RobotsDirectiveParser;
 
 #[Package('framework')]
 class DomainRuleStruct extends Struct
 {
     /**
-     * @deprecated tag:v6.8.0 - Use getDirectives() instead
-     *
-     * @var array<array{type: string, path: string}>
-     */
-    private array $rules = [];
-
-    /**
      * @var list<RobotsDirective>
      */
     private array $directives = [];
 
-    /**
-     * @param ParsedRobots|string $rules The robots.txt rules as parsed object or deprecated string format
-     */
-    public function __construct(ParsedRobots|string $rules, private readonly string $basePath)
+    public function __construct(ParsedRobots $parsed, private readonly string $basePath)
     {
-        if ($rules instanceof ParsedRobots) {
-            $this->initializeFromParsed($rules);
-        } else {
-            Feature::triggerDeprecationOrThrow(
-                'v6.8.0.0',
-                'Passing a string to DomainRuleStruct constructor is deprecated. Use RobotsDirectiveParser::parse() and pass the ParsedRobots object instead.'
-            );
-            $this->parseRulesFromString($rules);
-        }
-    }
-
-    /**
-     * @deprecated tag:v6.8.0 - Use getDirectives() instead
-     *
-     * @return array<array{type: string, path: string}>
-     */
-    public function getRules(): array
-    {
-        Feature::triggerDeprecationOrThrow(
-            'v6.8.0.0',
-            Feature::deprecatedMethodMessage(self::class, __METHOD__, 'v6.8.0.0', 'getDirectives')
-        );
-
-        return $this->rules;
+        $this->initializeFromParsed($parsed);
     }
 
     /**
@@ -77,30 +42,6 @@ class DomainRuleStruct extends Struct
         foreach ($allDirectives as $directive) {
             $directiveWithPath = $directive->withBasePath($this->basePath);
             $this->directives[] = $directiveWithPath;
-
-            if (!Feature::isActive('v6.8.0.0')) {
-                $this->rules[] = ['type' => $directiveWithPath->type->value, 'path' => $directiveWithPath->value];
-            }
-        }
-    }
-
-    private function parseRulesFromString(string $rules): void
-    {
-        $lines = explode("\n", $rules);
-
-        foreach ($lines as $line) {
-            $directive = RobotsDirectiveParser::parseDirectiveFromString($line);
-
-            if ($directive === null) {
-                continue;
-            }
-
-            $directiveWithPath = $directive->withBasePath($this->basePath);
-            $this->directives[] = $directiveWithPath;
-
-            if (!Feature::isActive('v6.8.0.0')) {
-                $this->rules[] = ['type' => $directiveWithPath->type->value, 'path' => $directiveWithPath->value];
-            }
         }
     }
 }

@@ -6,7 +6,6 @@ use Shopwell\Core\Content\Media\Event\UnusedMediaSearchEvent;
 use Shopwell\Core\Framework\Context;
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Criteria;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Uuid\Uuid;
 use Shopwell\Storefront\Theme\ThemeCollection;
@@ -42,13 +41,7 @@ class UnusedMediaSubscriber implements EventSubscriberInterface
 
         $mediaIds = [];
         foreach ($allThemeIds as $themeId) {
-            if (!Feature::isActive('v6.8.0.0')) {
-                $config = Feature::silent('v6.8.0.0', function () use ($themeId, $context) {
-                    return $this->themeService->getThemeConfiguration($themeId, false, $context);
-                });
-            } else {
-                $config = $this->themeService->getPlainThemeConfiguration($themeId, $context);
-            }
+            $config = $this->themeService->getPlainThemeConfiguration($themeId, $context);
 
             foreach ($config['fields'] ?? [] as $data) {
                 if ($data['type'] === 'media' && $data['value'] && Uuid::isValid($data['value'])) {

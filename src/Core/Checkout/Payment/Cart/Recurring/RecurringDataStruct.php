@@ -11,18 +11,4 @@ use Shopwell\Core\Framework\Struct\Struct;
 #[Package('checkout')]
 class RecurringDataStruct extends Struct
 {
-    /**
-     * @internal
-     */
-    public function __construct(
-        /**
-         * @deprecated tag:v6.8.0 - Will be removed without replacement
-         */
-        protected string $subscriptionId,
-        /**
-         * @deprecated tag:v6.8.0 - Will be removed without replacement
-         */
-        protected \DateTimeInterface $nextSchedule,
-    ) {
-    }
 }

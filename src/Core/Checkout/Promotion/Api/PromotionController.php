@@ -5,10 +5,8 @@ namespace Shopwell\Core\Checkout\Promotion\Api;
 use Shopwell\Core\Checkout\Promotion\PromotionException;
 use Shopwell\Core\Checkout\Promotion\Util\PromotionCodeService;
 use Shopwell\Core\Framework\Context;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Routing\ApiRouteScope;
-use Shopwell\Core\Framework\Routing\RoutingException;
 use Shopwell\Core\PlatformRequest;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -48,10 +46,6 @@ class PromotionController extends AbstractController
     {
         $codePattern = (string) $request->query->get('codePattern');
         if ($codePattern === '') {
-            // @deprecated tag:v6.8.0 - remove this if block
-            if (!Feature::isActive('v6.8.0.0')) {
-                throw RoutingException::missingRequestParameter('codePattern'); // @phpstan-ignore-line shopwell.domainException
-            }
             throw PromotionException::missingRequestParameter('codePattern');
         }
         $amount = $request->query->getInt('amount');
@@ -102,10 +96,6 @@ class PromotionController extends AbstractController
     {
         $codePattern = (string) $request->query->get('codePattern');
         if ($codePattern === '') {
-            // @deprecated tag:v6.8.0 - remove this if block
-            if (!Feature::isActive('v6.8.0.0')) {
-                throw RoutingException::missingRequestParameter('codePattern'); // @phpstan-ignore-line shopwell.domainException
-            }
             throw PromotionException::missingRequestParameter('codePattern');
         }
 

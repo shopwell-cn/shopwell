@@ -31,8 +31,6 @@ use Shopwell\Storefront\Event\RouteRequest\SetPaymentOrderRouteRequestEvent;
 use Shopwell\Storefront\Framework\Routing\StorefrontRouteScope;
 use Shopwell\Storefront\Page\Account\Order\AccountEditOrderPageLoadedHook;
 use Shopwell\Storefront\Page\Account\Order\AccountEditOrderPageLoader;
-use Shopwell\Storefront\Page\Account\Order\AccountOrderDetailPageLoadedHook;
-use Shopwell\Storefront\Page\Account\Order\AccountOrderDetailPageLoader;
 use Shopwell\Storefront\Page\Account\Order\AccountOrderPageLoadedHook;
 use Shopwell\Storefront\Page\Account\Order\AccountOrderPageLoader;
 use Shopwell\Storefront\Pagelet\Footer\FooterPageletLoaderInterface;
@@ -52,8 +50,6 @@ class AccountOrderController extends StorefrontController
 {
     /**
      * @internal
-     *
-     * @deprecated tag:v6.8.0 - Property `AccountOrderDetailPageLoader` will be removed
      */
     public function __construct(
         private readonly AccountOrderPageLoader $orderPageLoader,
@@ -63,7 +59,6 @@ class AccountOrderController extends StorefrontController
         private readonly AbstractSetPaymentOrderRoute $setPaymentOrderRoute,
         private readonly AbstractHandlePaymentMethodRoute $handlePaymentMethodRoute,
         private readonly EventDispatcherInterface $eventDispatcher,
-        private readonly AccountOrderDetailPageLoader $orderDetailPageLoader,
         private readonly AbstractOrderRoute $orderRoute,
         private readonly SalesChannelContextServiceInterface $contextService,
         private readonly SystemConfigService $systemConfigService,
@@ -157,38 +152,6 @@ class AccountOrderController extends StorefrontController
         }
 
         return $this->renderStorefront('@Storefront/storefront/page/account/order-history/index.html.twig', ['page' => $page]);
-    }
-
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed without replacement
-     */
-    #[Route(
-        path: '/widgets/account/order/detail/{id}',
-        name: 'widgets.account.order.detail',
-        options: ['seo' => false],
-        defaults: ['XmlHttpRequest' => true, PlatformRequest::ATTRIBUTE_LOGIN_REQUIRED => true],
-        methods: [Request::METHOD_GET]
-    )]
-    public function ajaxOrderDetail(Request $request, SalesChannelContext $context): Response
-    {
-        Feature::triggerDeprecationOrThrow(
-            'v6.8.0.0',
-            'Route "widgets.account.order.detail" is deprecated and will be removed in v6.8.0.0 without replacement.',
-        );
-
-        $page = $this->orderDetailPageLoader->load($request, $context);
-
-        $this->hook(new AccountOrderDetailPageLoadedHook($page, $context));
-
-        $response = $this->renderStorefront('@Storefront/storefront/page/account/order-history/order-detail-list.html.twig', [
-            'orderDetails' => $page->getLineItems(),
-            'orderId' => $page->getOrder()->getId(),
-            'page' => $page,
-        ]);
-
-        $response->headers->set('x-robots-tag', 'noindex');
-
-        return $response;
     }
 
     #[Route(

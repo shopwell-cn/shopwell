@@ -4,7 +4,6 @@ namespace Shopwell\Core\Framework\DataAbstractionLayer;
 
 use Shopwell\Core\Framework\Api\Exception\MissingPrivilegeException;
 use Shopwell\Core\Framework\DataAbstractionLayer\Dbal\Exception\ParentAssociationCanNotBeFetched;
-use Shopwell\Core\Framework\DataAbstractionLayer\Dbal\Exception\UnmappedFieldException;
 use Shopwell\Core\Framework\DataAbstractionLayer\Exception\DefinitionNotFoundException;
 use Shopwell\Core\Framework\DataAbstractionLayer\Exception\EntityRepositoryNotFoundException;
 use Shopwell\Core\Framework\DataAbstractionLayer\Exception\ImpossibleWriteOrderException;
@@ -25,13 +24,11 @@ use Shopwell\Core\Framework\DataAbstractionLayer\Write\Command\WriteTypeIntendEx
 use Shopwell\Core\Framework\DataAbstractionLayer\Write\FieldException\ExpectedArrayException;
 use Shopwell\Core\Framework\DataAbstractionLayer\Write\Validation\RestrictDeleteViolation;
 use Shopwell\Core\Framework\DataAbstractionLayer\Write\Validation\RestrictDeleteViolationException;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\HttpException;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Script\Execution\Hook;
 use Shopwell\Core\Framework\ShopwellHttpException;
 use Shopwell\Core\Framework\Validation\WriteConstraintViolationException;
-use Shopwell\Elasticsearch\Product\ElasticsearchProductException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintViolationList;
@@ -818,19 +815,8 @@ class DataAbstractionLayerException extends HttpException
         );
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - reason:return-type-change - Will return self
-     *
-     * @phpstan-ignore phpat.restrictNamespacesInCore (Don't do that! This will be fixed with the next major version as it is not used anymore)
-     */
-    public static function configNotFound(): self|ElasticsearchProductException
+    public static function configNotFound(): self
     {
-        /** @phpstan-ignore phpat.restrictNamespacesInCore */
-        if (!Feature::isActive('v6.8.0.0') && class_exists(ElasticsearchProductException::class)) {
-            /** @phpstan-ignore phpat.restrictNamespacesInCore */
-            return ElasticsearchProductException::configNotFound();
-        }
-
         return new self(
             Response::HTTP_INTERNAL_SERVER_ERROR,
             self::PRODUCT_SEARCH_CONFIGURATION_NOT_FOUND,
@@ -838,15 +824,8 @@ class DataAbstractionLayerException extends HttpException
         );
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - reason:return-type-change - Will return self
-     */
-    public static function unmappedField(string $field, EntityDefinition $definition): self|UnmappedFieldException
+    public static function unmappedField(string $field, EntityDefinition $definition): self
     {
-        if (!Feature::isActive('v6.8.0.0')) {
-            return new UnmappedFieldException($field, $definition);
-        }
-
         $fieldParts = explode('.', $field);
         $name = array_pop($fieldParts);
 
@@ -858,10 +837,7 @@ class DataAbstractionLayerException extends HttpException
         );
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - reason:return-type-change - Will return self only
-     */
-    public static function unexpectedFieldType(string $field, string $expectedField): self|\RuntimeException
+    public static function unexpectedFieldType(string $field, string $expectedField): self
     {
         return new self(
             Response::HTTP_INTERNAL_SERVER_ERROR,
@@ -871,12 +847,8 @@ class DataAbstractionLayerException extends HttpException
         );
     }
 
-    public static function invalidIdentifier(string $identifier): self|\InvalidArgumentException
+    public static function invalidIdentifier(string $identifier): self
     {
-        if (!Feature::isActive('v6.8.0.0')) {
-            return new \InvalidArgumentException('Backtick not allowed in identifier');
-        }
-
         return new self(
             Response::HTTP_BAD_REQUEST,
             self::DBAL_INVALID_IDENTIFIER,
@@ -885,10 +857,7 @@ class DataAbstractionLayerException extends HttpException
         );
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - reason:return-type-change - Will return self only
-     */
-    public static function missingVersionField(string $definitionClass): self|\RuntimeException
+    public static function missingVersionField(string $definitionClass): self
     {
         return new self(
             Response::HTTP_INTERNAL_SERVER_ERROR,
@@ -898,9 +867,6 @@ class DataAbstractionLayerException extends HttpException
         );
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - reason:return-type-change - Will return self only
-     */
     public static function noTranslationDefinition(string $entityName): self
     {
         return new self(
@@ -1027,9 +993,6 @@ class DataAbstractionLayerException extends HttpException
         return new RestrictDeleteViolationException($definition, [new RestrictDeleteViolation($restrictions)]);
     }
 
-    /**
-     * @deprecated tag:v6.8.0 - reason:return-type-change - Will return only self
-     */
     public static function invalidSyncOperationException(string $message): self
     {
         return new self(
