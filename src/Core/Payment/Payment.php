@@ -4,6 +4,7 @@ namespace Shopwell\Core\Payment;
 
 use Payum\Bundle\PayumBundle\PayumBundle;
 use Shopwell\Core\Framework\Bundle;
+use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Parameter\AdditionalBundleParameters;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -12,8 +13,13 @@ use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 /**
  * @internal
  */
+#[Package('framework')]
 class Payment extends Bundle
 {
+    public function getTemplatePriority(): int
+    {
+        return -1;
+    }
     public function build(ContainerBuilder $container): void
     {
         parent::build($container);
@@ -21,6 +27,7 @@ class Payment extends Bundle
 
         $phpLoader = new PhpFileLoader($container, new FileLocator(__DIR__ . '/DependencyInjection/'));
         $phpLoader->load('payum.php');
+        $phpLoader->load('alipay.php');
     }
 
     public function getAdditionalBundles(AdditionalBundleParameters $parameters): array
