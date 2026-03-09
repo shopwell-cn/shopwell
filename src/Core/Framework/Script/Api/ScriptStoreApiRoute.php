@@ -4,9 +4,7 @@ namespace Shopwell\Core\Framework\Script\Api;
 
 use Psr\Log\LoggerInterface;
 use Shopwell\Core\Framework\Adapter\Cache\CacheCompressor;
-use Shopwell\Core\Framework\Adapter\Cache\Http\HttpCacheKeyGenerator;
 use Shopwell\Core\Framework\Adapter\Request\RequestParamHelper;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Routing\StoreApiRouteScope;
 use Shopwell\Core\Framework\Script\Execution\ScriptExecutor;
@@ -104,17 +102,6 @@ class ScriptStoreApiRoute
             return null;
         }
 
-        if (!Feature::isActive('v6.8.0.0') && !Feature::isActive('PERFORMANCE_TWEAKS') && !Feature::isActive('CACHE_REWORK')) {
-            $invalidationStates = explode(',', (string) $response->headers->get(HttpCacheKeyGenerator::INVALIDATION_STATES_HEADER));
-            if ($context->hasState(...$invalidationStates)) {
-                $this->logger->info('cache-miss: ' . $request->getPathInfo());
-
-                return null;
-            }
-
-            $response->headers->remove(HttpCacheKeyGenerator::INVALIDATION_STATES_HEADER);
-        }
-
         $this->logger->info('cache-hit: ' . $request->getPathInfo());
 
         return $response;
@@ -124,14 +111,7 @@ class ScriptStoreApiRoute
     {
         $item = $this->cache->getItem($cacheKey);
 
-        if (!Feature::isActive('v6.8.0.0') && !Feature::isActive('PERFORMANCE_TWEAKS') && !Feature::isActive('CACHE_REWORK')) {
-            // add the header only for the response in cache and remove the header before the response is sent
-            $symfonyResponse->headers->set(HttpCacheKeyGenerator::INVALIDATION_STATES_HEADER, implode(',', $cacheConfig->getInvalidationStates()));
-        }
         $item = CacheCompressor::compress($item, $symfonyResponse);
-        if (!Feature::isActive('v6.8.0.0') && !Feature::isActive('PERFORMANCE_TWEAKS') && !Feature::isActive('CACHE_REWORK')) {
-            $symfonyResponse->headers->remove(HttpCacheKeyGenerator::INVALIDATION_STATES_HEADER);
-        }
 
         $item->tag($cacheConfig->getCacheTags());
         $item->expiresAfter($cacheConfig->getSharedMaxAge());

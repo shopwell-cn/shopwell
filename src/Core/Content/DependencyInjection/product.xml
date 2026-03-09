@@ -219,59 +219,6 @@
             <tag name="shopwell.entity.definition"/>
         </service>
 
-        <service id="Shopwell\Core\Content\Product\Cms\ProductBoxCmsElementResolver">
-            <argument type="service" id="Shopwell\Core\System\SystemConfig\SystemConfigService"/>
-            <tag name="shopwell.cms.data_resolver" />
-        </service>
-
-        <service id="Shopwell\Core\Content\Product\Cms\ProductListingCmsElementResolver">
-            <argument type="service" id="Shopwell\Core\Content\Product\SalesChannel\Listing\ProductListingRoute" />
-            <argument type="service" id="product_sorting.repository" />
-            <tag name="shopwell.cms.data_resolver" />
-        </service>
-
-        <service id="Shopwell\Core\Content\Product\Cms\ProductSliderCmsElementResolver">
-            <argument type="tagged_iterator" tag="shopwell.cms.product_slider.processor"/>
-            <argument type="service" id="logger"/>
-
-            <tag name="shopwell.cms.data_resolver"/>
-        </service>
-
-        <service id="Shopwell\Core\Content\Product\Cms\ProductSlider\StaticProductProcessor">
-            <argument type="service" id="Shopwell\Core\System\SystemConfig\SystemConfigService"/>
-            <argument type="service" id="event_dispatcher"/>
-
-            <tag name="shopwell.cms.product_slider.processor"/>
-        </service>
-
-        <service id="Shopwell\Core\Content\Product\Cms\ProductSlider\ProductStreamProcessor">
-            <argument type="service" id="Shopwell\Core\Content\ProductStream\Service\ProductStreamBuilder"/>
-            <argument type="service" id="sales_channel.product.repository"/>
-            <argument type="service" id="event_dispatcher"/>
-
-            <tag name="shopwell.cms.product_slider.processor"/>
-        </service>
-
-        <service id="Shopwell\Core\Content\Product\Cms\ProductNameCmsElementResolver">
-            <tag name="shopwell.cms.data_resolver" />
-        </service>
-
-        <service id="Shopwell\Core\Content\Product\Cms\ManufacturerLogoCmsElementResolver">
-            <tag name="shopwell.cms.data_resolver" />
-        </service>
-
-        <service id="Shopwell\Core\Content\Product\Cms\CrossSellingCmsElementResolver">
-            <argument type="service" id="Shopwell\Core\Content\Product\SalesChannel\CrossSelling\ProductCrossSellingRoute"/>
-            <tag name="shopwell.cms.data_resolver"/>
-        </service>
-
-        <service id="Shopwell\Core\Content\Product\Cms\ProductDescriptionReviewsCmsElementResolver">
-            <argument type="service" id="Shopwell\Core\Content\Product\SalesChannel\Review\ProductReviewLoader"/>
-            <argument type="service" id="Shopwell\Core\Framework\Script\Execution\ScriptExecutor"/>
-            <argument type="service" id="Shopwell\Core\System\SystemConfig\SystemConfigService"/>
-            <tag name="shopwell.cms.data_resolver"/>
-        </service>
-
         <service id="Shopwell\Core\Content\Product\SalesChannel\Price\ProductPriceCalculator">
             <argument type="service" id="unit.repository"/>
             <argument type="service" id="Shopwell\Core\Checkout\Cart\Price\QuantityPriceCalculator"/>
@@ -535,12 +482,6 @@
 
         <service id="Shopwell\Core\Content\Product\SalesChannel\ProductListRoute" public="true">
             <argument type="service" id="sales_channel.product.repository"/>
-        </service>
-
-        <service id="Shopwell\Core\Content\Product\Cms\BuyBoxCmsElementResolver">
-            <argument type="service" id="Shopwell\Core\Content\Product\SalesChannel\Detail\ProductConfiguratorLoader"/>
-            <argument type="service" id="product_review.repository"/>
-            <tag name="shopwell.cms.data_resolver"/>
         </service>
 
         <service id="Shopwell\Core\Framework\DataAbstractionLayer\Search\Term\Filter\TokenFilter">

@@ -10,15 +10,11 @@ use Shopwell\Core\Checkout\Payment\Aggregate\PaymentMethodTranslation\PaymentMet
 use Shopwell\Core\Checkout\Promotion\Aggregate\PromotionTranslation\PromotionTranslationDefinition;
 use Shopwell\Core\Checkout\Shipping\Aggregate\ShippingMethodTranslation\ShippingMethodTranslationDefinition;
 use Shopwell\Core\Content\Category\Aggregate\CategoryTranslation\CategoryTranslationDefinition;
-use Shopwell\Core\Content\Cms\Aggregate\CmsPageTranslation\CmsPageTranslationDefinition;
-use Shopwell\Core\Content\Cms\Aggregate\CmsSlotTranslation\CmsSlotTranslationDefinition;
-use Shopwell\Core\Content\ImportExport\ImportExportProfileTranslationDefinition;
 use Shopwell\Core\Content\LandingPage\Aggregate\LandingPageTranslation\LandingPageTranslationDefinition;
 use Shopwell\Core\Content\MailTemplate\Aggregate\MailHeaderFooterTranslation\MailHeaderFooterTranslationDefinition;
 use Shopwell\Core\Content\MailTemplate\Aggregate\MailTemplateTranslation\MailTemplateTranslationDefinition;
 use Shopwell\Core\Content\MailTemplate\Aggregate\MailTemplateTypeTranslation\MailTemplateTypeTranslationDefinition;
 use Shopwell\Core\Content\Media\Aggregate\MediaTranslation\MediaTranslationDefinition;
-use Shopwell\Core\Content\Newsletter\Aggregate\NewsletterRecipient\NewsletterRecipientDefinition;
 use Shopwell\Core\Content\Product\Aggregate\ProductCrossSellingTranslation\ProductCrossSellingTranslationDefinition;
 use Shopwell\Core\Content\Product\Aggregate\ProductFeatureSetTranslation\ProductFeatureSetTranslationDefinition;
 use Shopwell\Core\Content\Product\Aggregate\ProductKeywordDictionary\ProductKeywordDictionaryDefinition;
@@ -71,7 +67,6 @@ use Shopwell\Core\System\SalesChannel\Aggregate\SalesChannelLanguage\SalesChanne
 use Shopwell\Core\System\SalesChannel\Aggregate\SalesChannelTranslation\SalesChannelTranslationDefinition;
 use Shopwell\Core\System\SalesChannel\Aggregate\SalesChannelTypeTranslation\SalesChannelTypeTranslationDefinition;
 use Shopwell\Core\System\SalesChannel\SalesChannelDefinition;
-use Shopwell\Core\System\Salutation\Aggregate\SalutationTranslation\SalutationTranslationDefinition;
 use Shopwell\Core\System\StateMachine\Aggregation\StateMachineState\StateMachineStateTranslationDefinition;
 use Shopwell\Core\System\StateMachine\StateMachineTranslationDefinition;
 use Shopwell\Core\System\Tax\Aggregate\TaxRuleTypeTranslation\TaxRuleTypeTranslationDefinition;
@@ -81,7 +76,7 @@ use Shopwell\Core\System\Unit\Aggregate\UnitTranslation\UnitTranslationDefinitio
 #[Package('fundamentals@discovery')]
 class LanguageDefinition extends EntityDefinition
 {
-    final public const ENTITY_NAME = 'language';
+    final public const string ENTITY_NAME = 'language';
 
     public function getEntityName(): string
     {
@@ -132,7 +127,6 @@ class LanguageDefinition extends EntityDefinition
             new OneToManyAssociationField('salesChannelDefaultAssignments', SalesChannelDefinition::class, 'language_id', 'id')->addFlags(new RestrictDelete()),
             new OneToManyAssociationField('salesChannelDomains', SalesChannelDomainDefinition::class, 'language_id')->addFlags(new RestrictDelete()),
             new OneToManyAssociationField('customers', CustomerDefinition::class, 'language_id')->addFlags(new RestrictDelete()),
-            new OneToManyAssociationField('newsletterRecipients', NewsletterRecipientDefinition::class, 'language_id', 'id')->addFlags(new RestrictDelete()),
             new OneToManyAssociationField('orders', OrderDefinition::class, 'language_id', 'id')->addFlags(new RestrictDelete()),
 
             // Translation Associations, not available over sales-channel-api and cascade delete
@@ -152,13 +146,10 @@ class LanguageDefinition extends EntityDefinition
             new OneToManyAssociationField('propertyGroupOptionTranslations', PropertyGroupOptionTranslationDefinition::class, 'language_id')->addFlags(new CascadeDelete()),
             new OneToManyAssociationField('salesChannelTranslations', SalesChannelTranslationDefinition::class, 'language_id')->addFlags(new CascadeDelete()),
             new OneToManyAssociationField('salesChannelTypeTranslations', SalesChannelTypeTranslationDefinition::class, 'language_id')->addFlags(new CascadeDelete()),
-            new OneToManyAssociationField('salutationTranslations', SalutationTranslationDefinition::class, 'language_id')->addFlags(new CascadeDelete()),
             new OneToManyAssociationField('pluginTranslations', PluginTranslationDefinition::class, 'language_id')->addFlags(new CascadeDelete()),
             new OneToManyAssociationField('productStreamTranslations', ProductStreamTranslationDefinition::class, 'language_id')->addFlags(new CascadeDelete()),
             new OneToManyAssociationField('stateMachineTranslations', StateMachineTranslationDefinition::class, 'language_id')->addFlags(new CascadeDelete()),
             new OneToManyAssociationField('stateMachineStateTranslations', StateMachineStateTranslationDefinition::class, 'language_id')->addFlags(new CascadeDelete()),
-            new OneToManyAssociationField('cmsPageTranslations', CmsPageTranslationDefinition::class, 'language_id')->addFlags(new CascadeDelete()),
-            new OneToManyAssociationField('cmsSlotTranslations', CmsSlotTranslationDefinition::class, 'language_id')->addFlags(new CascadeDelete()),
             new OneToManyAssociationField('mailTemplateTranslations', MailTemplateTranslationDefinition::class, 'language_id')->addFlags(new CascadeDelete()),
             new OneToManyAssociationField('mailHeaderFooterTranslations', MailHeaderFooterTranslationDefinition::class, 'language_id')->addFlags(new CascadeDelete()),
             new OneToManyAssociationField('documentTypeTranslations', DocumentTypeTranslationDefinition::class, 'language_id')->addFlags(new CascadeDelete()),
@@ -173,7 +164,6 @@ class LanguageDefinition extends EntityDefinition
             new OneToManyAssociationField('seoUrlTranslations', SeoUrlDefinition::class, 'language_id')->addFlags(new CascadeDelete()),
             new OneToManyAssociationField('taxRuleTypeTranslations', TaxRuleTypeTranslationDefinition::class, 'language_id')->addFlags(new CascadeDelete()),
             new OneToManyAssociationField('productCrossSellingTranslations', ProductCrossSellingTranslationDefinition::class, 'language_id')->addFlags(new CascadeDelete()),
-            new OneToManyAssociationField('importExportProfileTranslations', ImportExportProfileTranslationDefinition::class, 'language_id')->addFlags(new CascadeDelete()),
             new OneToManyAssociationField('productSortingTranslations', ProductSortingTranslationDefinition::class, 'language_id')->addFlags(new CascadeDelete()),
             new OneToManyAssociationField('productFeatureSetTranslations', ProductFeatureSetTranslationDefinition::class, 'language_id')->addFlags(new CascadeDelete()),
             new OneToManyAssociationField('appTranslations', AppTranslationDefinition::class, 'language_id')->addFlags(new CascadeDelete()),

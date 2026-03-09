@@ -75,17 +75,6 @@ class ChangeCustomerProfileRoute extends AbstractChangeCustomerProfileRoute
             $data->remove('accountType');
         }
 
-        if ($data->get('accountType') === CustomerEntity::ACCOUNT_TYPE_BUSINESS) {
-            $validation->add('company', new NotBlank());
-            $billingAddress = $customer->getDefaultBillingAddress();
-            if ($billingAddress) {
-                $this->addVatIdsValidation($validation, $billingAddress);
-            }
-        } else {
-            $data->set('company', '');
-            $data->set('vatIds', null);
-        }
-
         $vatIds = $data->get('vatIds');
         if ($vatIds instanceof RequestDataBag) {
             $vatIds = \array_filter($vatIds->all());
@@ -139,22 +128,6 @@ class ChangeCustomerProfileRoute extends AbstractChangeCustomerProfileRoute
         $validationEvent = new BuildValidationEvent($definition, $data, $context);
         $this->eventDispatcher->dispatch($validationEvent, $validationEvent->getName());
     }
-
-    private function addVatIdsValidation(DataValidationDefinition $validation, CustomerAddressEntity $address): void
-    {
-        $constraints = [
-            new Type('array'),
-            new CustomerVatIdentification(
-                countryId: $address->getCountryId()
-            ),
-        ];
-        if ($address->getCountry() && $address->getCountry()->getVatIdRequired()) {
-            $constraints[] = new NotBlank();
-        }
-
-        $validation->add('vatIds', ...$constraints);
-    }
-
     private function getBirthday(DataBag $data): ?\DateTimeInterface
     {
         $birthdayDay = $data->get('birthdayDay');

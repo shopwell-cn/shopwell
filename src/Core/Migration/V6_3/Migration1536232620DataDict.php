@@ -3,6 +3,7 @@
 namespace Shopwell\Core\Migration\V6_3;
 
 use Doctrine\DBAL\Connection;
+use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Migration\MigrationStep;
 
 /**

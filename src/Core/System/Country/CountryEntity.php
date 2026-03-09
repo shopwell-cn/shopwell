@@ -218,16 +218,6 @@ class CountryEntity extends Entity
         $this->currencyCountryRoundings = $currencyCountryRoundings;
     }
 
-    public function getVatIdRequired(): bool
-    {
-        return (bool) $this->vatIdRequired;
-    }
-
-    public function setVatIdRequired(bool $vatIdRequired): void
-    {
-        $this->vatIdRequired = $vatIdRequired;
-    }
-
     public function getCustomerTax(): TaxFreeConfig
     {
         return $this->customerTax;

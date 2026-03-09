@@ -13,6 +13,7 @@ use Shopwell\Core\Framework\Plugin\Exception\DecorationPatternException;
 class DataDictLoader extends AbstractDataDictLoader
 {
     /**
+     * @internal
      * @param EntityRepository<DataDictGroupCollection> $dictGroupRepository
      */
     public function __construct(

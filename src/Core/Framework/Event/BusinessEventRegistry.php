@@ -16,13 +16,9 @@ use Shopwell\Core\Checkout\Customer\Event\CustomerRegisterEvent;
 use Shopwell\Core\Checkout\Customer\Event\DoubleOptInGuestOrderEvent;
 use Shopwell\Core\Checkout\Customer\Event\GuestCustomerRegisterEvent;
 use Shopwell\Core\Checkout\Order\Event\OrderPaymentMethodChangedEvent;
-use Shopwell\Core\Content\ContactForm\Event\ContactFormEvent;
 use Shopwell\Core\Content\MailTemplate\Service\Event\MailBeforeSentEvent;
 use Shopwell\Core\Content\MailTemplate\Service\Event\MailBeforeValidateEvent;
 use Shopwell\Core\Content\MailTemplate\Service\Event\MailSentEvent;
-use Shopwell\Core\Content\Newsletter\Event\NewsletterConfirmEvent;
-use Shopwell\Core\Content\Newsletter\Event\NewsletterRegisterEvent;
-use Shopwell\Core\Content\Newsletter\Event\NewsletterUnsubscribeEvent;
 use Shopwell\Core\Content\Product\SalesChannel\Review\Event\ReviewFormEvent;
 use Shopwell\Core\Content\ProductExport\Event\ProductExportLoggingEvent;
 use Shopwell\Core\Content\RevocationRequest\Event\RevocationRequestEvent;
@@ -50,14 +46,10 @@ class BusinessEventRegistry
         CustomerRegisterEvent::class,
         DoubleOptInGuestOrderEvent::class,
         GuestCustomerRegisterEvent::class,
-        ContactFormEvent::class,
         ReviewFormEvent::class,
         MailBeforeSentEvent::class,
         MailBeforeValidateEvent::class,
         MailSentEvent::class,
-        NewsletterConfirmEvent::class,
-        NewsletterRegisterEvent::class,
-        NewsletterUnsubscribeEvent::class,
         ProductExportLoggingEvent::class,
         CustomerPasswordChangedEvent::class,
         RevocationRequestEvent::class,

@@ -40,16 +40,9 @@ use Shopwell\Core\Checkout\Promotion\PromotionDefinition;
 use Shopwell\Core\Content\Category\Aggregate\CategoryTag\CategoryTagDefinition;
 use Shopwell\Core\Content\Category\Aggregate\CategoryTranslation\CategoryTranslationDefinition;
 use Shopwell\Core\Content\Category\CategoryDefinition;
-use Shopwell\Core\Content\Cms\Aggregate\CmsBlock\CmsBlockDefinition;
-use Shopwell\Core\Content\Cms\Aggregate\CmsPageTranslation\CmsPageTranslationDefinition;
-use Shopwell\Core\Content\Cms\Aggregate\CmsSection\CmsSectionDefinition;
-use Shopwell\Core\Content\Cms\Aggregate\CmsSlot\CmsSlotDefinition;
-use Shopwell\Core\Content\Cms\Aggregate\CmsSlotTranslation\CmsSlotTranslationDefinition;
-use Shopwell\Core\Content\Cms\CmsPageDefinition;
 use Shopwell\Core\Content\ImportExport\Aggregate\ImportExportFile\ImportExportFileDefinition;
 use Shopwell\Core\Content\ImportExport\Aggregate\ImportExportLog\ImportExportLogDefinition;
 use Shopwell\Core\Content\ImportExport\ImportExportProfileDefinition;
-use Shopwell\Core\Content\ImportExport\ImportExportProfileTranslationDefinition;
 use Shopwell\Core\Content\MailTemplate\Aggregate\MailHeaderFooter\MailHeaderFooterDefinition;
 use Shopwell\Core\Content\MailTemplate\Aggregate\MailHeaderFooterTranslation\MailHeaderFooterTranslationDefinition;
 use Shopwell\Core\Content\MailTemplate\Aggregate\MailTemplateMedia\MailTemplateMediaDefinition;
@@ -66,8 +59,6 @@ use Shopwell\Core\Content\Media\Aggregate\MediaThumbnail\MediaThumbnailDefinitio
 use Shopwell\Core\Content\Media\Aggregate\MediaThumbnailSize\MediaThumbnailSizeDefinition;
 use Shopwell\Core\Content\Media\Aggregate\MediaTranslation\MediaTranslationDefinition;
 use Shopwell\Core\Content\Media\MediaDefinition;
-use Shopwell\Core\Content\Newsletter\Aggregate\NewsletterRecipient\NewsletterRecipientDefinition;
-use Shopwell\Core\Content\Newsletter\Aggregate\NewsletterRecipientTag\NewsletterRecipientTagDefinition;
 use Shopwell\Core\Content\Product\Aggregate\ProductCategory\ProductCategoryDefinition;
 use Shopwell\Core\Content\Product\Aggregate\ProductCategoryTree\ProductCategoryTreeDefinition;
 use Shopwell\Core\Content\Product\Aggregate\ProductConfiguratorSetting\ProductConfiguratorSettingDefinition;
@@ -132,8 +123,6 @@ use Shopwell\Core\System\SalesChannel\Aggregate\SalesChannelTranslation\SalesCha
 use Shopwell\Core\System\SalesChannel\Aggregate\SalesChannelType\SalesChannelTypeDefinition;
 use Shopwell\Core\System\SalesChannel\Aggregate\SalesChannelTypeTranslation\SalesChannelTypeTranslationDefinition;
 use Shopwell\Core\System\SalesChannel\SalesChannelDefinition;
-use Shopwell\Core\System\Salutation\Aggregate\SalutationTranslation\SalutationTranslationDefinition;
-use Shopwell\Core\System\Salutation\SalutationDefinition;
 use Shopwell\Core\System\StateMachine\Aggregation\StateMachineHistory\StateMachineHistoryDefinition;
 use Shopwell\Core\System\StateMachine\Aggregation\StateMachineState\StateMachineStateDefinition;
 use Shopwell\Core\System\StateMachine\Aggregation\StateMachineState\StateMachineStateTranslationDefinition;
@@ -156,30 +145,28 @@ use Shopwell\Core\System\User\UserDefinition;
 #[Package('checkout')]
 class PermissionCategorization
 {
-    private const CATEGORY_APP = 'app';
-    private const CATEGORY_ADMIN_USER = 'admin_user';
-    private const CATEGORY_CATEGORY = 'category';
-    private const CATEGORY_CMS = 'cms';
-    private const CATEGORY_CUSTOMER = 'customer';
-    private const CATEGORY_CUSTOM_FIELDS = 'custom_fields';
-    private const CATEGORY_DOCUMENTS = 'documents';
-    private const CATEGORY_GOOGLE_SHOPPING = 'google_shopping';
-    private const CATEGORY_IMPORT_EXPORT = 'import_export';
-    private const CATEGORY_MAIL_TEMPLATES = 'mail_templates';
-    private const CATEGORY_MEDIA = 'media';
-    private const CATEGORY_NEWSLETTER = 'newsletter';
-    private const CATEGORY_ORDER = 'order';
-    private const CATEGORY_OTHER = 'other';
-    private const CATEGORY_PAYMENT = 'payment';
-    private const CATEGORY_PRODUCT = 'product';
-    private const CATEGORY_PROMOTION = 'promotion';
-    private const CATEGORY_RULES = 'rules';
-    private const CATEGORY_SALES_CHANNEL = 'sales_channel';
-    private const CATEGORY_SETTINGS = 'settings';
-    private const CATEGORY_SOCIAL_SHOPPING = 'social_shopping';
-    private const CATEGORY_TAG = 'tag';
-    private const CATEGORY_THEME = 'theme';
-    private const CATEGORY_ADDITIONAL_PRIVILEGES = 'additional_privileges';
+    private const string CATEGORY_APP = 'app';
+    private const string CATEGORY_ADMIN_USER = 'admin_user';
+    private const string CATEGORY_CATEGORY = 'category';
+    private const string CATEGORY_CUSTOMER = 'customer';
+    private const string CATEGORY_CUSTOM_FIELDS = 'custom_fields';
+    private const string CATEGORY_DOCUMENTS = 'documents';
+    private const string CATEGORY_GOOGLE_SHOPPING = 'google_shopping';
+    private const string CATEGORY_IMPORT_EXPORT = 'import_export';
+    private const string CATEGORY_MAIL_TEMPLATES = 'mail_templates';
+    private const string CATEGORY_MEDIA = 'media';
+    private const string CATEGORY_ORDER = 'order';
+    private const string CATEGORY_OTHER = 'other';
+    private const string CATEGORY_PAYMENT = 'payment';
+    private const string CATEGORY_PRODUCT = 'product';
+    private const string CATEGORY_PROMOTION = 'promotion';
+    private const string CATEGORY_RULES = 'rules';
+    private const string CATEGORY_SALES_CHANNEL = 'sales_channel';
+    private const string CATEGORY_SETTINGS = 'settings';
+    private const string CATEGORY_SOCIAL_SHOPPING = 'social_shopping';
+    private const string CATEGORY_TAG = 'tag';
+    private const string CATEGORY_THEME = 'theme';
+    private const string CATEGORY_ADDITIONAL_PRIVILEGES = 'additional_privileges';
 
     /**
      * @see \Shopwell\Storefront\Theme\ThemeDefinition::ENTITY_NAME
@@ -217,14 +204,6 @@ class PermissionCategorization
             CategoryTranslationDefinition::ENTITY_NAME,
             CategoryTagDefinition::ENTITY_NAME,
         ],
-        self::CATEGORY_CMS => [
-            CmsBlockDefinition::ENTITY_NAME,
-            CmsPageDefinition::ENTITY_NAME,
-            CmsPageTranslationDefinition::ENTITY_NAME,
-            CmsSectionDefinition::ENTITY_NAME,
-            CmsSlotDefinition::ENTITY_NAME,
-            CmsSlotTranslationDefinition::ENTITY_NAME,
-        ],
         self::CATEGORY_CUSTOMER => [
             CustomerDefinition::ENTITY_NAME,
             CustomerAddressDefinition::ENTITY_NAME,
@@ -257,7 +236,6 @@ class PermissionCategorization
             ImportExportFileDefinition::ENTITY_NAME,
             ImportExportLogDefinition::ENTITY_NAME,
             ImportExportProfileDefinition::ENTITY_NAME,
-            ImportExportProfileTranslationDefinition::ENTITY_NAME,
         ],
         self::CATEGORY_MAIL_TEMPLATES => [
             MailHeaderFooterDefinition::ENTITY_NAME,
@@ -278,10 +256,6 @@ class PermissionCategorization
             MediaTagDefinition::ENTITY_NAME,
             MediaThumbnailDefinition::ENTITY_NAME,
             MediaThumbnailSizeDefinition::ENTITY_NAME,
-        ],
-        self::CATEGORY_NEWSLETTER => [
-            NewsletterRecipientDefinition::ENTITY_NAME,
-            NewsletterRecipientTagDefinition::ENTITY_NAME,
         ],
         self::CATEGORY_ORDER => [
             OrderDefinition::ENTITY_NAME,
@@ -370,8 +344,6 @@ class PermissionCategorization
             NumberRangeSalesChannelDefinition::ENTITY_NAME,
             NumberRangeStateDefinition::ENTITY_NAME,
             NumberRangeTypeDefinition::ENTITY_NAME,
-            SalutationDefinition::ENTITY_NAME,
-            SalutationTranslationDefinition::ENTITY_NAME,
             SeoUrlDefinition::ENTITY_NAME,
             SeoUrlTemplateDefinition::ENTITY_NAME,
             StateMachineDefinition::ENTITY_NAME,
