@@ -6,6 +6,7 @@ use Shopwell\Core\Framework\Adapter\Cache\CacheValueCompressor;
 use Shopwell\Core\Framework\Log\Package;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
+
 #[Package('data-services')]
 class CachedDataDictLoader extends AbstractDataDictLoader
 {

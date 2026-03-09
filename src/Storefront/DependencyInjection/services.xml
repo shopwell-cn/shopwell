@@ -409,12 +409,6 @@
             <argument type="service" id="Shopwell\Core\Content\Sitemap\SalesChannel\SitemapRoute"/>
         </service>
 
-        <service id="Shopwell\Storefront\Page\Cms\DefaultMediaResolver" decorates="Shopwell\Core\Content\Media\Cms\DefaultMediaResolver">
-            <argument type="service" id="Shopwell\Storefront\Page\Cms\DefaultMediaResolver.inner"/>
-            <argument type="service" id="Shopwell\Core\Framework\Adapter\Translation\Translator"/>
-            <argument type="service" id="assets.packages"/>
-        </service>
-
         <service id="Shopwell\Storefront\Framework\Command\SalesChannelCreateStorefrontCommand">
             <argument type="service" id="snippet_set.repository"/>
             <argument type="service" id="Shopwell\Core\Maintenance\SalesChannel\Service\SalesChannelCreator"/>

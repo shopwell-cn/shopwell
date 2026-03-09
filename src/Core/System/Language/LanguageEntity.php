@@ -34,7 +34,6 @@ use Shopwell\Core\Framework\App\Aggregate\AppTranslation\AppTranslationCollectio
 use Shopwell\Core\Framework\App\Aggregate\CmsBlockTranslation\AppCmsBlockTranslationCollection;
 use Shopwell\Core\Framework\App\Aggregate\FlowActionTranslation\AppFlowActionTranslationCollection;
 use Shopwell\Core\Framework\DataAbstractionLayer\Entity;
-use Shopwell\Core\Framework\DataAbstractionLayer\EntityCollection;
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityCustomFieldsTrait;
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityIdTrait;
 use Shopwell\Core\Framework\Log\Package;
@@ -129,6 +128,7 @@ class LanguageEntity extends Entity
     protected ?StateMachineTranslationCollection $stateMachineTranslations = null;
 
     protected ?StateMachineStateTranslationCollection $stateMachineStateTranslations = null;
+
     protected ?MailTemplateCollection $mailTemplateTranslations = null;
 
     protected ?MailHeaderFooterCollection $mailHeaderFooterTranslations = null;
@@ -158,6 +158,7 @@ class LanguageEntity extends Entity
     protected ?TaxRuleTypeTranslationCollection $taxRuleTypeTranslations = null;
 
     protected ?ProductCrossSellingTranslationCollection $productCrossSellingTranslations = null;
+
     protected ?ProductFeatureSetTranslationCollection $productFeatureSetTranslations = null;
 
     protected ?AppTranslationCollection $appTranslations = null;
@@ -427,6 +428,7 @@ class LanguageEntity extends Entity
     {
         $this->salesChannelDefaultAssignments = $salesChannelDefaultAssignments;
     }
+
     public function getPropertyGroupTranslations(): ?PropertyGroupTranslationCollection
     {
         return $this->propertyGroupTranslations;
@@ -558,6 +560,7 @@ class LanguageEntity extends Entity
     {
         $this->deliveryTimeTranslations = $deliveryTimeTranslations;
     }
+
     public function getOrders(): ?OrderCollection
     {
         return $this->orders;

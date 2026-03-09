@@ -2,12 +2,10 @@
 
 namespace Shopwell\Core\Checkout\Customer\SalesChannel;
 
-use Shopwell\Core\Checkout\Customer\Aggregate\CustomerAddress\CustomerAddressEntity;
 use Shopwell\Core\Checkout\Customer\CustomerCollection;
 use Shopwell\Core\Checkout\Customer\CustomerDefinition;
 use Shopwell\Core\Checkout\Customer\CustomerEntity;
 use Shopwell\Core\Checkout\Customer\CustomerEvents;
-use Shopwell\Core\Checkout\Customer\Validation\Constraint\CustomerVatIdentification;
 use Shopwell\Core\Framework\Context;
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopwell\Core\Framework\Event\DataMappingEvent;
@@ -26,8 +24,6 @@ use Shopwell\Core\System\SalesChannel\StoreApiCustomFieldMapper;
 use Shopwell\Core\System\SalesChannel\SuccessResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\Type;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 #[Route(
@@ -128,6 +124,7 @@ class ChangeCustomerProfileRoute extends AbstractChangeCustomerProfileRoute
         $validationEvent = new BuildValidationEvent($definition, $data, $context);
         $this->eventDispatcher->dispatch($validationEvent, $validationEvent->getName());
     }
+
     private function getBirthday(DataBag $data): ?\DateTimeInterface
     {
         $birthdayDay = $data->get('birthdayDay');

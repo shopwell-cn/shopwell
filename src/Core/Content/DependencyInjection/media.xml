@@ -280,38 +280,6 @@
             <argument type="service" id="Shopwell\Core\Content\Media\Core\Application\AbstractMediaUrlGenerator"/>
         </service>
 
-        <service id="Shopwell\Core\Content\Media\Cms\DefaultMediaResolver">
-            <argument type="service" id="shopwell.filesystem.public"/>
-        </service>
-
-        <service id="Shopwell\Core\Content\Media\Cms\ImageCmsElementResolver">
-            <tag name="shopwell.cms.data_resolver" />
-            <argument type="service" id="Shopwell\Core\Content\Media\Cms\DefaultMediaResolver"/>
-        </service>
-
-        <service id="Shopwell\Core\Content\Media\Cms\Type\ImageSliderTypeDataResolver">
-            <tag name="shopwell.cms.data_resolver" />
-            <argument type="service" id="Shopwell\Core\Content\Media\Cms\DefaultMediaResolver"/>
-        </service>
-
-        <service id="Shopwell\Core\Content\Media\Cms\Type\ImageGalleryTypeDataResolver">
-            <tag name="shopwell.cms.data_resolver" />
-            <argument type="service" id="Shopwell\Core\Content\Media\Cms\DefaultMediaResolver"/>
-        </service>
-
-        <service id="Shopwell\Core\Content\Media\Cms\VideoCmsElementResolver">
-            <tag name="shopwell.cms.data_resolver" />
-            <argument type="service" id="Shopwell\Core\Content\Media\Cms\DefaultMediaResolver"/>
-        </service>
-
-        <service id="Shopwell\Core\Content\Media\Cms\YoutubeVideoCmsElementResolver">
-            <tag name="shopwell.cms.data_resolver" />
-        </service>
-
-        <service id="Shopwell\Core\Content\Media\Cms\VimeoVideoCmsElementResolver">
-            <tag name="shopwell.cms.data_resolver" />
-        </service>
-
         <service id="Shopwell\Core\Content\Media\DataAbstractionLayer\MediaIndexer">
             <tag name="shopwell.entity_indexer"/>
             <argument type="service" id="Shopwell\Core\Framework\DataAbstractionLayer\Dbal\Common\IteratorFactory"/>
