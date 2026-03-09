@@ -4,7 +4,7 @@ includes:
     - rules.neon
 
 parameters:
-    phpVersion: 80200
+    phpVersion: 80500
     level: 8
     treatPhpDocTypesAsCertain: false
     inferPrivatePropertyTypeFromConstructor: true
