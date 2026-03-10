@@ -5,15 +5,15 @@ namespace Shopwell\Core\Framework\Event;
 use Shopwell\Core\Framework\Event\EventData\MailRecipientStruct;
 use Shopwell\Core\Framework\Log\Package;
 
-#[Package('fundamentals@after-sales')]
+#[Package('framework')]
 #[IsFlowEventAware]
 interface MailAware
 {
-    public const MAIL_STRUCT = 'mailStruct';
+    public const string MAIL_STRUCT = 'mailStruct';
 
-    public const SALES_CHANNEL_ID = 'salesChannelId';
+    public const string SALES_CHANNEL_ID = 'salesChannelId';
 
-    public const TIMEZONE = 'timezone';
+    public const string TIMEZONE = 'timezone';
 
     public function getMailStruct(): MailRecipientStruct;
 

@@ -4,7 +4,7 @@ namespace Shopwell\Core\Framework\Event;
 
 use Shopwell\Core\Framework\Log\Package;
 
-#[Package('after-sales')]
+#[Package('framework')]
 #[\Attribute(\Attribute::TARGET_CLASS)]
 final class IsFlowEventAware
 {

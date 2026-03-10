@@ -4,13 +4,13 @@ namespace Shopwell\Core\Framework\Event;
 
 use Shopwell\Core\Framework\Log\Package;
 
-#[Package('fundamentals@after-sales')]
+#[Package('framework')]
 #[IsFlowEventAware]
 interface OrderAware
 {
-    public const ORDER = 'order';
+    public const string ORDER = 'order';
 
-    public const ORDER_ID = 'orderId';
+    public const string ORDER_ID = 'orderId';
 
     public function getOrderId(): string;
 }

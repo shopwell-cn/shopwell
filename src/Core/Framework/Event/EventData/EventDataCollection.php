@@ -4,7 +4,7 @@ namespace Shopwell\Core\Framework\Event\EventData;
 
 use Shopwell\Core\Framework\Log\Package;
 
-#[Package('fundamentals@after-sales')]
+#[Package('framework')]
 class EventDataCollection
 {
     /**

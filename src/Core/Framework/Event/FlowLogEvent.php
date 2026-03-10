@@ -7,10 +7,10 @@ use Shopwell\Core\Framework\Event\EventData\EventDataCollection;
 use Shopwell\Core\Framework\Log\Package;
 use Symfony\Contracts\EventDispatcher\Event;
 
-#[Package('after-sales')]
+#[Package('framework')]
 class FlowLogEvent extends Event implements FlowEventAware
 {
-    final public const NAME = 'flow.log';
+    final public const string NAME = 'flow.log';
 
     /**
      * @var array<string, mixed>

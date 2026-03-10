@@ -4,13 +4,13 @@ namespace Shopwell\Core\Framework\Event;
 
 use Shopwell\Core\Framework\Log\Package;
 
-#[Package('fundamentals@after-sales')]
+#[Package('framework')]
 #[IsFlowEventAware]
 interface CustomerGroupAware
 {
-    public const CUSTOMER_GROUP_ID = 'customerGroupId';
+    public const string CUSTOMER_GROUP_ID = 'customerGroupId';
 
-    public const CUSTOMER_GROUP = 'customerGroup';
+    public const string CUSTOMER_GROUP = 'customerGroup';
 
     public function getCustomerGroupId(): string;
 }

@@ -4,13 +4,13 @@ namespace Shopwell\Core\Framework\Event;
 
 use Shopwell\Core\Framework\Log\Package;
 
-#[Package('after-sales')]
+#[Package('framework')]
 #[IsFlowEventAware]
 interface A11yRenderedDocumentAware
 {
-    public const A11Y_DOCUMENTS = 'a11yDocuments';
+    public const string A11Y_DOCUMENTS = 'a11yDocuments';
 
-    public const A11Y_DOCUMENT_IDS = 'a11yDocumentIds';
+    public const string A11Y_DOCUMENT_IDS = 'a11yDocumentIds';
 
     /**
      * @return array<string>

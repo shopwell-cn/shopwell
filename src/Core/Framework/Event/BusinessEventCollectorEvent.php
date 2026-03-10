@@ -5,10 +5,10 @@ namespace Shopwell\Core\Framework\Event;
 use Shopwell\Core\Framework\Context;
 use Shopwell\Core\Framework\Log\Package;
 
-#[Package('fundamentals@after-sales')]
+#[Package('framework')]
 class BusinessEventCollectorEvent extends NestedEvent
 {
-    final public const NAME = 'collect.business-events';
+    final public const string NAME = 'collect.business-events';
 
     public function __construct(
         private readonly BusinessEventCollectorResponse $events,

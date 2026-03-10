@@ -4,13 +4,13 @@ namespace Shopwell\Core\Framework\Event;
 
 use Shopwell\Core\Framework\Log\Package;
 
-#[Package('fundamentals@after-sales')]
+#[Package('framework')]
 #[IsFlowEventAware]
 interface UserAware
 {
-    public const USER_RECOVERY = 'userRecovery';
+    public const string USER_RECOVERY = 'userRecovery';
 
-    public const USER_RECOVERY_ID = 'userRecoveryId';
+    public const string USER_RECOVERY_ID = 'userRecoveryId';
 
     public function getUserId(): string;
 }

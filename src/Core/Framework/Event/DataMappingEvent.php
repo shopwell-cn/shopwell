@@ -7,7 +7,7 @@ use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Validation\DataBag\DataBag;
 use Symfony\Contracts\EventDispatcher\Event;
 
-#[Package('fundamentals@after-sales')]
+#[Package('framework')]
 class DataMappingEvent extends Event implements ShopwellEvent
 {
     /**

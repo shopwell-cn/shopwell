@@ -32,8 +32,8 @@ class MailStorer extends FlowStorer
                 $mailStruct = $event->getMailStruct();
                 $data = [
                     'recipients' => $mailStruct->getRecipients(),
-                    'bcc' => $mailStruct->getBcc(),
-                    'cc' => $mailStruct->getCc(),
+                    'bcc' => $mailStruct->bcc,
+                    'cc' => $mailStruct->cc,
                 ];
 
                 $stored[MailAware::MAIL_STRUCT] = $data;
@@ -74,8 +74,8 @@ class MailStorer extends FlowStorer
         $mailStructData = $storable->getStore(MailAware::MAIL_STRUCT);
 
         $mailStruct = new MailRecipientStruct($mailStructData['recipients'] ?? []);
-        $mailStruct->setBcc($mailStructData['bcc'] ?? null);
-        $mailStruct->setCc($mailStructData['cc'] ?? null);
+        $mailStruct->bcc = $mailStructData['bcc'] ?? null;
+        $mailStruct->cc = $mailStructData['cc'] ?? null;
 
         $storable->setData(MailAware::SALES_CHANNEL_ID, $storable->getStore(MailAware::SALES_CHANNEL_ID));
         $storable->setData(MailAware::MAIL_STRUCT, $mailStruct);

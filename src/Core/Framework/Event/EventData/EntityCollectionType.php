@@ -2,17 +2,24 @@
 
 namespace Shopwell\Core\Framework\Event\EventData;
 
+use Shopwell\Core\Framework\DataAbstractionLayer\EntityDefinition;
 use Shopwell\Core\Framework\Log\Package;
 
-#[Package('fundamentals@after-sales')]
+#[Package('framework')]
 class EntityCollectionType implements EventDataType
 {
-    final public const TYPE = 'collection';
+    final public const string TYPE = 'collection';
 
+    /**
+     * @param class-string<EntityDefinition> $definitionClass
+     */
     public function __construct(private readonly string $definitionClass)
     {
     }
 
+    /**
+     * @return array{type: string, entityClass: class-string<EntityDefinition>}
+     */
     public function toArray(): array
     {
         return [

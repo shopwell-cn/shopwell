@@ -6,10 +6,10 @@ use Shopwell\Core\Framework\DataAbstractionLayer\EntityDefinition;
 use Shopwell\Core\Framework\FrameworkException;
 use Shopwell\Core\Framework\Log\Package;
 
-#[Package('fundamentals@after-sales')]
+#[Package('framework')]
 class EntityType implements EventDataType
 {
-    final public const TYPE = 'entity';
+    final public const string TYPE = 'entity';
 
     /**
      * @var class-string<EntityDefinition>
@@ -35,6 +35,9 @@ class EntityType implements EventDataType
         $this->entityName = $entityDefinition->getEntityName();
     }
 
+    /**
+     * @return array{type: string, entityClass: class-string<EntityDefinition>, entityName: string}
+     */
     public function toArray(): array
     {
         return [

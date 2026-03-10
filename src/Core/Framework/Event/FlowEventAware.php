@@ -5,7 +5,7 @@ namespace Shopwell\Core\Framework\Event;
 use Shopwell\Core\Framework\Event\EventData\EventDataCollection;
 use Shopwell\Core\Framework\Log\Package;
 
-#[Package('after-sales')]
+#[Package('framework')]
 interface FlowEventAware extends ShopwellEvent
 {
     public static function getAvailableData(): EventDataCollection;

@@ -11,5 +11,4 @@ use Shopwell\Core\Framework\Log\Package;
 #[Package('framework')]
 class PaymentStruct extends Payment
 {
-
 }

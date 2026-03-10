@@ -23,7 +23,7 @@ use Shopwell\Core\Content\ProductExport\Event\ProductExportLoggingEvent;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\System\User\Recovery\UserRecoveryRequestEvent;
 
-#[Package('fundamentals@after-sales')]
+#[Package('framework')]
 final class BusinessEvents
 {
     public const string CHECKOUT_CUSTOMER_BEFORE_LOGIN = CustomerBeforeLoginEvent::EVENT_NAME;

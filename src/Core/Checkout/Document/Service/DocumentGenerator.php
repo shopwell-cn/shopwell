@@ -55,7 +55,7 @@ class DocumentGenerator
         string $deepLinkCode = '',
         ?string $fileType = PdfRenderer::FILE_EXTENSION
     ): ?RenderedDocument {
-        $criteria = (new Criteria([$documentId]))
+        $criteria = new Criteria([$documentId])
             ->addAssociations([
                 'documentMediaFile',
                 'documentType',
@@ -177,7 +177,7 @@ class DocumentGenerator
 
     public function upload(string $documentId, Context $context, Request $uploadedFileRequest): DocumentIdStruct
     {
-        $criteria = (new Criteria([$documentId]))
+        $criteria = new Criteria([$documentId])
             ->addAssociation('documentMediaFile');
 
         $document = $this->documentRepository->search($criteria, $context)->getEntities()->first();
@@ -209,7 +209,7 @@ class DocumentGenerator
                 'id' => $documentId,
                 'documentMediaFileId' => $mediaId,
                 'documentA11yMediaFileId' => null,
-                'now' => (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT),
+                'now' => new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT),
             ],
         ], $context);
 
@@ -307,7 +307,7 @@ class DocumentGenerator
         }
 
         // Fetch the document again because new mediaFile is generated
-        $criteria = (new Criteria([$documentId]))
+        $criteria = new Criteria([$documentId])
             ->addAssociations(['documentMediaFile', 'documentA11yMediaFile', 'documentType']);
 
         $document = $this->documentRepository->search($criteria, $context)->getEntities()->first();
@@ -381,9 +381,9 @@ class DocumentGenerator
         }
 
         foreach ([
-                     $document->getDocumentMediaFile(),
-                     $document->getDocumentA11yMediaFile(),
-                 ] as $media) {
+            $document->getDocumentMediaFile(),
+            $document->getDocumentA11yMediaFile(),
+        ] as $media) {
             if (
                 $media !== null
                 && $media->getFileExtension() !== null

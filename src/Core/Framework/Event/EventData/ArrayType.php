@@ -4,10 +4,10 @@ namespace Shopwell\Core\Framework\Event\EventData;
 
 use Shopwell\Core\Framework\Log\Package;
 
-#[Package('fundamentals@after-sales')]
+#[Package('framework')]
 class ArrayType implements EventDataType
 {
-    final public const TYPE = 'array';
+    final public const string TYPE = 'array';
 
     public function __construct(private readonly EventDataType $type)
     {

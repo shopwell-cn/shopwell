@@ -4,10 +4,10 @@ namespace Shopwell\Core\Framework\Event\EventData;
 
 use Shopwell\Core\Framework\Log\Package;
 
-#[Package('fundamentals@after-sales')]
+#[Package('framework')]
 class ObjectType implements EventDataType
 {
-    final public const TYPE = 'object';
+    final public const string TYPE = 'object';
 
     /**
      * @var array<string, mixed>|null
