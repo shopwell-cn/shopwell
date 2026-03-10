@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Shopwell\Core\Framework\PaymentSystem\Provider\Alipay\Action;
+namespace Shopwell\Core\PaymentSystem\Framework\Provider\Alipay\Action;
 
 use Payum\Core\Action\ActionInterface;
 use Payum\Core\Bridge\Spl\ArrayObject;
@@ -8,7 +8,7 @@ use Payum\Core\Model\PaymentInterface;
 use Payum\Core\Request\Convert;
 use Shopwell\Core\Framework\Log\Package;
 
-#[Package('framework')]
+#[Package('payment-system')]
 class ConvertPaymentAction implements ActionInterface
 {
     /**

@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
-use Shopwell\Core\Framework\PaymentSystem\PaymentTypeRegistry;
-use Shopwell\Core\Framework\PaymentSystem\Provider\Alipay\AlipayGatewayFactory;
+use Shopwell\Core\PaymentSystem\Framework\PaymentTypeRegistry;
+use Shopwell\Core\PaymentSystem\Framework\Provider\Alipay\AlipayGatewayFactory;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\param;
