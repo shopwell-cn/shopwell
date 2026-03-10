@@ -2,10 +2,8 @@
 
 namespace Shopwell\Core\PaymentSystem;
 
-use Payum\Bundle\PayumBundle\PayumBundle;
 use Shopwell\Core\Framework\Bundle;
 use Shopwell\Core\Framework\Log\Package;
-use Shopwell\Core\Framework\Parameter\AdditionalBundleParameters;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
@@ -24,16 +22,8 @@ class PaymentSystem extends Bundle
         $configLocator = new FileLocator(__DIR__ . '/DependencyInjection/');
 
         $phpLoader = new PhpFileLoader($container, $configLocator);
-        $phpLoader->load('services.php');
-
-        parent::build($container);
-        $this->buildDefaultConfig($container);
-    }
-
-    public function getAdditionalBundles(AdditionalBundleParameters $parameters): array
-    {
-        return [
-            new PayumBundle(),
-        ];
+        $phpLoader->load('gateway.php');
+        $phpLoader->load('order.php');
+        $phpLoader->load('api.php');
     }
 }

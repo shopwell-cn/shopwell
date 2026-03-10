@@ -34,9 +34,9 @@ use Shopwell\Core\System\SystemConfig\SystemConfigService;
 #[Package('framework')]
 class LifecycleManager
 {
-    public const AUTO_ENABLED = 'auto';
+    public const string AUTO_ENABLED = 'auto';
 
-    public const CONFIG_KEY_SERVICES_DISABLED = 'core.services.disabled';
+    public const string CONFIG_KEY_SERVICES_DISABLED = 'core.services.disabled';
 
     /**
      * @param EntityRepository<AppCollection> $repository

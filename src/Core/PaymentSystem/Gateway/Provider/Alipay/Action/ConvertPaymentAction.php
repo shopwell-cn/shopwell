@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Shopwell\Core\PaymentSystem\Framework\Provider\Alipay\Action;
+namespace Shopwell\Core\PaymentSystem\Gateway\Provider\Alipay\Action;
 
 use Payum\Core\Action\ActionInterface;
 use Payum\Core\Bridge\Spl\ArrayObject;

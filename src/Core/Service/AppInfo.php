@@ -13,7 +13,7 @@ use Shopwell\Core\Service\Requirement\ServiceConsentRequirement;
 #[Package('framework')]
 readonly class AppInfo
 {
-    private const DEFAULT_REQUIREMENTS = [ServiceConsentRequirement::NAME];
+    private const array DEFAULT_REQUIREMENTS = [ServiceConsentRequirement::NAME];
 
     /**
      * @param non-empty-list<string> $requirements
