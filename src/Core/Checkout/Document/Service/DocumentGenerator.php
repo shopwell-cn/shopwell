@@ -2,6 +2,7 @@
 
 namespace Shopwell\Core\Checkout\Document\Service;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Shopwell\Core\Checkout\Document\Aggregate\DocumentType\DocumentTypeEntity;
 use Shopwell\Core\Checkout\Document\DocumentCollection;
@@ -13,6 +14,8 @@ use Shopwell\Core\Checkout\Document\Renderer\DocumentRendererConfig;
 use Shopwell\Core\Checkout\Document\Renderer\DocumentRendererRegistry;
 use Shopwell\Core\Checkout\Document\Renderer\InvoiceRenderer;
 use Shopwell\Core\Checkout\Document\Renderer\RenderedDocument;
+use Shopwell\Core\Checkout\Document\Renderer\ZugferdEmbeddedRenderer;
+use Shopwell\Core\Checkout\Document\Renderer\ZugferdRenderer;
 use Shopwell\Core\Checkout\Document\Struct\DocumentGenerateOperation;
 use Shopwell\Core\Content\Media\MediaEntity;
 use Shopwell\Core\Content\Media\MediaService;
@@ -52,7 +55,7 @@ class DocumentGenerator
         string $deepLinkCode = '',
         ?string $fileType = PdfRenderer::FILE_EXTENSION
     ): ?RenderedDocument {
-        $criteria = new Criteria([$documentId])
+        $criteria = (new Criteria([$documentId]))
             ->addAssociations([
                 'documentMediaFile',
                 'documentType',
@@ -174,7 +177,7 @@ class DocumentGenerator
 
     public function upload(string $documentId, Context $context, Request $uploadedFileRequest): DocumentIdStruct
     {
-        $criteria = new Criteria([$documentId])
+        $criteria = (new Criteria([$documentId]))
             ->addAssociation('documentMediaFile');
 
         $document = $this->documentRepository->search($criteria, $context)->getEntities()->first();
@@ -206,7 +209,7 @@ class DocumentGenerator
                 'id' => $documentId,
                 'documentMediaFileId' => $mediaId,
                 'documentA11yMediaFileId' => null,
-                'now' => new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT),
+                'now' => (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT),
             ],
         ], $context);
 
@@ -304,7 +307,7 @@ class DocumentGenerator
         }
 
         // Fetch the document again because new mediaFile is generated
-        $criteria = new Criteria([$documentId])
+        $criteria = (new Criteria([$documentId]))
             ->addAssociations(['documentMediaFile', 'documentA11yMediaFile', 'documentType']);
 
         $document = $this->documentRepository->search($criteria, $context)->getEntities()->first();
@@ -338,13 +341,19 @@ class DocumentGenerator
             SELECT LOWER(HEX(document.id))
             FROM document INNER JOIN document_type
                 ON document.document_type_id = document_type.id
-            WHERE document_type.technical_name = :technicalName
+            WHERE document_type.technical_name IN (:technicalNames)
             AND document.document_number = :invoiceNumber
             AND document.order_id = :orderId
         ', [
-            'technicalName' => InvoiceRenderer::TYPE,
+            'technicalNames' => [
+                InvoiceRenderer::TYPE,
+                ZugferdRenderer::TYPE,
+                ZugferdEmbeddedRenderer::TYPE,
+            ],
             'invoiceNumber' => $invoiceNumber,
             'orderId' => Uuid::fromHexToBytes($orderId),
+        ], [
+            'technicalNames' => ArrayParameterType::STRING,
         ]);
     }
 
@@ -372,9 +381,9 @@ class DocumentGenerator
         }
 
         foreach ([
-            $document->getDocumentMediaFile(),
-            $document->getDocumentA11yMediaFile(),
-        ] as $media) {
+                     $document->getDocumentMediaFile(),
+                     $document->getDocumentA11yMediaFile(),
+                 ] as $media) {
             if (
                 $media !== null
                 && $media->getFileExtension() !== null

@@ -25,11 +25,11 @@ class ShippingMethodEntity extends Entity implements IdAware, RuleIdAware
     use EntityCustomFieldsTrait;
     use EntityIdTrait;
 
-    final public const TAX_TYPE_AUTO = 'auto';
-    final public const TAX_TYPE_FIXED = 'fixed';
-    final public const TAX_TYPE_HIGHEST = 'highest';
-    final public const POSITION_DEFAULT = 1;
-    final public const ACTIVE_DEFAULT = false;
+    final public const string TAX_TYPE_AUTO = 'auto';
+    final public const string TAX_TYPE_FIXED = 'fixed';
+    final public const string TAX_TYPE_HIGHEST = 'highest';
+    final public const int POSITION_DEFAULT = 1;
+    final public const false ACTIVE_DEFAULT = false;
 
     protected ?string $name = null;
 

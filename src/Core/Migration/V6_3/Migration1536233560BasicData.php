@@ -7,6 +7,7 @@ use Shopwell\Core\Checkout\Order\Aggregate\OrderDelivery\OrderDeliveryStates;
 use Shopwell\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStates;
 use Shopwell\Core\Checkout\Order\OrderStates;
 use Shopwell\Core\Checkout\Payment\Cart\PaymentHandler\CashPayment;
+use Shopwell\Core\Checkout\Payment\Cart\PaymentHandler\DefaultPayment;
 use Shopwell\Core\Content\Category\CategoryDefinition;
 use Shopwell\Core\Defaults;
 use Shopwell\Core\Framework\Api\Util\AccessKeyHelper;
@@ -541,12 +542,14 @@ class Migration1536233560BasicData extends MigrationStep
     {
         $queue = new MultiInsertQueryQueue($connection);
 
+        $paymentMethodDefaultFolderId = Uuid::randomBytes();
+
         $queue->addInsert('media_default_folder', ['id' => Uuid::randomBytes(), 'entity' => 'product', 'created_at' => new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT)]);
         $queue->addInsert('media_default_folder', ['id' => Uuid::randomBytes(), 'entity' => 'product_manufacturer', 'created_at' => new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT)]);
         $queue->addInsert('media_default_folder', ['id' => Uuid::randomBytes(), 'entity' => 'user', 'created_at' => new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT)]);
         $queue->addInsert('media_default_folder', ['id' => Uuid::randomBytes(), 'entity' => 'mail_template', 'created_at' => new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT)]);
         $queue->addInsert('media_default_folder', ['id' => Uuid::randomBytes(), 'entity' => 'category', 'created_at' => new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT)]);
-        $queue->addInsert('media_default_folder', ['id' => Uuid::randomBytes(), 'entity' => 'cms_page', 'created_at' => new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT)]);
+        $queue->addInsert('media_default_folder', ['id' => $paymentMethodDefaultFolderId, 'entity' => 'payment_method', 'created_at' => new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT)]);
         $queue->addInsert('media_default_folder', ['id' => Uuid::randomBytes(), 'entity' => 'customer', 'created_at' => new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT)]);
         $queue->execute();
 
@@ -775,8 +778,18 @@ class Migration1536233560BasicData extends MigrationStep
         $languageZH = Uuid::fromHexToBytes(Defaults::LANGUAGE_SYSTEM);
         $languageEN = Uuid::fromHexToBytes($this->getEnGbLanguageId());
 
+        $alipay = Uuid::randomBytes();
+        $connection->insert('payment_method', ['id' => $alipay, 'handler_identifier' => DefaultPayment::class, 'position' => 1, 'technical_name' => 'alipay', 'active' => 1, 'created_at' => new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT)]);
+        $connection->insert('payment_method_translation', ['payment_method_id' => $alipay, 'language_id' => $languageEN, 'name' => '支付宝', 'description' => '', 'created_at' => new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT)]);
+        $connection->insert('payment_method_translation', ['payment_method_id' => $alipay, 'language_id' => $languageZH, 'name' => 'Alipay', 'description' => '', 'created_at' => new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT)]);
+
+        $wechat = Uuid::randomBytes();
+        $connection->insert('payment_method', ['id' => $wechat, 'handler_identifier' => DefaultPayment::class, 'position' => 2, 'technical_name' => 'wechat', 'active' => 1, 'created_at' => new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT)]);
+        $connection->insert('payment_method_translation', ['payment_method_id' => $wechat, 'language_id' => $languageEN, 'name' => '微信', 'description' => '', 'created_at' => new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT)]);
+        $connection->insert('payment_method_translation', ['payment_method_id' => $wechat, 'language_id' => $languageZH, 'name' => 'Wechat pay', 'description' => '', 'created_at' => new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT)]);
+
         $cashOnDelivery = Uuid::randomBytes();
-        $connection->insert('payment_method', ['id' => $cashOnDelivery, 'handler_identifier' => CashPayment::class, 'position' => 4, 'technical_name' => 'cash_delivery', 'active' => 1, 'created_at' => new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT)]);
+        $connection->insert('payment_method', ['id' => $cashOnDelivery, 'handler_identifier' => CashPayment::class, 'position' => 3, 'technical_name' => 'cash_delivery', 'active' => 1, 'created_at' => new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT)]);
         $connection->insert('payment_method_translation', ['payment_method_id' => $cashOnDelivery, 'language_id' => $languageEN, 'name' => '货到付款', 'description' => '', 'created_at' => new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT)]);
         $connection->insert('payment_method_translation', ['payment_method_id' => $cashOnDelivery, 'language_id' => $languageZH, 'name' => 'Cash on Delivery', 'description' => '', 'created_at' => new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT)]);
     }

@@ -11,5 +11,4 @@ use Shopwell\Core\Framework\Log\Package;
 #[Package('finance')]
 class Finance extends Bundle
 {
-
 }

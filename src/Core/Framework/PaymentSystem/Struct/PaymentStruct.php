@@ -2,12 +2,14 @@
 
 namespace Shopwell\Core\Framework\PaymentSystem\Struct;
 
+use Payum\Core\Model\Payment;
 use Shopwell\Core\Framework\Log\Package;
-use Shopwell\Core\Framework\Struct\Struct;
 
-
+/**
+ * @method array getDetails()
+ */
 #[Package('framework')]
-class PaymentStruct extends Struct
+class PaymentStruct extends Payment
 {
 
 }

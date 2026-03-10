@@ -38,7 +38,7 @@ use Shopwell\Core\System\Tax\TaxDefinition;
 #[Package('checkout')]
 class ShippingMethodDefinition extends EntityDefinition
 {
-    public const ENTITY_NAME = 'shipping_method';
+    public const string ENTITY_NAME = 'shipping_method';
 
     public function getEntityName(): string
     {

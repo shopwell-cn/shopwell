@@ -56,6 +56,7 @@ class Configuration implements ConfigurationInterface
                 ->append($this->createProductStreamSection())
                 ->append($this->createSsoLoginSection())
                 ->append($this->createProductTypesSection())
+                ->append($this->createPaymentTypesSection())
             ->end();
 
         return $treeBuilder;
@@ -636,6 +637,21 @@ class Configuration implements ConfigurationInterface
             ->arrayNode('allowed_types')
                 ->defaultValue([ProductDefinition::TYPE_PHYSICAL, ProductDefinition::TYPE_DIGITAL])
                 ->scalarPrototype()->end()
+            ->end();
+
+        return $rootNode;
+    }
+
+    private function createPaymentTypesSection(): ArrayNodeDefinition
+    {
+        $treeBuilder = new TreeBuilder('payment');
+
+        $rootNode = $treeBuilder->getRootNode();
+        $rootNode
+            ->children()
+            ->arrayNode('allowed_types')
+            ->defaultValue([ProductDefinition::TYPE_PHYSICAL, ProductDefinition::TYPE_DIGITAL])
+            ->scalarPrototype()->end()
             ->end();
 
         return $rootNode;

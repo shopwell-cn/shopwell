@@ -11,5 +11,4 @@ use Shopwell\Core\Framework\Log\Package;
 #[Package('marketing')]
 class Marketing extends Bundle
 {
-
 }

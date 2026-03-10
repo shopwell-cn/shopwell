@@ -21,7 +21,7 @@ use Symfony\Contracts\Cache\TagAwareCacheInterface;
 #[Package('discovery')]
 class CachedDefaultCategoryLevelLoader implements DefaultCategoryLevelLoaderInterface, EventSubscriberInterface
 {
-    private const CACHE_TAG = 'category_level_loader';
+    private const string CACHE_TAG = 'category_level_loader';
 
     public function __construct(
         private readonly TagAwareCacheInterface $cache,

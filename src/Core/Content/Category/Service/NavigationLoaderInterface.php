@@ -9,7 +9,7 @@ use Shopwell\Core\System\SalesChannel\SalesChannelContext;
 #[Package('discovery')]
 interface NavigationLoaderInterface
 {
-    public const DEFAULT_DEPTH = 2;
+    public const int DEFAULT_DEPTH = 2;
 
     /**
      * Returns the first two levels of the category tree, as well as all parents of the active category

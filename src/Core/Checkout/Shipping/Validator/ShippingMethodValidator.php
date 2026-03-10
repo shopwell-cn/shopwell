@@ -23,10 +23,10 @@ use Symfony\Component\Validator\ConstraintViolationList;
 #[Package('checkout')]
 class ShippingMethodValidator implements EventSubscriberInterface
 {
-    final public const VIOLATION_TAX_TYPE_INVALID = 'tax_type_invalid';
+    final public const string VIOLATION_TAX_TYPE_INVALID = 'tax_type_invalid';
 
-    final public const VIOLATION_TAX_ID_REQUIRED = NotBlank::IS_BLANK_ERROR;
-    private const ALLOWED_TAX_TYPES = [
+    final public const string VIOLATION_TAX_ID_REQUIRED = NotBlank::IS_BLANK_ERROR;
+    private const array ALLOWED_TAX_TYPES = [
         ShippingMethodEntity::TAX_TYPE_FIXED,
         ShippingMethodEntity::TAX_TYPE_AUTO,
         ShippingMethodEntity::TAX_TYPE_HIGHEST,

@@ -24,7 +24,7 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Package('checkout')]
 class ShippingMethodRoute extends AbstractShippingMethodRoute
 {
-    final public const ALL_TAG = 'shipping-method-route';
+    final public const string ALL_TAG = 'shipping-method-route';
 
     /**
      * @param SalesChannelRepository<ShippingMethodCollection> $shippingMethodRepository

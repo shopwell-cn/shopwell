@@ -622,3 +622,7 @@ shopwell:
         allowed_types:
           - physical
           - digital
+    payment:
+        allowed_types:
+            - physical
+            - digital

@@ -15,7 +15,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[Package('checkout')]
 class ShippingMethodTranslationDefinition extends EntityTranslationDefinition
 {
-    final public const ENTITY_NAME = 'shipping_method_translation';
+    final public const string ENTITY_NAME = 'shipping_method_translation';
 
     public function getEntityName(): string
     {

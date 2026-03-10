@@ -9,11 +9,11 @@ use Symfony\Component\HttpFoundation\Response;
 #[Package('checkout')]
 class ShippingException extends HttpException
 {
-    final public const SHIPPING_METHOD_NOT_FOUND = 'CHECKOUT__SHIPPING_METHOD_NOT_FOUND';
+    final public const string SHIPPING_METHOD_NOT_FOUND = 'CHECKOUT__SHIPPING_METHOD_NOT_FOUND';
 
-    final public const SHIPPING_METHOD_DUPLICATE_PRICE = 'CHECKOUT__DUPLICATE_SHIPPING_METHOD_PRICE';
+    final public const string SHIPPING_METHOD_DUPLICATE_PRICE = 'CHECKOUT__DUPLICATE_SHIPPING_METHOD_PRICE';
 
-    final public const SHIPPING_METHOD_DUPLICATE_TECHNICAL_NAME = 'CHECKOUT__DUPLICATE_SHIPPING_METHOD_TECHNICAL_NAME';
+    final public const string SHIPPING_METHOD_DUPLICATE_TECHNICAL_NAME = 'CHECKOUT__DUPLICATE_SHIPPING_METHOD_TECHNICAL_NAME';
 
     public static function shippingMethodNotFound(string $id, ?\Throwable $e = null): self
     {
