@@ -10,8 +10,6 @@ use Shopwell\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopwell\Core\Framework\Log\Package;
-use Shopwell\Core\Framework\Store\Exception\StoreApiException;
-use Shopwell\Core\Framework\Store\Exception\StoreInvalidCredentialsException;
 use Shopwell\Core\Framework\Store\Services\StoreClient;
 use Shopwell\Core\System\SystemConfig\SystemConfigService;
 use Shopwell\Core\System\User\UserCollection;
@@ -21,6 +19,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Validation;
 
 /**
  * @internal
@@ -46,7 +46,7 @@ class StoreLoginCommand extends Command
     protected function configure(): void
     {
         $this
-            ->addOption('shopwellId', 'i', InputOption::VALUE_REQUIRED, 'Shopwell ID')
+            ->addOption('shopwareId', 'i', InputOption::VALUE_REQUIRED, 'Shopwell ID')
             ->addOption('password', 'p', InputOption::VALUE_REQUIRED, 'Password')
             ->addOption('user', 'u', InputOption::VALUE_REQUIRED, 'User')
             ->addOption('host', 'g', InputOption::VALUE_OPTIONAL, 'License host')
@@ -61,22 +61,16 @@ class StoreLoginCommand extends Command
 
         $host = $input->getOption('host');
         if (!empty($host)) {
-            $this->configService->set('core.store.licenseHost', $host);
+            $this->configService->set('core.store.licenseHost', $host, null, false);
         }
 
-        $shopwellId = $input->getOption('shopwellId');
+        $shopwareId = $input->getOption('shopwareId');
         $password = $input->getOption('password');
         $user = $input->getOption('user');
 
         if (!$password) {
             $passwordQuestion = new Question('Enter password');
-            $passwordQuestion->setValidator(static function ($value): string {
-                if ($value === null || trim($value) === '') {
-                    throw new \RuntimeException('The password cannot be empty');
-                }
-
-                return $value;
-            });
+            $passwordQuestion->setValidator(Validation::createCallable(new NotBlank(message: 'The password cannot be empty')));
             $passwordQuestion->setHidden(true);
             $passwordQuestion->setMaxAttempts(3);
 
@@ -89,19 +83,25 @@ class StoreLoginCommand extends Command
         $userId = $this->userRepository->searchIds($criteria, $context)->firstId();
 
         if ($userId === null) {
-            throw new \RuntimeException('User not found');
+            $io->error('User not found');
+
+            return self::FAILURE;
         }
 
         $userContext = new Context(new AdminApiSource($userId));
 
-        if ($shopwellId === null || $password === null) {
-            throw new StoreInvalidCredentialsException();
+        if ($shopwareId === null || $password === null) {
+            $io->error('Shopwell ID and password are required.');
+
+            return self::FAILURE;
         }
 
         try {
-            $this->storeClient->loginWithShopwellId($shopwellId, $password, $userContext);
+            $this->storeClient->loginWithShopwellId($shopwareId, $password, $userContext);
         } catch (ClientException $exception) {
-            throw new StoreApiException($exception);
+            $io->error(\sprintf('Store login failed: %s', $exception->getMessage()));
+
+            return self::FAILURE;
         }
 
         $io->success('Successfully logged in.');

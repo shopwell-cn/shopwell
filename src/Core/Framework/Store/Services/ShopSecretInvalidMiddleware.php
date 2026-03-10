@@ -7,7 +7,7 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Store\Authentication\StoreRequestOptionsProvider;
-use Shopwell\Core\Framework\Store\Exception\ShopSecretInvalidException;
+use Shopwell\Core\Framework\Store\StoreException;
 use Shopwell\Core\System\SystemConfig\SystemConfigService;
 
 /**
@@ -16,7 +16,7 @@ use Shopwell\Core\System\SystemConfig\SystemConfigService;
 #[Package('checkout')]
 class ShopSecretInvalidMiddleware implements MiddlewareInterface
 {
-    private const INVALID_SHOP_SECRET = 'ShopwellPlatformException-68';
+    private const string INVALID_SHOP_SECRET = 'ShopwellPlatformException-68';
 
     /**
      * @internal
@@ -44,8 +44,8 @@ class ShopSecretInvalidMiddleware implements MiddlewareInterface
 
         $this->connection->executeStatement('UPDATE user SET store_token = NULL');
 
-        $this->systemConfigService->delete(StoreRequestOptionsProvider::CONFIG_KEY_STORE_SHOP_SECRET);
+        $this->systemConfigService->delete(StoreRequestOptionsProvider::CONFIG_KEY_STORE_SHOP_SECRET, null, true);
 
-        throw new ShopSecretInvalidException();
+        throw StoreException::shopSecretInvalid();
     }
 }

@@ -8,26 +8,30 @@ use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Store\Exception\ExtensionNotFoundException;
 use Shopwell\Core\Framework\Store\Exception\ExtensionUpdateRequiresConsentAffirmationException;
 use Shopwell\Core\Framework\Store\Exception\StoreApiException;
+use Shopwell\Core\Framework\Store\Exception\StoreTokenMissingException;
 use Symfony\Component\HttpFoundation\Response;
 
 #[Package('framework')]
 class StoreException extends HttpException
 {
-    public const CANNOT_DELETE_COMPOSER_MANAGED = 'FRAMEWORK__STORE_CANNOT_DELETE_COMPOSER_MANAGED';
-    public const EXTENSION_THEME_STILL_IN_USE = 'FRAMEWORK__EXTENSION_THEME_STILL_IN_USE';
-    public const EXTENSION_INSTALL = 'FRAMEWORK__EXTENSION_INSTALL_EXCEPTION';
-    public const EXTENSION_UPDATE_REQUIRES_CONSENT_AFFIRMATION = 'FRAMEWORK__EXTENSION_UPDATE_REQUIRES_CONSENT_AFFIRMATION';
-    public const EXTENSION_NOT_FOUND = 'FRAMEWORK__EXTENSION_NOT_FOUND';
-    public const CANNOT_UPLOAD_CORRECTLY = 'FRAMEWORK__EXTENSION_CANNOT_BE_UPLOADED_CORRECTLY';
-    public const EXTENSION_RUNTIME_EXTENSION_MANAGEMENT_NOT_ALLOWED = 'FRAMEWORK__EXTENSION_RUNTIME_EXTENSION_MANAGEMENT_NOT_ALLOWED';
-    public const INVALID_CONTEXT_SOURCE = 'FRAMEWORK__STORE_DATA_INVALID_CONTEXT_SOURCE';
-    public const MISSING_INTEGRATION_IN_CONTEXT_SOURCE = 'FRAMEWORK__STORE_MISSING_INTEGRATION_IN_CONTEXT_SOURCE';
-    public const MISSING_REQUEST_PARAMETER_CODE = 'FRAMEWORK__STORE_MISSING_REQUEST_PARAMETER';
-    public const INVALID_TYPE = 'FRAMEWORK__STORE_INVALID_TYPE';
-    public const JWKS_KEY_NOT_FOUND = 'FRAMEWORK__STORE_JWKS_NOT_FOUND';
-    public const PLUGIN_NOT_A_ZIP_FILE = 'FRAMEWORK__PLUGIN_NOT_A_ZIP_FILE';
-    public const INVALID_CONTEXT_SOURCE_USER = 'FRAMEWORK__INVALID_CONTEXT_SOURCE_USER';
-    public const STORE_LICENSE_DOMAIN_VALIDATION_FAILED = 'FRAMEWORK__STORE_LICENSE_DOMAIN_VALIDATION_FAILED';
+    public const string CANNOT_DELETE_COMPOSER_MANAGED = 'FRAMEWORK__STORE_CANNOT_DELETE_COMPOSER_MANAGED';
+    public const string EXTENSION_THEME_STILL_IN_USE = 'FRAMEWORK__EXTENSION_THEME_STILL_IN_USE';
+    public const string EXTENSION_INSTALL = 'FRAMEWORK__EXTENSION_INSTALL_EXCEPTION';
+    public const string EXTENSION_UPDATE_REQUIRES_CONSENT_AFFIRMATION = 'FRAMEWORK__EXTENSION_UPDATE_REQUIRES_CONSENT_AFFIRMATION';
+    public const string EXTENSION_NOT_FOUND = 'FRAMEWORK__EXTENSION_NOT_FOUND';
+    public const string CANNOT_UPLOAD_CORRECTLY = 'FRAMEWORK__EXTENSION_CANNOT_BE_UPLOADED_CORRECTLY';
+    public const string EXTENSION_RUNTIME_EXTENSION_MANAGEMENT_NOT_ALLOWED = 'FRAMEWORK__EXTENSION_RUNTIME_EXTENSION_MANAGEMENT_NOT_ALLOWED';
+    public const string INVALID_CONTEXT_SOURCE = 'FRAMEWORK__STORE_DATA_INVALID_CONTEXT_SOURCE';
+    public const string MISSING_INTEGRATION_IN_CONTEXT_SOURCE = 'FRAMEWORK__STORE_MISSING_INTEGRATION_IN_CONTEXT_SOURCE';
+    public const string MISSING_REQUEST_PARAMETER_CODE = 'FRAMEWORK__STORE_MISSING_REQUEST_PARAMETER';
+    public const string INVALID_TYPE = 'FRAMEWORK__STORE_INVALID_TYPE';
+    public const string JWKS_KEY_NOT_FOUND = 'FRAMEWORK__STORE_JWKS_NOT_FOUND';
+    public const string PLUGIN_NOT_A_ZIP_FILE = 'FRAMEWORK__PLUGIN_NOT_A_ZIP_FILE';
+    public const string INVALID_CONTEXT_SOURCE_USER = 'FRAMEWORK__INVALID_CONTEXT_SOURCE_USER';
+    public const string STORE_LICENSE_DOMAIN_VALIDATION_FAILED = 'FRAMEWORK__STORE_LICENSE_DOMAIN_VALIDATION_FAILED';
+    public const STORE_INVALID_CREDENTIALS = 'FRAMEWORK__STORE_INVALID_CREDENTIALS';
+    public const STORE_SHOP_SECRET_INVALID = 'FRAMEWORK__STORE_SHOP_SECRET_INVALID';
+    public const STORE_TOKEN_IS_MISSING = 'FRAMEWORK__STORE_TOKEN_IS_MISSING';
 
     public static function cannotDeleteManaged(string $pluginName): self
     {
@@ -194,5 +198,28 @@ class StoreException extends HttpException
             'License host verification failed for domain "{{ domain }}.',
             ['domain' => $domain],
         );
+    }
+
+    public static function invalidCredentials(): self
+    {
+        return new self(
+            Response::HTTP_INTERNAL_SERVER_ERROR,
+            self::STORE_INVALID_CREDENTIALS,
+            'Invalid credentials'
+        );
+    }
+
+    public static function shopSecretInvalid(): self
+    {
+        return new self(
+            Response::HTTP_FORBIDDEN,
+            self::STORE_SHOP_SECRET_INVALID,
+            'Store shop secret is invalid'
+        );
+    }
+
+    public static function storeTokenMissing(): self
+    {
+        return new StoreTokenMissingException();
     }
 }

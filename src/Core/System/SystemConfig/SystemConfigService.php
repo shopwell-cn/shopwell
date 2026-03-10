@@ -203,15 +203,15 @@ class SystemConfigService implements ResetInterface
     /**
      * @param array<mixed>|bool|float|int|string|null $value
      */
-    public function set(string $key, $value, ?string $salesChannelId = null): void
+    public function set(string $key, $value, ?string $salesChannelId = null, bool $silent = true): void
     {
-        $this->setMultiple([$key => $value], $salesChannelId);
+        $this->setMultiple([$key => $value], $salesChannelId, $silent);
     }
 
     /**
      * @param array<string, array<mixed>|bool|float|int|string|null> $values
      */
-    public function setMultiple(array $values, ?string $salesChannelId = null): void
+    public function setMultiple(array $values, ?string $salesChannelId = null, bool $silent = true): void
     {
         foreach ($values as $key => $value) {
             if ($this->symfonySystemConfigService->has($key)) {
@@ -323,8 +323,8 @@ class SystemConfigService implements ResetInterface
 
         $insertQueue->execute();
 
-        // Dispatch the hook before the events to invalid the cache
-        $this->dispatcher->dispatch(new SystemConfigChangedHook($values, $this->getAppMapping(), $salesChannelId));
+        // Dispatch the hook before the events to invalidate the cache
+        $this->dispatcher->dispatch(new SystemConfigChangedHook($values, $this->getAppMapping(), $salesChannelId, $silent));
 
         // Dispatch events that the given values have been changed
         foreach ($events as $event) {
@@ -334,9 +334,9 @@ class SystemConfigService implements ResetInterface
         $this->dispatcher->dispatch(new SystemConfigMultipleChangedEvent($values, $salesChannelId));
     }
 
-    public function delete(string $key, ?string $salesChannel = null): void
+    public function delete(string $key, ?string $salesChannel = null, bool $silent = true): void
     {
-        $this->setMultiple([$key => null], $salesChannel);
+        $this->setMultiple([$key => null], $salesChannel, $silent);
     }
 
     /**
@@ -370,7 +370,7 @@ class SystemConfigService implements ResetInterface
                 }
 
                 if ($override || !isset($relevantSettings[$key])) {
-                    $this->set($key, $element['defaultValue']);
+                    $this->set($key, $element['defaultValue'], null, false);
                 }
             }
         }
@@ -415,11 +415,11 @@ class SystemConfigService implements ResetInterface
         $keysForDelete = array_fill_keys($configKeys, null);
 
         // Delete config keys for global scope
-        $this->setMultiple($keysForDelete, null);
+        $this->setMultiple($keysForDelete, null, false);
 
-        // Delete overriden config keys for each sales channel
+        // Delete overridden config keys for each sales channel
         foreach ($salesChannelIds as $salesChannelId) {
-            $this->setMultiple($keysForDelete, Uuid::fromBytesToHex($salesChannelId));
+            $this->setMultiple($keysForDelete, Uuid::fromBytesToHex($salesChannelId), false);
         }
     }
 

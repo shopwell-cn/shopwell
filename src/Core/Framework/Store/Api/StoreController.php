@@ -4,14 +4,11 @@ namespace Shopwell\Core\Framework\Store\Api;
 
 use GuzzleHttp\Exception\ClientException;
 use Shopwell\Core\Framework\Api\Context\AdminApiSource;
-use Shopwell\Core\Framework\Api\Context\Exception\InvalidContextSourceException;
 use Shopwell\Core\Framework\Context;
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Routing\ApiRouteScope;
-use Shopwell\Core\Framework\Store\Exception\StoreApiException;
-use Shopwell\Core\Framework\Store\Exception\StoreInvalidCredentialsException;
 use Shopwell\Core\Framework\Store\Exception\StoreTokenMissingException;
 use Shopwell\Core\Framework\Store\Services\AbstractExtensionDataProvider;
 use Shopwell\Core\Framework\Store\Services\StoreClient;
@@ -45,17 +42,17 @@ class StoreController extends AbstractController
     #[Route(path: '/api/_action/store/login', name: 'api.custom.store.login', methods: ['POST'])]
     public function login(Request $request, Context $context): JsonResponse
     {
-        $shopwellId = $request->request->get('shopwellId');
+        $shopwareId = $request->request->get('shopwareId');
         $password = $request->request->get('password');
 
-        if (!\is_string($shopwellId) || !\is_string($password)) {
-            throw new StoreInvalidCredentialsException();
+        if (!\is_string($shopwareId) || !\is_string($password)) {
+            throw StoreException::invalidCredentials();
         }
 
         try {
-            $this->storeClient->loginWithShopwellId($shopwellId, $password, $context);
+            $this->storeClient->loginWithShopwellId($shopwareId, $password, $context);
         } catch (ClientException $exception) {
-            throw new StoreApiException($exception);
+            throw StoreException::storeError($exception);
         }
 
         return new JsonResponse();
@@ -96,7 +93,7 @@ class StoreController extends AbstractController
         try {
             $updatesList = $this->storeClient->getExtensionUpdateList($extensions, $context);
         } catch (ClientException $exception) {
-            throw new StoreApiException($exception);
+            throw StoreException::storeError($exception);
         }
 
         return new JsonResponse([
@@ -124,7 +121,7 @@ class StoreController extends AbstractController
         try {
             $violations = $this->storeClient->getLicenseViolations($context, $indexedExtensions, $request->getHost());
         } catch (ClientException $exception) {
-            throw new StoreApiException($exception);
+            throw StoreException::storeError($exception);
         }
 
         return new JsonResponse([
@@ -154,7 +151,7 @@ class StoreController extends AbstractController
         $contextSource = $context->getSource();
 
         if (!$contextSource instanceof AdminApiSource) {
-            throw new InvalidContextSourceException(AdminApiSource::class, $contextSource::class);
+            throw StoreException::invalidContextSource(AdminApiSource::class, $contextSource::class);
         }
 
         $userId = $contextSource->getUserId();
@@ -166,12 +163,12 @@ class StoreController extends AbstractController
         $user = $this->userRepository->search(new Criteria([$userId]), $context)->first();
 
         if ($user === null) {
-            throw new StoreTokenMissingException();
+            throw StoreException::storeTokenMissing();
         }
 
         $storeToken = $user->getStoreToken();
         if ($storeToken === null) {
-            throw new StoreTokenMissingException();
+            throw StoreException::storeTokenMissing();
         }
 
         return $storeToken;

@@ -13,7 +13,7 @@ use Shopwell\Core\Framework\Webhook\Hookable;
  */
 class SystemConfigChangedHook implements Hookable
 {
-    public const EVENT_NAME = 'app.config.changed';
+    public const string EVENT_NAME = 'app.config.changed';
 
     /**
      * @param array<string, mixed> $values
@@ -22,7 +22,8 @@ class SystemConfigChangedHook implements Hookable
     public function __construct(
         private readonly array $values,
         private readonly array $appMapping,
-        public readonly ?string $salesChannelId = null
+        public readonly ?string $salesChannelId = null,
+        public readonly bool $silent = false,
     ) {
     }
 

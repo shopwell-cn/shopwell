@@ -18,7 +18,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 #[Package('framework')]
 class PermissionsService
 {
-    private const CONFIG_KEY_PERMISSIONS_CONSENT = 'core.services.permissionsConsent';
+    private const string CONFIG_KEY_PERMISSIONS_CONSENT = 'core.services.permissionsConsent';
 
     public function __construct(
         private readonly SystemConfigService $systemConfigService,
@@ -49,7 +49,7 @@ class PermissionsService
             grantedAt: new \DateTime()
         );
 
-        $this->systemConfigService->set(self::CONFIG_KEY_PERMISSIONS_CONSENT, json_encode($consent, \JSON_THROW_ON_ERROR));
+        $this->systemConfigService->set(self::CONFIG_KEY_PERMISSIONS_CONSENT, json_encode($consent, \JSON_THROW_ON_ERROR), null, false);
         $this->remoteConsentLogger->log($consent, ConsentState::GRANTED);
         $this->eventDispatcher->dispatch(new PermissionsGrantedEvent($consent, $context));
     }
@@ -61,7 +61,7 @@ class PermissionsService
     {
         $consent = $this->fetchConsent();
         // either a valid consent exists or it does not. we can safely delete the config key anyway.
-        $this->systemConfigService->delete(self::CONFIG_KEY_PERMISSIONS_CONSENT);
+        $this->systemConfigService->delete(self::CONFIG_KEY_PERMISSIONS_CONSENT, null, false);
 
         if ($consent !== null) {
             // a valid consent exists, log the revocation

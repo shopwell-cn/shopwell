@@ -38,10 +38,10 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 #[Package('checkout')]
 class StoreClient
 {
-    public const EXTENSION_LICENSE_IS_ALREADY_CANCELLED = 'ShopwellPlatformException-61';
-    public const EXTENSION_LIST_CACHE = 'extensionListStatus';
-    public const EXTENSION_LIST_TTL = 7200; // 2 hours
-    private const PLUGIN_LICENSE_VIOLATION_EXTENSION_KEY = 'licenseViolation';
+    public const string EXTENSION_LICENSE_IS_ALREADY_CANCELLED = 'ShopwellPlatformException-61';
+    public const string EXTENSION_LIST_CACHE = 'extensionListStatus';
+    public const int EXTENSION_LIST_TTL = 7200; // 2 hours
+    private const string PLUGIN_LICENSE_VIOLATION_EXTENSION_KEY = 'licenseViolation';
 
     public function __construct(
         /**
@@ -95,7 +95,7 @@ class StoreClient
 
         $this->storeService->updateStoreToken($context, $accessTokenStruct);
 
-        $this->configService->set('core.store.shopSecret', $accessTokenStruct->getShopSecret());
+        $this->configService->set('core.store.shopSecret', $accessTokenStruct->getShopSecret(), null, false);
 
         $this->eventDispatcher->dispatch(new ShopwellAccountLoginEvent($context));
     }

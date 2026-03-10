@@ -45,13 +45,13 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 #[Package('fundamentals@after-sales')]
 class FirstRunWizardService
 {
-    final public const USER_CONFIG_KEY_FRW_USER_TOKEN = 'core.frw.userToken';
-    final public const USER_CONFIG_VALUE_FRW_USER_TOKEN = 'frwUserToken';
+    final public const string USER_CONFIG_KEY_FRW_USER_TOKEN = 'core.frw.userToken';
+    final public const string USER_CONFIG_VALUE_FRW_USER_TOKEN = 'frwUserToken';
 
-    private const TRACKING_EVENT_FRW_STARTED = 'First Run Wizard started';
-    private const TRACKING_EVENT_FRW_FINISHED = 'First Run Wizard finished';
+    private const string TRACKING_EVENT_FRW_STARTED = 'First Run Wizard started';
+    private const string TRACKING_EVENT_FRW_FINISHED = 'First Run Wizard finished';
 
-    private const FRW_MAX_FAILURES = 3;
+    private const int FRW_MAX_FAILURES = 3;
 
     /**
      * @param EntityRepository<UserConfigCollection> $userConfigRepository
@@ -89,7 +89,7 @@ class FirstRunWizardService
         $accessToken = $this->createAccessTokenStruct($accessTokenResponse, $accessTokenResponse['shopUserToken']);
 
         $this->storeService->updateStoreToken($context, $accessToken);
-        $this->configService->set(StoreRequestOptionsProvider::CONFIG_KEY_STORE_SHOP_SECRET, $accessToken->getShopSecret());
+        $this->configService->set(StoreRequestOptionsProvider::CONFIG_KEY_STORE_SHOP_SECRET, $accessToken->getShopSecret(), null, false);
         $this->removeFrwUserToken($context);
 
         $this->eventDispatcher->dispatch(new ShopwellAccountLoginEvent($context));
@@ -246,8 +246,8 @@ class FirstRunWizardService
         }
         $existing->assign(['active' => true]);
 
-        $this->configService->set(StoreService::CONFIG_KEY_STORE_LICENSE_DOMAIN, $domain);
-        $this->configService->set(StoreService::CONFIG_KEY_STORE_LICENSE_EDITION, $existing->getEdition());
+        $this->configService->set(StoreService::CONFIG_KEY_STORE_LICENSE_DOMAIN, $domain, null, false);
+        $this->configService->set(StoreService::CONFIG_KEY_STORE_LICENSE_EDITION, $existing->getEdition(), null, false);
 
         return $existing;
     }
@@ -266,9 +266,9 @@ class FirstRunWizardService
             $failureCount = $currentState->getFailureCount() + 1;
         }
 
-        $this->configService->set('core.frw.completedAt', $completedAt);
-        $this->configService->set('core.frw.failedAt', $failedAt);
-        $this->configService->set('core.frw.failureCount', $failureCount);
+        $this->configService->set('core.frw.completedAt', $completedAt, null, false);
+        $this->configService->set('core.frw.failedAt', $failedAt, null, false);
+        $this->configService->set('core.frw.failureCount', $failureCount, null, false);
     }
 
     /**

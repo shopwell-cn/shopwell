@@ -10,7 +10,7 @@ use Shopwell\Core\System\SystemConfig\SystemConfigService;
 #[Package('framework')]
 class SeedingThemePathBuilder extends AbstractThemePathBuilder
 {
-    private const SYSTEM_CONFIG_KEY = 'storefront.themeSeed';
+    private const string SYSTEM_CONFIG_KEY = 'storefront.themeSeed';
 
     /**
      * @internal
@@ -32,7 +32,7 @@ class SeedingThemePathBuilder extends AbstractThemePathBuilder
 
     public function saveSeed(string $salesChannelId, string $themeId, string $seed): void
     {
-        $this->systemConfigService->set(self::SYSTEM_CONFIG_KEY, $seed, $salesChannelId);
+        $this->systemConfigService->set(self::SYSTEM_CONFIG_KEY, $seed, $salesChannelId, false);
     }
 
     public function getDecorated(): AbstractThemePathBuilder

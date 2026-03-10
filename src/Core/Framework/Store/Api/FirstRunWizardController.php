@@ -10,9 +10,8 @@ use Shopwell\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Plugin\PluginCollection;
 use Shopwell\Core\Framework\Routing\ApiRouteScope;
-use Shopwell\Core\Framework\Store\Exception\StoreApiException;
-use Shopwell\Core\Framework\Store\Exception\StoreInvalidCredentialsException;
 use Shopwell\Core\Framework\Store\Services\FirstRunWizardService;
+use Shopwell\Core\Framework\Store\StoreException;
 use Shopwell\Core\Framework\Validation\DataBag\QueryDataBag;
 use Shopwell\Core\Framework\Validation\DataBag\RequestDataBag;
 use Shopwell\Core\PlatformRequest;
@@ -45,7 +44,7 @@ class FirstRunWizardController extends AbstractController
         try {
             $this->frwService->startFrw($context);
         } catch (ClientException $exception) {
-            throw new StoreApiException($exception);
+            throw StoreException::storeError($exception);
         }
 
         return new JsonResponse();
@@ -60,7 +59,7 @@ class FirstRunWizardController extends AbstractController
         try {
             $languagePlugins = $this->frwService->getLanguagePlugins($plugins, $apps, $context);
         } catch (ClientException $exception) {
-            throw new StoreApiException($exception);
+            throw StoreException::storeError($exception);
         }
 
         return new JsonResponse([
@@ -78,7 +77,7 @@ class FirstRunWizardController extends AbstractController
         try {
             $languagePlugins = $this->frwService->getDemoDataPlugins($plugins, $apps, $context);
         } catch (ClientException $exception) {
-            throw new StoreApiException($exception);
+            throw StoreException::storeError($exception);
         }
 
         return new JsonResponse([
@@ -93,7 +92,7 @@ class FirstRunWizardController extends AbstractController
         try {
             $recommendationRegions = $this->frwService->getRecommendationRegions($context);
         } catch (ClientException $exception) {
-            throw new StoreApiException($exception);
+            throw StoreException::storeError($exception);
         }
 
         return new JsonResponse([
@@ -114,7 +113,7 @@ class FirstRunWizardController extends AbstractController
         try {
             $recommendations = $this->frwService->getRecommendations($plugins, $apps, $region, $category, $context);
         } catch (ClientException $exception) {
-            throw new StoreApiException($exception);
+            throw StoreException::storeError($exception);
         }
 
         return new JsonResponse([
@@ -126,17 +125,17 @@ class FirstRunWizardController extends AbstractController
     #[Route(path: '/api/_action/store/frw/login', name: 'api.custom.store.frw.login', methods: ['POST'])]
     public function frwLogin(RequestDataBag $requestDataBag, Context $context): JsonResponse
     {
-        $shopwellId = $requestDataBag->get('shopwellId');
+        $shopwareId = $requestDataBag->get('shopwareId');
         $password = $requestDataBag->get('password');
 
-        if ($shopwellId === null || $password === null) {
-            throw new StoreInvalidCredentialsException();
+        if ($shopwareId === null || $password === null) {
+            throw StoreException::invalidCredentials();
         }
 
         try {
-            $this->frwService->frwLogin($shopwellId, $password, $context);
+            $this->frwService->frwLogin($shopwareId, $password, $context);
         } catch (ClientException $exception) {
-            throw new StoreApiException($exception);
+            throw StoreException::storeError($exception);
         }
 
         return new JsonResponse();
@@ -148,7 +147,7 @@ class FirstRunWizardController extends AbstractController
         try {
             $domains = $this->frwService->getLicenseDomains($context);
         } catch (ClientException $exception) {
-            throw new StoreApiException($exception);
+            throw StoreException::storeError($exception);
         }
 
         return new JsonResponse([
@@ -166,7 +165,7 @@ class FirstRunWizardController extends AbstractController
         try {
             $domainStruct = $this->frwService->verifyLicenseDomain($domain, $context, $testEnvironment);
         } catch (ClientException $exception) {
-            throw new StoreApiException($exception);
+            throw StoreException::storeError($exception);
         }
 
         return new JsonResponse(['data' => $domainStruct]);

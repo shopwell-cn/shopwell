@@ -23,7 +23,7 @@ use Shopwell\Core\System\SystemConfig\SystemConfigService;
 #[Package('checkout')]
 final readonly class KeyFetcher
 {
-    final public const CORE_STORE_JWKS = 'core.store.jwks';
+    final public const string CORE_STORE_JWKS = 'core.store.jwks';
 
     public function __construct(
         private ClientInterface $client,
@@ -77,7 +77,7 @@ final readonly class KeyFetcher
 
                     return null;
                 }
-                $this->systemConfigService->set(self::CORE_STORE_JWKS, $result);
+                $this->systemConfigService->set(self::CORE_STORE_JWKS, $result, null, true);
 
                 /** @var array{keys: array<int, JSONWebKey>} $key */
                 $key = json_decode($result, true, 512, \JSON_THROW_ON_ERROR);
