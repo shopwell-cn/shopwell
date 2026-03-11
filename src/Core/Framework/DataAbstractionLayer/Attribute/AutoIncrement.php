@@ -8,7 +8,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[\Attribute(\Attribute::TARGET_PROPERTY)]
 final class AutoIncrement extends Field
 {
-    public const TYPE = 'auto-increment';
+    public const string TYPE = 'auto-increment';
 
     public bool $nullable;
 

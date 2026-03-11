@@ -8,7 +8,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[\Attribute(\Attribute::TARGET_PROPERTY)]
 final class ManyToOne extends Field
 {
-    public const TYPE = 'many-to-one';
+    public const string TYPE = 'many-to-one';
 
     public function __construct(
         public string $entity,

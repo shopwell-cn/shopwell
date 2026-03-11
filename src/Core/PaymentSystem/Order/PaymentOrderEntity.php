@@ -2,18 +2,22 @@
 
 namespace Shopwell\Core\PaymentSystem\Order;
 
+use Shopwell\Core\Framework\DataAbstractionLayer\Attribute\CustomFields;
 use Shopwell\Core\Framework\DataAbstractionLayer\Attribute\Entity;
 use Shopwell\Core\Framework\DataAbstractionLayer\Attribute\Field;
 use Shopwell\Core\Framework\DataAbstractionLayer\Attribute\FieldType;
+use Shopwell\Core\Framework\DataAbstractionLayer\Attribute\OnDelete;
+use Shopwell\Core\Framework\DataAbstractionLayer\Attribute\OneToMany;
 use Shopwell\Core\Framework\DataAbstractionLayer\Attribute\PrimaryKey;
 use Shopwell\Core\Framework\DataAbstractionLayer\Entity as EntityStruct;
 use Shopwell\Core\Framework\Log\Package;
+use Shopwell\Core\PaymentSystem\Order\Aggregate\PaymentOrderTransaction\PaymentOrderTransactionEntity;
 
 #[Package('payment-system')]
 #[Entity(PaymentOrderEntity::ENTITY_NAME, collectionClass: PaymentOrderCollection::class)]
 class PaymentOrderEntity extends EntityStruct
 {
-    final public const string ENTITY_NAME = 'payment_system_order';
+    final public const string ENTITY_NAME = 'payment_order';
 
     #[PrimaryKey]
     #[Field(type: FieldType::UUID, api: true)]
@@ -51,4 +55,16 @@ class PaymentOrderEntity extends EntityStruct
 
     #[Field(type: FieldType::DATETIME, api: true)]
     public ?\DateTimeImmutable $timeExpire = null;
+
+    /**
+     * @var array<string, PaymentOrderTransactionEntity>|null
+     */
+    #[OneToMany(entity: 'payment_order', ref: 'order_id', onDelete: OnDelete::CASCADE, api: true)]
+    public ?array $transactions = null;
+
+    /**
+     * @var array<mixed>|null
+     */
+    #[CustomFields(true)]
+    protected ?array $customFields = null;
 }

@@ -8,7 +8,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[\Attribute(\Attribute::TARGET_PROPERTY)]
 final class ReferenceVersion extends Field
 {
-    public const TYPE = 'reference-version';
+    public const string TYPE = 'reference-version';
 
     public function __construct(public string $entity, public ?string $column = null)
     {

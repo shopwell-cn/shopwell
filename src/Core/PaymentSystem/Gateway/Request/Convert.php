@@ -3,16 +3,17 @@
 namespace Shopwell\Core\PaymentSystem\Gateway\Request;
 
 use Shopwell\Core\Framework\Log\Package;
-use Shopwell\Core\Framework\Struct\Struct;
+use Shopwell\Core\PaymentSystem\Gateway\DataAbstractionLayer\PaymentTokenEntity;
 
 #[Package('payment-system')]
-class Convert extends Struct
+class Convert
 {
-    public Struct $result;
+    public mixed $result;
 
     public function __construct(
-        public Struct $source,
+        public mixed $source,
         public string $to,
+        public ?PaymentTokenEntity $paymentToken = null
     ) {
     }
 }

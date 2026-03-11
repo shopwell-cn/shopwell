@@ -9,7 +9,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[\Attribute(\Attribute::TARGET_PROPERTY)]
 final class State extends Field
 {
-    public const TYPE = 'state';
+    public const string TYPE = 'state';
 
     /**
      * @param array<string> $scopes

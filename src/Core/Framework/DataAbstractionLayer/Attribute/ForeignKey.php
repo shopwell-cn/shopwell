@@ -8,7 +8,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[\Attribute(\Attribute::TARGET_PROPERTY)]
 final class ForeignKey extends Field
 {
-    public const TYPE = 'fk';
+    public const string TYPE = 'fk';
 
     public bool $nullable;
 

@@ -114,4 +114,21 @@ class ArrayStruct extends Struct implements \ArrayAccess, \IteratorAggregate, \C
     {
         return \count($this->data);
     }
+
+    public static function ensureArrayStruct(array|self|\ArrayObject|null $input): self
+    {
+        if ($input instanceof self) {
+            return $input;
+        }
+
+        if ($input instanceof \ArrayObject) {
+            $data = $input->getArrayCopy();
+        } elseif (\is_array($input)) {
+            $data = $input;
+        } else {
+            $data = [];
+        }
+
+        return new static($data);
+    }
 }

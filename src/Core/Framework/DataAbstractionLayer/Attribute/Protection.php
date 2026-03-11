@@ -9,9 +9,9 @@ use Shopwell\Core\Framework\Log\Package;
 #[\Attribute(\Attribute::TARGET_PROPERTY)]
 final class Protection
 {
-    final public const SYSTEM_SCOPE = Context::SYSTEM_SCOPE;
-    final public const USER_SCOPE = Context::USER_SCOPE;
-    final public const CRUD_API_SCOPE = Context::CRUD_API_SCOPE;
+    final public const string SYSTEM_SCOPE = Context::SYSTEM_SCOPE;
+    final public const string USER_SCOPE = Context::USER_SCOPE;
+    final public const string CRUD_API_SCOPE = Context::CRUD_API_SCOPE;
 
     /**
      * @param array<string> $write

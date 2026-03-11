@@ -10,5 +10,5 @@ use Shopwell\Core\Framework\Log\Package;
 #[Entity(PaymentTokenEntity::ENTITY_NAME)]
 class PaymentTokenEntity extends EntityStruct
 {
-    final public const string ENTITY_NAME = 'payment_system_token';
+    final public const string ENTITY_NAME = 'payment_token';
 }

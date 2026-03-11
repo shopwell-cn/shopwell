@@ -8,7 +8,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[\Attribute(\Attribute::TARGET_PROPERTY)]
 final class Version extends Field
 {
-    public const TYPE = 'version';
+    public const string TYPE = 'version';
 
     public function __construct()
     {

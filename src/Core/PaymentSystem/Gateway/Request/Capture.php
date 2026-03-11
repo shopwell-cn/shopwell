@@ -2,6 +2,9 @@
 
 namespace Shopwell\Core\PaymentSystem\Gateway\Request;
 
-class Capture
+use Shopwell\Core\Framework\Log\Package;
+
+#[Package('payment-system')]
+class Capture extends Generic
 {
 }

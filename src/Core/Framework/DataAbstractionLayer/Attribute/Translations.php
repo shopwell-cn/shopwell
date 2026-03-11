@@ -8,7 +8,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[\Attribute(\Attribute::TARGET_PROPERTY)]
 final class Translations extends Field
 {
-    public const TYPE = 'translations';
+    public const string TYPE = 'translations';
 
     public function __construct()
     {

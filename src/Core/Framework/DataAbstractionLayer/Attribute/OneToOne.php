@@ -8,7 +8,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[\Attribute(\Attribute::TARGET_PROPERTY)]
 final class OneToOne extends Field
 {
-    public const TYPE = 'one-to-one';
+    public const string TYPE = 'one-to-one';
 
     public function __construct(
         public string $entity,

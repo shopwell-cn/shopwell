@@ -7,16 +7,16 @@ use Shopwell\Core\Framework\Log\Package;
 #[Package('framework')]
 enum FieldType: string
 {
-    public const UUID = 'uuid';
-    public const STRING = 'string';
-    public const TEXT = 'text';
-    public const INT = 'int';
-    public const FLOAT = 'float';
-    public const BOOL = 'bool';
-    public const ENUM = 'enum';
-    public const JSON = 'json';
-    public const DATETIME = 'datetime';
-    public const DATE = 'date';
-    public const DATE_INTERVAL = 'date-interval';
-    public const TIME_ZONE = 'time-zone';
+    public const string UUID = 'uuid';
+    public const string STRING = 'string';
+    public const string TEXT = 'text';
+    public const string INT = 'int';
+    public const string FLOAT = 'float';
+    public const string BOOL = 'bool';
+    public const string ENUM = 'enum';
+    public const string JSON = 'json';
+    public const string DATETIME = 'datetime';
+    public const string DATE = 'date';
+    public const string DATE_INTERVAL = 'date-interval';
+    public const string TIME_ZONE = 'time-zone';
 }

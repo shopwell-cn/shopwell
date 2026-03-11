@@ -8,7 +8,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[\Attribute(\Attribute::TARGET_PROPERTY)]
 final class CustomFields extends Field
 {
-    public const TYPE = 'custom-fields';
+    public const string TYPE = 'custom-fields';
 
     public function __construct(public bool $translated = false, public ?string $column = null)
     {

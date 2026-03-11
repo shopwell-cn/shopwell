@@ -8,14 +8,20 @@ use Shopwell\Core\PaymentSystem\Gateway\Action\ActionInterface;
 use Shopwell\Core\PaymentSystem\Gateway\Exception\ReplyException;
 use Shopwell\Core\PaymentSystem\Gateway\Extension\Context;
 use Shopwell\Core\PaymentSystem\Gateway\Extension\ExtensionCollection;
+use Shopwell\Core\PaymentSystem\Gateway\Extension\ExtensionInterface;
 
 #[Package('payment-system')]
 class Gateway implements GatewayInterface
 {
     /**
-     * @var list<ActionInterface>
+     * @var list<class-string<ActionInterface>|ActionInterface>
      */
     protected array $actions = [];
+
+    /**
+     * @var object[]
+     */
+    protected array $apis;
 
     /**
      * @var Context[]
@@ -29,7 +35,19 @@ class Gateway implements GatewayInterface
         $this->extensions = new ExtensionCollection();
     }
 
-    public function execute(Struct $request, bool $catchReply = false): ?ReplyException
+    public function addAction(ActionInterface $action, bool $forcePrepend = false): void
+    {
+        $forcePrepend ?
+            array_unshift($this->actions, $action) :
+            array_push($this->actions, $action);
+    }
+
+    public function addExtension(ExtensionInterface $extension, bool $forcePrepend = false): void
+    {
+        $this->extensions->addExtension($extension, $forcePrepend);
+    }
+
+    public function execute(mixed $request, bool $catchReply = false): ?ReplyException
     {
         $context = new Context($this, $request, $this->stack);
 
@@ -75,6 +93,14 @@ class Gateway implements GatewayInterface
         return null;
     }
 
+    public function addApi($api, $forcePrepend = false): void
+    {
+        $forcePrepend ?
+            array_unshift($this->apis, $api) :
+            array_push($this->apis, $api)
+        ;
+    }
+
     protected function onPostExecuteWithException(Context $context): void
     {
         array_pop($this->stack);
@@ -107,7 +133,7 @@ class Gateway implements GatewayInterface
     {
         foreach ($this->actions as $action) {
             if ($action instanceof GatewayAwareInterface) {
-                $action->setGateway($this);
+                $action->gateway = $this;
             }
             if ($action->supports($request)) {
                 return $action;

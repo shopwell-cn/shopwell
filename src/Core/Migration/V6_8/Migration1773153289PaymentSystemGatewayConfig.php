@@ -26,6 +26,7 @@ class Migration1773153289PaymentSystemGatewayConfig extends MigrationStep
               `id` BINARY(16) NOT NULL,
               `name` VARCHAR(255) NOT NULL,
               `factory` VARCHAR(255) NOT NULL,
+              `active` tinyint(1) NOT NULL DEFAULT 1,
               `config` JSON NULL,
               `created_at` DATETIME(3) NOT NULL,
               `updated_at` DATETIME(3) NULL,
@@ -49,6 +50,6 @@ SQL;
         ];
 
         $connection->insert('payment_system_gateway_config', ['id' => Uuid::randomBytes(), 'name' => 'alipay', 'factory' => 'alipay', 'config' => \json_encode($alipay, \JSON_THROW_ON_ERROR), 'created_at' => new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT)]);
-        $connection->insert('payment_system_gateway_config', ['id' => Uuid::randomBytes(), 'name' => 'wechat', 'factory' => 'wechat', 'created_at' => new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT)]);
+        $connection->insert('payment_system_gateway_config', ['id' => Uuid::randomBytes(), 'active' => 0, 'name' => 'wechat', 'factory' => 'wechat', 'created_at' => new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT)]);
     }
 }

@@ -22,7 +22,7 @@ return function (ContainerConfigurator $container): void {
         ->args([
             service(DataValidator::class),
             service(PaymentOrderConverter::class),
-            service('payment_system_order.repository'),
+            service('payment_order.repository'),
             service(ExtensionDispatcher::class),
         ]);
 };
