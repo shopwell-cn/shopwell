@@ -5,9 +5,6 @@ namespace Shopwell\Core\PaymentSystem\Api\Response;
 use Shopwell\Core\Framework\Log\Package;
 
 #[Package('payment-system')]
-class PaymentResponse extends AbstractApiResponse
+class PaymentOrderResponse extends AbstractPaymentResponse
 {
-    public string $paymentOrderNumber;
-
-    public string $outOrderNo;
 }

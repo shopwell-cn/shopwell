@@ -22,8 +22,9 @@ class PaymentSystem extends Bundle
         $configLocator = new FileLocator(__DIR__ . '/DependencyInjection/');
 
         $phpLoader = new PhpFileLoader($container, $configLocator);
-        $phpLoader->load('gateway.php');
+        $phpLoader->load('provider.php');
         $phpLoader->load('order.php');
         $phpLoader->load('api.php');
+        $phpLoader->load('gateway.php');
     }
 }

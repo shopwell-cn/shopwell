@@ -7,8 +7,8 @@ use Shopwell\Core\Framework\DataAbstractionLayer\Entity as EntityStruct;
 use Shopwell\Core\Framework\Log\Package;
 
 #[Package('payment-system')]
-#[Entity(PaymentPayumTokenEntity::ENTITY_NAME)]
-class PaymentPayumTokenEntity extends EntityStruct
+#[Entity(PaymentTokenEntity::ENTITY_NAME)]
+class PaymentTokenEntity extends EntityStruct
 {
-    final public const string ENTITY_NAME = 'payment_system_payum_token';
+    final public const string ENTITY_NAME = 'payment_system_token';
 }

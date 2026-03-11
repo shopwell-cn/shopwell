@@ -7,7 +7,6 @@ $bundles = [
     Symfony\Bundle\MonologBundle\MonologBundle::class => ['all' => true],
     Symfony\Bundle\TwigBundle\TwigBundle::class => ['all' => true],
     Shopwell\Core\Profiling\Profiling::class => ['all' => true],
-    Payum\Bundle\PayumBundle\PayumBundle::class => ['all' => true],
     Symfony\Bundle\DebugBundle\DebugBundle::class => ['dev' => true, 'test' => true],
     Shopwell\Core\Framework\Framework::class => ['all' => true],
     Shopwell\Core\System\System::class => ['all' => true],
