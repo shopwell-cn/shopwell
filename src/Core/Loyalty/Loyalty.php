@@ -11,5 +11,4 @@ use Shopwell\Core\Framework\Log\Package;
 #[Package('loyalty')]
 class Loyalty extends Bundle
 {
-
 }

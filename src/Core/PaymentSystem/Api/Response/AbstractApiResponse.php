@@ -1,17 +1,19 @@
 <?php declare(strict_types=1);
 
 namespace Shopwell\Core\PaymentSystem\Api\Response;
+
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Struct\Struct;
 
 #[Package('payment-system')]
 abstract class AbstractApiResponse extends Struct
 {
-
-    public final const string SUCCESS = 'SUCCESS';
+    final public const string SUCCESS = 'SUCCESS';
 
     public string $code;
+
     public string $message;
+
     public ?array $data = null;
 
     final protected function __construct(string $code, string $message, ?array $data = null)

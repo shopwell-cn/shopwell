@@ -11,6 +11,7 @@ abstract class AbstractApiStruct extends Struct
     final public function __construct()
     {
     }
+
     /**
      * @param array<string, mixed> $data
      */
