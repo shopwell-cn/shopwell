@@ -80,10 +80,10 @@ class ProductCartProcessor implements CartProcessorInterface, CartDataCollectorI
 
                 // product was fetched, update timestamp to not fetch it again
                 if ($product instanceof ProductEntity) {
-                    $lineItem->setDataTimestamp($product->getUpdatedAt() ?? $product->getCreatedAt());
+                    $lineItem->dataTimestamp = $product->getUpdatedAt() ?? $product->getCreatedAt();
                 // we have asked for this product, but we didn't get it back, so we need to remove it
                 } elseif (\in_array($lineItem->getReferencedId(), $ids, true)) {
-                    $lineItem->setDataTimestamp(null);
+                    $lineItem->dataTimestamp = null;
                 }
 
                 // no matter if we fetched data or not, we need to set the hash to all products in case it changed

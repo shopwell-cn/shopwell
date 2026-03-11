@@ -32,7 +32,7 @@ use Shopwell\Core\System\StateMachine\Aggregation\StateMachineState\StateMachine
 #[Package('checkout')]
 class OrderDeliveryDefinition extends EntityDefinition
 {
-    final public const ENTITY_NAME = 'order_delivery';
+    final public const string ENTITY_NAME = 'order_delivery';
 
     public function getEntityName(): string
     {

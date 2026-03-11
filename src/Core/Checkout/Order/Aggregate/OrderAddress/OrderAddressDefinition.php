@@ -26,16 +26,15 @@ use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\System\Country\Aggregate\CountryState\CountryStateDefinition;
 use Shopwell\Core\System\Country\CountryDefinition;
-use Shopwell\Core\System\Salutation\SalutationDefinition;
 
 #[Package('checkout')]
 class OrderAddressDefinition extends EntityDefinition
 {
-    final public const ENTITY_NAME = 'order_address';
+    final public const string ENTITY_NAME = 'order_address';
 
-    public const MAX_LENGTH_FIRST_NAME = 255;
+    public const int MAX_LENGTH_FIRST_NAME = 255;
 
-    public const MAX_LENGTH_LAST_NAME = 255;
+    public const int MAX_LENGTH_LAST_NAME = 255;
 
     public function getEntityName(): string
     {
@@ -74,7 +73,6 @@ class OrderAddressDefinition extends EntityDefinition
             new FkField('order_id', 'orderId', OrderDefinition::class)->addFlags(new Required())->setDescription('Unique identity of order.'),
             new ReferenceVersionField(OrderDefinition::class, 'order_version_id')->addFlags(new Required()),
 
-            new FkField('salutation_id', 'salutationId', SalutationDefinition::class)->setDescription('Unique identity of salutation.'),
             new StringField('first_name', 'firstName', self::MAX_LENGTH_FIRST_NAME)->addFlags(new ApiAware(), new Required(), new SearchRanking(SearchRanking::LOW_SEARCH_RANKING))->setDescription('First name of the customer.'),
             new StringField('last_name', 'lastName', self::MAX_LENGTH_LAST_NAME)->addFlags(new ApiAware(), new Required(), new SearchRanking(SearchRanking::HIGH_SEARCH_RANKING))->setDescription('Last name of the customer.'),
             new StringField('street', 'street')->addFlags(new ApiAware(), new Required(), new SearchRanking(SearchRanking::MIDDLE_SEARCH_RANKING))->setDescription('Street address'),
@@ -93,7 +91,6 @@ class OrderAddressDefinition extends EntityDefinition
             new ManyToOneAssociationField('order', 'order_id', OrderDefinition::class, 'id', false)->addFlags(new RestrictDelete()),
             // We need to cascade delete the order deliveries, because when deleting an order, the cascade delete will be triggered first
             new OneToManyAssociationField('orderDeliveries', OrderDeliveryDefinition::class, 'shipping_order_address_id', 'id')->addFlags(new CascadeDelete()),
-            new ManyToOneAssociationField('salutation', 'salutation_id', SalutationDefinition::class, 'id', false)->addFlags(new ApiAware()),
         ]);
 
         if (!Feature::isActive('v6.8.0.0')) {

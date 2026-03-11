@@ -23,7 +23,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[Package('checkout')]
 class OrderTransactionCaptureRefundPositionDefinition extends EntityDefinition
 {
-    final public const ENTITY_NAME = 'order_transaction_capture_refund_position';
+    final public const string ENTITY_NAME = 'order_transaction_capture_refund_position';
 
     public function getEntityName(): string
     {

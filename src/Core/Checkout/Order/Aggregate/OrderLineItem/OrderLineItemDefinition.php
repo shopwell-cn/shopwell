@@ -45,7 +45,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[Package('checkout')]
 class OrderLineItemDefinition extends EntityDefinition
 {
-    final public const ENTITY_NAME = 'order_line_item';
+    final public const string ENTITY_NAME = 'order_line_item';
 
     public function getEntityName(): string
     {

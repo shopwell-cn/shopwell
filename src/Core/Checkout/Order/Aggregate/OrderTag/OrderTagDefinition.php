@@ -17,7 +17,7 @@ use Shopwell\Core\System\Tag\TagDefinition;
 #[Package('checkout')]
 class OrderTagDefinition extends MappingEntityDefinition
 {
-    final public const ENTITY_NAME = 'order_tag';
+    final public const string ENTITY_NAME = 'order_tag';
 
     public function getEntityName(): string
     {

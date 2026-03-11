@@ -28,7 +28,7 @@ use Shopwell\Core\System\StateMachine\Aggregation\StateMachineState\StateMachine
 #[Package('checkout')]
 class OrderTransactionDefinition extends EntityDefinition
 {
-    final public const ENTITY_NAME = 'order_transaction';
+    final public const string ENTITY_NAME = 'order_transaction';
 
     public function getEntityName(): string
     {

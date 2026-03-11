@@ -22,7 +22,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[Package('checkout')]
 class OrderLineItemDownloadDefinition extends EntityDefinition
 {
-    final public const ENTITY_NAME = 'order_line_item_download';
+    final public const string ENTITY_NAME = 'order_line_item_download';
 
     public function getEntityName(): string
     {
