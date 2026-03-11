@@ -12,13 +12,13 @@ use Symfony\Component\Validator\Constraint;
 #[Package('framework')]
 class PaymentTokenRegistered extends Constraint
 {
-    final public const PAYMENT_TOKEN_NOT_REGISTERED = '4b8c09e2-87cb-4a0e-bcf1-bbc9aa805af5';
+    final public const string PAYMENT_TOKEN_NOT_REGISTERED = '4b8c09e2-87cb-4a0e-bcf1-bbc9aa805af5';
 
-    protected const ERROR_NAMES = [
+    protected const array ERROR_NAMES = [
         self::PAYMENT_TOKEN_NOT_REGISTERED => 'PAYMENT_TOKEN_NOT_REGISTERED',
     ];
 
-    protected string $message;
+    public string $message;
 
     /**
      * @internal
@@ -30,10 +30,5 @@ class PaymentTokenRegistered extends Constraint
         $this->message = $message;
 
         parent::__construct();
-    }
-
-    public function getMessage(): string
-    {
-        return $this->message;
     }
 }

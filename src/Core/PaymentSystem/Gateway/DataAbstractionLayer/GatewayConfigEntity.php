@@ -17,7 +17,7 @@ class GatewayConfigEntity extends EntityStruct
 {
     use EntityCustomFieldsTrait;
 
-    final public const string ENTITY_NAME = 'payment_gateway_config';
+    final public const string ENTITY_NAME = 'payment_system_gateway_config';
 
     #[PrimaryKey]
     #[Field(type: FieldType::UUID, api: true)]

@@ -6,6 +6,6 @@ use Shopwell\Core\Framework\HttpException;
 use Shopwell\Core\Framework\Log\Package;
 
 #[Package('payment-system')]
-class GatewayException extends HttpException
+class PaymentSystemGatewayException extends HttpException
 {
 }

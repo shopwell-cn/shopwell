@@ -33,7 +33,7 @@ class PaymentTokenRegisteredValidator extends ConstraintValidator
             return;
         }
 
-        $this->context->buildViolation($constraint->getMessage())
+        $this->context->buildViolation($constraint->message)
             ->setParameter('{{ id }}', $this->formatValue($value))
             ->setCode(PaymentTokenRegistered::PAYMENT_TOKEN_NOT_REGISTERED)
             ->addViolation();

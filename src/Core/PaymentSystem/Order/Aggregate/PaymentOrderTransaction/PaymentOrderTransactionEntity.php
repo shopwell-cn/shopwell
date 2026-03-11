@@ -12,5 +12,5 @@ use Shopwell\Core\Framework\Log\Package;
 class PaymentOrderTransactionEntity extends EntityStruct
 {
     use EntityCustomFieldsTrait;
-    final public const string ENTITY_NAME = 'payment_order_transaction';
+    final public const string ENTITY_NAME = 'payment_system_order_transaction';
 }

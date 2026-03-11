@@ -13,7 +13,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[Entity(PaymentOrderEntity::ENTITY_NAME, collectionClass: PaymentOrderCollection::class)]
 class PaymentOrderEntity extends EntityStruct
 {
-    final public const string ENTITY_NAME = 'payment_order';
+    final public const string ENTITY_NAME = 'payment_system_order';
 
     #[PrimaryKey]
     #[Field(type: FieldType::UUID, api: true)]

@@ -10,7 +10,7 @@ use Shopwell\Core\Framework\Migration\MigrationStep;
  * @internal
  */
 #[Package('framework')]
-class Migration1773153289PaymentGateway extends MigrationStep
+class Migration1773153289PaymentSystemGatewayConfig extends MigrationStep
 {
     public function getCreationTimestamp(): int
     {
