@@ -32,10 +32,10 @@ class CheapestPriceFacade extends PriceFacade
         protected SalesChannelContext $context
     ) {
         if (!$this->price instanceof CalculatedCheapestPrice) {
-            throw ProductException::invalidCheapestPriceFacade($this->item);
+            throw ProductException::invalidCheapestPriceFacade($this->item->uniqueIdentifier);
         }
         if (!$this->item instanceof Entity) {
-            throw ProductException::invalidCheapestPriceFacade($this->item);
+            throw ProductException::invalidCheapestPriceFacade($this->item->uniqueIdentifier);
         }
     }
 
@@ -63,11 +63,11 @@ class CheapestPriceFacade extends PriceFacade
     public function change(PriceFacade|PriceCollection|CalculatedPrice|null $price, bool $range = false): void
     {
         if (!$this->item instanceof Entity) {
-            throw ProductException::invalidCheapestPriceFacade($this->item);
+            throw ProductException::invalidCheapestPriceFacade($this->item->uniqueIdentifier);
         }
 
         if (!$this->price instanceof CalculatedCheapestPrice) {
-            throw ProductException::invalidCheapestPriceFacade($this->item);
+            throw ProductException::invalidCheapestPriceFacade($this->item->uniqueIdentifier);
         }
 
         if ($price === null) {
@@ -92,7 +92,7 @@ class CheapestPriceFacade extends PriceFacade
         }
 
         if (!$price instanceof CalculatedPrice) {
-            throw ProductException::invalidCheapestPriceFacade($this->item);
+            throw ProductException::invalidCheapestPriceFacade($this->item->uniqueIdentifier);
         }
 
         $this->price->overwrite(
