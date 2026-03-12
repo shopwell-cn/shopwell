@@ -16,9 +16,9 @@ use Shopwell\Core\Framework\Store\Services\StoreClient;
 #[Package('framework')]
 class StoreHandshake implements AppHandshakeInterface
 {
-    private const SBP_EXCEPTION_UNAUTHORIZED = 'ShopwellPlatformException-1';
+    private const string SBP_EXCEPTION_UNAUTHORIZED = 'ShopwellPlatformException-1';
 
-    private const SBP_EXCEPTION_NO_LICENSE = 'ShopwellPlatformException-16';
+    private const string SBP_EXCEPTION_NO_LICENSE = 'ShopwellPlatformException-16';
 
     public function __construct(
         private readonly string $shopUrl,
@@ -26,7 +26,9 @@ class StoreHandshake implements AppHandshakeInterface
         private readonly string $appName,
         private readonly string $shopId,
         private readonly StoreClient $storeClient,
-        private readonly string $shopwellVersion
+        private readonly string $shopwellVersion,
+        #[\SensitiveParameter]
+        private readonly ?string $currentAppSecret = null
     ) {
     }
 
@@ -43,13 +45,21 @@ class StoreHandshake implements AppHandshakeInterface
 
         $signature = $this->signPayload($uri->getQuery());
 
+        $headers = [
+            'shopwell-app-signature' => $signature,
+            'sw-version' => $this->shopwellVersion,
+        ];
+
+        // Add shop signature for re-registration (secret rotation)
+        if ($this->currentAppSecret !== null) {
+            $shopSignature = hash_hmac('sha256', $uri->getQuery(), $this->currentAppSecret);
+            $headers['shopwell-shop-signature'] = $shopSignature;
+        }
+
         return new Request(
             'GET',
             $uri,
-            [
-                'shopwell-app-signature' => $signature,
-                'sw-version' => $this->shopwellVersion,
-            ]
+            $headers
         );
     }
 

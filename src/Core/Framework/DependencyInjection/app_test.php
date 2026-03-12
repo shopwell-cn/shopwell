@@ -2,6 +2,7 @@
 
 use Doctrine\DBAL\Connection;
 use Shopwell\Core\Framework\App\AppStateService;
+use Shopwell\Core\Framework\App\DeletedApps\DeletedAppsGateway;
 use Shopwell\Core\Framework\App\Lifecycle\AppLifecycle;
 use Shopwell\Core\Framework\App\Lifecycle\Persister\ActionButtonPersister;
 use Shopwell\Core\Framework\App\Lifecycle\Persister\CmsBlockPersister;
@@ -70,6 +71,7 @@ return static function (ContainerConfigurator $container): void {
             service('custom_entity.repository'),
             service(SourceResolver::class),
             service(ConfigReader::class),
+            service(DeletedAppsGateway::class),
         ]);
 
     $services->set(SourceResolver::class)

@@ -2,6 +2,7 @@
 
 namespace Shopwell\Core\Framework\App\Lifecycle\Registration;
 
+use Shopwell\Core\Framework\App\AppEntity;
 use Shopwell\Core\Framework\App\AppException;
 use Shopwell\Core\Framework\App\Exception\ShopIdChangeSuggestedException;
 use Shopwell\Core\Framework\App\Manifest\Manifest;
@@ -15,17 +16,17 @@ use Shopwell\Core\Framework\Store\Services\StoreClient;
  * @final
  */
 #[Package('framework')]
-class HandshakeFactory
+readonly class HandshakeFactory
 {
     public function __construct(
-        private readonly string $shopUrl,
-        private readonly ShopIdProvider $shopIdProvider,
-        private readonly StoreClient $storeClient,
-        private readonly string $shopwellVersion
+        private string $shopUrl,
+        private ShopIdProvider $shopIdProvider,
+        private StoreClient $storeClient,
+        private string $shopwellVersion,
     ) {
     }
 
-    public function create(Manifest $manifest): AppHandshakeInterface
+    public function create(Manifest $manifest, AppEntity $app): AppHandshakeInterface
     {
         $setup = $manifest->getSetup();
         $metadata = $manifest->getMetadata();
@@ -49,6 +50,9 @@ class HandshakeFactory
             );
         }
 
+        // Get current app secret for re-registration (secret rotation)
+        $currentAppSecret = $app->getAppSecret();
+
         if ($privateSecret) {
             return new PrivateHandshake(
                 $this->shopUrl,
@@ -56,7 +60,8 @@ class HandshakeFactory
                 $setup->getRegistrationUrl(),
                 $metadata->getName(),
                 $shopId,
-                $this->shopwellVersion
+                $this->shopwellVersion,
+                $currentAppSecret
             );
         }
 
@@ -66,7 +71,8 @@ class HandshakeFactory
             $metadata->getName(),
             $shopId,
             $this->storeClient,
-            $this->shopwellVersion
+            $this->shopwellVersion,
+            $currentAppSecret
         );
     }
 }

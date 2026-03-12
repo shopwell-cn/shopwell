@@ -2,10 +2,9 @@
 
 namespace Shopwell\Core\Framework\App\ShopIdChangeResolver;
 
-use Shopwell\Core\Framework\Api\Util\AccessKeyHelper;
 use Shopwell\Core\Framework\App\AppCollection;
 use Shopwell\Core\Framework\App\AppEntity;
-use Shopwell\Core\Framework\App\Lifecycle\Registration\AppRegistrationService;
+use Shopwell\Core\Framework\App\Lifecycle\AppSecretRotationService;
 use Shopwell\Core\Framework\App\Manifest\Manifest;
 use Shopwell\Core\Framework\App\Source\SourceResolver;
 use Shopwell\Core\Framework\Context;
@@ -25,7 +24,7 @@ abstract class AbstractShopIdChangeStrategy
     public function __construct(
         private readonly SourceResolver $sourceResolver,
         private readonly EntityRepository $appRepository,
-        private readonly AppRegistrationService $registrationService
+        private readonly AppSecretRotationService $appSecretRotationService
     ) {
     }
 
@@ -65,19 +64,6 @@ abstract class AbstractShopIdChangeStrategy
 
     protected function reRegisterApp(Manifest $manifest, AppEntity $app, Context $context): void
     {
-        $secret = AccessKeyHelper::generateSecretAccessKey();
-
-        $this->appRepository->update([
-            [
-                'id' => $app->getId(),
-                'integration' => [
-                    'id' => $app->getIntegrationId(),
-                    'accessKey' => AccessKeyHelper::generateAccessKey('integration'),
-                    'secretAccessKey' => $secret,
-                ],
-            ],
-        ], $context);
-
-        $this->registrationService->registerApp($manifest, $app->getId(), $secret, $context);
+        $this->appSecretRotationService->rotateNow($app->getId(), $context, AppSecretRotationService::TRIGGER_SHOP_MOVE);
     }
 }

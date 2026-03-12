@@ -4,7 +4,7 @@ namespace Shopwell\Core\Framework\App\ShopIdChangeResolver;
 
 use Shopwell\Core\Framework\App\AppEntity;
 use Shopwell\Core\Framework\App\Event\AppInstalledEvent;
-use Shopwell\Core\Framework\App\Lifecycle\Registration\AppRegistrationService;
+use Shopwell\Core\Framework\App\Lifecycle\AppSecretRotationService;
 use Shopwell\Core\Framework\App\Manifest\Manifest;
 use Shopwell\Core\Framework\App\ShopId\ShopIdProvider;
 use Shopwell\Core\Framework\App\Source\SourceResolver;
@@ -27,16 +27,16 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 #[Package('framework')]
 class ReinstallAppsStrategy extends AbstractShopIdChangeStrategy
 {
-    final public const STRATEGY_NAME = 'reinstall-apps';
+    final public const string STRATEGY_NAME = 'reinstall-apps';
 
     public function __construct(
         SourceResolver $sourceResolver,
         EntityRepository $appRepository,
-        AppRegistrationService $registrationService,
+        AppSecretRotationService $appSecretRotationService,
         private readonly ShopIdProvider $shopIdProvider,
         private readonly EventDispatcherInterface $eventDispatcher
     ) {
-        parent::__construct($sourceResolver, $appRepository, $registrationService);
+        parent::__construct($sourceResolver, $appRepository, $appSecretRotationService);
     }
 
     public function getDecorated(): AbstractShopIdChangeStrategy

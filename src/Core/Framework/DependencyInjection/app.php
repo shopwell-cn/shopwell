@@ -34,6 +34,7 @@ use Shopwell\Core\Framework\App\Api\AppActionController;
 use Shopwell\Core\Framework\App\Api\AppCmsController;
 use Shopwell\Core\Framework\App\Api\AppJWTGenerateRoute;
 use Shopwell\Core\Framework\App\Api\AppPrivilegeController;
+use Shopwell\Core\Framework\App\Api\AppSecretRotationController;
 use Shopwell\Core\Framework\App\Api\ShopIdController;
 use Shopwell\Core\Framework\App\AppArchiveValidator;
 use Shopwell\Core\Framework\App\AppDefinition;
@@ -54,11 +55,14 @@ use Shopwell\Core\Framework\App\Command\CreateAppCommand;
 use Shopwell\Core\Framework\App\Command\DeactivateAppCommand;
 use Shopwell\Core\Framework\App\Command\InstallAppCommand;
 use Shopwell\Core\Framework\App\Command\RefreshAppCommand;
+use Shopwell\Core\Framework\App\Command\RotateAppSecretCommand;
 use Shopwell\Core\Framework\App\Command\UninstallAppCommand;
 use Shopwell\Core\Framework\App\Command\ValidateAppCommand;
 use Shopwell\Core\Framework\App\Context\Gateway\AppContextGateway;
 use Shopwell\Core\Framework\App\Context\Payload\AppContextGatewayPayloadService;
 use Shopwell\Core\Framework\App\Cookie\AppCookieCollectListener;
+use Shopwell\Core\Framework\App\DeletedApps\DeletedAppsGateway;
+use Shopwell\Core\Framework\App\DeletedApps\RememberDeletedAppsSecretSubscriber;
 use Shopwell\Core\Framework\App\Delta\AppConfirmationDeltaProvider;
 use Shopwell\Core\Framework\App\Delta\DomainsDeltaProvider;
 use Shopwell\Core\Framework\App\Delta\PermissionsDeltaProvider;
@@ -69,6 +73,7 @@ use Shopwell\Core\Framework\App\Hmac\QuerySigner;
 use Shopwell\Core\Framework\App\Lifecycle\AppLifecycle;
 use Shopwell\Core\Framework\App\Lifecycle\AppLifecycleIterator;
 use Shopwell\Core\Framework\App\Lifecycle\AppLoader;
+use Shopwell\Core\Framework\App\Lifecycle\AppSecretRotationService;
 use Shopwell\Core\Framework\App\Lifecycle\Persister\ActionButtonPersister;
 use Shopwell\Core\Framework\App\Lifecycle\Persister\CmsBlockPersister;
 use Shopwell\Core\Framework\App\Lifecycle\Persister\CustomFieldPersister;
@@ -89,6 +94,7 @@ use Shopwell\Core\Framework\App\Lifecycle\Update\AbstractAppUpdater;
 use Shopwell\Core\Framework\App\Lifecycle\Update\AppUpdater;
 use Shopwell\Core\Framework\App\Manifest\ManifestFactory;
 use Shopwell\Core\Framework\App\Manifest\ModuleLoader;
+use Shopwell\Core\Framework\App\MessageHandler\RotateAppSecretHandler;
 use Shopwell\Core\Framework\App\Payload\AppPayloadServiceHelper;
 use Shopwell\Core\Framework\App\Payment\Handler\AppPaymentHandler;
 use Shopwell\Core\Framework\App\Payment\Payload\PaymentPayloadService;
@@ -406,6 +412,17 @@ return static function (ContainerConfigurator $container): void {
             '%kernel.shopwell_version%',
         ]);
 
+    $services->set(AppSecretRotationService::class)
+        ->args([
+            service(AppRegistrationService::class),
+            service('app.repository'),
+            service('integration.repository'),
+            service(SourceResolver::class),
+            service('messenger.default_bus'),
+            service('logger'),
+            service(ManifestFactory::class),
+        ]);
+
     $services->set(HandshakeFactory::class)
         ->args([
             '%env(APP_URL)%',
@@ -449,6 +466,7 @@ return static function (ContainerConfigurator $container): void {
             service('custom_entity.repository'),
             service(SourceResolver::class),
             service(ConfigReader::class),
+            service(DeletedAppsGateway::class),
         ]);
 
     $services->set(AppLifecycleIterator::class)
@@ -485,6 +503,12 @@ return static function (ContainerConfigurator $container): void {
             service('logger'),
             service('acl_role.repository'),
             service('integration.repository'),
+        ])
+        ->tag('messenger.message_handler');
+
+    $services->set(RotateAppSecretHandler::class)
+        ->args([
+            service(AppSecretRotationService::class),
         ])
         ->tag('messenger.message_handler');
 
@@ -575,6 +599,13 @@ return static function (ContainerConfigurator $container): void {
             service(InAppPurchase::class),
         ]);
 
+    $services->set(AppSecretRotationController::class)
+        ->public()
+        ->args([
+            service('app.repository'),
+            service(AppSecretRotationService::class),
+        ]);
+
     $services->set(AppPrinter::class)
         ->args([service('app.repository')]);
 
@@ -647,6 +678,14 @@ return static function (ContainerConfigurator $container): void {
         ->args([service('app.repository')])
         ->tag('console.command');
 
+    $services->set(RotateAppSecretCommand::class)
+        ->args([
+            service('app.repository'),
+            service(AppSecretRotationService::class),
+            service(ActiveAppsLoader::class),
+        ])
+        ->tag('console.command');
+
     $services->set(ShopIdController::class)
         ->public()
         ->args([
@@ -664,7 +703,7 @@ return static function (ContainerConfigurator $container): void {
         ->args([
             service(SourceResolver::class),
             service('app.repository'),
-            service(AppRegistrationService::class),
+            service(AppSecretRotationService::class),
             service(ShopIdProvider::class),
         ])
         ->tag('shopwell.app_url_changed_resolver', ['priority' => -100]);
@@ -673,7 +712,7 @@ return static function (ContainerConfigurator $container): void {
         ->args([
             service(SourceResolver::class),
             service('app.repository'),
-            service(AppRegistrationService::class),
+            service(AppSecretRotationService::class),
             service(ShopIdProvider::class),
             service('event_dispatcher'),
         ])
@@ -844,4 +883,15 @@ return static function (ContainerConfigurator $container): void {
             service('event_dispatcher'),
         ])
         ->tag('messenger.message_handler');
+
+    $services->set(DeletedAppsGateway::class)
+        ->args([
+            service(Connection::class),
+        ]);
+
+    $services->set(RememberDeletedAppsSecretSubscriber::class)
+        ->args([
+            service('app.repository'),
+            service(DeletedAppsGateway::class),
+        ])->tag('kernel.event_subscriber');
 };

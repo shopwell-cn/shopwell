@@ -26,6 +26,7 @@ use Shopwell\Core\System\SystemConfig\SystemConfigService;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\Messenger\MessageBusInterface;
 
+use function Symfony\Component\DependencyInjection\Loader\Configurator\param;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_iterator;
 
@@ -108,6 +109,7 @@ return static function (ContainerConfigurator $container): void {
         ->args([
             service(Connection::class),
             service(RelatedWebhooks::class),
+            param('shopwell.webhook.failure_strategy'),
         ])
         ->tag('kernel.event_subscriber');
 

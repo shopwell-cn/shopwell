@@ -19,7 +19,6 @@ use Shopwell\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Filter\Filter;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Plugin\Exception\DecorationPatternException;
 use Shopwell\Core\Framework\RateLimiter\Exception\RateLimitExceededException;
@@ -75,12 +74,12 @@ class OrderRoute extends AbstractOrderRoute
 
         $criteria->addAssociations(['billingAddress', 'orderCustomer.customer', 'primaryOrderDelivery']);
 
-        if (!Feature::isActive('v6.8.0.0')) {
-            $criteria->addAssociation('deliveries');
-        }
+        $deepLinkFilter = \current(array_filter(
+            $criteria->getFilters(),
+            static fn (Filter $filter) => $filter instanceof EqualsFilter && ($filter->getField() === 'order.deepLinkCode' || $filter->getField() === 'deepLinkCode')
+        )) ?: null;
 
-        $deepLinkFilter = \current(array_filter($criteria->getFilters(), static fn (Filter $filter) => \in_array('order.deepLinkCode', $filter->getFields(), true)
-            || \in_array('deepLinkCode', $filter->getFields(), true))) ?: null;
+        \assert($deepLinkFilter === null || $deepLinkFilter instanceof EqualsFilter);
 
         if ($context->getCustomer()) {
             $criteria->addFilter(new EqualsFilter('order.orderCustomer.customerId', $context->getCustomerId()));
@@ -99,7 +98,7 @@ class OrderRoute extends AbstractOrderRoute
         }
 
         // Handle guest authentication if deeplink is set
-        if (!$context->getCustomer() && $deepLinkFilter instanceof EqualsFilter) {
+        if ($deepLinkFilter !== null && !$context->getCustomer()) {
             try {
                 $cacheKey = strtolower((string) $deepLinkFilter->getValue()) . '-' . $request->getClientIp();
 
