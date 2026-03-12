@@ -1,0 +1,42 @@
+<?php declare(strict_types=1);
+
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+use Shopwell\Core\Content\Category\CategoryDefinition;
+use Shopwell\Core\Content\Category\Service\CategoryBreadcrumbBuilder;
+use Shopwell\Core\Content\LandingPage\LandingPageDefinition;
+use Shopwell\Core\Content\Product\ProductDefinition;
+use Shopwell\Core\Content\Seo\SeoUrlRoute\SeoUrlRouteRegistry;
+use Shopwell\Core\Content\Seo\SeoUrlUpdater;
+use Shopwell\Storefront\Framework\Seo\SeoUrlRoute\LandingPageSeoUrlRoute;
+use Shopwell\Storefront\Framework\Seo\SeoUrlRoute\NavigationPageSeoUrlRoute;
+use Shopwell\Storefront\Framework\Seo\SeoUrlRoute\ProductPageSeoUrlRoute;
+use Shopwell\Storefront\Framework\Seo\SeoUrlRoute\SeoUrlUpdateListener;
+use Shopwell\Storefront\Framework\Seo\SeoUrlRouteNameEnumProvider;
+
+return static function (ContainerConfigurator $container): void {
+    $services = $container->services();
+
+    $services->set(ProductPageSeoUrlRoute::class)
+        ->args([service(ProductDefinition::class)])
+        ->tag('shopwell.seo_url.route');
+
+    $services->set(NavigationPageSeoUrlRoute::class)
+        ->args([
+            service(CategoryDefinition::class),
+            service(CategoryBreadcrumbBuilder::class),
+        ])
+        ->tag('shopwell.seo_url.route');
+
+    $services->set(LandingPageSeoUrlRoute::class)
+        ->args([service(LandingPageDefinition::class)])
+        ->tag('shopwell.seo_url.route');
+
+    $services->set(SeoUrlUpdateListener::class)
+        ->args([service(SeoUrlUpdater::class)])
+        ->tag('kernel.event_subscriber');
+
+    $services->set(SeoUrlRouteNameEnumProvider::class)
+        ->args([service(SeoUrlRouteRegistry::class)])
+        ->tag('shopwell.api.enum_provider');
+};

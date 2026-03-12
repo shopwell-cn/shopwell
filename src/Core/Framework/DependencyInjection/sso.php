@@ -1,0 +1,96 @@
+<?php declare(strict_types=1);
+
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+use Doctrine\DBAL\Connection;
+use Shopwell\Core\Content\Mail\Service\MailService;
+use Shopwell\Core\Framework\Sso\Config\LoginConfigService;
+use Shopwell\Core\Framework\Sso\Controller\SsoController;
+use Shopwell\Core\Framework\Sso\LoginResponseService;
+use Shopwell\Core\Framework\Sso\SsoService;
+use Shopwell\Core\Framework\Sso\SsoUser\SsoUserInvitationMailService;
+use Shopwell\Core\Framework\Sso\SsoUser\SsoUserService;
+use Shopwell\Core\Framework\Sso\StateValidator;
+use Shopwell\Core\Framework\Sso\TokenService\ExternalTokenService;
+use Shopwell\Core\Framework\Sso\TokenService\IdTokenParser;
+use Shopwell\Core\Framework\Sso\TokenService\PublicKeyLoader;
+use Shopwell\Core\Framework\Sso\UserService\UserService;
+use Shopwell\Core\System\SystemConfig\SystemConfigService;
+use Symfony\Bridge\PsrHttpMessage\Factory\PsrHttpFactory;
+use Symfony\Component\Clock\ClockInterface;
+use Symfony\Component\Routing\RouterInterface;
+
+return static function (ContainerConfigurator $container): void {
+    $services = $container->services();
+
+    $services->set(SsoController::class)
+        ->public()
+        ->args([
+            service('shopwell.api.authorization_server'),
+            service(PsrHttpFactory::class),
+            service(LoginConfigService::class),
+            service(LoginResponseService::class),
+            service(StateValidator::class),
+            service(SsoUserService::class),
+            service(SsoUserInvitationMailService::class),
+            service(SsoService::class),
+        ])
+        ->call('setContainer', [service('service_container')]);
+
+    $services->set(LoginConfigService::class)
+        ->args([
+            '%shopwell.admin_login%',
+            service(RouterInterface::class),
+        ]);
+
+    $services->set(ExternalTokenService::class)
+        ->args([
+            service('http_client'),
+            service(LoginConfigService::class),
+        ]);
+
+    $services->set(IdTokenParser::class)
+        ->args([
+            service(PublicKeyLoader::class),
+            service(LoginConfigService::class),
+            service(ClockInterface::class),
+        ]);
+
+    $services->set(PublicKeyLoader::class)
+        ->args([
+            service('http_client'),
+            service(LoginConfigService::class),
+            service('cache.object'),
+        ]);
+
+    $services->set(UserService::class)
+        ->args([
+            service(Connection::class),
+            service(IdTokenParser::class),
+            service('user.repository'),
+            service(ExternalTokenService::class),
+        ]);
+
+    $services->set(SsoUserService::class)
+        ->args([service('user.repository')]);
+
+    $services->set(LoginResponseService::class)
+        ->args([service(RouterInterface::class)]);
+
+    $services->set(SsoService::class)
+        ->args([service(LoginConfigService::class)]);
+
+    $services->set(StateValidator::class);
+
+    $services->set(SsoUserInvitationMailService::class)
+        ->args([
+            service(MailService::class),
+            service(SystemConfigService::class),
+            service('mail_template.repository'),
+            service('mail_template_type.repository'),
+            service('user.repository'),
+            service('language.repository'),
+            service(RouterInterface::class),
+            '%APP_URL%',
+        ]);
+};

@@ -8,7 +8,7 @@ use Shopwell\Core\Framework\Log\Package;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 
 /**
  * @internal
@@ -25,14 +25,14 @@ class Checkout extends Bundle
 
         $container->addCompilerPass(new CartStorageCompilerPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION, 0);
 
-        $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/DependencyInjection/'));
-        $loader->load('cart.xml');
-        $loader->load('customer.xml');
-        $loader->load('document.xml');
-        $loader->load('order.xml');
-        $loader->load('payment.xml');
-        $loader->load('rule.xml');
-        $loader->load('promotion.xml');
-        $loader->load('shipping.xml');
+        $loader = new PhpFileLoader($container, new FileLocator(__DIR__ . '/DependencyInjection/'));
+        $loader->load('cart.php');
+        $loader->load('customer.php');
+        $loader->load('document.php');
+        $loader->load('order.php');
+        $loader->load('payment.php');
+        $loader->load('promotion.php');
+        $loader->load('rule.php');
+        $loader->load('shipping.php');
     }
 }

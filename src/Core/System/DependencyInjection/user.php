@@ -1,0 +1,55 @@
+<?php declare(strict_types=1);
+
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+use Shopwell\Core\System\SalesChannel\Context\SalesChannelContextService;
+use Shopwell\Core\System\User\Aggregate\UserAccessKey\UserAccessKeyDefinition;
+use Shopwell\Core\System\User\Aggregate\UserConfig\UserConfigDefinition;
+use Shopwell\Core\System\User\Aggregate\UserRecovery\UserRecoveryDefinition;
+use Shopwell\Core\System\User\Api\UserRecoveryController;
+use Shopwell\Core\System\User\Api\UserValidationController;
+use Shopwell\Core\System\User\Recovery\UserRecoveryService;
+use Shopwell\Core\System\User\Service\UserValidationService;
+use Shopwell\Core\System\User\UserDefinition;
+
+return static function (ContainerConfigurator $container): void {
+    $services = $container->services();
+
+    $services->set(UserDefinition::class)
+        ->tag('shopwell.entity.definition');
+
+    $services->set(UserConfigDefinition::class)
+        ->tag('shopwell.entity.definition');
+
+    $services->set(UserAccessKeyDefinition::class)
+        ->tag('shopwell.entity.definition');
+
+    $services->set(UserRecoveryDefinition::class)
+        ->tag('shopwell.entity.definition');
+
+    $services->set(UserRecoveryService::class)
+        ->args([
+            service('user_recovery.repository'),
+            service('user.repository'),
+            service('router'),
+            service('event_dispatcher'),
+            service(SalesChannelContextService::class),
+            service('sales_channel.repository'),
+        ]);
+
+    $services->set(UserRecoveryController::class)
+        ->public()
+        ->args([
+            service(UserRecoveryService::class),
+            service('shopwell.rate_limiter'),
+        ])
+        ->call('setContainer', [service('service_container')]);
+
+    $services->set(UserValidationService::class)
+        ->args([service('user.repository')]);
+
+    $services->set(UserValidationController::class)
+        ->public()
+        ->args([service(UserValidationService::class)])
+        ->call('setContainer', [service('service_container')]);
+};

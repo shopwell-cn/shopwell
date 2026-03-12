@@ -1,0 +1,86 @@
+<?php declare(strict_types=1);
+
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+use Doctrine\DBAL\Connection;
+use Shopwell\Core\Checkout\Cart\CartRuleLoader;
+use Shopwell\Core\Content\Rule\Aggregate\RuleCondition\RuleConditionDefinition;
+use Shopwell\Core\Content\Rule\Aggregate\RuleTag\RuleTagDefinition;
+use Shopwell\Core\Content\Rule\DataAbstractionLayer\RuleAreaUpdater;
+use Shopwell\Core\Content\Rule\DataAbstractionLayer\RuleIndexer;
+use Shopwell\Core\Content\Rule\DataAbstractionLayer\RuleIndexerSubscriber;
+use Shopwell\Core\Content\Rule\DataAbstractionLayer\RulePayloadSubscriber;
+use Shopwell\Core\Content\Rule\DataAbstractionLayer\RulePayloadUpdater;
+use Shopwell\Core\Content\Rule\RuleDefinition;
+use Shopwell\Core\Content\Rule\RuleValidator;
+use Shopwell\Core\Framework\Adapter\Cache\CacheInvalidator;
+use Shopwell\Core\Framework\DataAbstractionLayer\Dbal\Common\IteratorFactory;
+use Shopwell\Core\Framework\DataAbstractionLayer\DefinitionInstanceRegistry;
+use Shopwell\Core\Framework\Rule\Collector\RuleConditionRegistry;
+use Symfony\Component\Clock\ClockInterface;
+
+return static function (ContainerConfigurator $container): void {
+    $services = $container->services();
+
+    $services->set(RuleDefinition::class)
+        ->tag('shopwell.entity.definition');
+
+    $services->set(RuleConditionDefinition::class)
+        ->tag('shopwell.entity.definition');
+
+    $services->set(RuleTagDefinition::class)
+        ->tag('shopwell.entity.definition');
+
+    $services->set(RuleValidator::class)
+        ->args([
+            service('validator'),
+            service(RuleConditionRegistry::class),
+            service('rule_condition.repository'),
+            service('app_script_condition.repository'),
+        ])
+        ->tag('kernel.event_subscriber');
+
+    $services->set(RulePayloadSubscriber::class)
+        ->args([
+            service(RulePayloadUpdater::class),
+            service('service_container'),
+        ])
+        ->tag('kernel.event_subscriber');
+
+    $services->set(RuleIndexer::class)
+        ->args(arguments: [
+            service(IteratorFactory::class),
+            service('rule.repository'),
+            service(RulePayloadUpdater::class),
+            service(RuleAreaUpdater::class),
+            service('event_dispatcher'),
+        ])
+        ->tag('shopwell.entity_indexer');
+
+    $services->set(RuleIndexerSubscriber::class)
+        ->args([
+            service(Connection::class),
+            service(CartRuleLoader::class),
+            service(ClockInterface::class),
+        ])
+        ->tag('kernel.event_subscriber');
+
+    $services->set(RulePayloadUpdater::class)
+        ->args([
+            service(Connection::class),
+            service(RuleConditionRegistry::class),
+            service(ClockInterface::class),
+        ])
+        ->tag('kernel.event_subscriber');
+
+    $services->set(RuleAreaUpdater::class)
+        ->args([
+            service(Connection::class),
+            service(RuleDefinition::class),
+            service(RuleConditionRegistry::class),
+            service(CacheInvalidator::class),
+            service(DefinitionInstanceRegistry::class),
+            service(ClockInterface::class),
+        ])
+        ->tag('kernel.event_subscriber');
+};

@@ -12,7 +12,6 @@ use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
-use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 
 /**
  * @internal
@@ -32,28 +31,24 @@ class System extends Bundle
     {
         parent::build($container);
 
-        $configLocator = new FileLocator(__DIR__ . '/DependencyInjection/');
-
-        $loader = new XmlFileLoader($container, $configLocator);
-        $loader->load('sales_channel.xml');
-        $loader->load('country.xml');
-        $loader->load('currency.xml');
-        $loader->load('custom_entity.xml');
-        $loader->load('snippet.xml');
-        $loader->load('user.xml');
-        $loader->load('integration.xml');
-        $loader->load('state_machine.xml');
-        $loader->load('configuration.xml');
-        $loader->load('number_range.xml');
-
-        $phpLoader = new PhpFileLoader($container, $configLocator);
-        $phpLoader->load('consent.php');
-        $phpLoader->load('data_dict.php');
-        $phpLoader->load('tax.php');
-        $phpLoader->load('tax_provider.php');
-        $phpLoader->load('unit.php');
-        $phpLoader->load('tag.php');
-        $phpLoader->load('locale.php');
+        $loader = new PhpFileLoader($container, new FileLocator(__DIR__ . '/DependencyInjection/'));
+        $loader->load('sales_channel.php');
+        $loader->load('country.php');
+        $loader->load('currency.php');
+        $loader->load('custom_entity.php');
+        $loader->load('snippet.php');
+        $loader->load('user.php');
+        $loader->load('integration.php');
+        $loader->load('state_machine.php');
+        $loader->load('configuration.php');
+        $loader->load('number_range.php');
+        $loader->load('consent.php');
+        $loader->load('data_dict.php');
+        $loader->load('tax.php');
+        $loader->load('tax_provider.php');
+        $loader->load('unit.php');
+        $loader->load('tag.php');
+        $loader->load('locale.php');
 
         $container->addCompilerPass(new SalesChannelEntityCompilerPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION, 0);
         $container->addCompilerPass(new NumberRangeIncrementerCompilerPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION, 0);

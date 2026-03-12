@@ -20,7 +20,6 @@ use Symfony\Component\DependencyInjection\Loader\DirectoryLoader;
 use Symfony\Component\DependencyInjection\Loader\GlobFileLoader;
 use Symfony\Component\DependencyInjection\Loader\IniFileLoader;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
-use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\Filesystem\Filesystem;
@@ -135,7 +134,6 @@ abstract class Bundle extends SymfonyBundle
         $locator = new FileLocator('Resources/config');
 
         $resolver = new LoaderResolver([
-            new XmlFileLoader($container, $locator),
             new YamlFileLoader($container, $locator),
             new IniFileLoader($container, $locator),
             new PhpFileLoader($container, $locator),
@@ -201,7 +199,6 @@ abstract class Bundle extends SymfonyBundle
     {
         $fileLocator = new FileLocator($this->getPath());
         $loaderResolver = new LoaderResolver([
-            new XmlFileLoader($container, $fileLocator),
             new YamlFileLoader($container, $fileLocator),
             new PhpFileLoader($container, $fileLocator),
         ]);
