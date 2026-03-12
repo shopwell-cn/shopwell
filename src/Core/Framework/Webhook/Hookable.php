@@ -10,6 +10,7 @@ use Shopwell\Core\Framework\App\Event\AppDeletedEvent;
 use Shopwell\Core\Framework\App\Event\AppInstalledEvent;
 use Shopwell\Core\Framework\App\Event\AppPermissionsUpdated;
 use Shopwell\Core\Framework\App\Event\AppUpdatedEvent;
+use Shopwell\Core\Framework\App\Event\SystemHeartbeatEvent;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Update\Event\UpdatePostFinishEvent;
 use Shopwell\Core\System\SystemConfig\Event\SystemConfigChangedHook;
@@ -17,7 +18,7 @@ use Shopwell\Core\System\SystemConfig\Event\SystemConfigChangedHook;
 #[Package('framework')]
 interface Hookable
 {
-    public const HOOKABLE_EVENTS = [
+    public const array HOOKABLE_EVENTS = [
         MediaUploadedEvent::class => MediaUploadedEvent::EVENT_NAME,
         AppActivatedEvent::class => AppActivatedEvent::NAME,
         AppDeactivatedEvent::class => AppDeactivatedEvent::NAME,
@@ -27,9 +28,10 @@ interface Hookable
         AppPermissionsUpdated::class => AppPermissionsUpdated::NAME,
         UpdatePostFinishEvent::class => UpdatePostFinishEvent::EVENT_NAME,
         SystemConfigChangedHook::class => SystemConfigChangedHook::EVENT_NAME,
+        SystemHeartbeatEvent::class => SystemHeartbeatEvent::NAME,
     ];
 
-    public const HOOKABLE_EVENTS_DESCRIPTION = [
+    public const array HOOKABLE_EVENTS_DESCRIPTION = [
         MediaUploadedEvent::class => 'Fires when a media file is uploaded',
         AppActivatedEvent::class => 'Fires when an app is activated',
         AppDeactivatedEvent::class => 'Fires when an app is deactivated',
@@ -39,9 +41,10 @@ interface Hookable
         AppPermissionsUpdated::class => 'Fires when an apps permissions were updated with a list of the currently accepted permissions, eg after new were accepted or revoked',
         UpdatePostFinishEvent::class => 'Fires after an shopwell update has been finished',
         SystemConfigChangedHook::class => 'Fires when a system config value is changed',
+        SystemHeartbeatEvent::class => 'Fires as a recurrent task. Indicates to the app that the system is up and running.',
     ];
 
-    public const HOOKABLE_EVENTS_PRIVILEGES = [
+    public const array HOOKABLE_EVENTS_PRIVILEGES = [
         MediaUploadedEvent::class => ['media:read'],
         AppActivatedEvent::class => [],
         AppDeactivatedEvent::class => [],
@@ -51,6 +54,7 @@ interface Hookable
         AppPermissionsUpdated::class => [],
         UpdatePostFinishEvent::class => [],
         SystemConfigChangedHook::class => ['system_config:read'],
+        SystemHeartbeatEvent::class => [],
     ];
 
     public function getName(): string;
