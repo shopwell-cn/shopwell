@@ -1,7 +1,5 @@
 <?php declare(strict_types=1);
 
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
-
 use Doctrine\DBAL\Connection;
 use Shopwell\Core\Content\Product\SearchKeyword\KeywordLoader;
 use Shopwell\Core\Content\Product\SearchKeyword\ProductSearchTermInterpreter;
@@ -138,7 +136,11 @@ use Shopwell\Core\System\CustomField\CustomFieldService;
 use Shopwell\Core\System\Language\LanguageLoader;
 use Shopwell\Core\System\SalesChannel\Entity\SalesChannelDefinitionInstanceRegistry;
 use Shopwell\Core\System\SystemConfig\SystemConfigService;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\Filesystem\Filesystem;
+
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_iterator;
 
 return static function (ContainerConfigurator $container): void {
     $services = $container->services();

@@ -1,7 +1,5 @@
 <?php declare(strict_types=1);
 
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
-
 use Doctrine\DBAL\Connection;
 use GuzzleHttp\Client;
 use Shopwell\Core\Framework\Adapter\Cache\CacheClearer;
@@ -38,9 +36,12 @@ use Shopwell\Core\Maintenance\User\Command\UserCreateCommand;
 use Shopwell\Core\Maintenance\User\Command\UserListCommand;
 use Shopwell\Core\Maintenance\User\Service\UserProvisioner;
 use Shopwell\Core\System\SystemConfig\SystemConfigService;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\Dotenv\Command\DotenvDumpCommand;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
+
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $container): void {
     $services = $container->services();

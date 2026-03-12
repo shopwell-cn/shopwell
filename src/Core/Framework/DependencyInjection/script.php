@@ -1,7 +1,5 @@
 <?php declare(strict_types=1);
 
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
-
 use Doctrine\DBAL\Connection;
 use Shopwell\Core\Framework\App\Lifecycle\Persister\ScriptPersister;
 use Shopwell\Core\Framework\Script\Api\AclFacadeHookFactory;
@@ -17,6 +15,10 @@ use Shopwell\Core\Framework\Script\Execution\ScriptLoader;
 use Shopwell\Core\Framework\Script\ScriptDefinition;
 use Shopwell\Core\System\SalesChannel\Api\StructEncoder;
 use Shopwell\Storefront\Controller\ScriptController;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_iterator;
 
 return static function (ContainerConfigurator $container): void {
     $services = $container->services();

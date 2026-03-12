@@ -1,7 +1,5 @@
 <?php declare(strict_types=1);
 
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
-
 use Doctrine\DBAL\Connection;
 use Shopwell\Core\Checkout\Cart\Delivery\DeliveryBuilder;
 use Shopwell\Core\Checkout\Cart\Order\OrderConverter;
@@ -77,11 +75,15 @@ use Shopwell\Core\Framework\DataAbstractionLayer\DefinitionInstanceRegistry;
 use Shopwell\Core\Framework\Extensions\ExtensionDispatcher;
 use Shopwell\Core\Framework\Validation\DataValidator;
 use Shopwell\Core\System\Locale\LanguageLocaleCodeProvider;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\HttpFoundation\RequestStack;
+
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service_locator;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_iterator;
 
 return static function (ContainerConfigurator $container): void {
     $services = $container->services();
-    $parameters = $container->parameters();
 
     $services->set(FlowDefinition::class)
         ->tag('shopwell.entity.definition');

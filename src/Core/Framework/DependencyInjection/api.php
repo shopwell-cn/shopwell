@@ -1,7 +1,5 @@
 <?php declare(strict_types=1);
 
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
-
 use Doctrine\DBAL\Connection;
 use Lcobucci\JWT\Configuration;
 use League\OAuth2\Server\AuthorizationServer;
@@ -95,10 +93,13 @@ use Shopwell\Core\System\SystemConfig\SystemConfigService;
 use Shopwell\Core\System\User\UserDefinition;
 use Symfony\Bridge\PsrHttpMessage\Factory\HttpFoundationFactory;
 use Symfony\Bridge\PsrHttpMessage\Factory\PsrHttpFactory;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_iterator;
 
 return static function (ContainerConfigurator $container): void {
     $services = $container->services();
-    $parameters = $container->parameters();
 
     $services->set(RequestTransformerInterface::class, RequestTransformer::class)
         ->public();

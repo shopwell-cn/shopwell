@@ -1,7 +1,5 @@
 <?php declare(strict_types=1);
 
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
-
 use Doctrine\DBAL\Connection;
 use Shopwell\Core\Framework\Adapter\Doctrine\Messenger\DoctrineTransportFactory;
 use Shopwell\Core\Framework\Adapter\Messenger\Middleware\QueuedTimeMiddleware;
@@ -16,7 +14,10 @@ use Shopwell\Core\Framework\MessageQueue\Subscriber\MessageQueueSizeRestrictList
 use Shopwell\Core\Framework\MessageQueue\Subscriber\MessageQueueStatsSubscriber;
 use Shopwell\Core\Framework\MessageQueue\Telemetry\MessageQueueTelemetrySubscriber;
 use Shopwell\Core\Framework\Telemetry\Metrics\Meter;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\Messenger\Event\SendMessageToTransportsEvent;
+
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $container): void {
     $services = $container->services();

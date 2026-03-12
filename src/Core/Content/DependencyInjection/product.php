@@ -1,7 +1,5 @@
 <?php declare(strict_types=1);
 
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
-
 use Doctrine\DBAL\Connection;
 use Shopwell\Core\Checkout\Cart\Facade\ScriptPriceStubs;
 use Shopwell\Core\Checkout\Cart\Price\QuantityPriceCalculator;
@@ -129,10 +127,13 @@ use Shopwell\Core\Framework\Script\Execution\ScriptExecutor;
 use Shopwell\Core\Framework\Validation\DataValidator;
 use Shopwell\Core\System\DeliveryTime\DeliveryTimeDefinition;
 use Shopwell\Core\System\SystemConfig\SystemConfigService;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_iterator;
 
 return static function (ContainerConfigurator $container): void {
     $services = $container->services();
-    $parameters = $container->parameters();
 
     $services->set(ProductExceptionHandler::class)
         ->tag('shopwell.dal.exception_handler');

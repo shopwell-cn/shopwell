@@ -1,7 +1,5 @@
 <?php declare(strict_types=1);
 
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
-
 use Doctrine\DBAL\Connection;
 use Shopwell\Core\Framework\Api\Serializer\JsonEntityEncoder;
 use Shopwell\Core\Framework\App\AppLocaleProvider;
@@ -25,7 +23,11 @@ use Shopwell\Core\Framework\Webhook\WebhookCacheClearer;
 use Shopwell\Core\Framework\Webhook\WebhookDefinition;
 use Shopwell\Core\Framework\Webhook\WebhookDispatcher;
 use Shopwell\Core\System\SystemConfig\SystemConfigService;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\Messenger\MessageBusInterface;
+
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_iterator;
 
 return static function (ContainerConfigurator $container): void {
     $services = $container->services();

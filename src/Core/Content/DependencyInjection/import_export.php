@@ -1,7 +1,5 @@
 <?php declare(strict_types=1);
 
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
-
 use Doctrine\DBAL\Connection;
 use Shopwell\Core\Content\ImportExport\Aggregate\ImportExportFile\ImportExportFileDefinition;
 use Shopwell\Core\Content\ImportExport\Aggregate\ImportExportLog\ImportExportLogDefinition;
@@ -53,6 +51,10 @@ use Shopwell\Core\Framework\DataAbstractionLayer\DefinitionInstanceRegistry;
 use Shopwell\Core\Framework\DataAbstractionLayer\FieldSerializer\CustomFieldsSerializer;
 use Shopwell\Core\Framework\Validation\DataValidator;
 use Shopwell\Core\System\CustomField\CustomFieldService;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_iterator;
 
 return static function (ContainerConfigurator $container): void {
     $services = $container->services();
@@ -154,7 +156,7 @@ return static function (ContainerConfigurator $container): void {
         ->args([service('currency.repository')])
         ->tag('shopwell.import_export.field_serializer', ['priority' => -500]);
 
-    $services->set(\Shopwell\Core\Content\ImportExport\DataAbstractionLayer\Serializer\Field\CustomFieldsSerializer::class)
+    $services->set(Shopwell\Core\Content\ImportExport\DataAbstractionLayer\Serializer\Field\CustomFieldsSerializer::class)
         ->args([
             service(CustomFieldsSerializer::class),
             service(CustomFieldService::class),

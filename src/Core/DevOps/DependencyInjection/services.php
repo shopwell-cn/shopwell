@@ -1,7 +1,5 @@
 <?php declare(strict_types=1);
 
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
-
 use Shopwell\Core\DevOps\Docs\App\DocsAppEventCommand;
 use Shopwell\Core\DevOps\Docs\Script\HooksReferenceGenerator;
 use Shopwell\Core\DevOps\Docs\Script\ScriptReferenceGeneratorCommand;
@@ -11,8 +9,12 @@ use Shopwell\Core\DevOps\System\Command\SyncComposerVersionCommand;
 use Shopwell\Core\Framework\Api\ApiDefinition\DefinitionService;
 use Shopwell\Core\Framework\Event\BusinessEventCollector;
 use Shopwell\Core\Framework\Webhook\Hookable\HookableEventCollector;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_iterator;
 
 return static function (ContainerConfigurator $container): void {
     $services = $container->services();

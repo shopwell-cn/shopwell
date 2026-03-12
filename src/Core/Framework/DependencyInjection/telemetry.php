@@ -1,11 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
-
 use Shopwell\Core\Framework\Telemetry\Metrics\Config\MetricConfigProvider;
 use Shopwell\Core\Framework\Telemetry\Metrics\Config\TransportConfigProvider;
 use Shopwell\Core\Framework\Telemetry\Metrics\Meter;
 use Shopwell\Core\Framework\Telemetry\Metrics\Transport\TransportCollection;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_iterator;
 
 return static function (ContainerConfigurator $container): void {
     $services = $container->services();

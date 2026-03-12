@@ -1,7 +1,5 @@
 <?php declare(strict_types=1);
 
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
-
 use Doctrine\DBAL\Connection;
 use Shopwell\Core\Framework\App\AppExtractor;
 use Shopwell\Core\Framework\App\AppStateService;
@@ -41,8 +39,12 @@ use Shopwell\Core\Service\Subscriber\ShopwellAccountSubscriber;
 use Shopwell\Core\Service\Subscriber\SystemUpdateSubscriber;
 use Shopwell\Core\Service\TemporaryDirectoryFactory;
 use Shopwell\Core\System\SystemConfig\SystemConfigService;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_iterator;
 
 return static function (ContainerConfigurator $container): void {
     $services = $container->services();

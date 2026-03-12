@@ -1,7 +1,5 @@
 <?php declare(strict_types=1);
 
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
-
 use Shopwell\Core\Content\MeasurementSystem\DataAbstractionLayer\MeasurementDisplayUnitEntity;
 use Shopwell\Core\Content\MeasurementSystem\DataAbstractionLayer\MeasurementSystemEntity;
 use Shopwell\Core\Content\MeasurementSystem\Field\MeasurementUnitsFieldSerializer;
@@ -10,10 +8,12 @@ use Shopwell\Core\Content\MeasurementSystem\TwigExtension\MeasurementConvertUnit
 use Shopwell\Core\Content\MeasurementSystem\Unit\MeasurementUnitConverter;
 use Shopwell\Core\Content\MeasurementSystem\Unit\MeasurementUnitProvider;
 use Shopwell\Core\Framework\DataAbstractionLayer\DefinitionInstanceRegistry;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $container): void {
     $services = $container->services();
-    $parameters = $container->parameters();
 
     $services->set(MeasurementSystemEntity::class)
         ->tag('shopwell.entity');

@@ -1,5 +1,7 @@
 <?php declare(strict_types=1);
-
+/**
+ * @codeCoverageIgnore - DI wiring only
+ */
 use Shopwell\Core\System\Language\LanguageLoader;
 use Shopwell\Core\System\Locale\Aggregate\LocaleTranslation\LocaleTranslationDefinition;
 use Shopwell\Core\System\Locale\LanguageLocaleCodeProvider;

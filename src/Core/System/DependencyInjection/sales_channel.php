@@ -1,4 +1,7 @@
 <?php declare(strict_types=1);
+/**
+ * @codeCoverageIgnore - DI wiring only
+ */
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 

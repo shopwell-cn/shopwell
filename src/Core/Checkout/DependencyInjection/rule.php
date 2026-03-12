@@ -1,7 +1,5 @@
 <?php declare(strict_types=1);
 
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
-
 use Shopwell\Core\Checkout\Cart\Rule\AdminSalesChannelSourceRule;
 use Shopwell\Core\Checkout\Cart\Rule\AffiliateCodeOfOrderRule;
 use Shopwell\Core\Checkout\Cart\Rule\AlwaysValidRule;
@@ -90,6 +88,9 @@ use Shopwell\Core\Checkout\Promotion\Rule\PromotionLineItemRule;
 use Shopwell\Core\Checkout\Promotion\Rule\PromotionsInCartCountRule;
 use Shopwell\Core\Checkout\Promotion\Rule\PromotionValueRule;
 use Shopwell\Core\Content\Product\ProductTypeRegistry;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $container): void {
     $services = $container->services();

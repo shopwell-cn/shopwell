@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
-
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+/**
+ * @codeCoverageIgnore - DI wiring only
+ */
 
 use Doctrine\DBAL\Connection;
 use Shopwell\Core\Framework\Adapter\Cache\CacheTagCollector;
@@ -22,7 +23,10 @@ use Shopwell\Core\System\SystemConfig\SystemConfigLoader;
 use Shopwell\Core\System\SystemConfig\SystemConfigService;
 use Shopwell\Core\System\SystemConfig\Util\ConfigReader;
 use Shopwell\Core\System\SystemConfig\Validation\SystemConfigValidator;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\HttpKernel\KernelInterface;
+
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $container): void {
     $services = $container->services();
@@ -37,7 +41,7 @@ return static function (ContainerConfigurator $container): void {
     $services->set(SystemConfigDefinition::class)
         ->tag('shopwell.entity.definition');
 
-    $services->set('kernel.bundles', \Iterator::class)
+    $services->set('kernel.bundles', Iterator::class)
         ->factory([service('kernel'), 'getBundles']);
 
     $services->set(AppConfigReader::class)

@@ -1,7 +1,5 @@
 <?php declare(strict_types=1);
 
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
-
 use Doctrine\DBAL\Connection;
 use Shopwell\Core\Content\Mail\Service\MailService;
 use Shopwell\Core\Framework\Sso\Config\LoginConfigService;
@@ -18,7 +16,10 @@ use Shopwell\Core\Framework\Sso\UserService\UserService;
 use Shopwell\Core\System\SystemConfig\SystemConfigService;
 use Symfony\Bridge\PsrHttpMessage\Factory\PsrHttpFactory;
 use Symfony\Component\Clock\ClockInterface;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\Routing\RouterInterface;
+
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $container): void {
     $services = $container->services();

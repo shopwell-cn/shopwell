@@ -1,13 +1,14 @@
 <?php declare(strict_types=1);
 
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
-
 use Doctrine\DBAL\Connection;
 use Shopwell\Core\Framework\Event\BusinessEventCollector;
 use Shopwell\Core\Framework\Event\BusinessEventRegistry;
 use Shopwell\Core\Framework\Event\Command\DebugDumpBusinessEventsCommand;
 use Shopwell\Core\Framework\Event\NestedEventDispatcher;
 use Shopwell\Core\Framework\Extensions\ExtensionDispatcher;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $container): void {
     $services = $container->services();

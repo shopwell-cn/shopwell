@@ -1,7 +1,5 @@
 <?php declare(strict_types=1);
 
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
-
 use Composer\Composer;
 use Composer\Repository\PlatformRepository;
 use GuzzleHttp\Client;
@@ -35,6 +33,10 @@ use Shopwell\Core\System\Snippet\Service\AbstractTranslationConfigLoader;
 use Shopwell\Core\System\Snippet\Service\TranslationConfigLoader;
 use Shopwell\Core\System\Snippet\Struct\TranslationConfig;
 use Symfony\Component\Asset\VersionStrategy\EmptyVersionStrategy;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_iterator;
 
 return static function (ContainerConfigurator $container): void {
     $services = $container->services();

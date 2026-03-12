@@ -1,7 +1,5 @@
 <?php declare(strict_types=1);
 
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
-
 use League\Flysystem\FilesystemOperator;
 use Shopwell\Core\Framework\Adapter\Asset\AssetInstallCommand;
 use Shopwell\Core\Framework\Adapter\Asset\FallbackUrlPackage;
@@ -14,10 +12,13 @@ use Shopwell\Core\Framework\Adapter\Filesystem\FilesystemFactory;
 use Shopwell\Core\Framework\Adapter\Filesystem\Plugin\CopyBatchInputFactory;
 use Shopwell\Core\Framework\App\ActiveAppsLoader;
 use Shopwell\Core\Framework\Plugin\Util\AssetService;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_iterator;
 
 return static function (ContainerConfigurator $container): void {
     $services = $container->services();
-    $parameters = $container->parameters();
 
     $services->set(FilesystemFactory::class)
         ->args([tagged_iterator('shopwell.filesystem.factory')]);

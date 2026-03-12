@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
-
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+/**
+ * @codeCoverageIgnore - DI wiring only
+ */
 
 use Doctrine\DBAL\Connection;
 use GuzzleHttp\Client;
@@ -21,8 +22,12 @@ use Shopwell\Core\System\Snippet\SnippetValidator;
 use Shopwell\Core\System\Snippet\SnippetValidatorInterface;
 use Shopwell\Core\System\Snippet\Struct\TranslationConfig;
 use Shopwell\Core\System\Snippet\Subscriber\CustomFieldSubscriber;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
+
+use function Symfony\Component\DependencyInjection\Loader\Configurator\inline_service;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $container): void {
     $services = $container->services();

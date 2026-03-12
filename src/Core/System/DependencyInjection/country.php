@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
-
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+/**
+ * @codeCoverageIgnore - DI wiring only
+ */
 
 use Shopwell\Core\Framework\Adapter\Cache\CacheTagCollector;
 use Shopwell\Core\System\Country\Aggregate\CountryState\CountryStateDefinition;
@@ -11,6 +12,9 @@ use Shopwell\Core\System\Country\CountryDefinition;
 use Shopwell\Core\System\Country\SalesChannel\CountryRoute;
 use Shopwell\Core\System\Country\SalesChannel\CountryStateRoute;
 use Shopwell\Core\System\Country\SalesChannel\SalesChannelCountryDefinition;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $container): void {
     $services = $container->services();

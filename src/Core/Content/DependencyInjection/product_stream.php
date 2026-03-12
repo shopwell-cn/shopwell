@@ -1,7 +1,5 @@
 <?php declare(strict_types=1);
 
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
-
 use Doctrine\DBAL\Connection;
 use Shopwell\Core\Content\Product\ProductDefinition;
 use Shopwell\Core\Content\ProductStream\Aggregate\ProductStreamFilter\ProductStreamFilterDefinition;
@@ -12,10 +10,12 @@ use Shopwell\Core\Content\ProductStream\ScheduledTask\UpdateProductStreamMapping
 use Shopwell\Core\Content\ProductStream\ScheduledTask\UpdateProductStreamMappingTaskHandler;
 use Shopwell\Core\Content\ProductStream\Service\ProductStreamBuilder;
 use Shopwell\Core\Framework\DataAbstractionLayer\Dbal\Common\IteratorFactory;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $container): void {
     $services = $container->services();
-    $parameters = $container->parameters();
 
     $services->set(ProductStreamDefinition::class)
         ->tag('shopwell.entity.definition');
