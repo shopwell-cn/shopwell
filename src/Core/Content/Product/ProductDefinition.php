@@ -5,7 +5,6 @@ namespace Shopwell\Core\Content\Product;
 use Shopwell\Core\Checkout\Customer\Aggregate\CustomerWishlistProduct\CustomerWishlistProductDefinition;
 use Shopwell\Core\Checkout\Order\Aggregate\OrderLineItem\OrderLineItemDefinition;
 use Shopwell\Core\Content\Category\CategoryDefinition;
-use Shopwell\Core\Content\Cms\CmsPageDefinition;
 use Shopwell\Core\Content\Product\Aggregate\ProductCategory\ProductCategoryDefinition;
 use Shopwell\Core\Content\Product\Aggregate\ProductCategoryTree\ProductCategoryTreeDefinition;
 use Shopwell\Core\Content\Product\Aggregate\ProductConfiguratorSetting\ProductConfiguratorSettingDefinition;
@@ -154,8 +153,6 @@ class ProductDefinition extends EntityDefinition
             new FkField('product_feature_set_id', 'featureSetId', ProductFeatureSetDefinition::class)->addFlags(new Inherited())->setDescription('Unique identity of feature set.'),
             new FkField('canonical_product_id', 'canonicalProductId', self::class)->addFlags(new ApiAware(), new Inherited())->setDescription('Unique identity of canonical product.'),
             new ReferenceVersionField(self::class, 'canonical_product_version_id')->addFlags(new ApiAware(), new Inherited(), new Required()),
-            new FkField('cms_page_id', 'cmsPageId', CmsPageDefinition::class)->addFlags(new ApiAware(), new Inherited())->setDescription('Unique identity of CMS page.'),
-            new ReferenceVersionField(CmsPageDefinition::class)->addFlags(new Inherited(), new Required(), new ApiAware()),
 
             new PriceField('price', 'price')->addFlags(new Inherited(), new Required(), new ApiCriteriaAware())->setDescription('Price of the product.'),
             new NumberRangeField('product_number', 'productNumber')->addFlags(new ApiAware(), new SearchRanking(SearchRanking::HIGH_SEARCH_RANKING, false), new Required())->setDescription('Unique number assigned to individual products. Define rules for automatic assignment of every product creation as per your number range.'),
@@ -224,8 +221,6 @@ class ProductDefinition extends EntityDefinition
             new ManyToOneAssociationField('cover', 'product_media_id', ProductMediaDefinition::class, 'id')->addFlags(new ApiAware(), new Inherited())->setDescription('Main product image displayed in listings and detail pages'),
 
             new ManyToOneAssociationField('featureSet', 'product_feature_set_id', ProductFeatureSetDefinition::class, 'id')->addFlags(new Inherited()),
-
-            new ManyToOneAssociationField('cmsPage', 'cms_page_id', CmsPageDefinition::class, 'id', false)->addFlags(new ApiAware(), new Inherited())->setDescription('Custom CMS page layout for the product detail page'),
 
             new ManyToOneAssociationField('canonicalProduct', 'canonical_product_id', ProductDefinition::class, 'id')->addFlags(new ApiAware(), new Inherited())->setDescription('Canonical product reference for variant consolidation and SEO purposes'),
 
