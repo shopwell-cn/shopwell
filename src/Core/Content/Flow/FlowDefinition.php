@@ -26,7 +26,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[Package('after-sales')]
 class FlowDefinition extends EntityDefinition
 {
-    final public const ENTITY_NAME = 'flow';
+    final public const string ENTITY_NAME = 'flow';
 
     public function getEntityName(): string
     {

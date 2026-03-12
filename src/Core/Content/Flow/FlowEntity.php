@@ -16,78 +16,24 @@ class FlowEntity extends Entity
     use EntityCustomFieldsTrait;
     use EntityIdTrait;
 
-    protected string $name;
+    public string $name;
 
-    protected string $eventName;
+    public string $eventName;
 
-    protected string $description;
+    public string $description;
 
-    protected bool $active;
+    public bool $active;
 
-    protected int $priority;
-
-    protected ?string $appFlowEventId = null;
-
-    protected ?AppFlowEventEntity $appFlowEvent = null;
-
+    public int $priority;
+    public ?string $appFlowEventId = null;
+    public ?AppFlowEventEntity $appFlowEvent = null;
     /**
      * @internal
      */
     protected string|Flow|null $payload = null;
 
-    protected bool $invalid;
-
-    protected ?FlowSequenceCollection $sequences = null;
-
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): void
-    {
-        $this->name = $name;
-    }
-
-    public function getEventName(): string
-    {
-        return $this->eventName;
-    }
-
-    public function setEventName(string $eventName): void
-    {
-        $this->eventName = $eventName;
-    }
-
-    public function getDescription(): string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(string $description): void
-    {
-        $this->description = $description;
-    }
-
-    public function isActive(): bool
-    {
-        return $this->active;
-    }
-
-    public function setActive(bool $active): void
-    {
-        $this->active = $active;
-    }
-
-    public function getPriority(): int
-    {
-        return $this->priority;
-    }
-
-    public function setPriority(int $priority): void
-    {
-        $this->priority = $priority;
-    }
+    public bool $invalid;
+    public ?FlowSequenceCollection $sequences = null;
 
     /**
      * @internal
@@ -111,43 +57,4 @@ class FlowEntity extends Entity
         $this->payload = $payload;
     }
 
-    public function isInvalid(): bool
-    {
-        return $this->invalid;
-    }
-
-    public function setInvalid(bool $invalid): void
-    {
-        $this->invalid = $invalid;
-    }
-
-    public function getSequences(): ?FlowSequenceCollection
-    {
-        return $this->sequences;
-    }
-
-    public function setSequences(FlowSequenceCollection $sequences): void
-    {
-        $this->sequences = $sequences;
-    }
-
-    public function getAppFlowEvent(): ?AppFlowEventEntity
-    {
-        return $this->appFlowEvent;
-    }
-
-    public function setAppFlowEvent(?AppFlowEventEntity $appFlowEvent): void
-    {
-        $this->appFlowEvent = $appFlowEvent;
-    }
-
-    public function getAppFlowEventId(): ?string
-    {
-        return $this->appFlowEventId;
-    }
-
-    public function setAppFlowEventId(?string $appFlowEventId): void
-    {
-        $this->appFlowEventId = $appFlowEventId;
-    }
 }
