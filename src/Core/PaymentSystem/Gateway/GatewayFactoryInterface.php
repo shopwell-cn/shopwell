@@ -9,7 +9,5 @@ interface GatewayFactoryInterface
 {
     public function create(array $config): Gateway;
 
-    public function createConfig(array $config = []): array;
-
     public function getName(): string;
 }

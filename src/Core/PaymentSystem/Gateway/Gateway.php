@@ -2,6 +2,7 @@
 
 namespace Shopwell\Core\PaymentSystem\Gateway;
 
+use Psr\Container\ContainerInterface;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Struct\Struct;
 use Shopwell\Core\PaymentSystem\Gateway\Action\ActionInterface;
@@ -13,15 +14,12 @@ use Shopwell\Core\PaymentSystem\Gateway\Extension\ExtensionInterface;
 #[Package('payment-system')]
 class Gateway implements GatewayInterface
 {
+    public ContainerInterface $container;
+
     /**
      * @var list<class-string<ActionInterface>|ActionInterface>
      */
     protected array $actions = [];
-
-    /**
-     * @var object[]
-     */
-    protected array $apis;
 
     /**
      * @var Context[]
@@ -91,14 +89,6 @@ class Gateway implements GatewayInterface
         }
 
         return null;
-    }
-
-    public function addApi($api, $forcePrepend = false): void
-    {
-        $forcePrepend ?
-            array_unshift($this->apis, $api) :
-            array_push($this->apis, $api)
-        ;
     }
 
     protected function onPostExecuteWithException(Context $context): void

@@ -3,6 +3,7 @@
 namespace Shopwell\Core\PaymentSystem\Provider\Alipay;
 
 use Shopwell\Core\Framework\Log\Package;
+use Shopwell\Core\Framework\Struct\ArrayStruct;
 use Shopwell\Core\PaymentSystem\Gateway\GatewayFactory;
 
 #[Package('payment-system')]
@@ -10,11 +11,8 @@ class AlipayGatewayFactory extends GatewayFactory
 {
     final public const string NAME = 'alipay';
 
-    public function getActions(): array
+    public function configureContainer(ArrayStruct $config): void
     {
-        return [
-            ...parent::getActions(),
-        ];
     }
 
     public function getName(): string

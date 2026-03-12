@@ -2,6 +2,8 @@
 
 namespace Shopwell\Core\PaymentSystem\Gateway;
 
+use DI\ContainerBuilder;
+use Psr\Container\ContainerInterface;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Struct\ArrayStruct;
 use Shopwell\Core\PaymentSystem\Gateway\Action\ActionInterface;
@@ -10,7 +12,6 @@ use Shopwell\Core\PaymentSystem\Gateway\Action\PrependActionInterface;
 use Shopwell\Core\PaymentSystem\Gateway\Extension\EndlessCycleDetectorExtension;
 use Shopwell\Core\PaymentSystem\Gateway\Extension\EventDispatcherExtension;
 use Shopwell\Core\PaymentSystem\Gateway\Extension\ExtensionInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Contracts\Service\Attribute\Required;
 
@@ -28,24 +29,23 @@ abstract class GatewayFactory implements GatewayFactoryInterface
         return $previous;
     }
 
-    public function createConfig(array $config = []): array
-    {
-        $config = ArrayStruct::ensureArrayStruct($config);
-
-        $this->populateConfig($config);
-
-        return $config->all();
-    }
+    abstract public function configureContainer(ArrayStruct $config): void;
 
     public function create(array $config): Gateway
     {
         $config = ArrayStruct::ensureArrayStruct($config);
-        $config->assign($this->createConfig());
+
+        $this->configureContainer($config);
+
+        $containerBuilder = new ContainerBuilder();
+        $containerBuilder->addDefinitions($config->all());
 
         $gateway = new Gateway();
 
         $this->buildActions($gateway);
-        $this->buildApis($gateway, $config);
+
+        $gateway->container = $containerBuilder->build();
+
         $this->buildExtensions($gateway);
 
         return $gateway;
@@ -70,20 +70,6 @@ abstract class GatewayFactory implements GatewayFactoryInterface
             EndlessCycleDetectorExtension::class,
             EventDispatcherExtension::class,
         ];
-    }
-
-    protected function populateConfig(ArrayStruct $config): void
-    {
-    }
-
-    protected function buildApis(Gateway $gateway, ArrayStruct $config): void
-    {
-        foreach ($config as $name => $value) {
-            if (str_starts_with($name, 'payment_system.api')) {
-                $prepend = \in_array($name, $config['payment_system.prepend_apis'], true);
-                $gateway->addApi($value, $prepend);
-            }
-        }
     }
 
     protected function buildActions(Gateway $gateway): void

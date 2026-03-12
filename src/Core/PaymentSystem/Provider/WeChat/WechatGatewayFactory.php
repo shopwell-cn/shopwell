@@ -3,12 +3,17 @@
 namespace Shopwell\Core\PaymentSystem\Provider\WeChat;
 
 use Shopwell\Core\Framework\Log\Package;
+use Shopwell\Core\Framework\Struct\ArrayStruct;
 use Shopwell\Core\PaymentSystem\Gateway\GatewayFactory;
 
 #[Package('payment-system')]
 class WechatGatewayFactory extends GatewayFactory
 {
     final public const string NAME = 'wechat';
+
+    public function configureContainer(ArrayStruct $config): void
+    {
+    }
 
     public function getName(): string
     {
