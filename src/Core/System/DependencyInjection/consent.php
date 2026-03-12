@@ -1,5 +1,7 @@
 <?php declare(strict_types=1);
-
+/**
+ * @codeCoverageIgnore - DI wiring only
+ */
 use Doctrine\DBAL\Connection;
 use Shopwell\Core\System\Consent\Api\ConsentController;
 use Shopwell\Core\System\Consent\ConsentRepository;

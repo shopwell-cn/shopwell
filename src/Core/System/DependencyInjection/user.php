@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
-
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
-
+/**
+ * @codeCoverageIgnore - DI wiring only
+ */
 use Shopwell\Core\System\SalesChannel\Context\SalesChannelContextService;
 use Shopwell\Core\System\User\Aggregate\UserAccessKey\UserAccessKeyDefinition;
 use Shopwell\Core\System\User\Aggregate\UserConfig\UserConfigDefinition;
@@ -11,6 +11,9 @@ use Shopwell\Core\System\User\Api\UserValidationController;
 use Shopwell\Core\System\User\Recovery\UserRecoveryService;
 use Shopwell\Core\System\User\Service\UserValidationService;
 use Shopwell\Core\System\User\UserDefinition;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $container): void {
     $services = $container->services();

@@ -1,7 +1,5 @@
 <?php declare(strict_types=1);
 
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
-
 use Doctrine\DBAL\Connection;
 use Shopwell\Core\Framework\Api\Acl\AclAnnotationValidator;
 use Shopwell\Core\Framework\Api\Acl\AclCriteriaValidator;
@@ -11,6 +9,9 @@ use Shopwell\Core\Framework\Api\Acl\Role\AclUserRoleDefinition;
 use Shopwell\Core\Framework\Api\Controller\AclController;
 use Shopwell\Core\Framework\Api\EventListener\Acl\CreditOrderLineItemListener;
 use Shopwell\Core\Framework\DataAbstractionLayer\DefinitionInstanceRegistry;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $container): void {
     $services = $container->services();

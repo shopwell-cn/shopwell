@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
-
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+/**
+ * @codeCoverageIgnore - DI wiring only
+ */
 
 use Shopwell\Core\Framework\Adapter\Cache\CacheTagCollector;
 use Shopwell\Core\System\Currency\Aggregate\CurrencyCountryRounding\CurrencyCountryRoundingDefinition;
@@ -13,6 +14,9 @@ use Shopwell\Core\System\Currency\Rule\CurrencyRule;
 use Shopwell\Core\System\Currency\SalesChannel\CurrencyRoute;
 use Shopwell\Core\System\Currency\SalesChannel\SalesChannelCurrencyDefinition;
 use Shopwell\Core\System\Locale\LanguageLocaleCodeProvider;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $container): void {
     $services = $container->services();

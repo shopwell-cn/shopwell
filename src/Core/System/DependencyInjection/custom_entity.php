@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
-
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+/**
+ * @codeCoverageIgnore - DI wiring only
+ */
 
 use Doctrine\DBAL\Connection;
 use Shopwell\Core\Framework\Api\Acl\AclCriteriaValidator;
@@ -15,7 +16,10 @@ use Shopwell\Core\System\CustomEntity\Schema\CustomEntitySchemaUpdater;
 use Shopwell\Core\System\CustomEntity\Schema\SchemaUpdater;
 use Shopwell\Core\System\CustomEntity\Xml\Config\AdminUi\AdminUiXmlSchemaValidator;
 use Shopwell\Core\System\CustomEntity\Xml\CustomEntityXmlSchemaValidator;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\Lock\LockFactory;
+
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $container): void {
     $services = $container->services();

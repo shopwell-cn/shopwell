@@ -1,7 +1,5 @@
 <?php declare(strict_types=1);
 
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
-
 use Shopwell\Core\Content\Category\CategoryHydrator;
 use Shopwell\Core\Content\Media\MediaHydrator;
 use Shopwell\Core\Content\Product\Aggregate\ProductConfiguratorSetting\ProductConfiguratorSettingHydrator;
@@ -24,6 +22,9 @@ use Shopwell\Core\Content\ProductStream\Aggregate\ProductStreamFilter\ProductStr
 use Shopwell\Core\Content\ProductStream\ProductStreamHydrator;
 use Shopwell\Core\Content\Property\Aggregate\PropertyGroupOption\PropertyGroupOptionHydrator;
 use Shopwell\Core\Content\Property\PropertyGroupHydrator;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $container): void {
     $services = $container->services();

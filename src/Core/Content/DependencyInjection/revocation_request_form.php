@@ -1,11 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
-
 use Shopwell\Core\Content\RevocationRequest\SalesChannel\RevocationRequestRoute;
 use Shopwell\Core\Content\RevocationRequest\Validation\RevocationRequestFormValidationFactory;
 use Shopwell\Core\Framework\Validation\DataValidator;
 use Shopwell\Core\System\SystemConfig\SystemConfigService;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $container): void {
     $services = $container->services();

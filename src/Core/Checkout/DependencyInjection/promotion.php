@@ -1,7 +1,5 @@
 <?php declare(strict_types=1);
 
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
-
 use Doctrine\DBAL\Connection;
 use Shopwell\Core\Checkout\Cart\LineItem\Group\LineItemGroupBuilder;
 use Shopwell\Core\Checkout\Cart\LineItem\Group\LineItemGroupServiceRegistry;
@@ -56,6 +54,10 @@ use Shopwell\Core\Checkout\Promotion\Subscriber\Storefront\StorefrontCartSubscri
 use Shopwell\Core\Checkout\Promotion\Util\PromotionCodeService;
 use Shopwell\Core\Framework\DataAbstractionLayer\Dbal\Common\IteratorFactory;
 use Shopwell\Core\Framework\Util\HtmlSanitizer;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_iterator;
 
 return static function (ContainerConfigurator $container): void {
     $services = $container->services();
@@ -100,7 +102,7 @@ return static function (ContainerConfigurator $container): void {
     $services->set(PromotionDiscountPriceDefinition::class)
         ->tag('shopwell.entity.definition');
 
-    $services->set(\Shopwell\Core\Checkout\Promotion\Validator\PromotionValidator::class)
+    $services->set(Shopwell\Core\Checkout\Promotion\Validator\PromotionValidator::class)
         ->args([service(Connection::class)])
         ->tag('kernel.event_subscriber');
 

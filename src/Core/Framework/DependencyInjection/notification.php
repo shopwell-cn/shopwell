@@ -1,10 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
-
 use Shopwell\Core\Framework\Notification\NotificationBulkEntityExtension;
 use Shopwell\Core\Framework\Notification\NotificationDefinition;
 use Shopwell\Core\Framework\Notification\NotificationService;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $container): void {
     $services = $container->services();

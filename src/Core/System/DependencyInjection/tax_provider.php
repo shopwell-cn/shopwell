@@ -1,5 +1,7 @@
 <?php declare(strict_types=1);
-
+/**
+ * @codeCoverageIgnore - DI wiring only
+ */
 use Shopwell\Core\System\TaxProvider\Aggregate\TaxProviderTranslation\TaxProviderTranslationDefinition;
 use Shopwell\Core\System\TaxProvider\TaxProviderDefinition;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;

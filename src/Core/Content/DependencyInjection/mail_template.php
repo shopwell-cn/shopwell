@@ -1,7 +1,5 @@
 <?php declare(strict_types=1);
 
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
-
 use Doctrine\DBAL\Connection;
 use Shopwell\Core\Checkout\Document\Service\DocumentGenerator;
 use Shopwell\Core\Content\Mail\Message\SendMailHandler;
@@ -29,6 +27,10 @@ use Shopwell\Core\Framework\Adapter\Twig\StringTemplateRenderer;
 use Shopwell\Core\Framework\Validation\DataValidator;
 use Shopwell\Core\System\Locale\LanguageLocaleCodeProvider;
 use Shopwell\Core\System\SystemConfig\SystemConfigService;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+use function Symfony\Component\DependencyInjection\Loader\Configurator\abstract_arg;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $container): void {
     $services = $container->services();

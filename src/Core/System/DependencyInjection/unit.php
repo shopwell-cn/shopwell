@@ -1,5 +1,7 @@
 <?php declare(strict_types=1);
-
+/**
+ * @codeCoverageIgnore - DI wiring only
+ */
 use Shopwell\Core\System\Unit\Aggregate\UnitTranslation\UnitTranslationDefinition;
 use Shopwell\Core\System\Unit\UnitDefinition;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;

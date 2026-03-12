@@ -1,5 +1,7 @@
 <?php declare(strict_types=1);
-
+/**
+ * @codeCoverageIgnore - DI wiring only
+ */
 use Shopwell\Core\System\Tax\Aggregate\TaxRule\TaxRuleDefinition;
 use Shopwell\Core\System\Tax\Aggregate\TaxRuleType\TaxRuleTypeDefinition;
 use Shopwell\Core\System\Tax\Aggregate\TaxRuleTypeTranslation\TaxRuleTypeTranslationDefinition;

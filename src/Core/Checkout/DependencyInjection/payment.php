@@ -1,7 +1,5 @@
 <?php declare(strict_types=1);
 
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
-
 use Doctrine\DBAL\Connection;
 use Shopwell\Core\Checkout\Cart\Order\OrderConverter;
 use Shopwell\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler;
@@ -39,6 +37,10 @@ use Shopwell\Core\Framework\Validation\DataValidator;
 use Shopwell\Core\System\SalesChannel\Context\SalesChannelContextService;
 use Shopwell\Core\System\StateMachine\Loader\InitialStateIdLoader;
 use Shopwell\Core\System\SystemConfig\SystemConfigService;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_locator;
 
 return static function (ContainerConfigurator $container): void {
     $services = $container->services();
@@ -53,7 +55,7 @@ return static function (ContainerConfigurator $container): void {
     $services->set(PaymentMethodTranslationDefinition::class)
         ->tag('shopwell.entity.definition');
 
-    $services->set(\Shopwell\Core\Checkout\Payment\DataAbstractionLayer\PaymentMethodValidator::class)
+    $services->set(Shopwell\Core\Checkout\Payment\DataAbstractionLayer\PaymentMethodValidator::class)
         ->args([service(Connection::class)])
         ->tag('kernel.event_subscriber');
 

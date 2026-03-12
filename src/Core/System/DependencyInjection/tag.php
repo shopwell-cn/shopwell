@@ -1,5 +1,7 @@
 <?php declare(strict_types=1);
-
+/**
+ * @codeCoverageIgnore - DI wiring only
+ */
 use Doctrine\DBAL\Connection;
 use Shopwell\Core\Framework\DataAbstractionLayer\Dbal\CriteriaQueryBuilder;
 use Shopwell\Core\System\Tag\Service\FilterTagIdsService;

@@ -1,7 +1,5 @@
 <?php declare(strict_types=1);
 
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
-
 use Doctrine\DBAL\Connection;
 use Shopwell\Core\Checkout\Cart\CartPersister;
 use Shopwell\Core\Framework\Feature\FeatureFlagRegistry;
@@ -13,10 +11,12 @@ use Shopwell\Core\Profiling\Subscriber\ActiveRulesDataCollectorSubscriber;
 use Shopwell\Core\Profiling\Subscriber\CacheTagCollectorSubscriber;
 use Shopwell\Core\Profiling\Subscriber\CartDataCollectorSubscriber;
 use Shopwell\Core\Profiling\Twig\DoctrineExtension;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $container): void {
     $services = $container->services();
-    $parameters = $container->parameters();
 
     $services->set(ProfilerController::class)
         ->args([

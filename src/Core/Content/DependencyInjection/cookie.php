@@ -1,11 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
-
 use Shopwell\Core\Content\Cookie\SalesChannel\CookieRoute;
 use Shopwell\Core\Content\Cookie\Service\CookieProvider;
 use Shopwell\Storefront\Framework\Cookie\CookieProviderInterface;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $container): void {
     $services = $container->services();

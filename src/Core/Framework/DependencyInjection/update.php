@@ -1,7 +1,5 @@
 <?php declare(strict_types=1);
 
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
-
 use Shopwell\Core\Framework\Notification\NotificationService;
 use Shopwell\Core\Framework\Store\Services\AbstractExtensionDataProvider;
 use Shopwell\Core\Framework\Store\Services\ExtensionLifecycleService;
@@ -15,6 +13,9 @@ use Shopwell\Core\Framework\Update\Services\Filesystem;
 use Shopwell\Core\Framework\Update\Services\UpdateHtaccess;
 use Shopwell\Core\Framework\Update\Subscriber\UpdateSubscriber;
 use Shopwell\Core\System\SystemConfig\SystemConfigService;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $container): void {
     $services = $container->services();

@@ -1,7 +1,5 @@
 <?php declare(strict_types=1);
 
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
-
 use Doctrine\DBAL\Connection;
 use Shopwell\Administration\Command\DeleteAdminFilesAfterBuildCommand;
 use Shopwell\Administration\Command\DeleteExtensionLocalPublicFilesCommand;
@@ -11,7 +9,6 @@ use Shopwell\Administration\Controller\AdminProductStreamController;
 use Shopwell\Administration\Controller\AdminSearchController;
 use Shopwell\Administration\Controller\AdminTagController;
 use Shopwell\Administration\Controller\DashboardController;
-use Shopwell\Administration\Controller\NotificationController;
 use Shopwell\Administration\Controller\UserConfigController;
 use Shopwell\Administration\Dashboard\OrderAmountService;
 use Shopwell\Administration\Framework\Adapter\Cache\Http\AdministrationCacheControlListener;
@@ -42,7 +39,6 @@ use Shopwell\Core\Framework\App\Payload\AppPayloadServiceHelper;
 use Shopwell\Core\Framework\App\Source\SourceResolver;
 use Shopwell\Core\Framework\DataAbstractionLayer\DefinitionInstanceRegistry;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\RequestCriteriaBuilder;
-use Shopwell\Core\Framework\Notification\NotificationService;
 use Shopwell\Core\Framework\Store\Services\FirstRunWizardService;
 use Shopwell\Core\Framework\Util\HtmlSanitizer;
 use Shopwell\Core\System\SalesChannel\Context\SalesChannelContextService;
@@ -50,9 +46,12 @@ use Shopwell\Core\System\Snippet\Service\TranslationLoader;
 use Shopwell\Core\System\Snippet\Struct\TranslationConfig;
 use Shopwell\Core\System\SystemConfig\SystemConfigService;
 use Shopwell\Core\System\Tag\Service\FilterTagIdsService;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\RouterInterface;
+
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $container): void {
     $services = $container->services();
@@ -138,14 +137,6 @@ return static function (ContainerConfigurator $container): void {
     $services->set(AdminTagController::class)
         ->public()
         ->args([service(FilterTagIdsService::class)])
-        ->call('setContainer', [service('service_container')]);
-
-    $services->set(NotificationController::class)
-        ->public()
-        ->args([
-            service('shopwell.rate_limiter'),
-            service(NotificationService::class),
-        ])
         ->call('setContainer', [service('service_container')]);
 
     $services->set(AdminSearcher::class)

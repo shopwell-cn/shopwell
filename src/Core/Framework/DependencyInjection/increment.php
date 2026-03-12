@@ -1,12 +1,14 @@
 <?php declare(strict_types=1);
 
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
-
 use Doctrine\DBAL\Connection;
 use Shopwell\Core\Framework\Increment\ArrayIncrementer;
 use Shopwell\Core\Framework\Increment\Controller\IncrementApiController;
 use Shopwell\Core\Framework\Increment\IncrementGatewayRegistry;
 use Shopwell\Core\Framework\Increment\MySQLIncrementer;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_iterator;
 
 return static function (ContainerConfigurator $container): void {
     $services = $container->services();
