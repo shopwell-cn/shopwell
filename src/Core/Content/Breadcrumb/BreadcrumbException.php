@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 #[Package('inventory')]
 class BreadcrumbException extends CategoryException
 {
-    public const BREADCRUMB_CATEGORY_NOT_FOUND = 'BREADCRUMB_CATEGORY_NOT_FOUND';
+    public const string BREADCRUMB_CATEGORY_NOT_FOUND = 'BREADCRUMB_CATEGORY_NOT_FOUND';
 
     public static function categoryNotFoundForProduct(string $productId): self
     {

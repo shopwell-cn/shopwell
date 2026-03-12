@@ -169,9 +169,6 @@ parameters:
             message: '#Call to an undefined method Predis\\ClientInterface\|Redis\|RedisArray\|RedisCluster\|Relay\\Cluster\|Relay\\Relay::#'
             identifier: method.notFound
 
-        - # XML config format will be migrated step by step, so we ignore errors for now, see https://github.com/shopwell/shopwell/issues/13072
-            message: '#deprecated class Symfony\\Component\\DependencyInjection\\Loader\\XmlFileLoader#'
-
         # Script service generator test fixtures intentionally omit @internal so the generator can read their docblocks,
         # and some fixtures have mismatched @return types for behaviours testing purpose
         -
