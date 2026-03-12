@@ -1,0 +1,70 @@
+<?php declare(strict_types=1);
+
+namespace Shopwell\Core\Payment\Order;
+
+use Shopwell\Core\Framework\DataAbstractionLayer\Attribute\CustomFields;
+use Shopwell\Core\Framework\DataAbstractionLayer\Attribute\Entity;
+use Shopwell\Core\Framework\DataAbstractionLayer\Attribute\Field;
+use Shopwell\Core\Framework\DataAbstractionLayer\Attribute\FieldType;
+use Shopwell\Core\Framework\DataAbstractionLayer\Attribute\OnDelete;
+use Shopwell\Core\Framework\DataAbstractionLayer\Attribute\OneToMany;
+use Shopwell\Core\Framework\DataAbstractionLayer\Attribute\PrimaryKey;
+use Shopwell\Core\Framework\DataAbstractionLayer\Entity as EntityStruct;
+use Shopwell\Core\Framework\Log\Package;
+use Shopwell\Core\Payment\Order\Aggregate\PaymentOrderTransaction\PaymentOrderTransactionEntity;
+
+#[Package('payment-system')]
+#[Entity(PaymentOrderEntity::ENTITY_NAME, collectionClass: PaymentOrderCollection::class)]
+class PaymentOrderEntity extends EntityStruct
+{
+    final public const string ENTITY_NAME = 'payment_order';
+
+    #[PrimaryKey]
+    #[Field(type: FieldType::UUID, api: true)]
+    public string $id;
+
+    #[Field(type: FieldType::STRING, api: true)]
+    public string $paymentOrderNumber;
+
+    #[Field(type: FieldType::STRING, api: true)]
+    public string $outOrderNo;
+
+    #[Field(type: FieldType::FLOAT, api: true)]
+    public string $amount;
+
+    #[Field(type: FieldType::STRING, api: true)]
+    public string $subject;
+
+    #[Field(type: FieldType::STRING, api: true)]
+    public string $currency;
+
+    #[Field(type: FieldType::STRING, api: true, )]
+    public ?string $body = null;
+
+    #[Field(type: FieldType::STRING, api: true)]
+    public ?string $returnUrl = null;
+
+    #[Field(type: FieldType::STRING, api: true)]
+    public ?string $notifyUrl = null;
+
+    #[Field(type: FieldType::JSON, api: true)]
+    public ?array $extraParam = null;
+
+    #[Field(type: FieldType::JSON, api: true)]
+    public ?array $attach = null;
+
+    #[Field(type: FieldType::DATETIME, api: true)]
+    public ?\DateTimeImmutable $timeExpire = null;
+
+    /**
+     * @var array<string, PaymentOrderTransactionEntity>|null
+     */
+    #[OneToMany(entity: 'payment_order', ref: 'order_id', onDelete: OnDelete::CASCADE, api: true)]
+    public ?array $transactions = null;
+
+    /**
+     * @var array<mixed>|null
+     */
+    #[CustomFields(true)]
+    protected ?array $customFields = null;
+}

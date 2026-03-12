@@ -10,7 +10,7 @@ $bundles = [
     Symfony\Bundle\DebugBundle\DebugBundle::class => ['dev' => true, 'test' => true],
     Shopwell\Core\Framework\Framework::class => ['all' => true],
     Shopwell\Core\System\System::class => ['all' => true],
-    Shopwell\Core\PaymentSystem\PaymentSystem::class => ['all' => true],
+    Shopwell\Core\Payment\Payment::class => ['all' => true],
     Shopwell\Core\Content\Content::class => ['all' => true],
     Shopwell\Core\Checkout\Checkout::class => ['all' => true],
     Shopwell\Core\DevOps\DevOps::class => ['all' => true],
