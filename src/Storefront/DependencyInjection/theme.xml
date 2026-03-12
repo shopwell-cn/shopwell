@@ -239,6 +239,7 @@
         <!--  Commands -->
         <service id="Shopwell\Storefront\Theme\Command\ThemeCreateCommand">
             <argument>%kernel.project_dir%</argument>
+            <argument type="service" id="Symfony\Component\Filesystem\Filesystem"/>
 
             <tag name="console.command"/>
         </service>
