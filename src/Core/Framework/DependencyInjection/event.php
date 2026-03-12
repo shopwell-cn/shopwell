@@ -1,0 +1,36 @@
+<?php declare(strict_types=1);
+
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+use Doctrine\DBAL\Connection;
+use Shopwell\Core\Framework\Event\BusinessEventCollector;
+use Shopwell\Core\Framework\Event\BusinessEventRegistry;
+use Shopwell\Core\Framework\Event\Command\DebugDumpBusinessEventsCommand;
+use Shopwell\Core\Framework\Event\NestedEventDispatcher;
+use Shopwell\Core\Framework\Extensions\ExtensionDispatcher;
+
+return static function (ContainerConfigurator $container): void {
+    $services = $container->services();
+
+    $services->set(BusinessEventRegistry::class)
+        ->public();
+
+    $services->set(NestedEventDispatcher::class)
+        ->decorate('event_dispatcher')
+        ->args([service('Shopwell\Core\Framework\Event\NestedEventDispatcher.inner')]);
+
+    $services->set(BusinessEventCollector::class)
+        ->public()
+        ->args([
+            service(BusinessEventRegistry::class),
+            service('event_dispatcher'),
+            service(Connection::class),
+        ]);
+
+    $services->set(DebugDumpBusinessEventsCommand::class)
+        ->args([service(BusinessEventCollector::class)])
+        ->tag('console.command');
+
+    $services->set(ExtensionDispatcher::class)
+        ->args([service('event_dispatcher')]);
+};

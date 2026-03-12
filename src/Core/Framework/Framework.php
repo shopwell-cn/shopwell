@@ -40,7 +40,7 @@ use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Extension\Extension;
-use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 
 /**
  * @internal
@@ -65,42 +65,40 @@ class Framework extends Bundle
     {
         $container->setParameter('locale', 'zh-CN');
 
-        $configLocator = new FileLocator(__DIR__ . '/DependencyInjection/');
-
-        $loader = new XmlFileLoader($container, $configLocator);
-        $loader->load('services.xml');
-        $loader->load('acl.xml');
-        $loader->load('cache.xml');
-        $loader->load('api.xml');
-        $loader->load('app.xml');
-        $loader->load('custom-field.xml');
-        $loader->load('data-abstraction-layer.xml');
-        $loader->load('event.xml');
-        $loader->load('hydrator.xml');
-        $loader->load('filesystem.xml');
-        $loader->load('message-queue.xml');
-        $loader->load('plugin.xml');
-        $loader->load('rule.xml');
-        $loader->load('scheduled-task.xml');
-        $loader->load('store.xml');
-        $loader->load('script.xml');
-        $loader->load('language.xml');
-        $loader->load('update.xml');
-        $loader->load('seo.xml');
-        $loader->load('webhook.xml');
-        $loader->load('rate-limiter.xml');
-        $loader->load('increment.xml');
-        $loader->load('flag.xml');
-        $loader->load('health.xml');
-        $loader->load('telemetry.xml');
-        $loader->load('notification.xml');
-        $loader->load('sso.xml');
+        $loader = new PhpFileLoader($container, new FileLocator(__DIR__ . '/DependencyInjection/'));
+        $loader->load('services.php');
+        $loader->load('acl.php');
+        $loader->load('cache.php');
+        $loader->load('api.php');
+        $loader->load('app.php');
+        $loader->load('custom-field.php');
+        $loader->load('data-abstraction-layer.php');
+        $loader->load('event.php');
+        $loader->load('hydrator.php');
+        $loader->load('filesystem.php');
+        $loader->load('message-queue.php');
+        $loader->load('plugin.php');
+        $loader->load('rule.php');
+        $loader->load('scheduled-task.php');
+        $loader->load('store.php');
+        $loader->load('script.php');
+        $loader->load('language.php');
+        $loader->load('update.php');
+        $loader->load('seo.php');
+        $loader->load('webhook.php');
+        $loader->load('rate-limiter.php');
+        $loader->load('increment.php');
+        $loader->load('flag.php');
+        $loader->load('health.php');
+        $loader->load('telemetry.php');
+        $loader->load('notification.php');
+        $loader->load('sso.php');
 
         if ($container->getParameter('kernel.environment') === 'test') {
-            $loader->load('services_test.xml');
-            $loader->load('store_test.xml');
-            $loader->load('seo_test.xml');
-            $loader->load('app_test.xml');
+            $loader->load('services_test.php');
+            $loader->load('store_test.php');
+            $loader->load('seo_test.php');
+            $loader->load('app_test.php');
         }
 
         /** Needs to run after @see RegisterAutoconfigureAttributesPass (priority 100) to include all services that are autoconfigured */

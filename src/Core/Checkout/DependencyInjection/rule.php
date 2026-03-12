@@ -1,0 +1,368 @@
+<?php declare(strict_types=1);
+
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+use Shopwell\Core\Checkout\Cart\Rule\AdminSalesChannelSourceRule;
+use Shopwell\Core\Checkout\Cart\Rule\AffiliateCodeOfOrderRule;
+use Shopwell\Core\Checkout\Cart\Rule\AlwaysValidRule;
+use Shopwell\Core\Checkout\Cart\Rule\CampaignCodeOfOrderRule;
+use Shopwell\Core\Checkout\Cart\Rule\CartAmountRule;
+use Shopwell\Core\Checkout\Cart\Rule\CartHasDeliveryFreeItemRule;
+use Shopwell\Core\Checkout\Cart\Rule\CartPositionPriceRule;
+use Shopwell\Core\Checkout\Cart\Rule\CartShippingCostRule;
+use Shopwell\Core\Checkout\Cart\Rule\CartTaxDisplayRule;
+use Shopwell\Core\Checkout\Cart\Rule\CartTotalPurchasePriceRule;
+use Shopwell\Core\Checkout\Cart\Rule\CartVolumeRule;
+use Shopwell\Core\Checkout\Cart\Rule\CartWeightRule;
+use Shopwell\Core\Checkout\Cart\Rule\GoodsCountRule;
+use Shopwell\Core\Checkout\Cart\Rule\GoodsPriceRule;
+use Shopwell\Core\Checkout\Cart\Rule\LineItemActualStockRule;
+use Shopwell\Core\Checkout\Cart\Rule\LineItemClearanceSaleRule;
+use Shopwell\Core\Checkout\Cart\Rule\LineItemCreationDateRule;
+use Shopwell\Core\Checkout\Cart\Rule\LineItemCustomFieldRule;
+use Shopwell\Core\Checkout\Cart\Rule\LineItemDimensionHeightRule;
+use Shopwell\Core\Checkout\Cart\Rule\LineItemDimensionLengthRule;
+use Shopwell\Core\Checkout\Cart\Rule\LineItemDimensionVolumeRule;
+use Shopwell\Core\Checkout\Cart\Rule\LineItemDimensionWeightRule;
+use Shopwell\Core\Checkout\Cart\Rule\LineItemDimensionWidthRule;
+use Shopwell\Core\Checkout\Cart\Rule\LineItemGoodsTotalRule;
+use Shopwell\Core\Checkout\Cart\Rule\LineItemInCategoryRule;
+use Shopwell\Core\Checkout\Cart\Rule\LineItemInProductStreamRule;
+use Shopwell\Core\Checkout\Cart\Rule\LineItemIsNewRule;
+use Shopwell\Core\Checkout\Cart\Rule\LineItemListPriceRatioRule;
+use Shopwell\Core\Checkout\Cart\Rule\LineItemListPriceRule;
+use Shopwell\Core\Checkout\Cart\Rule\LineItemOfManufacturerRule;
+use Shopwell\Core\Checkout\Cart\Rule\LineItemOfTypeRule;
+use Shopwell\Core\Checkout\Cart\Rule\LineItemProductTypeRule;
+use Shopwell\Core\Checkout\Cart\Rule\LineItemPromotedRule;
+use Shopwell\Core\Checkout\Cart\Rule\LineItemPropertyRule;
+use Shopwell\Core\Checkout\Cart\Rule\LineItemPropertyValueRule;
+use Shopwell\Core\Checkout\Cart\Rule\LineItemPurchasePriceRule;
+use Shopwell\Core\Checkout\Cart\Rule\LineItemReleaseDateRule;
+use Shopwell\Core\Checkout\Cart\Rule\LineItemRule;
+use Shopwell\Core\Checkout\Cart\Rule\LineItemsInCartCountRule;
+use Shopwell\Core\Checkout\Cart\Rule\LineItemStockRule;
+use Shopwell\Core\Checkout\Cart\Rule\LineItemTagRule;
+use Shopwell\Core\Checkout\Cart\Rule\LineItemTaxationRule;
+use Shopwell\Core\Checkout\Cart\Rule\LineItemTotalPriceRule;
+use Shopwell\Core\Checkout\Cart\Rule\LineItemUnitPriceRule;
+use Shopwell\Core\Checkout\Cart\Rule\LineItemVariantValueRule;
+use Shopwell\Core\Checkout\Cart\Rule\LineItemWithQuantityRule;
+use Shopwell\Core\Checkout\Cart\Rule\LineItemWrapperRule;
+use Shopwell\Core\Checkout\Cart\Rule\PaymentMethodRule;
+use Shopwell\Core\Checkout\Cart\Rule\ShippingMethodRule;
+use Shopwell\Core\Checkout\Customer\Rule\AffiliateCodeRule;
+use Shopwell\Core\Checkout\Customer\Rule\BillingCityRule;
+use Shopwell\Core\Checkout\Customer\Rule\BillingCountryRule;
+use Shopwell\Core\Checkout\Customer\Rule\BillingStateRule;
+use Shopwell\Core\Checkout\Customer\Rule\BillingStreetRule;
+use Shopwell\Core\Checkout\Customer\Rule\BillingZipCodeRule;
+use Shopwell\Core\Checkout\Customer\Rule\CampaignCodeRule;
+use Shopwell\Core\Checkout\Customer\Rule\CustomerAgeRule;
+use Shopwell\Core\Checkout\Customer\Rule\CustomerBirthdayRule;
+use Shopwell\Core\Checkout\Customer\Rule\CustomerCreatedByAdminRule;
+use Shopwell\Core\Checkout\Customer\Rule\CustomerCustomFieldRule;
+use Shopwell\Core\Checkout\Customer\Rule\CustomerGroupRule;
+use Shopwell\Core\Checkout\Customer\Rule\CustomerLoggedInRule;
+use Shopwell\Core\Checkout\Customer\Rule\CustomerNumberRule;
+use Shopwell\Core\Checkout\Customer\Rule\CustomerRequestedGroupRule;
+use Shopwell\Core\Checkout\Customer\Rule\CustomerTagRule;
+use Shopwell\Core\Checkout\Customer\Rule\DaysSinceFirstLoginRule;
+use Shopwell\Core\Checkout\Customer\Rule\DaysSinceLastLoginRule;
+use Shopwell\Core\Checkout\Customer\Rule\DaysSinceLastOrderRule;
+use Shopwell\Core\Checkout\Customer\Rule\DifferentAddressesRule;
+use Shopwell\Core\Checkout\Customer\Rule\EmailRule;
+use Shopwell\Core\Checkout\Customer\Rule\IsActiveRule;
+use Shopwell\Core\Checkout\Customer\Rule\IsCompanyRule;
+use Shopwell\Core\Checkout\Customer\Rule\IsGuestCustomerRule;
+use Shopwell\Core\Checkout\Customer\Rule\IsNewsletterRecipientRule;
+use Shopwell\Core\Checkout\Customer\Rule\LastNameRule;
+use Shopwell\Core\Checkout\Customer\Rule\NumberOfReviewsRule;
+use Shopwell\Core\Checkout\Customer\Rule\OrderCountRule;
+use Shopwell\Core\Checkout\Customer\Rule\OrderTotalAmountRule;
+use Shopwell\Core\Checkout\Customer\Rule\ShippingCityRule;
+use Shopwell\Core\Checkout\Customer\Rule\ShippingCountryRule;
+use Shopwell\Core\Checkout\Customer\Rule\ShippingStateRule;
+use Shopwell\Core\Checkout\Customer\Rule\ShippingStreetRule;
+use Shopwell\Core\Checkout\Customer\Rule\ShippingZipCodeRule;
+use Shopwell\Core\Checkout\Promotion\Rule\PromotionCodeOfTypeRule;
+use Shopwell\Core\Checkout\Promotion\Rule\PromotionLineItemRule;
+use Shopwell\Core\Checkout\Promotion\Rule\PromotionsInCartCountRule;
+use Shopwell\Core\Checkout\Promotion\Rule\PromotionValueRule;
+use Shopwell\Core\Content\Product\ProductTypeRegistry;
+
+return static function (ContainerConfigurator $container): void {
+    $services = $container->services();
+    $parameters = $container->parameters();
+
+    $services->set(CartAmountRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(CartPositionPriceRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(GoodsCountRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(GoodsPriceRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(LineItemOfTypeRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(LineItemRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(PromotionLineItemRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(PromotionCodeOfTypeRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(PromotionValueRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(PromotionsInCartCountRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(LineItemTotalPriceRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(LineItemUnitPriceRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(LineItemWithQuantityRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(LineItemWrapperRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(CartShippingCostRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(CartWeightRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(CartVolumeRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(CartHasDeliveryFreeItemRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(BillingCountryRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(BillingStreetRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(BillingZipCodeRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(CustomerGroupRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(CustomerRequestedGroupRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(CustomerTagRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(CustomerNumberRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(DifferentAddressesRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(EmailRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(IsActiveRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(LastNameRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(IsCompanyRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(CartTaxDisplayRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(CartTotalPurchasePriceRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(IsGuestCustomerRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(IsNewsletterRecipientRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(ShippingCountryRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(ShippingStreetRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(BillingCityRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(ShippingCityRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(BillingStateRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(ShippingStateRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(ShippingZipCodeRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(CustomerLoggedInRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(LineItemsInCartCountRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(NumberOfReviewsRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(OrderCountRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(DaysSinceLastOrderRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(LineItemTagRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(AlwaysValidRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(LineItemPropertyRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(LineItemIsNewRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(LineItemOfManufacturerRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(LineItemPurchasePriceRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(LineItemCreationDateRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(LineItemReleaseDateRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(LineItemClearanceSaleRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(LineItemPromotedRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(LineItemInCategoryRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(LineItemInProductStreamRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(LineItemTaxationRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(LineItemDimensionWidthRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(LineItemDimensionHeightRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(LineItemDimensionLengthRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(LineItemDimensionWeightRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(LineItemDimensionVolumeRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(LineItemOfManufacturerRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(LineItemPurchasePriceRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(LineItemCreationDateRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(LineItemListPriceRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(LineItemListPriceRatioRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(LineItemCustomFieldRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(LineItemStockRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(LineItemActualStockRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(PaymentMethodRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(ShippingMethodRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(LineItemGoodsTotalRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(OrderTotalAmountRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(CustomerCustomFieldRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(CustomerBirthdayRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(CustomerCreatedByAdminRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(LineItemProductTypeRule::class)
+        ->args([service(ProductTypeRegistry::class)])
+        ->tag('shopwell.rule.definition');
+
+    $services->set(CustomerAgeRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(DaysSinceLastLoginRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(DaysSinceFirstLoginRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(AffiliateCodeRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(AffiliateCodeOfOrderRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(CampaignCodeOfOrderRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(CampaignCodeRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(LineItemPropertyValueRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(LineItemVariantValueRule::class)
+        ->tag('shopwell.rule.definition');
+
+    $services->set(AdminSalesChannelSourceRule::class)
+        ->tag('shopwell.rule.definition');
+};

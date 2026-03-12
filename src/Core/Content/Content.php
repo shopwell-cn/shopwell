@@ -8,7 +8,7 @@ use Shopwell\Core\Framework\Log\Package;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 
 /**
  * @internal
@@ -23,28 +23,28 @@ class Content extends Bundle
     {
         parent::build($container);
 
-        $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/DependencyInjection/'));
-        $loader->load('breadcrumb.xml');
-        $loader->load('category.xml');
-        $loader->load('cookie.xml');
-        $loader->load('media.xml');
-        $loader->load('media_path.xml');
-        $loader->load('product.xml');
-        $loader->load('rule.xml');
-        $loader->load('product_stream.xml');
-        $loader->load('product_export.xml');
-        $loader->load('property.xml');
-        $loader->load('mail_template.xml');
-        $loader->load('delivery_time.xml');
-        $loader->load('import_export.xml');
-        $loader->load('revocation_request_form.xml');
-        $loader->load('sitemap.xml');
-        $loader->load('landing_page.xml');
-        $loader->load('flow.xml');
-        $loader->load('measurement_system.xml');
+        $loader = new PhpFileLoader($container, new FileLocator(__DIR__ . '/DependencyInjection/'));
+        $loader->load('breadcrumb.php');
+        $loader->load('category.php');
+        $loader->load('cookie.php');
+        $loader->load('media.php');
+        $loader->load('media_path.php');
+        $loader->load('product.php');
+        $loader->load('rule.php');
+        $loader->load('product_stream.php');
+        $loader->load('product_export.php');
+        $loader->load('property.php');
+        $loader->load('mail_template.php');
+        $loader->load('delivery_time.php');
+        $loader->load('import_export.php');
+        $loader->load('revocation_request_form.php');
+        $loader->load('sitemap.php');
+        $loader->load('landing_page.php');
+        $loader->load('flow.php');
+        $loader->load('measurement_system.php');
 
         if ($container->getParameter('kernel.environment') === 'test') {
-            $loader->load('media_test.xml');
+            $loader->load('media_test.php');
         }
 
         $container->addCompilerPass(new MailerConfigurationCompilerPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION, 0);

@@ -6,7 +6,7 @@ use Shopwell\Core\Framework\Bundle;
 use Shopwell\Core\Framework\Log\Package;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 
 /**
  * @internal
@@ -21,12 +21,12 @@ class DevOps extends Bundle
     {
         parent::build($container);
 
-        $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/DependencyInjection'));
-        $loader->load('services.xml');
+        $loader = new PhpFileLoader($container, new FileLocator(__DIR__ . '/DependencyInjection'));
+        $loader->load('services.php');
 
         $environment = $container->getParameter('kernel.environment');
         if ($environment === 'e2e') {
-            $loader->load('services_e2e.xml');
+            $loader->load('services_e2e.php');
         }
     }
 }
