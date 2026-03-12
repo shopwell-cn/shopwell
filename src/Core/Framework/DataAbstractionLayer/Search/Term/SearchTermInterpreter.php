@@ -2,8 +2,6 @@
 
 namespace Shopwell\Core\Framework\DataAbstractionLayer\Search\Term;
 
-use Shopwell\Core\Framework\Context;
-use Shopwell\Core\Framework\DataAbstractionLayer\Search\SearchConfigLoader;
 use Shopwell\Core\Framework\Log\Package;
 
 #[Package('framework')]
@@ -14,15 +12,14 @@ class SearchTermInterpreter
      */
     public function __construct(
         private readonly TokenizerInterface $tokenizer,
-        private readonly SearchConfigLoader $configLoader
+        private readonly int $tokenMinimumLength
     ) {
     }
 
-    public function interpret(string $term, Context $context): SearchPattern
+    public function interpret(string $term): SearchPattern
     {
-        $config = $this->configLoader->load($context);
-
-        $terms = $this->tokenizer->tokenize($term, $config[0]['min_search_length'] ?? null);
+        /** @phpstan-ignore arguments.count (This ignore should be removed when the deprecated method signature is updated) */
+        $terms = $this->tokenizer->tokenize($term, $this->tokenMinimumLength);
 
         $pattern = new SearchPattern(new SearchTerm($term));
 

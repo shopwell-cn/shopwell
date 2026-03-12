@@ -72,7 +72,7 @@
 
         <service id="Shopwell\Core\Framework\DataAbstractionLayer\Search\Term\SearchTermInterpreter">
             <argument type="service" id="Shopwell\Core\Framework\DataAbstractionLayer\Search\Term\Tokenizer"/>
-            <argument type="service" id="Shopwell\Core\Framework\DataAbstractionLayer\Search\SearchConfigLoader"/>
+            <argument>%shopwell.dbal.token_minimum_length%</argument>
         </service>
 
         <service id="Shopwell\Core\Framework\DataAbstractionLayer\Search\Term\EntityScoreQueryBuilder"/>
