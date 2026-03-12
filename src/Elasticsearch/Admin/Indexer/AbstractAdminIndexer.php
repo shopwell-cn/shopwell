@@ -16,7 +16,7 @@ use Shopwell\Elasticsearch\Framework\AbstractElasticsearchDefinition;
 #[Package('inventory')]
 abstract class AbstractAdminIndexer
 {
-    final public const SEARCH_FIELD = [
+    final public const array SEARCH_FIELD = [
         'type' => 'text',
         'fields' => [
             'ngram' => ['type' => 'text', 'analyzer' => 'sw_ngram_analyzer'],
@@ -65,11 +65,21 @@ abstract class AbstractAdminIndexer
      */
     abstract public function globalData(array $result, Context $context): array;
 
+    /**
+     * @description use for \Shopwell\Elasticsearch\Admin\AdminSearcher::search for the global api/es-search endpoint
+     */
     public function globalCriteria(string $term, Search $criteria): Search
     {
         return $criteria;
     }
 
+    /**
+     * @description use for \Shopwell\Elasticsearch\Admin\AdminSearcher::searchIds for api/{entity}/search-ids endpoint
+     */
+    public function moduleCriteria(string $term, Search $criteria): Search
+    {
+        return $criteria;
+    }
     /**
      * @return array<string>
      */
