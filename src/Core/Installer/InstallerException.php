@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 #[Package('framework')]
 class InstallerException extends HttpException
 {
-    final public const INVALID_REQUIREMENT_CHECK = 'INSTALLER__INVALID_REQUIREMENT_CHECK';
+    final public const string INVALID_REQUIREMENT_CHECK = 'INSTALLER__INVALID_REQUIREMENT_CHECK';
 
     public static function invalidRequirementCheck(string $message): self
     {
