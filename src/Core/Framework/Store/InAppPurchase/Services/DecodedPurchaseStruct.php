@@ -35,7 +35,7 @@ final readonly class DecodedPurchaseStruct
         $this->sub = $data['sub'];
     }
 
-    protected function throwException(string $message): HttpException
+    private function throwException(string $message): HttpException
     {
         return JWTException::invalidJwt($message);
     }
