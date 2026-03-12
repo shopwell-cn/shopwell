@@ -18,7 +18,6 @@ use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $container): void {
     $services = $container->services();
-    $parameters = $container->parameters();
 
     $services->set(ShippingMethodPriceExceptionHandler::class)
         ->tag('shopwell.dal.exception_handler');

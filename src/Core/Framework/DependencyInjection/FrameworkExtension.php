@@ -9,7 +9,7 @@ use Symfony\Component\DependencyInjection\Extension\Extension;
 #[Package('framework')]
 class FrameworkExtension extends Extension
 {
-    private const ALIAS = 'shopwell';
+    private const string ALIAS = 'shopwell';
 
     /**
      * {@inheritdoc}

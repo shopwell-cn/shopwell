@@ -44,7 +44,6 @@ use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_lo
 
 return static function (ContainerConfigurator $container): void {
     $services = $container->services();
-    $parameters = $container->parameters();
 
     $services->set(PaymentMethodDefinition::class)
         ->tag('shopwell.entity.definition');

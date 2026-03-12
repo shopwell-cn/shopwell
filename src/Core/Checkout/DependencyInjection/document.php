@@ -44,7 +44,6 @@ use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_it
 
 return static function (ContainerConfigurator $container): void {
     $services = $container->services();
-    $parameters = $container->parameters();
 
     $services->set(DocumentDefinition::class)
         ->tag('shopwell.entity.definition')
