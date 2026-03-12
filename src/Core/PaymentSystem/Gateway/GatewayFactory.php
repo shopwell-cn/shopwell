@@ -18,6 +18,9 @@ use Symfony\Contracts\Service\Attribute\Required;
 #[Package('payment-system')]
 abstract class GatewayFactory implements GatewayFactoryInterface
 {
+    final protected const string ACTIONS = 'actions';
+    final protected const string EXTENSIONS = 'extensions';
+
     protected ContainerInterface $container;
 
     #[Required]
@@ -42,11 +45,11 @@ abstract class GatewayFactory implements GatewayFactoryInterface
 
         $gateway = new Gateway();
 
-        $this->buildActions($gateway);
+        $this->buildActions($gateway, $config);
 
         $gateway->container = $containerBuilder->build();
 
-        $this->buildExtensions($gateway);
+        $this->buildExtensions($gateway, $config);
 
         return $gateway;
     }
@@ -72,34 +75,33 @@ abstract class GatewayFactory implements GatewayFactoryInterface
         ];
     }
 
-    protected function buildActions(Gateway $gateway): void
+    private function buildActions(Gateway $gateway, ArrayStruct $config): void
     {
-        foreach ($this->getActions() as $action) {
-            if (\is_string($action)) {
-                if (!$this->container->has($action)) {
-                    throw PaymentSystemGatewayException::actionServiceNotFound($action);
-                }
+        $actions = $this->getActions();
 
+        if ($config->has(self::ACTIONS)) {
+            $actions = array_merge($actions, $config->get(self::ACTIONS));
+        }
+
+        foreach ($actions as $action) {
+            if (\is_string($action)) {
                 $action = $this->container->get($action);
-            }
-            if (!$action instanceof ActionInterface) {
-                throw PaymentSystemGatewayException::invalidAction($action, ActionInterface::class);
             }
             $gateway->addAction($action, $action instanceof PrependActionInterface);
         }
     }
 
-    protected function buildExtensions(Gateway $gateway): void
+    private function buildExtensions(Gateway $gateway, ArrayStruct $config): void
     {
-        foreach ($this->getExtensions() as $extension) {
+        $extensions = $this->getExtensions();
+
+        if ($config->has(self::EXTENSIONS)) {
+            $extensions = array_merge($extensions, $config->get(self::EXTENSIONS));
+        }
+
+        foreach ($extensions as $extension) {
             if (\is_string($extension)) {
-                if (!$this->container->has($extension)) {
-                    throw PaymentSystemGatewayException::extensionServiceNotFound($extension);
-                }
                 $extension = $this->container->get($extension);
-            }
-            if (!$extension instanceof ExtensionInterface) {
-                throw PaymentSystemGatewayException::invalidExtension($extension, ExtensionInterface::class);
             }
             $gateway->addExtension($extension, $extension instanceof PrependExtensionInterface);
         }

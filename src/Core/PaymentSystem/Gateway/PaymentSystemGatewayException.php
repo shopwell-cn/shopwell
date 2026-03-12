@@ -14,10 +14,6 @@ class PaymentSystemGatewayException extends HttpException
 {
     final public const string REQUEST_NOT_SUPPORTED_EXCEPTION = 'PAYMENT_SYSTEM__FRAMEWORK_REQUEST_NOT_SUPPORTED';
     final public const string POSSIBLE_ENDLESS_CYCLE_EXCEPTION = 'PAYMENT_SYSTEM__POSSIBLE_ENDLESS_CYCLE';
-    final public const string ACTION_SERVICE_NOT_FOUND = 'PAYMENT_SYSTEM__ACTION_SERVICE_NOT_FOUND';
-    final public const string INVALID_ACTION_SERVICE = 'PAYMENT_SYSTEM__INVALID_ACTION_SERVICE';
-    final public const string EXTENSION_SERVICE_NOT_FOUND = 'PAYMENT_SYSTEM__EXTENSION_SERVICE_NOT_FOUND';
-    final public const string INVALID_EXTENSION_SERVICE = 'PAYMENT_SYSTEM__INVALID_EXTENSION_SERVICE';
     final public const string GATEWAY_FACTORY_NOT_FOUND = 'PAYMENT_SYSTEM__GATEWAY_FACTORY_NOT_FOUND';
     final public const string GATEWAY_NOT_FOUND = 'PAYMENT_SYSTEM__GATEWAY_NOT_FOUND';
 
@@ -38,46 +34,6 @@ class PaymentSystemGatewayException extends HttpException
             self::POSSIBLE_ENDLESS_CYCLE_EXCEPTION,
             'Possible endless cycle detected. ::onPreExecute was called {{ count }} times before reaching the limit.',
             ['count' => $count]
-        );
-    }
-
-    public static function actionServiceNotFound(string $serviceId): self
-    {
-        return new self(
-            Response::HTTP_INTERNAL_SERVER_ERROR,
-            self::ACTION_SERVICE_NOT_FOUND,
-            'Action service "{{ serviceId }}" not found in container.',
-            ['serviceId' => $serviceId]
-        );
-    }
-
-    public static function invalidAction(string $serviceId, string $expectedType): self
-    {
-        return new self(
-            Response::HTTP_INTERNAL_SERVER_ERROR,
-            self::INVALID_ACTION_SERVICE,
-            'Action service "{{ serviceId }}" must implement {{ expectedType }}.',
-            ['serviceId' => $serviceId, 'expectedType' => $expectedType]
-        );
-    }
-
-    public static function extensionServiceNotFound(string $serviceId): self
-    {
-        return new self(
-            Response::HTTP_INTERNAL_SERVER_ERROR,
-            self::EXTENSION_SERVICE_NOT_FOUND,
-            'Extension service "{{ serviceId }}" not found in container.',
-            ['serviceId' => $serviceId]
-        );
-    }
-
-    public static function invalidExtension(string $serviceId, string $expectedType): self
-    {
-        return new self(
-            Response::HTTP_INTERNAL_SERVER_ERROR,
-            self::INVALID_EXTENSION_SERVICE,
-            'Extension service "{{ serviceId }}" must implement {{ expectedType }}.',
-            ['serviceId' => $serviceId, 'expectedType' => $expectedType]
         );
     }
 
