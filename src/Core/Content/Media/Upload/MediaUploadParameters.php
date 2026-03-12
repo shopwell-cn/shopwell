@@ -3,6 +3,7 @@
 namespace Shopwell\Core\Content\Media\Upload;
 
 use Shopwell\Core\Content\Media\MediaException;
+use Shopwell\Core\Content\Media\Thumbnail\ExternalThumbnailCollection;
 use Shopwell\Core\Framework\Log\Package;
 
 /**
@@ -17,7 +18,8 @@ class MediaUploadParameters
         public ?bool $private = null,
         public ?string $fileName = null,
         public ?string $mimeType = null,
-        public ?bool $deduplicate = null
+        public ?bool $deduplicate = null,
+        private ?ExternalThumbnailCollection $thumbnails = null,
     ) {
     }
 
@@ -51,5 +53,14 @@ class MediaUploadParameters
         }
 
         return pathinfo($this->fileName, \PATHINFO_EXTENSION);
+    }
+
+    public function getThumbnails(): ExternalThumbnailCollection
+    {
+        if ($this->thumbnails === null) {
+            $this->thumbnails = new ExternalThumbnailCollection();
+        }
+
+        return $this->thumbnails;
     }
 }
