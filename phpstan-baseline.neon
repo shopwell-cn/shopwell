@@ -1529,3 +1529,75 @@ parameters:
 			identifier: shopwell.domainException
 			count: 1
 			path: src/Storefront/Theme/ThemeFileResolver.php
+
+		-
+			message: '#^Method Shopwell\\Core\\Content\\Media\\Event\\MediaFolderConfigurationIndexerEvent\:\:__construct\(\) has parameter \$ids with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Core/Content/Media/Event/MediaFolderConfigurationIndexerEvent.php
+
+		-
+			message: '#^Method Shopwell\\Core\\Content\\Media\\Event\\MediaFolderConfigurationIndexerEvent\:\:__construct\(\) has parameter \$skip with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Core/Content/Media/Event/MediaFolderConfigurationIndexerEvent.php
+
+		-
+			message: '#^Method Shopwell\\Core\\Content\\Media\\Event\\MediaFolderConfigurationIndexerEvent\:\:getIds\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Core/Content/Media/Event/MediaFolderConfigurationIndexerEvent.php
+
+		-
+			message: '#^Method Shopwell\\Core\\Content\\Media\\Event\\MediaFolderConfigurationIndexerEvent\:\:getSkip\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Core/Content/Media/Event/MediaFolderConfigurationIndexerEvent.php
+
+		-
+			message: '#^Method Shopwell\\Core\\Content\\Media\\Event\\MediaFolderIndexerEvent\:\:__construct\(\) has parameter \$ids with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Core/Content/Media/Event/MediaFolderIndexerEvent.php
+
+		-
+			message: '#^Method Shopwell\\Core\\Content\\Media\\Event\\MediaFolderIndexerEvent\:\:__construct\(\) has parameter \$skip with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Core/Content/Media/Event/MediaFolderIndexerEvent.php
+
+		-
+			message: '#^Method Shopwell\\Core\\Content\\Media\\Event\\MediaFolderIndexerEvent\:\:getIds\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Core/Content/Media/Event/MediaFolderIndexerEvent.php
+
+		-
+			message: '#^Method Shopwell\\Core\\Content\\Media\\Event\\MediaFolderIndexerEvent\:\:getSkip\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Core/Content/Media/Event/MediaFolderIndexerEvent.php
+
+		-
+			message: '#^Method Shopwell\\Core\\Content\\Media\\Event\\MediaIndexerEvent\:\:__construct\(\) has parameter \$ids with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Core/Content/Media/Event/MediaIndexerEvent.php
+
+		-
+			message: '#^Method Shopwell\\Core\\Content\\Media\\Event\\MediaIndexerEvent\:\:__construct\(\) has parameter \$skip with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Core/Content/Media/Event/MediaIndexerEvent.php
+
+		-
+			message: '#^Method Shopwell\\Core\\Content\\Media\\Event\\MediaIndexerEvent\:\:getIds\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Core/Content/Media/Event/MediaIndexerEvent.php
+
+		-
+			message: '#^Method Shopwell\\Core\\Content\\Media\\Event\\MediaIndexerEvent\:\:getSkip\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Core/Content/Media/Event/MediaIndexerEvent.php

@@ -9,8 +9,6 @@ $bundles = [
     Shopwell\Core\Profiling\Profiling::class => ['all' => true],
     Symfony\Bundle\DebugBundle\DebugBundle::class => ['dev' => true, 'test' => true],
     Shopwell\Core\Framework\Framework::class => ['all' => true],
-    Payum\Bundle\PayumBundle\PayumBundle::class => ['all' => true],
-    Shopwell\Core\Payment\Payment::class => ['all' => true],
     Shopwell\Core\System\System::class => ['all' => true],
     Shopwell\Core\PaymentSystem\PaymentSystem::class => ['all' => true],
     Shopwell\Core\Content\Content::class => ['all' => true],
