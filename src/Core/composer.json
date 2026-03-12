@@ -7,7 +7,7 @@
         "shop"
     ],
     "homepage": "https://www.shopwell.cn",
-    "license": "MIT",
+    "license": "Apache-2.0",
     "autoload": {
         "files": [
             "Framework/Adapter/Doctrine/Patch/AbstractAsset.php",
@@ -82,6 +82,7 @@
         "league/oauth2-server": "^9.3",
         "monolog/monolog": "^3.3.1",
         "nyholm/psr7": "^1.5",
+        "php-di/php-di": "^7.1",
         "psr/cache": "^3.0.0",
         "psr/simple-cache": "^3.0.0",
         "psr/event-dispatcher": "^1.0.0",
