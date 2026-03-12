@@ -57,7 +57,7 @@ abstract class GatewayFactory implements GatewayFactoryInterface
     /**
      * @return array<string, class-string<ActionInterface>>|list<class-string<ActionInterface>>
      */
-    public function getActions(): array
+    private function getActions(): array
     {
         return [
             CapturePaymentAction::class,
@@ -67,7 +67,7 @@ abstract class GatewayFactory implements GatewayFactoryInterface
     /**
      * @return list<ExtensionInterface|class-string<ExtensionInterface>>
      */
-    public function getExtensions(): array
+    private function getExtensions(): array
     {
         return [
             EndlessCycleDetectorExtension::class,

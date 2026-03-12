@@ -80,6 +80,7 @@ abstract class AbstractAdminIndexer
     {
         return $criteria;
     }
+
     /**
      * @return array<string>
      */

@@ -29,7 +29,7 @@ class Migration1536233010OrderAddress extends MigrationStep
               `district_id` binary(16) DEFAULT NULL,
               `order_id` binary(16) NOT NULL,
               `order_version_id` binary(16) NOT NULL,
-              `gender` varchar(100) DEFAULT NULL,
+              `gender` tinyint(1) NOT NULL DEFAULT 0,
               `name` varchar(255) NOT NULL,
               `street` varchar(255) NOT NULL,
               `zipcode` varchar(50) DEFAULT NULL,

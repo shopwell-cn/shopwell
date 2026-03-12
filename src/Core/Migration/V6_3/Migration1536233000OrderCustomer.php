@@ -27,7 +27,7 @@ class Migration1536233000OrderCustomer extends MigrationStep
               `order_id` binary(16) NOT NULL,
               `order_version_id` binary(16) NOT NULL,
               `email` varchar(254) NOT NULL,
-              `gender` varchar(100) DEFAULT NULL,
+              `gender` tinyint(1) NOT NULL DEFAULT 0,
               `nickname` varchar(255) NOT NULL,
               `name` varchar(255) NULL,
               `phone_number` varchar(100) DEFAULT NULL,
