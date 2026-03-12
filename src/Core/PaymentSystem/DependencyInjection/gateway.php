@@ -37,13 +37,13 @@ return function (ContainerConfigurator $container): void {
 
     $services->set(GatewayFactoryRegistry::class)
         ->args([
-            tagged_iterator('payment_system.gateway_factory'),
+            tagged_iterator('payment.gateway_factory'),
         ]);
 
     $services->set(DynamicRegistry::class)
         ->args([
             service(GatewayFactoryRegistry::class),
-            service('payment_system_gateway_config.repository'),
+            service('payment_gateway_config.repository'),
         ]);
 
     $services->set(Payment::class)
