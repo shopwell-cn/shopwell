@@ -24,9 +24,9 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 #[AsMessageHandler(handles: CleanupCorruptedMediaTask::class)]
 final class CleanupCorruptedMediaHandler extends ScheduledTaskHandler
 {
-    private const CORRUPTED_MEDIA_GRACE_PERIOD_DAYS = 30;
+    private const int CORRUPTED_MEDIA_GRACE_PERIOD_DAYS = 30;
 
-    private const CORRUPTED_MEDIA_BATCH_SIZE = 500;
+    private const int CORRUPTED_MEDIA_BATCH_SIZE = 500;
 
     /**
      * @param EntityRepository<ScheduledTaskCollection> $scheduledTaskRepository
@@ -57,7 +57,7 @@ final class CleanupCorruptedMediaHandler extends ScheduledTaskHandler
 
             $lastId = array_last($ids);
 
-            $ids = array_map(fn ($id) => ['id' => $id], $ids);
+            $ids = array_map(static fn ($id) => ['id' => $id], $ids);
             $this->mediaRepository->delete($ids, $context);
         }
     }

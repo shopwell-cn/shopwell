@@ -13,8 +13,8 @@ use Shopwell\Storefront\Theme\StorefrontPluginConfiguration\StorefrontPluginConf
 #[Package('framework')]
 class ThemeFileResolver
 {
-    final public const SCRIPT_FILES = 'script';
-    final public const STYLE_FILES = 'style';
+    final public const string SCRIPT_FILES = 'script';
+    final public const string STYLE_FILES = 'style';
 
     /**
      * @internal
@@ -67,7 +67,7 @@ class ThemeFileResolver
             $themeConfig,
             $configurationCollection,
             $onlySourceFiles,
-            fn (StorefrontPluginConfiguration $configuration) => $configuration->getStyleFiles()
+            static fn (StorefrontPluginConfiguration $configuration) => $configuration->getStyleFiles()
         );
     }
 

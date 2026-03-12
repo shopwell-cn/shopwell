@@ -1000,7 +1000,7 @@ class CriteriaParser
         if ($field instanceof BoolField) {
             return match (true) {
                 $value === null => null,
-                \is_array($value) => \array_map(fn ($value) => (bool) $value, $value),
+                \is_array($value) => \array_map(static fn ($value) => (bool) $value, $value),
                 default => (bool) $value,
             };
         }
@@ -1008,7 +1008,7 @@ class CriteriaParser
         if ($field instanceof DateTimeField) {
             return match (true) {
                 $value === null => null,
-                \is_array($value) => \array_map(fn ($value) => new \DateTime($value)->format('Y-m-d H:i:s.000'), $value),
+                \is_array($value) => \array_map(static fn ($value) => new \DateTime($value)->format('Y-m-d H:i:s.000'), $value),
                 default => new \DateTime($value)->format('Y-m-d H:i:s.000'),
             };
         }
@@ -1016,7 +1016,7 @@ class CriteriaParser
         if ($field instanceof FloatField) {
             return match (true) {
                 $value === null => null,
-                \is_array($value) => \array_map(fn ($value) => (float) $value, $value),
+                \is_array($value) => \array_map(static fn ($value) => (float) $value, $value),
                 default => (float) $value,
             };
         }
@@ -1024,7 +1024,7 @@ class CriteriaParser
         if ($field instanceof IntField) {
             return match (true) {
                 $value === null => null,
-                \is_array($value) => \array_map(fn ($value) => (int) $value, $value),
+                \is_array($value) => \array_map(static fn ($value) => (int) $value, $value),
                 default => (int) $value,
             };
         }

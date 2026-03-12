@@ -24,9 +24,9 @@ use Symfony\Component\Routing\RouterInterface;
 #[Package('discovery')]
 class CategoryUrlProvider extends AbstractUrlProvider
 {
-    final public const CHANGE_FREQ = 'daily';
+    final public const string CHANGE_FREQ = 'daily';
 
-    final public const QUERY_EVENT_NAME = 'sitemap.query.category';
+    final public const string QUERY_EVENT_NAME = 'sitemap.query.category';
 
     /**
      * @internal
@@ -77,7 +77,7 @@ class CategoryUrlProvider extends AbstractUrlProvider
 
         $availableCategories = \array_filter(
             $categories,
-            fn (array $category) => $categoryIdsFetchedEvent->hasId($category['id'])
+            static fn (array $category) => $categoryIdsFetchedEvent->hasId($category['id'])
         );
 
         /** @phpstan-ignore shopwell.storefrontRouteUsage (Do not use Storefront routes in the core. Will be fixed with https://github.com/shopwell/shopwell/issues/12970) */

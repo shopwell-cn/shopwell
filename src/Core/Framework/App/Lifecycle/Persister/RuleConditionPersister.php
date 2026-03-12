@@ -35,7 +35,7 @@ use Symfony\Component\Validator\Constraints\Type;
 #[Package('framework')]
 class RuleConditionPersister
 {
-    private const CONDITION_SCRIPT_DIR = '/rule-conditions/';
+    private const string CONDITION_SCRIPT_DIR = '/rule-conditions/';
 
     /**
      * @param EntityRepository<AppScriptConditionCollection> $appScriptConditionRepository
@@ -97,7 +97,7 @@ class RuleConditionPersister
 
         $scripts = $this->appScriptConditionRepository->searchIds($criteria, $context)->getIds();
 
-        $updateSet = array_map(fn (string $id) => ['id' => $id, 'active' => true], $scripts);
+        $updateSet = array_map(static fn (string $id) => ['id' => $id, 'active' => true], $scripts);
 
         $this->appScriptConditionRepository->update($updateSet, $context);
     }
@@ -110,7 +110,7 @@ class RuleConditionPersister
 
         $scripts = $this->appScriptConditionRepository->searchIds($criteria, $context)->getIds();
 
-        $updateSet = array_map(fn (string $id) => ['id' => $id, 'active' => false], $scripts);
+        $updateSet = array_map(static fn (string $id) => ['id' => $id, 'active' => false], $scripts);
 
         $this->appScriptConditionRepository->update($updateSet, $context);
     }

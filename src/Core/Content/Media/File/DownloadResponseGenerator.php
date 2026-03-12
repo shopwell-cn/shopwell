@@ -23,10 +23,10 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 #[Package('discovery')]
 class DownloadResponseGenerator
 {
-    final public const X_SENDFILE_DOWNLOAD_STRATEGY = 'x-sendfile';
-    final public const X_ACCEL_DOWNLOAD_STRATEGY = 'x-accel';
-    final public const X_ACCEL_REDIRECT = 'X-Accel-Redirect';
-    private const EXPIRATION_TIME = '+120 minutes';
+    final public const string X_SENDFILE_DOWNLOAD_STRATEGY = 'x-sendfile';
+    final public const string X_ACCEL_DOWNLOAD_STRATEGY = 'x-accel';
+    final public const string X_ACCEL_REDIRECT = 'X-Accel-Redirect';
+    private const string EXPIRATION_TIME = '+120 minutes';
 
     /**
      * @internal
@@ -122,7 +122,7 @@ class DownloadResponseGenerator
             throw MediaException::fileNotFound($media->getFileName() . '.' . $media->getFileExtension());
         }
 
-        return new StreamedResponse(function () use ($stream): void {
+        return new StreamedResponse(static function () use ($stream): void {
             fpassthru($stream);
         }, Response::HTTP_OK, $this->getStreamHeaders($media));
     }

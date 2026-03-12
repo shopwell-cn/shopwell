@@ -15,7 +15,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[Package('discovery')]
 class FastlyMediaReverseProxy implements MediaReverseProxy
 {
-    private const API_URL = 'https://api.fastly.com';
+    private const string API_URL = 'https://api.fastly.com';
 
     /**
      * @internal
@@ -54,7 +54,7 @@ class FastlyMediaReverseProxy implements MediaReverseProxy
 
         $pool = new Pool($this->client, $list, [
             'concurrency' => $this->concurrency,
-            'rejected' => function (TransferException $reason): void {
+            'rejected' => static function (TransferException $reason): void {
                 if ($reason instanceof ServerException) {
                     throw MediaException::cannotBanRequest($reason->getRequest()->getUri()->__toString(), $reason->getMessage(), $reason);
                 }

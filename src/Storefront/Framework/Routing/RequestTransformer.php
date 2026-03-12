@@ -25,7 +25,7 @@ class RequestTransformer implements RequestTransformerInterface
      * - `/en`
      * - {empty} - the virtual path is optional
      */
-    final public const SALES_CHANNEL_BASE_URL = 'sw-sales-channel-base-url';
+    final public const string SALES_CHANNEL_BASE_URL = 'sw-sales-channel-base-url';
 
     /**
      * Scheme + Host + port + subdir in web root
@@ -34,7 +34,7 @@ class RequestTransformer implements RequestTransformerInterface
      * - `https://shop.example` - no subdir
      * - `http://localhost:8000/subdir` - with sub dir `/subdir`
      */
-    final public const SALES_CHANNEL_ABSOLUTE_BASE_URL = 'sw-sales-channel-absolute-base-url';
+    final public const string SALES_CHANNEL_ABSOLUTE_BASE_URL = 'sw-sales-channel-absolute-base-url';
 
     /**
      * Scheme + Host + port + subdir in web root + virtual path
@@ -45,13 +45,13 @@ class RequestTransformer implements RequestTransformerInterface
      * - `http://localhost:8000/subdir` - with sub directory `/subdir`
      * - `http://localhost:8000/subdir/de` - with sub directory `/subdir` and virtual path `/de`
      */
-    final public const STOREFRONT_URL = 'sw-storefront-url';
+    final public const string STOREFRONT_URL = 'sw-storefront-url';
 
-    final public const SALES_CHANNEL_RESOLVED_URI = 'resolved-uri';
+    final public const string SALES_CHANNEL_RESOLVED_URI = 'resolved-uri';
 
-    final public const ORIGINAL_REQUEST_URI = 'sw-original-request-uri';
+    final public const string ORIGINAL_REQUEST_URI = 'sw-original-request-uri';
 
-    private const INHERITABLE_ATTRIBUTE_NAMES = [
+    private const array INHERITABLE_ATTRIBUTE_NAMES = [
         self::SALES_CHANNEL_BASE_URL,
         self::SALES_CHANNEL_ABSOLUTE_BASE_URL,
         self::STOREFRONT_URL,
@@ -72,7 +72,7 @@ class RequestTransformer implements RequestTransformerInterface
         SalesChannelRequest::ATTRIBUTE_CANONICAL_LINK,
     ];
 
-    private const DOES_NOT_REQUIRE_SALESCHANNEL = [
+    private const array DOES_NOT_REQUIRE_SALESCHANNEL = [
         '/_wdt/',
         '/_profiler/',
         '/_error/',
@@ -284,7 +284,7 @@ class RequestTransformer implements RequestTransformerInterface
         }
 
         // reduce shops to which base url is the beginning of the request
-        $domains = array_filter($domains, fn ($baseUrl): bool => str_starts_with($requestUrl, $baseUrl), \ARRAY_FILTER_USE_KEY);
+        $domains = array_filter($domains, static fn ($baseUrl): bool => str_starts_with($requestUrl, $baseUrl), \ARRAY_FILTER_USE_KEY);
 
         if ($domains === []) {
             return null;

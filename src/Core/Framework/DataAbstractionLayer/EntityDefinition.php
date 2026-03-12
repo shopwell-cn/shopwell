@@ -222,7 +222,7 @@ abstract class EntityDefinition
 
         /** @var array<string> $internalProperties */
         $internalProperties = $this->getFields()
-            ->fmap(function (Field $field): ?string {
+            ->fmap(static function (Field $field): ?string {
                 if ($field->is(ApiAware::class)) {
                     return null;
                 }
@@ -305,7 +305,7 @@ abstract class EntityDefinition
             return $this->primaryKeys;
         }
 
-        $fields = $this->getFields()->filter(function (Field $field): bool {
+        $fields = $this->getFields()->filter(static function (Field $field): bool {
             return $field->is(PrimaryKey::class);
         });
 

@@ -22,11 +22,11 @@ use Symfony\Component\Finder\Finder;
 #[Package('discovery')]
 class SnippetFileLoader implements SnippetFileLoaderInterface
 {
-    public const SCOPE_PLATFORM = 'Platform';
+    public const string SCOPE_PLATFORM = 'Platform';
 
-    public const SCOPE_PLUGINS = 'Plugins';
+    public const string SCOPE_PLUGINS = 'Plugins';
 
-    private const ADMINISTRATION_BUNDLE_NAME = 'Administration';
+    private const string ADMINISTRATION_BUNDLE_NAME = 'Administration';
 
     /**
      * @internal
@@ -64,7 +64,7 @@ class SnippetFileLoader implements SnippetFileLoaderInterface
             . '.*$#';
 
         $excludedPathsRegexp = array_map(
-            fn (string $path) => \sprintf($translationPathRegexpTemplate, self::SCOPE_PLUGINS, $path),
+            static fn (string $path) => \sprintf($translationPathRegexpTemplate, self::SCOPE_PLUGINS, $path),
             $exclude
         );
 
@@ -75,9 +75,9 @@ class SnippetFileLoader implements SnippetFileLoaderInterface
 
         $translationFiles = $this->translationReader
             ->listContents($localesBasePath, true)
-            ->filter(fn (StorageAttributes $node) => $node->isFile())
-            ->filter(fn (StorageAttributes $node) => \str_ends_with($node->path(), '.json'))
-            ->filter(fn (StorageAttributes $node) => \preg_filter($excludedPathsRegexp, 'EXCLUDED', $node->path()) !== 'EXCLUDED');
+            ->filter(static fn (StorageAttributes $node) => $node->isFile())
+            ->filter(static fn (StorageAttributes $node) => \str_ends_with($node->path(), '.json'))
+            ->filter(static fn (StorageAttributes $node) => \preg_filter($excludedPathsRegexp, 'EXCLUDED', $node->path()) !== 'EXCLUDED');
 
         $isPluginPathCheckRegexp = \sprintf($translationPathRegexpTemplate, self::SCOPE_PLATFORM . '|' . self::SCOPE_PLUGINS, '');
         foreach ($translationFiles as $translationFile) {

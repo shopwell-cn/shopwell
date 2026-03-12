@@ -58,8 +58,8 @@ use Symfony\Component\Serializer\SerializerInterface;
 #[Package('framework')]
 class VersionManager
 {
-    final public const DISABLE_AUDIT_LOG = 'disable-audit-log';
-    final public const MERGE_SCOPE = 'merge-scope';
+    final public const string DISABLE_AUDIT_LOG = 'disable-audit-log';
+    final public const string MERGE_SCOPE = 'merge-scope';
 
     public function __construct(
         private readonly EntityWriterInterface $entityWriter,
@@ -530,7 +530,7 @@ class VersionManager
      */
     private function addVersionToPayload(array $payload, EntityDefinition $definition, string $versionId): array
     {
-        $fields = $definition->getFields()->filter(fn (Field $field) => $field instanceof VersionField || $field instanceof ReferenceVersionField);
+        $fields = $definition->getFields()->filter(static fn (Field $field) => $field instanceof VersionField || $field instanceof ReferenceVersionField);
 
         foreach ($fields as $field) {
             $payload[$field->getPropertyName()] = $versionId;
@@ -577,7 +577,7 @@ class VersionManager
         int $childCounter = 1
     ): void {
         // add all cascade delete associations
-        $cascades = $definition->getFields()->filter(function (Field $field) {
+        $cascades = $definition->getFields()->filter(static function (Field $field) {
             $flag = $field->getFlag(CascadeDelete::class);
 
             return $flag ? $flag->isCloneRelevant() : false;

@@ -20,7 +20,7 @@ use Symfony\Component\Routing\RouterInterface;
 #[Package('framework')]
 readonly class SalesChannelDomainUtil
 {
-    private const MAX_REDIRECTS = 5;
+    private const int MAX_REDIRECTS = 5;
 
     public function __construct(
         private RouterInterface $router,
@@ -54,7 +54,7 @@ readonly class SalesChannelDomainUtil
     {
         // Remove '{' from start and '}i' from end, applied by Request::setTrustedHosts.
         $trustedHosts = array_map(
-            fn (string $pattern) => preg_replace('/^\{(.*)\}i$/', '$1', $pattern),
+            static fn (string $pattern) => preg_replace('/^\{(.*)\}i$/', '$1', $pattern),
             Request::getTrustedHosts()
         );
 

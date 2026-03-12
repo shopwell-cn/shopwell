@@ -9,7 +9,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[Package('framework')]
 class DependencyInjectionException extends HttpException
 {
-    public const NUMBER_RANGE_REDIS_NOT_CONFIGURED = 'SYSTEM__NUMBER_RANGE_REDIS_NOT_CONFIGURED';
+    public const string NUMBER_RANGE_REDIS_NOT_CONFIGURED = 'SYSTEM__NUMBER_RANGE_REDIS_NOT_CONFIGURED';
 
     public static function redisNotConfiguredForNumberRangeIncrementer(): self
     {

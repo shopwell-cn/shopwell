@@ -23,7 +23,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 #[Package('checkout')]
 class StorefrontCartSubscriber implements EventSubscriberInterface
 {
-    final public const SESSION_KEY_PROMOTION_CODES = 'cart-promotion-codes';
+    final public const string SESSION_KEY_PROMOTION_CODES = 'cart-promotion-codes';
 
     /**
      * @internal
@@ -141,7 +141,7 @@ class StorefrontCartSubscriber implements EventSubscriberInterface
     private function removeOtherDiscountsOfPromotion(Cart $cart, LineItem $removedLineItem, SalesChannelContext $context): void
     {
         $lineItemsOfSamePromotion = $cart->getLineItems()
-            ->filter(fn (LineItem $lineItem) => $lineItem->getType() === PromotionProcessor::LINE_ITEM_TYPE && $lineItem->getPayloadValue('promotionId') === $removedLineItem->getPayloadValue('promotionId'));
+            ->filter(static fn (LineItem $lineItem) => $lineItem->getType() === PromotionProcessor::LINE_ITEM_TYPE && $lineItem->getPayloadValue('promotionId') === $removedLineItem->getPayloadValue('promotionId'));
 
         foreach ($lineItemsOfSamePromotion as $lineItemOfSamePromotion) {
             $cart->remove($lineItemOfSamePromotion->getId());

@@ -31,11 +31,11 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 #[Package('checkout')]
 class OrderService
 {
-    final public const CUSTOMER_COMMENT_KEY = 'customerComment';
-    final public const AFFILIATE_CODE_KEY = 'affiliateCode';
-    final public const CAMPAIGN_CODE_KEY = 'campaignCode';
+    final public const string CUSTOMER_COMMENT_KEY = 'customerComment';
+    final public const string AFFILIATE_CODE_KEY = 'affiliateCode';
+    final public const string CAMPAIGN_CODE_KEY = 'campaignCode';
 
-    final public const ALLOWED_TRANSACTION_STATES = [
+    final public const array ALLOWED_TRANSACTION_STATES = [
         OrderTransactionStates::STATE_OPEN,
         OrderTransactionStates::STATE_CANCELLED,
         OrderTransactionStates::STATE_REMINDED,

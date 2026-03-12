@@ -20,7 +20,7 @@ use Twig\Cache\FilesystemCache;
 #[Package('framework')]
 class ScriptLoader implements EventSubscriberInterface
 {
-    final public const CACHE_KEY = 'shopwell-executable-app-scripts';
+    final public const string CACHE_KEY = 'shopwell-executable-app-scripts';
 
     private readonly string $cacheDir;
 
@@ -118,7 +118,7 @@ class ScriptLoader implements EventSubscriberInterface
             }
 
             if (!isset($appIncludes[$script['app_id']])) {
-                $includes = array_filter($scripts, fn (array $include) => $include['hook'] === 'include' && $include['app_id'] === $script['app_id']);
+                $includes = array_filter($scripts, static fn (array $include) => $include['hook'] === 'include' && $include['app_id'] === $script['app_id']);
 
                 $appIncludes[$script['app_id']] = array_map(function (array $include): Script {
                     return new Script(

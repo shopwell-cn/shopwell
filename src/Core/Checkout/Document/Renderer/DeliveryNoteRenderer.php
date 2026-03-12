@@ -23,7 +23,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 #[Package('after-sales')]
 final class DeliveryNoteRenderer extends AbstractDocumentRenderer
 {
-    public const TYPE = 'delivery_note';
+    public const string TYPE = 'delivery_note';
 
     /**
      * @internal
@@ -51,7 +51,7 @@ final class DeliveryNoteRenderer extends AbstractDocumentRenderer
 
         $template = '@Framework/documents/delivery_note.html.twig';
 
-        $ids = \array_map(fn (DocumentGenerateOperation $operation) => $operation->getOrderId(), $operations);
+        $ids = \array_map(static fn (DocumentGenerateOperation $operation) => $operation->getOrderId(), $operations);
 
         if ($ids === []) {
             return $result;

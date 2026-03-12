@@ -18,8 +18,8 @@ use Symfony\Component\HttpFoundation\Response;
 #[Package('framework')]
 class FastlyReverseProxyGateway extends AbstractReverseProxyGateway
 {
-    private const API_URL = 'https://api.fastly.com';
-    private const MAX_TAG_INVALIDATION = 256;
+    private const string API_URL = 'https://api.fastly.com';
+    private const int MAX_TAG_INVALIDATION = 256;
 
     /**
      * @var array<string, string>
@@ -105,7 +105,7 @@ class FastlyReverseProxyGateway extends AbstractReverseProxyGateway
 
         $pool = new Pool($this->client, $list, [
             'concurrency' => $this->concurrency,
-            'rejected' => function (TransferException $reason): void {
+            'rejected' => static function (TransferException $reason): void {
                 if ($reason instanceof ServerException) {
                     throw ReverseProxyException::cannotBanRequest($reason->getRequest()->getUri()->__toString(), $reason->getMessage(), $reason);
                 }

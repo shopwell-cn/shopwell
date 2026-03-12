@@ -34,8 +34,6 @@ use Shopwell\Core\Checkout\Promotion\Cart\Discount\Filter\PackageFilter;
 use Shopwell\Core\Checkout\Promotion\Cart\Discount\Filter\SetGroupScopeFilter;
 use Shopwell\Core\Checkout\Promotion\Cart\Error\PromotionExcludedError;
 use Shopwell\Core\Checkout\Promotion\Cart\Error\PromotionNotEligibleError;
-use Shopwell\Core\Checkout\Promotion\Exception\DiscountCalculatorNotFoundException;
-use Shopwell\Core\Checkout\Promotion\Exception\InvalidScopeDefinitionException;
 use Shopwell\Core\Checkout\Promotion\PromotionException;
 use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
@@ -74,13 +72,12 @@ class PromotionCalculator
      * the different discount line item types (percentage, absolute, ...) and then
      * recalculate the whole cart with these new items.
      *
-     * @throws DiscountCalculatorNotFoundException
      * @throws CartException
      */
     public function calculate(LineItemCollection $discountLineItems, Cart $original, Cart $calculated, SalesChannelContext $context, CartBehavior $behaviour): void
     {
         // sort discount line items by priority before building exclusions and calculating discounts
-        $discountLineItems->sort(function (LineItem $a, LineItem $b) {
+        $discountLineItems->sort(static function (LineItem $a, LineItem $b) {
             return $b->getPayloadValue('priority') <=> $a->getPayloadValue('priority');
         });
 
@@ -223,9 +220,7 @@ class PromotionCalculator
      * Calculates and returns the discount based on the settings of
      * the provided discount line item.
      *
-     * @throws DiscountCalculatorNotFoundException
      * @throws PromotionException
-     * @throws InvalidScopeDefinitionException
      * @throws CartException
      */
     private function calculateDiscount(LineItem $item, Cart $calculatedCart, SalesChannelContext $context): DiscountCalculatorResult

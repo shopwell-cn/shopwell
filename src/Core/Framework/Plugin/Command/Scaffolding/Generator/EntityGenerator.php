@@ -18,8 +18,8 @@ class EntityGenerator implements ScaffoldingGenerator
 {
     use HasCommandOption;
 
-    public const OPTION_NAME = 'entities';
-    private const OPTION_DESCRIPTION = 'list of entities to generate (PascalCase, comma separated)';
+    public const string OPTION_NAME = 'entities';
+    private const string OPTION_DESCRIPTION = 'list of entities to generate (PascalCase, comma separated)';
 
     private string $servicesXmlEntry = <<<'EOL'
 
@@ -197,7 +197,7 @@ class EntityGenerator implements ScaffoldingGenerator
 
         $entities = explode(',', $entities);
 
-        return array_filter(array_map(function (string $entity) {
+        return array_filter(array_map(static function (string $entity) {
             return ucfirst(trim($entity));
         }, $entities));
     }

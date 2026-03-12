@@ -20,7 +20,7 @@ class ApiRouteLoader extends Loader
      * The dynamic API allows traverse associations over the route path. This key for an option
      * holds the root path for each entity definition without further associations in the path.
      */
-    public const DYNAMIC_RESOURCE_ROOT_PATH = 'resourceRootPath';
+    public const string DYNAMIC_RESOURCE_ROOT_PATH = 'resourceRootPath';
 
     private bool $isLoaded = false;
 
@@ -62,7 +62,7 @@ class ApiRouteLoader extends Loader
         $listSuffix = '(\/[0-9a-f]{32}\/(extensions\/)?[0-9a-zA-Z-]+)*\/?$';
 
         $elements = $this->definitionRegistry->getDefinitions();
-        usort($elements, fn (EntityDefinition $a, EntityDefinition $b) => $a->getEntityName() <=> $b->getEntityName());
+        usort($elements, static fn (EntityDefinition $a, EntityDefinition $b) => $a->getEntityName() <=> $b->getEntityName());
 
         foreach ($elements as $definition) {
             $entityName = $definition->getEntityName();

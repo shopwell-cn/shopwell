@@ -30,7 +30,7 @@ use Symfony\Component\Config\Util\XmlUtils;
 #[Package('framework')]
 class Manifest
 {
-    private const XSD_FILE = __DIR__ . '/Schema/manifest-3.0.xsd';
+    private const string XSD_FILE = __DIR__ . '/Schema/manifest-3.0.xsd';
 
     private bool $managedByComposer = false;
 
@@ -219,7 +219,7 @@ class Manifest
             $urls = \array_merge($urls, $this->tax->getUrls());
         }
 
-        $urls = \array_map(fn (string $url) => (string) \parse_url($url, \PHP_URL_HOST), $urls);
+        $urls = \array_map(static fn (string $url) => (string) \parse_url($url, \PHP_URL_HOST), $urls);
 
         return \array_values(\array_unique(\array_merge($hosts, $urls)));
     }

@@ -18,11 +18,11 @@ use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter
 #[Package('framework')]
 class SchemaUpdater
 {
-    final public const TABLE_PREFIX = 'custom_entity_';
+    final public const string TABLE_PREFIX = 'custom_entity_';
 
-    final public const SHORTHAND_TABLE_PREFIX = 'ce_';
+    final public const string SHORTHAND_TABLE_PREFIX = 'ce_';
 
-    private const COMMENT = 'custom-entity-element';
+    private const string COMMENT = 'custom-entity-element';
 
     /**
      * @param list<array{name: string, fields: string}> $customEntities
@@ -84,7 +84,7 @@ class SchemaUpdater
         $table->setComment(self::COMMENT);
 
         // we have to add only fields, which are not marked as translated
-        $filtered = array_filter($fields, fn (array $field) => ($field['translatable'] ?? false) === false);
+        $filtered = array_filter($fields, static fn (array $field) => ($field['translatable'] ?? false) === false);
 
         $filtered = array_filter($filtered, fn (array $field) => !$this->isAssociation($field));
 
@@ -92,7 +92,7 @@ class SchemaUpdater
 
         $binary = ['length' => 16, 'fixed' => true];
 
-        $translated = array_filter($fields, fn (array $field) => $field['translatable'] ?? false);
+        $translated = array_filter($fields, static fn (array $field) => $field['translatable'] ?? false);
 
         if ($translated === []) {
             return;

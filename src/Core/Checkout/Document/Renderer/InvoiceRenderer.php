@@ -23,7 +23,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 #[Package('after-sales')]
 final class InvoiceRenderer extends AbstractDocumentRenderer
 {
-    public const TYPE = 'invoice';
+    public const string TYPE = 'invoice';
 
     /**
      * @internal
@@ -52,7 +52,7 @@ final class InvoiceRenderer extends AbstractDocumentRenderer
 
         $template = '@Framework/documents/invoice.html.twig';
 
-        $ids = \array_map(fn (DocumentGenerateOperation $operation) => $operation->getOrderId(), $operations);
+        $ids = \array_map(static fn (DocumentGenerateOperation $operation) => $operation->getOrderId(), $operations);
 
         if ($ids === []) {
             return $result;

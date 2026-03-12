@@ -13,7 +13,6 @@ use Shopwell\Core\Content\Media\MediaEntity;
 use Shopwell\Core\Framework\DataAbstractionLayer\Entity;
 use Shopwell\Core\Framework\DataAbstractionLayer\PartialEntity;
 use Shopwell\Core\Framework\Extensions\ExtensionDispatcher;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Uuid\Uuid;
 use Symfony\Contracts\Service\ResetInterface;
@@ -39,7 +38,6 @@ class RemoteThumbnailLoader implements ResetInterface
         private readonly Connection $connection,
         private readonly FilesystemOperator $filesystem,
         private readonly ExtensionDispatcher $extensions,
-        private readonly string $pattern = ''
     ) {
     }
 
@@ -193,11 +191,9 @@ class RemoteThumbnailLoader implements ResetInterface
                 $mediaEntity->get('path'),
                 $width,
                 $height,
-                $this->pattern,
-                $mediaEntity->get('updatedAt') ?? $mediaEntity->get('createdAt'),
                 $mediaEntity,
             ),
-            function: function (
+            function: static function (
                 string $mediaUrl,
                 string $mediaPath,
                 string $width,
@@ -206,12 +202,10 @@ class RemoteThumbnailLoader implements ResetInterface
                 ?\DateTimeInterface $mediaUpdatedAt,
                 Entity $mediaEntity,
             ): string {
-                if (Feature::isActive('v6.8.0.0')) {
-                    $mediaPath = $mediaEntity->get('path');
-                    \assert(\is_string($mediaPath));
-                    $mediaUpdatedAt = $mediaEntity->get('updatedAt') ?? $mediaEntity->get('createdAt');
-                    \assert($mediaUpdatedAt instanceof \DateTimeInterface || $mediaUpdatedAt === null);
-                }
+                $mediaPath = $mediaEntity->get('path');
+                \assert(\is_string($mediaPath));
+                $mediaUpdatedAt = $mediaEntity->get('updatedAt') ?? $mediaEntity->get('createdAt');
+                \assert($mediaUpdatedAt instanceof \DateTimeInterface || $mediaUpdatedAt === null);
 
                 $replacements = [
                     str_starts_with($mediaPath, 'http') ? '' : $mediaUrl,

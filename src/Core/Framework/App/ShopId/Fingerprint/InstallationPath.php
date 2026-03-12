@@ -12,7 +12,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[Package('framework')]
 readonly class InstallationPath implements Fingerprint, FingerprintCustomCompare
 {
-    final public const IDENTIFIER = 'installation_path';
+    final public const string IDENTIFIER = 'installation_path';
 
     public function __construct(
         private string $projectDir,
@@ -70,7 +70,7 @@ readonly class InstallationPath implements Fingerprint, FingerprintCustomCompare
             $results[$i] = $previousResult && $storedPart === $newPart;
         }
 
-        $numFailures = \count(array_filter($results, fn ($result) => $result === false));
+        $numFailures = \count(array_filter($results, static fn ($result) => $result === false));
 
         return (int) (100 / $maxParts) * $numFailures;
     }

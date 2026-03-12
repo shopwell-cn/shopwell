@@ -25,7 +25,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 #[Package('after-sales')]
 final class StornoRenderer extends AbstractDocumentRenderer
 {
-    public const TYPE = 'storno';
+    public const string TYPE = 'storno';
 
     /**
      * @internal
@@ -55,7 +55,7 @@ final class StornoRenderer extends AbstractDocumentRenderer
 
         $template = '@Framework/documents/storno.html.twig';
 
-        $ids = \array_map(fn (DocumentGenerateOperation $operation) => $operation->getOrderId(), $operations);
+        $ids = \array_map(static fn (DocumentGenerateOperation $operation) => $operation->getOrderId(), $operations);
 
         if ($ids === []) {
             return $result;

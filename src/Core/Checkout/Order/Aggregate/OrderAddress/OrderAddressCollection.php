@@ -18,12 +18,12 @@ class OrderAddressCollection extends EntityCollection
      */
     public function getCountryIds(): array
     {
-        return $this->fmap(fn (OrderAddressEntity $orderAddress) => $orderAddress->getCountryId());
+        return $this->fmap(static fn (OrderAddressEntity $orderAddress) => $orderAddress->getCountryId());
     }
 
     public function filterByCountryId(string $id): self
     {
-        return $this->filter(fn (OrderAddressEntity $orderAddress) => $orderAddress->getCountryId() === $id);
+        return $this->filter(static fn (OrderAddressEntity $orderAddress) => $orderAddress->getCountryId() === $id);
     }
 
     /**
@@ -31,25 +31,25 @@ class OrderAddressCollection extends EntityCollection
      */
     public function getCountryStateIds(): array
     {
-        return $this->fmap(fn (OrderAddressEntity $orderAddress) => $orderAddress->getCountryStateId());
+        return $this->fmap(static fn (OrderAddressEntity $orderAddress) => $orderAddress->getCountryStateId());
     }
 
     public function filterByCountryStateId(string $id): self
     {
-        return $this->filter(fn (OrderAddressEntity $orderAddress) => $orderAddress->getCountryStateId() === $id);
+        return $this->filter(static fn (OrderAddressEntity $orderAddress) => $orderAddress->getCountryStateId() === $id);
     }
 
     public function getCountries(): CountryCollection
     {
         return new CountryCollection(
-            $this->fmap(fn (OrderAddressEntity $orderAddress) => $orderAddress->getCountry())
+            $this->fmap(static fn (OrderAddressEntity $orderAddress) => $orderAddress->getCountry())
         );
     }
 
     public function getCountryStates(): CountryStateCollection
     {
         return new CountryStateCollection(
-            $this->fmap(fn (OrderAddressEntity $orderAddress) => $orderAddress->getCountryState())
+            $this->fmap(static fn (OrderAddressEntity $orderAddress) => $orderAddress->getCountryState())
         );
     }
 

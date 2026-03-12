@@ -106,7 +106,7 @@ class SnippetService
 
         $unusedThemes = $event->getUnusedThemes();
 
-        $snippetCollection = $snippetFileCollection->filter(fn (AbstractSnippetFile $snippetFile) => !\in_array($snippetFile->getTechnicalName(), $unusedThemes, true));
+        $snippetCollection = $snippetFileCollection->filter(static fn (AbstractSnippetFile $snippetFile) => !\in_array($snippetFile->getTechnicalName(), $unusedThemes, true));
 
         $fallbackSnippets = [];
 

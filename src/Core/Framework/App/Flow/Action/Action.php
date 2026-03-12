@@ -10,7 +10,7 @@ use Symfony\Component\Config\Util\XmlUtils;
 #[Package('framework')]
 class Action
 {
-    private const XSD_FLOW_FILE = '/Schema/flow-1.0.xsd';
+    private const string XSD_FLOW_FILE = '/Schema/flow-1.0.xsd';
 
     private function __construct(
         private string $path,

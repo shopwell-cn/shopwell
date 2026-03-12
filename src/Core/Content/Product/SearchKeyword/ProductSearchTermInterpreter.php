@@ -19,7 +19,7 @@ use Shopwell\Core\Framework\Uuid\Uuid;
 #[Package('inventory')]
 class ProductSearchTermInterpreter implements ProductSearchTermInterpreterInterface
 {
-    private const RELEVANT_KEYWORD_COUNT = 8;
+    private const int RELEVANT_KEYWORD_COUNT = 8;
 
     /**
      * @internal
@@ -219,7 +219,7 @@ class ProductSearchTermInterpreter implements ProductSearchTermInterpreterInterf
             $scoring[$match] = $score / 10;
         }
 
-        uasort($scoring, fn ($a, $b) => $b <=> $a);
+        uasort($scoring, static fn ($a, $b) => $b <=> $a);
 
         return $scoring;
     }

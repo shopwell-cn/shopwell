@@ -49,10 +49,10 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 #[Package('framework')]
 class AdministrationController extends AbstractController
 {
-    public const CACHE_ID_HEADER = 'X-Shopwell-Cache-Id';
-    public const CACHE_ID_ADMINISTRATION = 'administration';
+    public const string CACHE_ID_HEADER = 'X-Shopwell-Cache-Id';
+    public const string CACHE_ID_ADMINISTRATION = 'administration';
 
-    private const UNAUTHENTICATED_SNIPPET_NAMESPACES = [
+    private const array UNAUTHENTICATED_SNIPPET_NAMESPACES = [
         'sw-login',
         'global',
     ];
@@ -405,7 +405,7 @@ class AdministrationController extends AbstractController
     {
         $sortedSupportedApiVersions = array_values($this->supportedApiVersions);
 
-        usort($sortedSupportedApiVersions, fn (int $version1, int $version2) => \version_compare((string) $version1, (string) $version2));
+        usort($sortedSupportedApiVersions, static fn (int $version1, int $version2) => \version_compare((string) $version1, (string) $version2));
 
         return array_pop($sortedSupportedApiVersions);
     }

@@ -19,8 +19,8 @@ use Shopwell\Storefront\Framework\StorefrontFrameworkException;
 #[Package('inventory')]
 class ProductPageSeoUrlRoute implements SeoUrlRouteInterface
 {
-    final public const ROUTE_NAME = 'frontend.detail.page';
-    final public const DEFAULT_TEMPLATE = '{{ product.translated.name }}/{{ product.productNumber }}';
+    final public const string ROUTE_NAME = 'frontend.detail.page';
+    final public const string DEFAULT_TEMPLATE = '{{ product.translated.name }}/{{ product.productNumber }}';
 
     /**
      * @internal
@@ -55,7 +55,7 @@ class ProductPageSeoUrlRoute implements SeoUrlRouteInterface
         $categories = $product->get('mainCategories') ?? null;
         if ($categories instanceof EntityCollection && $salesChannel !== null) {
             $filtered = $categories->filter(
-                fn (Entity $category) => $category->get('salesChannelId') === $salesChannel->getId()
+                static fn (Entity $category) => $category->get('salesChannelId') === $salesChannel->getId()
             );
 
             $product->assign(['mainCategories' => $filtered]);

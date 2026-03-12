@@ -25,13 +25,6 @@ use Symfony\Component\Finder\Finder;
 #[Package('discovery')]
 class SnippetFinder implements SnippetFinderInterface
 {
-    /**
-     * @deprecated tag:v6.8.0 - Will be removed without replacement
-     */
-    public const ALLOWED_INTERSECTING_FIRST_LEVEL_SNIPPET_KEYS = [
-        'sw-flow-custom-event',
-    ];
-
     public function __construct(
         private readonly Kernel $kernel,
         private readonly Connection $connection,
@@ -268,7 +261,7 @@ class SnippetFinder implements SnippetFinderInterface
         );
 
         $decodedSnippets = \array_map(
-            fn ($data) => \json_decode((string) $data['value'], true, 512, \JSON_THROW_ON_ERROR),
+            static fn ($data) => \json_decode((string) $data['value'], true, 512, \JSON_THROW_ON_ERROR),
             $result
         );
 

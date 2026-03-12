@@ -15,17 +15,17 @@ use Shopwell\Core\Framework\Log\Package;
 #[Package('framework')]
 class AuthMiddleware
 {
-    final public const APP_REQUEST_TYPE = 'request_type';
+    final public const string APP_REQUEST_TYPE = 'request_type';
 
-    final public const APP_SECRET = 'app_secret';
+    final public const string APP_SECRET = 'app_secret';
 
-    final public const VALIDATED_RESPONSE = 'validated_response';
+    final public const string VALIDATED_RESPONSE = 'validated_response';
 
-    final public const APP_REQUEST_CONTEXT = 'app_request_context';
+    final public const string APP_REQUEST_CONTEXT = 'app_request_context';
 
-    final public const SHOPWELL_CONTEXT_LANGUAGE = 'sw-context-language';
+    final public const string SHOPWELL_CONTEXT_LANGUAGE = 'sw-context-language';
 
-    final public const SHOPWELL_USER_LANGUAGE = 'sw-user-language';
+    final public const string SHOPWELL_USER_LANGUAGE = 'sw-user-language';
 
     /**
      * @internal
@@ -70,7 +70,7 @@ class AuthMiddleware
                 return $handler($request, $options);
             }
 
-            $successCallback = function (ResponseInterface $response) use ($secret, $signature, $request) {
+            $successCallback = static function (ResponseInterface $response) use ($secret, $signature, $request) {
                 if ($response->getStatusCode() !== 401) {
                     if (!$signature->isResponseAuthentic($response, $secret)) {
                         throw new ServerException(

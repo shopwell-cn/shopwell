@@ -6,7 +6,6 @@ use Shopwell\Core\Content\Category\Service\NavigationLoaderInterface;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Sorting\FieldSorting;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Routing\RoutingException;
 use Shopwell\Core\System\Currency\CurrencyCollection;
@@ -14,7 +13,6 @@ use Shopwell\Core\System\Currency\SalesChannel\AbstractCurrencyRoute;
 use Shopwell\Core\System\Language\LanguageCollection;
 use Shopwell\Core\System\Language\SalesChannel\AbstractLanguageRoute;
 use Shopwell\Core\System\SalesChannel\SalesChannelContext;
-use Shopwell\Core\System\SalesChannel\SalesChannelException;
 use Shopwell\Storefront\Event\RouteRequest\CurrencyRouteRequestEvent;
 use Shopwell\Storefront\Event\RouteRequest\LanguageRouteRequestEvent;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -57,18 +55,6 @@ class HeaderPageletLoader implements HeaderPageletLoaderInterface
             $languages,
             $this->getCurrencies($request, $context),
         );
-
-        if (!Feature::isActive('v6.8.0.0')) {
-            $contextLanguage = $languages->get($context->getLanguageId());
-            if (!$contextLanguage) {
-                throw SalesChannelException::languageNotFound($context->getLanguageId());
-            }
-
-            Feature::callSilentIfInactive('v6.8.0.0', function () use ($contextLanguage, $context, $page): void {
-                $page->setActiveLanguage($contextLanguage);
-                $page->setActiveCurrency($context->getCurrency());
-            });
-        }
 
         $this->eventDispatcher->dispatch(new HeaderPageletLoadedEvent($page, $context, $request));
 

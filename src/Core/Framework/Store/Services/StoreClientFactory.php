@@ -17,7 +17,7 @@ use Shopwell\Core\System\SystemConfig\SystemConfigService;
 #[Package('checkout')]
 class StoreClientFactory
 {
-    private const CONFIG_KEY_STORE_API_URI = 'core.store.apiUri';
+    private const string CONFIG_KEY_STORE_API_URI = 'core.store.apiUri';
 
     public function __construct(
         private readonly SystemConfigService $configService
@@ -65,7 +65,7 @@ class StoreClientFactory
         return static function (callable $handler) use ($fn): callable {
             /** @var callable(RequestInterface, array<mixed>): Promise $handler */
             return static function (RequestInterface $request, array $options) use ($handler, $fn) {
-                return $handler($request, $options)->then(fn ($response) => $fn($response, $request));
+                return $handler($request, $options)->then(static fn ($response) => $fn($response, $request));
             };
         };
     }

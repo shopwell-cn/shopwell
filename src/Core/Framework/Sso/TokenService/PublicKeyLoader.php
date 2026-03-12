@@ -17,7 +17,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 #[Package('framework')]
 final class PublicKeyLoader
 {
-    private const CACHE_KEY = 'admin_sso_public_key_storage';
+    private const string CACHE_KEY = 'admin_sso_public_key_storage';
 
     public function __construct(
         private readonly HttpClientInterface $client,
@@ -106,6 +106,6 @@ final class PublicKeyLoader
     private function updateCache(string $publicKeyString): void
     {
         $this->cache->delete(self::CACHE_KEY);
-        $this->cache->get(self::CACHE_KEY, fn (): string => $publicKeyString);
+        $this->cache->get(self::CACHE_KEY, static fn (): string => $publicKeyString);
     }
 }

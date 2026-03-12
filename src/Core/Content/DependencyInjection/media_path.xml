@@ -19,8 +19,6 @@
             <argument type="service" id="Doctrine\DBAL\Connection"/>
             <argument type="service" id="shopwell.filesystem.public"/>
             <argument type="service" id="Shopwell\Core\Framework\Extensions\ExtensionDispatcher"/>
-            <argument>%shopwell.media.remote_thumbnails.pattern%</argument>
-
             <tag name="kernel.reset" method="reset"/>
         </service>
 

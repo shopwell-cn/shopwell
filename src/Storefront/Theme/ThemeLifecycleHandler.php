@@ -9,7 +9,6 @@ use Shopwell\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopwell\Core\Framework\DataAbstractionLayer\Exception\InconsistentCriteriaIdsException;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Uuid\Uuid;
-use Shopwell\Storefront\Theme\Exception\ThemeAssignmentException;
 use Shopwell\Storefront\Theme\Exception\ThemeException;
 use Shopwell\Storefront\Theme\StorefrontPluginConfiguration\StorefrontPluginConfiguration;
 use Shopwell\Storefront\Theme\StorefrontPluginConfiguration\StorefrontPluginConfigurationCollection;
@@ -18,7 +17,7 @@ use Shopwell\Storefront\Theme\Struct\ThemeDependencies;
 #[Package('framework')]
 class ThemeLifecycleHandler
 {
-    public const STATE_SKIP_THEME_COMPILATION = 'skip-theme-compilation';
+    public const string STATE_SKIP_THEME_COMPILATION = 'skip-theme-compilation';
 
     /**
      * @internal
@@ -56,7 +55,7 @@ class ThemeLifecycleHandler
 
         $configs = $this->storefrontPluginRegistry->getConfigurations();
 
-        $configs = $configs->filter(fn (StorefrontPluginConfiguration $registeredConfig): bool => $registeredConfig->getTechnicalName() !== $config->getTechnicalName());
+        $configs = $configs->filter(static fn (StorefrontPluginConfiguration $registeredConfig): bool => $registeredConfig->getTechnicalName() !== $config->getTechnicalName());
 
         $this->recompileThemesIfNecessary($config, $context, $configs, $themeId);
     }
@@ -97,7 +96,6 @@ class ThemeLifecycleHandler
     }
 
     /**
-     * @throws ThemeAssignmentException
      * @throws ThemeException
      * @throws InconsistentCriteriaIdsException
      */

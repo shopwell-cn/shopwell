@@ -22,7 +22,7 @@ use Shopwell\Core\Framework\Uuid\Uuid;
 #[Package('framework')]
 class JoinGroupBuilder
 {
-    private const NOT_RELEVANT = 'not-relevant';
+    private const string NOT_RELEVANT = 'not-relevant';
 
     /**
      * For the sql implementation of the DAL, we have to detect how often we have to join an association.
@@ -203,7 +203,7 @@ class JoinGroupBuilder
         }
         $duplicates = array_count_values($paths);
 
-        $duplicates = array_filter($duplicates, fn (int $count) => $count > 1);
+        $duplicates = array_filter($duplicates, static fn (int $count) => $count > 1);
 
         return array_keys($duplicates);
     }

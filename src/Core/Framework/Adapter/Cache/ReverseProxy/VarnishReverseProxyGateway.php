@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
 #[Package('framework')]
 class VarnishReverseProxyGateway extends AbstractReverseProxyGateway
 {
-    private const MAX_TAG_INVALIDATION = 50;
+    private const int MAX_TAG_INVALIDATION = 50;
 
     /**
      * @var array<string, string>
@@ -56,7 +56,7 @@ class VarnishReverseProxyGateway extends AbstractReverseProxyGateway
 
             $pool = new Pool($this->client, $list, [
                 'concurrency' => $this->concurrency,
-                'rejected' => function (TransferException $reason): void {
+                'rejected' => static function (TransferException $reason): void {
                     if ($reason instanceof ServerException) {
                         throw ReverseProxyException::cannotBanRequest($reason->getRequest()->getUri()->__toString(), $reason->getMessage(), $reason);
                     }
@@ -129,7 +129,7 @@ class VarnishReverseProxyGateway extends AbstractReverseProxyGateway
     {
         $pool = new Pool($this->client, $requests, [
             'concurrency' => $this->concurrency,
-            'rejected' => function (TransferException $reason): void {
+            'rejected' => static function (TransferException $reason): void {
                 if ($reason instanceof ServerException) {
                     throw ReverseProxyException::cannotBanRequest($reason->getRequest()->getUri()->__toString(), $reason->getMessage(), $reason);
                 }
@@ -141,7 +141,7 @@ class VarnishReverseProxyGateway extends AbstractReverseProxyGateway
         try {
             $pool->promise()->wait();
         } catch (\Throwable $e) {
-            $urls = array_map(fn (Request $request) => $request->getUri()->__toString(), $requests);
+            $urls = array_map(static fn (Request $request) => $request->getUri()->__toString(), $requests);
 
             $this->logger->critical('Error while flushing varnish cache', ['error' => $e->getMessage(), 'urls' => $urls]);
         }

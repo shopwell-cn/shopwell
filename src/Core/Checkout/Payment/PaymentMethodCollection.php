@@ -17,12 +17,12 @@ class PaymentMethodCollection extends EntityCollection
      */
     public function getPluginIds(): array
     {
-        return $this->fmap(fn (PaymentMethodEntity $paymentMethod) => $paymentMethod->getPluginId());
+        return $this->fmap(static fn (PaymentMethodEntity $paymentMethod) => $paymentMethod->getPluginId());
     }
 
     public function filterByPluginId(string $id): self
     {
-        return $this->filter(fn (PaymentMethodEntity $paymentMethod) => $paymentMethod->getPluginId() === $id);
+        return $this->filter(static fn (PaymentMethodEntity $paymentMethod) => $paymentMethod->getPluginId() === $id);
     }
 
     /**

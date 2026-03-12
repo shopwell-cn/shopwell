@@ -26,7 +26,7 @@ use Symfony\Contracts\Service\ResetInterface;
 class CustomFieldService implements EventSubscriberInterface, ResetInterface
 {
     // Custom field names should be valid twig variable names (https://github.com/twigphp/Twig/blob/21df1ad7824ced2abcbd33863f04c6636674481f/src/Lexer.php#L46)
-    public const CUSTOM_FIELD_NAME_PATTERN = '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/';
+    public const string CUSTOM_FIELD_NAME_PATTERN = '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/';
 
     /**
      * @var ?array<string, mixed>
@@ -87,7 +87,7 @@ class CustomFieldService implements EventSubscriberInterface, ResetInterface
             return;
         }
 
-        $customFieldCommands = array_filter($commands, function ($command) {
+        $customFieldCommands = array_filter($commands, static function ($command) {
             return $command->getEntityName() === CustomFieldSetDefinition::ENTITY_NAME
                 || $command->getEntityName() === CustomFieldDefinition::ENTITY_NAME;
         });
