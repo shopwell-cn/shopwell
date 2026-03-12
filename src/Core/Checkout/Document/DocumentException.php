@@ -38,6 +38,7 @@ class DocumentException extends HttpException
     public const string DOCUMENT_ACCEPT_HEADER_MIME_TYPES_NOT_SUPPORTED = 'DOCUMENT__ACCEPT_HEADER_MIME_TYPES_NOT_SUPPORTED';
 
     public const string DOCUMENT_FILE_TYPE_NOT_SUPPORTED = 'DOCUMENT__FILE_TYPE_NOT_SUPPORTED';
+    public const string DOCUMENT_HAS_DEPENDING_DOCUMENTS = 'DOCUMENT__HAS_DEPENDING_DOCUMENTS';
 
     public static function invalidDocumentGeneratorType(string $type): self
     {
@@ -231,6 +232,21 @@ class DocumentException extends HttpException
             'The requested file type is not supported: {{ requestedFileType }}.',
             [
                 'requestedFileType' => $fileType,
+            ]
+        );
+    }
+
+    /**
+     * @param array<string> $dependingDocuments
+     */
+    public static function documentHasDependentDocuments(array $dependingDocuments): self
+    {
+        return new self(
+            Response::HTTP_UNPROCESSABLE_ENTITY,
+            self::DOCUMENT_HAS_DEPENDING_DOCUMENTS,
+            'The document cannot be deleted because other documents depend on it: {{ dependingDocuments }}.',
+            [
+                'dependingDocuments' => implode(', ', $dependingDocuments),
             ]
         );
     }

@@ -26,6 +26,7 @@ use Shopwell\Core\Checkout\Document\Service\DocumentMerger;
 use Shopwell\Core\Checkout\Document\Service\HtmlRenderer;
 use Shopwell\Core\Checkout\Document\Service\PdfRenderer;
 use Shopwell\Core\Checkout\Document\Service\ReferenceInvoiceLoader;
+use Shopwell\Core\Checkout\Document\Subscriber\DocumentDeleteSubscriber;
 use Shopwell\Core\Checkout\Document\Twig\DocumentTemplateRenderer;
 use Shopwell\Core\Checkout\Document\Zugferd\ZugferdBuilder;
 use Shopwell\Core\Content\Media\MediaService;
@@ -222,4 +223,11 @@ return static function (ContainerConfigurator $container): void {
             service('event_dispatcher'),
             service(AmountCalculator::class),
         ]);
+
+    $services->set(DocumentDeleteSubscriber::class)
+        ->args([
+            service('document.repository'),
+            service('media.repository'),
+        ])
+        ->tag('kernel.event_subscriber');
 };
