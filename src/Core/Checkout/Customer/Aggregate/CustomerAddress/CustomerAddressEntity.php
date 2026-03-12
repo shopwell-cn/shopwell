@@ -9,7 +9,6 @@ use Shopwell\Core\Framework\DataAbstractionLayer\EntityIdTrait;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\System\Country\Aggregate\CountryState\CountryStateEntity;
 use Shopwell\Core\System\Country\CountryEntity;
-use Shopwell\Core\System\Salutation\SalutationEntity;
 
 #[Package('checkout')]
 class CustomerAddressEntity extends Entity
@@ -50,8 +49,6 @@ class CustomerAddressEntity extends Entity
     protected ?CountryEntity $country = null;
 
     protected ?CountryStateEntity $countryState = null;
-
-    protected ?SalutationEntity $salutation = null;
 
     protected ?CustomerEntity $customer = null;
 
@@ -225,16 +222,6 @@ class CustomerAddressEntity extends Entity
     public function setCountryState(CountryStateEntity $countryState): void
     {
         $this->countryState = $countryState;
-    }
-
-    public function getSalutation(): ?SalutationEntity
-    {
-        return $this->salutation;
-    }
-
-    public function setSalutation(SalutationEntity $salutation): void
-    {
-        $this->salutation = $salutation;
     }
 
     public function getCustomer(): ?CustomerEntity

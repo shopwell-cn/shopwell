@@ -18,18 +18,17 @@ use Shopwell\Core\Framework\DataAbstractionLayer\FieldCollection;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\System\Country\Aggregate\CountryState\CountryStateDefinition;
 use Shopwell\Core\System\Country\CountryDefinition;
-use Shopwell\Core\System\Salutation\SalutationDefinition;
 
 #[Package('checkout')]
 class CustomerAddressDefinition extends EntityDefinition
 {
-    final public const ENTITY_NAME = 'customer_address';
+    final public const string ENTITY_NAME = 'customer_address';
 
-    public const MAX_LENGTH_PHONE_NUMBER = 40;
-    public const MAX_LENGTH_FIRST_NAME = 255;
-    public const MAX_LENGTH_LAST_NAME = 255;
-    public const MAX_LENGTH_TITLE = 100;
-    public const MAX_LENGTH_ZIPCODE = 50;
+    public const int MAX_LENGTH_PHONE_NUMBER = 40;
+    public const int MAX_LENGTH_FIRST_NAME = 255;
+    public const int MAX_LENGTH_LAST_NAME = 255;
+    public const int MAX_LENGTH_TITLE = 100;
+    public const int MAX_LENGTH_ZIPCODE = 50;
 
     public function getEntityName(): string
     {
@@ -66,7 +65,6 @@ class CustomerAddressDefinition extends EntityDefinition
             new FkField('country_id', 'countryId', CountryDefinition::class)->addFlags(new ApiAware(), new Required())->setDescription('Unique identity of country.'),
             new FkField('country_state_id', 'countryStateId', CountryStateDefinition::class)->addFlags(new ApiAware())->setDescription('Unique identity of country\'s state.'),
 
-            new FkField('salutation_id', 'salutationId', SalutationDefinition::class)->addFlags(new ApiAware())->setDescription('Unique identity of salutation.'),
             new StringField('first_name', 'firstName', self::MAX_LENGTH_FIRST_NAME)->addFlags(new ApiAware(), new Required(), new SearchRanking(SearchRanking::MIDDLE_SEARCH_RANKING))->setDescription('First name of the customer.'),
             new StringField('last_name', 'lastName', self::MAX_LENGTH_LAST_NAME)->addFlags(new ApiAware(), new Required(), new SearchRanking(SearchRanking::MIDDLE_SEARCH_RANKING))->setDescription('Last name of the customer.'),
             new StringField('zipcode', 'zipcode', self::MAX_LENGTH_ZIPCODE)->addFlags(new ApiAware())->setDescription('Postal or zip code of customer\'s address.'),
@@ -83,7 +81,6 @@ class CustomerAddressDefinition extends EntityDefinition
             new ManyToOneAssociationField('customer', 'customer_id', CustomerDefinition::class, 'id', false),
             new ManyToOneAssociationField('country', 'country_id', CountryDefinition::class, 'id', false)->addFlags(new ApiAware()),
             new ManyToOneAssociationField('countryState', 'country_state_id', CountryStateDefinition::class, 'id', false)->addFlags(new ApiAware()),
-            new ManyToOneAssociationField('salutation', 'salutation_id', SalutationDefinition::class, 'id', false)->addFlags(new ApiAware()),
         ]);
     }
 }

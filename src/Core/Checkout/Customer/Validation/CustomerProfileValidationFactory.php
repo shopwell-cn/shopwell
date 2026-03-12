@@ -3,12 +3,10 @@
 namespace Shopwell\Core\Checkout\Customer\Validation;
 
 use Shopwell\Core\Checkout\Customer\CustomerDefinition;
-use Shopwell\Core\Framework\DataAbstractionLayer\Validation\EntityExists;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Validation\DataValidationDefinition;
 use Shopwell\Core\Framework\Validation\DataValidationFactoryInterface;
 use Shopwell\Core\System\SalesChannel\SalesChannelContext;
-use Shopwell\Core\System\Salutation\SalutationDefinition;
 use Shopwell\Core\System\SystemConfig\SystemConfigService;
 use Symfony\Component\Validator\Constraints\Choice;
 use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
@@ -51,7 +49,6 @@ class CustomerProfileValidationFactory implements DataValidationFactoryInterface
     private function addConstraints(DataValidationDefinition $definition, SalesChannelContext $context): void
     {
         $definition
-            ->add('salutationId', new EntityExists(entity: SalutationDefinition::ENTITY_NAME, context: $context->getContext()))
             ->add('title', new Length(max: CustomerDefinition::MAX_LENGTH_TITLE))
             ->add('firstName', new NotBlank(), new Length(max: CustomerDefinition::MAX_LENGTH_FIRST_NAME))
             ->add('lastName', new NotBlank(), new Length(max: CustomerDefinition::MAX_LENGTH_LAST_NAME))

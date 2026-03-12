@@ -51,18 +51,17 @@ use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\System\Language\LanguageDefinition;
 use Shopwell\Core\System\NumberRange\DataAbstractionLayer\NumberRangeField;
 use Shopwell\Core\System\SalesChannel\SalesChannelDefinition;
-use Shopwell\Core\System\Salutation\SalutationDefinition;
 use Shopwell\Core\System\Tag\TagDefinition;
 use Shopwell\Core\System\User\UserDefinition;
 
 #[Package('checkout')]
 class CustomerDefinition extends EntityDefinition
 {
-    public const ENTITY_NAME = 'customer';
+    public const string ENTITY_NAME = 'customer';
 
-    public const MAX_LENGTH_FIRST_NAME = 255;
-    public const MAX_LENGTH_LAST_NAME = 255;
-    public const MAX_LENGTH_TITLE = 100;
+    public const int MAX_LENGTH_FIRST_NAME = 255;
+    public const int MAX_LENGTH_LAST_NAME = 255;
+    public const int MAX_LENGTH_TITLE = 100;
 
     public function getEntityName(): string
     {
@@ -108,7 +107,6 @@ class CustomerDefinition extends EntityDefinition
             new FkField('default_shipping_address_id', 'defaultShippingAddressId', CustomerAddressDefinition::class)->addFlags(new ApiAware(), new Required(), new NoConstraint())->setDescription('Unique identity of default shipping address.'),
             new AutoIncrementField(),
             new NumberRangeField('customer_number', 'customerNumber', 255)->addFlags(new ApiAware(), new Required(), new SearchRanking(SearchRanking::HIGH_SEARCH_RANKING))->setDescription('Unique  number assigned to identity a customer.'),
-            new FkField('salutation_id', 'salutationId', SalutationDefinition::class)->addFlags(new ApiAware())->setDescription('Unique identity of salutation.'),
             new StringField('first_name', 'firstName', self::MAX_LENGTH_FIRST_NAME)->addFlags(new ApiAware(), new Required(), new SearchRanking(SearchRanking::MIDDLE_SEARCH_RANKING))->setDescription('First name of the customer.'),
             new StringField('last_name', 'lastName', self::MAX_LENGTH_LAST_NAME)->addFlags(new ApiAware(), new Required(), new SearchRanking(SearchRanking::HIGH_SEARCH_RANKING))->setDescription('Last name of the customer.'),
             new StringField('company', 'company')->addFlags(new ApiAware(), new IgnoreInOpenapiSchema(), new SearchRanking(SearchRanking::HIGH_SEARCH_RANKING))->setDescription('Company name of the customer.'),
@@ -143,7 +141,6 @@ class CustomerDefinition extends EntityDefinition
             new ManyToOneAssociationField('activeBillingAddress', 'active_billing_address_id', CustomerAddressDefinition::class, 'id', false)->addFlags(new ApiAware(), new Runtime())->setDescription('Currently active billing address in the session'),
             new ManyToOneAssociationField('defaultShippingAddress', 'default_shipping_address_id', CustomerAddressDefinition::class, 'id', false)->addFlags(new ApiAware(), new SearchRanking(SearchRanking::ASSOCIATION_SEARCH_RANKING))->setDescription('Default shipping address for the customer'),
             new ManyToOneAssociationField('activeShippingAddress', 'active_shipping_address_id', CustomerAddressDefinition::class, 'id', false)->addFlags(new ApiAware(), new Runtime())->setDescription('Currently active shipping address in the session'),
-            new ManyToOneAssociationField('salutation', 'salutation_id', SalutationDefinition::class, 'id', false)->addFlags(new ApiAware())->setDescription('Customer salutation (e.g., Mr., Mrs., Ms.)'),
             new OneToManyAssociationField('addresses', CustomerAddressDefinition::class, 'customer_id', 'id')->addFlags(new ApiAware(), new CascadeDelete())->setDescription('All addresses saved for the customer'),
             new OneToManyAssociationField('orderCustomers', OrderCustomerDefinition::class, 'customer_id', 'id')->addFlags(new SetNullOnDelete()),
             new ManyToManyAssociationField('tags', TagDefinition::class, CustomerTagDefinition::class, 'customer_id', 'tag_id')->addFlags(new SearchRanking(SearchRanking::ASSOCIATION_SEARCH_RANKING), new ApiAware())->setDescription('Tags assigned to the customer for organization and segmentation'),

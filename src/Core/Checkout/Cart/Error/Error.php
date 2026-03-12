@@ -2,7 +2,6 @@
 
 namespace Shopwell\Core\Checkout\Cart\Error;
 
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Struct\AssignArrayInterface;
 use Shopwell\Core\Framework\Struct\AssignArrayTrait;
@@ -104,15 +103,6 @@ abstract class Error extends \Exception implements \JsonSerializable, AssignArra
         $data['parameters'] = $this->getParameters();
         $data['block'] = $this->blockOrder();
         $data['blockResubmit'] = $this->blockResubmit();
-
-        Feature::callSilentIfInactive('v6.8.0.0', function () use (&$data): void {
-            if ($route = $this->getRoute()) {
-                $data['route'] = [
-                    'key' => $route->getKey(),
-                    'params' => $route->getParams(),
-                ];
-            }
-        });
 
         unset($data['file'], $data['line']);
 

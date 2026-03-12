@@ -17,7 +17,6 @@ use Shopwell\Core\Framework\DataAbstractionLayer\EntityIdTrait;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\System\Language\LanguageEntity;
 use Shopwell\Core\System\SalesChannel\SalesChannelEntity;
-use Shopwell\Core\System\Salutation\SalutationEntity;
 use Shopwell\Core\System\Tag\TagCollection;
 use Shopwell\Core\System\User\UserEntity;
 
@@ -27,8 +26,8 @@ class CustomerEntity extends Entity implements \Stringable
     use EntityCustomFieldsTrait;
     use EntityIdTrait;
 
-    final public const ACCOUNT_TYPE_PRIVATE = 'private';
-    final public const ACCOUNT_TYPE_BUSINESS = 'business';
+    final public const string ACCOUNT_TYPE_PRIVATE = 'private';
+    final public const string ACCOUNT_TYPE_BUSINESS = 'business';
 
     protected string $groupId;
 
@@ -122,8 +121,6 @@ class CustomerEntity extends Entity implements \Stringable
     protected ?LanguageEntity $language = null;
 
     protected ?PaymentMethodEntity $lastPaymentMethod = null;
-
-    protected ?SalutationEntity $salutation = null;
 
     protected ?CustomerAddressEntity $defaultBillingAddress = null;
 
@@ -572,16 +569,6 @@ class CustomerEntity extends Entity implements \Stringable
     public function setLastPaymentMethod(PaymentMethodEntity $lastPaymentMethod): void
     {
         $this->lastPaymentMethod = $lastPaymentMethod;
-    }
-
-    public function getSalutation(): ?SalutationEntity
-    {
-        return $this->salutation;
-    }
-
-    public function setSalutation(SalutationEntity $salutation): void
-    {
-        $this->salutation = $salutation;
     }
 
     public function getDefaultBillingAddress(): ?CustomerAddressEntity

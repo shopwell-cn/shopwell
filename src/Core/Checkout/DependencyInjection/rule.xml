@@ -329,10 +329,6 @@
             <tag name="shopwell.rule.definition"/>
         </service>
 
-        <service id="Shopwell\Core\Checkout\Customer\Rule\CustomerSalutationRule">
-            <tag name="shopwell.rule.definition" />
-        </service>
-
         <service id="Shopwell\Core\Checkout\Customer\Rule\DaysSinceLastLoginRule">
             <tag name="shopwell.rule.definition"/>
         </service>

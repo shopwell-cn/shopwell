@@ -893,16 +893,6 @@ class SalesChannelEntity extends Entity
         $this->navigationCategoryVersionId = $navigationCategoryVersionId;
     }
 
-    public function getHomeCmsPageVersionId(): ?string
-    {
-        return $this->homeCmsPageVersionId;
-    }
-
-    public function setHomeCmsPageVersionId(?string $homeCmsPageVersionId): void
-    {
-        $this->homeCmsPageVersionId = $homeCmsPageVersionId;
-    }
-
     public function getFooterCategoryVersionId(): ?string
     {
         return $this->footerCategoryVersionId;

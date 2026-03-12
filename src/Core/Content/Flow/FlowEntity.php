@@ -25,15 +25,19 @@ class FlowEntity extends Entity
     public bool $active;
 
     public int $priority;
+
     public ?string $appFlowEventId = null;
+
     public ?AppFlowEventEntity $appFlowEvent = null;
+
+    public bool $invalid;
+
+    public ?FlowSequenceCollection $sequences = null;
+
     /**
      * @internal
      */
     protected string|Flow|null $payload = null;
-
-    public bool $invalid;
-    public ?FlowSequenceCollection $sequences = null;
 
     /**
      * @internal
@@ -56,5 +60,4 @@ class FlowEntity extends Entity
     {
         $this->payload = $payload;
     }
-
 }

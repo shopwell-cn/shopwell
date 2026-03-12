@@ -23,7 +23,6 @@ use Shopwell\Core\Checkout\Order\Aggregate\OrderLineItem\OrderLineItemEntity;
 use Shopwell\Core\Checkout\Order\OrderEntity;
 use Shopwell\Core\Checkout\Promotion\Aggregate\PromotionDiscount\PromotionDiscountEntity;
 use Shopwell\Core\Framework\DataAbstractionLayer\Pricing\CashRoundingConfig;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\System\SalesChannel\SalesChannelDefinition;
 
@@ -216,9 +215,6 @@ class ZugferdDocument
             foreach ($delivery->getShippingCosts()->getCalculatedTaxes() as $calculatedTax) {
                 $actualAmount = $this->getPriceWithFallback($calculatedTax, $delivery->getShippingCosts());
 
-                if (!Feature::isActive('v6.8.0.0')) {
-                    $this->addChargeAmount($actualAmount);
-                }
                 $this->zugferdBuilder->addDocumentAllowanceCharge(
                     $actualAmount,
                     true,

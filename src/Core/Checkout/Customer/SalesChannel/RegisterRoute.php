@@ -27,7 +27,6 @@ use Shopwell\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopwell\Core\Framework\DataAbstractionLayer\Validation\EntityExists;
 use Shopwell\Core\Framework\Event\DataMappingEvent;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Plugin\Exception\DecorationPatternException;
 use Shopwell\Core\Framework\Routing\StoreApiRouteScope;
@@ -590,16 +589,6 @@ class RegisterRoute extends AbstractRegisterRoute
 
     private function requiredVatIdField(string $countryId, SalesChannelContext $context): bool
     {
-        if (!Feature::isActive('v6.8.0.0')) {
-            $country = $this->countryRepository->search(new Criteria([$countryId]), $context)->get($countryId);
-
-            if (!$country) {
-                throw CustomerException::countryNotFound($countryId);
-            }
-
-            return $country->getVatIdRequired();
-        }
-
         $countryCriteria = new Criteria([$countryId])
             ->addFields(['vatIdRequired']);
 
