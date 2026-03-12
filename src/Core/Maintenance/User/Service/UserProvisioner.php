@@ -17,7 +17,7 @@ use Shopwell\Core\Maintenance\MaintenanceException;
 #[Package('framework')]
 class UserProvisioner
 {
-    final public const USER_EMAIL_FALLBACK = 'user@example.com';
+    final public const string USER_EMAIL_FALLBACK = 'user@example.com';
 
     /**
      * @internal

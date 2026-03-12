@@ -19,73 +19,8 @@
     <services>
         <defaults public="true"/>
 
-        <service id="Shopwell\Core\Test\Integration\PaymentHandler\TestPaymentHandler">
-            <argument type="service" id="Shopwell\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler"/>
-            <tag name="shopwell.payment.method"/>
-        </service>
-
         <service id="Shopwell\Core\Framework\Test\Filesystem\Adapter\MemoryAdapterFactory">
             <tag name="shopwell.filesystem.factory"/>
-        </service>
-
-        <service id="Shopwell\Core\Framework\Test\DataAbstractionLayer\Field\TestDefinition\NamedDefinition">
-            <tag name="shopwell.entity.definition"/>
-        </service>
-
-        <service id="Shopwell\Core\Framework\Test\DataAbstractionLayer\Field\TestDefinition\NamedOptionalGroupDefinition">
-            <tag name="shopwell.entity.definition"/>
-        </service>
-
-        <service id="Shopwell\Core\Framework\Test\DataAbstractionLayer\Field\TestDefinition\RootDefinition">
-            <tag name="shopwell.entity.definition" entity="root" />
-        </service>
-
-        <service id="Shopwell\Core\Framework\Test\DataAbstractionLayer\Field\TestDefinition\SubDefinition">
-            <tag name="shopwell.entity.definition" entity="root_sub" />
-        </service>
-
-        <service id="Shopwell\Core\Framework\Test\DataAbstractionLayer\Field\TestDefinition\SubCascadeDefinition">
-            <tag name="shopwell.entity.definition" entity="root_sub_cascade" />
-        </service>
-
-        <service id="Shopwell\Core\Framework\Test\DataAbstractionLayer\Field\TestDefinition\SubManyDefinition">
-            <tag name="shopwell.entity.definition" entity="root_sub_many" />
-        </service>
-
-        <service id="Shopwell\Core\Framework\Test\DataAbstractionLayer\Write\Validation\TestDefinition\TestDefinition">
-            <tag name="shopwell.entity.definition" entity="_test_lock" />
-        </service>
-
-        <service id="Shopwell\Core\Framework\Test\DataAbstractionLayer\Write\Validation\TestDefinition\TestTranslationDefinition">
-            <tag name="shopwell.entity.definition" entity="_test_lock_translation" />
-        </service>
-
-        <service id="Shopwell\Core\Framework\Test\DataAbstractionLayer\Field\TestDefinition\CustomFieldTestDefinition">
-            <tag name="shopwell.entity.definition" entity="attribute_test" />
-        </service>
-
-        <service id="Shopwell\Core\Framework\Test\DataAbstractionLayer\Field\TestDefinition\CustomFieldTestTranslationDefinition">
-            <tag name="shopwell.entity.definition" entity="attribute_test_translation" />
-        </service>
-
-        <service id="Shopwell\Core\Framework\Test\DataAbstractionLayer\Field\TestDefinition\WriteProtectedDefinition">
-            <tag name="shopwell.entity.definition" entity="_test_nullable" />
-        </service>
-
-        <service id="Shopwell\Core\Framework\Test\DataAbstractionLayer\Field\TestDefinition\WriteProtectedRelationDefinition">
-            <tag name="shopwell.entity.definition" entity="_test_relation" />
-        </service>
-
-        <service id="Shopwell\Core\Framework\Test\DataAbstractionLayer\Field\TestDefinition\WriteProtectedReferenceDefinition">
-            <tag name="shopwell.entity.definition" entity="_test_nullable_reference" />
-        </service>
-
-        <service id="Shopwell\Core\Framework\Test\DataAbstractionLayer\Field\TestDefinition\ExtendedProductDefinition">
-            <tag name="shopwell.entity.definition" entity="extended_product" />
-        </service>
-
-        <service id="Shopwell\Core\Framework\Test\DataAbstractionLayer\Field\TestDefinition\DateTimeDefinition">
-            <tag name="shopwell.entity.definition" entity="date_time_test" />
         </service>
 
         <service id="messenger.test_receiver_locator" alias="messenger.receiver_locator" public="true"/>
@@ -110,60 +45,10 @@
 
         <service id="Monolog\Handler\NullHandler"/>
 
-        <service id="Shopwell\Core\Framework\Test\MessageQueue\fixtures\TestMessageHandler">
-            <tag name="messenger.message_handler"/>
-        </service>
-
-        <service id="Shopwell\Core\Content\Test\Category\Service\CountingEntityReader" decorates="Shopwell\Core\Framework\DataAbstractionLayer\Read\EntityReaderInterface">
-            <argument type="service" id="Shopwell\Core\Content\Test\Category\Service\CountingEntityReader.inner"/>
-        </service>
-
-        <service id="Shopwell\Core\Content\Test\Category\Service\CountingEntitySearcher" decorates="Shopwell\Core\Framework\DataAbstractionLayer\Search\EntitySearcherInterface">
-            <argument type="service" id="Shopwell\Core\Content\Test\Category\Service\CountingEntitySearcher.inner"/>
-        </service>
-
-        <service id="Shopwell\Core\Framework\Test\TestCacheClearer">
-            <argument type="collection">
-                <argument type="service" id="cache.object" />
-                <argument type="service" id="cache.http" />
-            </argument>
-            <argument type="service" id="cache_clearer"/>
-            <argument>%kernel.cache_dir%</argument>
-        </service>
-
-        <service id="shopwell.app_system.guzzle" class="GuzzleHttp\Client">
-            <argument type="collection">
-                <argument key="handler" type="service">
-                    <service class="GuzzleHttp\HandlerStack">
-                        <factory class="GuzzleHttp\HandlerStack" method="create" />
-                        <argument type="service" id="Shopwell\Core\Test\Integration\App\TestAppServer"/>
-                        <call method="push">
-                            <argument type="service" id="shopwell.app_system.guzzle.middleware"/>
-                        </call>
-                        <call method="push">
-                            <argument type="service" id="test.guzzle.history.middleware"/>
-                        </call>
-                    </service>
-                </argument>
-            </argument>
-        </service>
-
-        <service id="Shopwell\Core\Test\Integration\App\TestAppServer">
-            <argument type="service" id="GuzzleHttp\Handler\MockHandler"/>
-        </service>
-
         <service id="GuzzleHttp\Handler\MockHandler" public="true">
             <argument type="collection">
             </argument>
         </service>
-
-        <service id="test.guzzle.history.middleware" class="callable">
-            <factory service="Shopwell\Core\Test\Integration\App\GuzzleHistoryCollector" method="getHistoryMiddleWare"/>
-        </service>
-
-        <service id="Shopwell\Core\Test\Integration\App\GuzzleHistoryCollector" public="true" />
-
-        <service id="Shopwell\Core\Framework\Test\Api\Acl\fixtures\AclTestController" public="true"/>
 
         <service id="test_payment_decoration" class="Shopwell\Core\Framework\App\Payment\Handler\AppPaymentHandler" decorates="Shopwell\Core\Framework\App\Payment\Handler\AppPaymentHandler">
             <argument type="service" id="Shopwell\Core\System\StateMachine\StateMachineRegistry"/>
@@ -174,7 +59,6 @@
             <argument type="service" id="Doctrine\DBAL\Connection"/>
         </service>
 
-        <service id="Shopwell\Core\Framework\Test\TestSessionStorageFactory" decorates="session.storage.factory.mock_file"/>
     </services>
 
 </container>
