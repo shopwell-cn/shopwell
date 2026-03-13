@@ -7,7 +7,6 @@ use Shopwell\Core\Checkout\Order\OrderCollection;
 use Shopwell\Core\Checkout\Payment\Cart\Token\PaymentToken;
 use Shopwell\Core\Checkout\Payment\Cart\Token\PaymentTokenGenerator;
 use Shopwell\Core\Checkout\Payment\Cart\Token\PaymentTokenLifecycle;
-use Shopwell\Core\Checkout\Payment\Cart\Token\TokenStruct;
 use Shopwell\Core\Checkout\Payment\PaymentException;
 use Shopwell\Core\Checkout\Payment\PaymentProcessor;
 use Shopwell\Core\Framework\Adapter\Request\RequestParamHelper;
@@ -89,17 +88,10 @@ class PaymentController extends AbstractController
         $salesChannelContext = $this->assembleSalesChannelContext($token->transactionId, $token->jti ?? $paymentToken);
 
         try {
-            $deprecatedParameter = null;
-            Feature::silent('v6.8.0.0', static function () use (&$deprecatedParameter): void {
-                $deprecatedParameter ??= new TokenStruct();
-            });
-            \assert($deprecatedParameter instanceof TokenStruct);
-
             $this->paymentProcessor->finalize(
-                $deprecatedParameter,
+                $token,
                 $request,
                 $salesChannelContext,
-                $token,
             );
 
             return $this->handleFinish($token);
