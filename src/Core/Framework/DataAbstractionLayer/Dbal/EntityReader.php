@@ -467,8 +467,8 @@ class EntityReader implements EntityReaderInterface
                 '(SELECT GROUP_CONCAT(HEX(#alias#.#mapping_reference_column#) SEPARATOR \'||\')
                   FROM #mapping_table# #alias#
                   WHERE #alias#.#mapping_local_column# = #source#'
-                  . $versionCondition
-                  . ' ) as #property#'
+                . $versionCondition
+                . ' ) as #property#'
             )
         );
     }
@@ -798,24 +798,26 @@ class EntityReader implements EntityReaderInterface
         // collect all ids of many-to-many association which already stored inside the struct instances
         $ids = $this->collectManyToManyIds($collection, $association);
 
-        if ($ids !== []) {
-            $criteria->setIds($ids);
-        }
-
         $referenceClass = $association->getToManyReferenceDefinition();
         /** @var EntityCollection<Entity> $collectionClass */
         $collectionClass = $referenceClass->getCollectionClass();
 
-        $data = $this->_read(
-            $criteria,
-            $referenceClass,
-            $context,
-            new $collectionClass(),
-            $referenceClass->getFields()->getBasicFields(),
-            false,
-            $fieldsForPartialLoading,
-            $isPartialLoading,
-        );
+        if ($ids !== []) {
+            $criteria->setIds($ids);
+
+            $data = $this->_read(
+                $criteria,
+                $referenceClass,
+                $context,
+                new $collectionClass(),
+                $referenceClass->getFields()->getBasicFields(),
+                false,
+                $fieldsForPartialLoading,
+                $isPartialLoading,
+            );
+        } else {
+            $data = new $collectionClass();
+        }
 
         foreach ($collection as $struct) {
             $extension = $struct->getExtension(self::INTERNAL_MAPPING_STORAGE);
@@ -1092,7 +1094,7 @@ class EntityReader implements EntityReaderInterface
             . EntityDefinitionQueryHelper::escape($foreignKey);
 
         $query->select(
-            // build select with an internal counter loop, the counter loop will be reset if the foreign key changed (this is the reason for the sorting inject above)
+        // build select with an internal counter loop, the counter loop will be reset if the foreign key changed (this is the reason for the sorting inject above)
             '@n:=IF(@c=' . $sqlAccessor . ', @n+1, IF(@c:=' . $sqlAccessor . ',1,1)) as id_count',
 
             // add select for foreign key for join condition
@@ -1255,7 +1257,7 @@ class EntityReader implements EntityReaderInterface
             || $fieldCriteria->getSorting() !== []
             || $fieldCriteria->getFilters() !== []
             || $fieldCriteria->getPostFilters() !== []
-        ;
+            ;
     }
 
     private function addAssociationFieldsToCriteria(
