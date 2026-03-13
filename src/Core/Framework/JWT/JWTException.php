@@ -9,11 +9,11 @@ use Symfony\Component\HttpFoundation\Response;
 #[Package('checkout')]
 class JWTException extends HttpException
 {
-    private const INVALID_JWT = 'UTIL__INVALID_JWT';
-    private const INVALID_JWK = 'UTIL__INVALID_JWK';
-    private const MISSING_DOMAIN = 'UTIL__MISSING_DOMAIN';
-    private const INVALID_DOMAIN = 'UTIL__INVALID_DOMAIN';
-    private const INVALID_TYPE = 'UTIL__INVALID_TYPE';
+    private const string INVALID_JWT = 'UTIL__INVALID_JWT';
+    private const string INVALID_JWK = 'UTIL__INVALID_JWK';
+    private const string MISSING_DOMAIN = 'UTIL__MISSING_DOMAIN';
+    private const string INVALID_DOMAIN = 'UTIL__INVALID_DOMAIN';
+    private const string INVALID_TYPE = 'UTIL__INVALID_TYPE';
 
     public static function invalidJwt(string $reason, ?\Exception $e = null): self
     {

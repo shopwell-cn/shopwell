@@ -22,7 +22,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[Package('checkout')]
 final readonly class HasValidRSAJWKSignature implements Constraint
 {
-    private const ALGORITHMS = ['RS256', 'RS384', 'RS512'];
+    private const array ALGORITHMS = ['RS256', 'RS384', 'RS512'];
 
     public function __construct(private JWKCollection $jwks)
     {
