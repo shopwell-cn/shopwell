@@ -74,6 +74,7 @@ use Shopwell\Core\Framework\App\Lifecycle\AppLifecycle;
 use Shopwell\Core\Framework\App\Lifecycle\AppLifecycleIterator;
 use Shopwell\Core\Framework\App\Lifecycle\AppLoader;
 use Shopwell\Core\Framework\App\Lifecycle\AppSecretRotationService;
+use Shopwell\Core\Framework\App\Lifecycle\PermissionLifecycleService;
 use Shopwell\Core\Framework\App\Lifecycle\Persister\ActionButtonPersister;
 use Shopwell\Core\Framework\App\Lifecycle\Persister\CmsBlockPersister;
 use Shopwell\Core\Framework\App\Lifecycle\Persister\CustomFieldPersister;
@@ -81,7 +82,6 @@ use Shopwell\Core\Framework\App\Lifecycle\Persister\FlowActionPersister;
 use Shopwell\Core\Framework\App\Lifecycle\Persister\FlowEventPersister;
 use Shopwell\Core\Framework\App\Lifecycle\Persister\ModulePersister;
 use Shopwell\Core\Framework\App\Lifecycle\Persister\PaymentMethodPersister;
-use Shopwell\Core\Framework\App\Lifecycle\Persister\PermissionPersister;
 use Shopwell\Core\Framework\App\Lifecycle\Persister\RuleConditionPersister;
 use Shopwell\Core\Framework\App\Lifecycle\Persister\ScriptPersister;
 use Shopwell\Core\Framework\App\Lifecycle\Persister\ShippingMethodPersister;
@@ -159,7 +159,6 @@ use Shopwell\Core\System\SystemConfig\Util\ConfigReader;
 use Shopwell\Storefront\Theme\ThemeAppLifecycleHandler;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
-
 use function Symfony\Component\DependencyInjection\Loader\Configurator\inline_service;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_iterator;
@@ -215,7 +214,7 @@ return static function (ContainerConfigurator $container): void {
         ->args([service(HookableEventCollector::class)])
         ->tag('shopwell.app_manifest.validator');
 
-    $services->set(PermissionPersister::class)
+    $services->set(PermissionLifecycleService::class)
         ->args([
             service(Connection::class),
             service(Privileges::class),
@@ -460,7 +459,7 @@ return static function (ContainerConfigurator $container): void {
         ->args([
             tagged_iterator('shopwell.app_lifecycle.persister'),
             service('app.repository'),
-            service(PermissionPersister::class),
+            service(PermissionLifecycleService::class),
             service('event_dispatcher'),
             service(AppRegistrationService::class),
             service(AppStateService::class),

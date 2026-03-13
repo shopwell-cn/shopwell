@@ -4,7 +4,7 @@ use Doctrine\DBAL\Connection;
 use Shopwell\Core\Framework\App\AppStateService;
 use Shopwell\Core\Framework\App\DeletedApps\DeletedAppsGateway;
 use Shopwell\Core\Framework\App\Lifecycle\AppLifecycle;
-use Shopwell\Core\Framework\App\Lifecycle\Persister\PermissionPersister;
+use Shopwell\Core\Framework\App\Lifecycle\PermissionLifecycleService;
 use Shopwell\Core\Framework\App\Lifecycle\Registration\AppRegistrationService;
 use Shopwell\Core\Framework\App\Source\NoDatabaseSourceResolver;
 use Shopwell\Core\Framework\App\Source\SourceResolver;
@@ -16,7 +16,6 @@ use Shopwell\Core\System\CustomEntity\Schema\CustomEntitySchemaUpdater;
 use Shopwell\Core\System\SystemConfig\SystemConfigService;
 use Shopwell\Core\System\SystemConfig\Util\ConfigReader;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_iterator;
 
@@ -28,7 +27,7 @@ return static function (ContainerConfigurator $container): void {
         ->args([
             tagged_iterator('shopwell.app_lifecycle.persister'),
             service('app.repository'),
-            service(PermissionPersister::class),
+            service(PermissionLifecycleService::class),
             service('event_dispatcher'),
             service(AppRegistrationService::class),
             service(AppStateService::class),

@@ -23,7 +23,6 @@ use Shopwell\Core\Framework\App\Event\PostAppDeletedEvent;
 use Shopwell\Core\Framework\App\Exception\AppRegistrationException;
 use Shopwell\Core\Framework\App\Lifecycle\Parameters\AppInstallParameters;
 use Shopwell\Core\Framework\App\Lifecycle\Parameters\AppUpdateParameters;
-use Shopwell\Core\Framework\App\Lifecycle\Persister\PermissionPersister;
 use Shopwell\Core\Framework\App\Lifecycle\Persister\PersisterInterface;
 use Shopwell\Core\Framework\App\Lifecycle\Registration\AppRegistrationService;
 use Shopwell\Core\Framework\App\Manifest\Manifest;
@@ -64,19 +63,19 @@ class AppLifecycle extends AbstractAppLifecycle
      * @param iterable<PersisterInterface> $persisters
      */
     public function __construct(
-        private readonly iterable $persisters,
-        private readonly EntityRepository $appRepository,
-        private readonly PermissionPersister $permissionPersister,
-        private readonly EventDispatcherInterface $eventDispatcher,
-        private readonly AppRegistrationService $registrationService,
-        private readonly AppStateService $appStateService,
-        private readonly EntityRepository $languageRepository,
-        private readonly SystemConfigService $systemConfigService,
-        private readonly ConfigValidator $configValidator,
-        private readonly EntityRepository $integrationRepository,
-        private readonly EntityRepository $aclRoleRepository,
-        private readonly AssetService $assetService,
-        private readonly ScriptExecutor $scriptExecutor,
+        private readonly iterable                   $persisters,
+        private readonly EntityRepository           $appRepository,
+        private readonly PermissionLifecycleService $permissionLifecycle,
+        private readonly EventDispatcherInterface   $eventDispatcher,
+        private readonly AppRegistrationService     $registrationService,
+        private readonly AppStateService            $appStateService,
+        private readonly EntityRepository           $languageRepository,
+        private readonly SystemConfigService        $systemConfigService,
+        private readonly ConfigValidator            $configValidator,
+        private readonly EntityRepository           $integrationRepository,
+        private readonly EntityRepository           $aclRoleRepository,
+        private readonly AssetService               $assetService,
+        private readonly ScriptExecutor             $scriptExecutor,
         private readonly string $projectDir,
         private readonly Connection $connection,
         private readonly CustomEntitySchemaUpdater $customEntitySchemaUpdater,
@@ -216,7 +215,7 @@ class AppLifecycle extends AbstractAppLifecycle
 
         $this->updateCustomEntities($app, $manifest);
 
-        $this->permissionPersister->updatePrivileges(
+        $this->permissionLifecycle->updatePrivileges(
             $manifest->getPermissions(),
             $id,
             $manifest->validatesPermissions() === false && $parameters->acceptPermissions,
@@ -308,10 +307,10 @@ class AppLifecycle extends AbstractAppLifecycle
                     'id' => $app->getIntegrationId(),
                     'deletedAt' => new \DateTimeImmutable(),
                 ]], $context);
-                $this->permissionPersister->softDeleteRole($app->getAclRoleId());
+                $this->permissionLifecycle->softDeleteRole($app->getAclRoleId());
             } else {
                 $this->integrationRepository->delete([['id' => $app->getIntegrationId()]], $context);
-                $this->permissionPersister->removeRole($app->getAclRoleId());
+                $this->permissionLifecycle->removeRole($app->getAclRoleId());
             }
 
             $this->deleteAclRole($app->getName(), $context);
