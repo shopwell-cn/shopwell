@@ -38,7 +38,7 @@ use Shopwell\Core\System\SalesChannel\SalesChannelDefinition;
 #[Package('checkout')]
 class PaymentMethodDefinition extends EntityDefinition
 {
-    final public const ENTITY_NAME = 'payment_method';
+    final public const string ENTITY_NAME = 'payment_method';
 
     public function getEntityName(): string
     {

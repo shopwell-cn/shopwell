@@ -63,9 +63,9 @@ use Shopwell\Core\System\SystemConfig\SystemConfigDefinition;
 #[Package('discovery')]
 class SalesChannelDefinition extends EntityDefinition
 {
-    final public const ENTITY_NAME = 'sales_channel';
-    final public const CALCULATION_TYPE_VERTICAL = 'vertical';
-    final public const CALCULATION_TYPE_HORIZONTAL = 'horizontal';
+    final public const string ENTITY_NAME = 'sales_channel';
+    final public const string CALCULATION_TYPE_VERTICAL = 'vertical';
+    final public const string CALCULATION_TYPE_HORIZONTAL = 'horizontal';
 
     public function getEntityName(): string
     {

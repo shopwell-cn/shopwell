@@ -99,7 +99,7 @@ class PaymentProcessor
         } finally {
             // has been nulled, if response is RedirectResponse, therefore we have a finalize step
             if ($encodedToken) {
-                if (($token ?? null) instanceof PaymentToken && $token->jti !== null) {
+                if ($token->jti !== null) {
                     $this->paymentTokenLifecycle->invalidateToken($token->jti);
                 }
             }
@@ -108,8 +108,8 @@ class PaymentProcessor
 
     public function finalize(PaymentToken $token, Request $request, SalesChannelContext $context): void
     {
-        $transactionId = $token instanceof PaymentToken ? $token->transactionId : $token->getTransactionId();
-        $paymentMethodId = $token instanceof PaymentToken ? $token->paymentMethodId : $token->getPaymentMethodId();
+        $transactionId = $token->transactionId;
+        $paymentMethodId = $token->paymentMethodId;
 
         $paymentHandler = $this->paymentHandlerRegistry->getPaymentMethodHandler($paymentMethodId);
         if (!$paymentHandler) {
@@ -126,14 +126,9 @@ class PaymentProcessor
                 $this->logger->error('An error occurred during finalizing async payment', ['orderTransactionId' => $transactionId, 'exceptionMessage' => $e->getMessage(), 'exception' => $e]);
                 $this->transactionStateHandler->fail($transactionId, $context->getContext());
             }
-
-            if ($token instanceof PaymentToken) {
-                throw $e;
-            }
-
-            $token->setException($e);
+            throw $e;
         } finally {
-            if ($token instanceof PaymentToken && $token->jti !== null) {
+            if ($token->jti !== null) {
                 $this->paymentTokenLifecycle->invalidateToken($token->jti);
             }
         }

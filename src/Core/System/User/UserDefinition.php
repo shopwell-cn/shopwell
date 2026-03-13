@@ -85,7 +85,6 @@ class UserDefinition extends EntityDefinition
             new PasswordField('password', 'password', \PASSWORD_DEFAULT, [], PasswordField::FOR_ADMIN)->removeFlag(ApiAware::class)->addFlags(new Required()),
             new StringField('first_name', 'firstName')->addFlags(new Required(), new SearchRanking(SearchRanking::HIGH_SEARCH_RANKING))->setDescription('First name of the user.'),
             new StringField('last_name', 'lastName')->addFlags(new Required(), new SearchRanking(SearchRanking::HIGH_SEARCH_RANKING))->setDescription('Last name of the user.'),
-            new StringField('title', 'title')->addFlags(new SearchRanking(SearchRanking::MIDDLE_SEARCH_RANKING))->setDescription('Title of the user.'),
             new EmailField('email', 'email')->addFlags(new Required(), new SearchRanking(SearchRanking::HIGH_SEARCH_RANKING))->setDescription('Email of the user.'),
             new BoolField('active', 'active')->setDescription('When boolean value is `true`, the user is enabled.'),
             new BoolField('admin', 'admin')->setDescription('Parameter that indicates if the user is an admin.'),

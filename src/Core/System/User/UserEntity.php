@@ -39,8 +39,6 @@ class UserEntity extends Entity
 
     protected string $lastName;
 
-    protected ?string $title = null;
-
     protected string $email;
 
     protected bool $active;
@@ -286,16 +284,6 @@ class UserEntity extends Entity
     public function setAclRoles(AclRoleCollection $aclRoles): void
     {
         $this->aclRoles = $aclRoles;
-    }
-
-    public function getTitle(): ?string
-    {
-        return $this->title;
-    }
-
-    public function setTitle(?string $title): void
-    {
-        $this->title = $title;
     }
 
     public function getCreatedOrders(): ?OrderCollection

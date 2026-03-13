@@ -37,6 +37,17 @@ class Migration1773153289PaymentGatewayConfig extends MigrationStep
 SQL;
         $connection->executeStatement($sql);
 
+        $sql = <<<'SQL'
+            CREATE TABLE `payment_token` (
+              `token` char(32) NOT NULL,
+              `expires` datetime(3) NOT NULL,
+              `gateway_name` VARCHAR(255) NULL,
+              `consumed` tinyint(1) DEFAULT 0,
+              PRIMARY KEY (`token`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+SQL;
+        $connection->executeStatement($sql);
+
         $hasData = $connection->executeQuery('SELECT 1 FROM `payment_gateway_config` LIMIT 1')->fetchAssociative();
         if ($hasData) {
             return;
