@@ -21,6 +21,20 @@ class CountryEntity extends Entity
     use EntityCustomFieldsTrait;
     use EntityIdTrait;
 
+    public ?string $iso3 = null;
+
+    public bool $isEu;
+
+    public bool $checkVatIdPattern;
+
+    public ?string $vatIdPattern = null;
+
+    public TaxFreeConfig $companyTax;
+
+    public bool $displayStateInRegistration;
+
+    public TaxFreeConfig $customerTax;
+
     protected ?string $name = null;
 
     protected ?string $iso = null;
@@ -30,12 +44,6 @@ class CountryEntity extends Entity
     protected bool $active;
 
     protected bool $shippingAvailable;
-
-    protected ?string $iso3 = null;
-
-    protected bool $displayStateInRegistration;
-
-    protected TaxFreeConfig $customerTax;
 
     protected ?CountryStateCollection $states = null;
 
@@ -116,16 +124,6 @@ class CountryEntity extends Entity
     public function setShippingAvailable(bool $shippingAvailable): void
     {
         $this->shippingAvailable = $shippingAvailable;
-    }
-
-    public function getIso3(): ?string
-    {
-        return $this->iso3;
-    }
-
-    public function setIso3(?string $iso3): void
-    {
-        $this->iso3 = $iso3;
     }
 
     public function getDisplayStateInRegistration(): bool

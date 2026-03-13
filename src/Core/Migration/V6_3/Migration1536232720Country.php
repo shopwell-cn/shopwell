@@ -26,6 +26,13 @@ class Migration1536232720Country extends MigrationStep
               `position` int(11) NOT NULL DEFAULT 1,
               `active` tinyint(1) NOT NULL DEFAULT 1,
               `iso3` varchar(45) DEFAULT NULL,
+              `is_eu` tinyint(1) NOT NULL DEFAULT 0,
+              `display_state_in_registration` tinyint(1) NOT NULL DEFAULT 0,
+              `force_state_in_registration` tinyint(1) NOT NULL DEFAULT 0,
+              `check_vat_id_pattern` tinyint(1) NOT NULL DEFAULT 0,
+              `company_tax` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`company_tax`)),
+              `vat_id_pattern` varchar(255) DEFAULT NULL,
+              `vat_id_required` tinyint(1) NOT NULL DEFAULT 0,
               `customer_tax` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`customer_tax`)),
               `advanced_postal_code_pattern` varchar(255) DEFAULT NULL,
               `check_advanced_postal_code_pattern` tinyint(1) NOT NULL DEFAULT 0,
@@ -89,61 +96,41 @@ class Migration1536232720Country extends MigrationStep
         ');
 
         $connection->executeStatement('
-            CREATE TABLE `country_state_city` (
-              `id`          BINARY(16)                              NOT NULL,
-              `state_id`  BINARY(16)                              NOT NULL,
-              `short_code`  VARCHAR(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-              `position`    INT(11)                                 NOT NULL DEFAULT 1,
-              `active`      TINYINT(1)                              NOT NULL DEFAULT 1,
-              `created_at`  DATETIME(3)                             NOT NULL,
-              `updated_at`  DATETIME(3)                             NULL,
+            CREATE TABLE `country_state_region` (
+              `id` binary(16) NOT NULL,
+              `state_id` binary(16) NOT NULL,
+              `parent_id` binary(16) DEFAULT NULL,
+              `short_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+              `path` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+              `level` int unsigned NOT NULL DEFAULT \'1\',
+              `child_count` int unsigned NOT NULL DEFAULT \'0\',
+              `position` int NOT NULL DEFAULT \'1\',
+              `active` tinyint(1) NOT NULL DEFAULT \'1\',
+              `lng` decimal(10,6)  NULL,
+              `lat` decimal(10,6)  NULL,
+              `created_at` datetime(3) NOT NULL,
+              `updated_at` datetime(3) DEFAULT NULL,
               PRIMARY KEY (`id`),
-              CONSTRAINT `fk.country_state_city.state_id` FOREIGN KEY (`state_id`)
-                REFERENCES `country_state` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+              KEY `fk.country_state_region.parent_id` (`parent_id`),
+              KEY `fk.country_state_region.state_id` (`state_id`),
+              CONSTRAINT `fk.country_state_region.parent_id` FOREIGN KEY (`parent_id`) REFERENCES `country_state_region` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+              CONSTRAINT `fk.country_state_region.state_id` FOREIGN KEY (`state_id`) REFERENCES `country_state` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
         ');
 
         $connection->executeStatement('
-            CREATE TABLE `country_state_city_translation` (
-              `country_state_city_id`    BINARY(16)                              NOT NULL,
-              `language_id`         BINARY(16)                              NOT NULL,
-              `name`                VARCHAR(255) COLLATE utf8mb4_unicode_ci NULL,
-              `custom_fields`       JSON                                    NULL,
-              `created_at`          DATETIME(3)                             NOT NULL,
-              `updated_at`          DATETIME(3)                             NULL,
-              PRIMARY KEY (`country_state_city_id`, `language_id`),
-              CONSTRAINT `json.country_state_city_translation.custom_fields` CHECK (JSON_VALID(`custom_fields`)),
-              CONSTRAINT `fk.country_state_city_translation.language_id` FOREIGN KEY (`language_id`) REFERENCES `language` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-              CONSTRAINT `fk.country_state_city_translation.country_state_city_id` FOREIGN KEY (`country_state_city_id`) REFERENCES `country_state_city` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-        ');
-
-        $connection->executeStatement('
-            CREATE TABLE `country_state_city_district` (
-              `id`          BINARY(16)                              NOT NULL,
-              `city_id`  BINARY(16)                              NOT NULL,
-              `short_code`  VARCHAR(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-              `position`    INT(11)                                 NOT NULL DEFAULT 1,
-              `active`      TINYINT(1)                              NOT NULL DEFAULT 1,
-              `created_at`  DATETIME(3)                             NOT NULL,
-              `updated_at`  DATETIME(3)                             NULL,
-              PRIMARY KEY (`id`),
-              CONSTRAINT `fk.country_state_city_district.city_id` FOREIGN KEY (`city_id`) REFERENCES `country_state_city` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-        ');
-
-        $connection->executeStatement('
-            CREATE TABLE `country_state_city_district_translation` (
-              `country_state_city_district_id`    BINARY(16)                              NOT NULL,
-              `language_id`         BINARY(16)                              NOT NULL,
-              `name`                VARCHAR(255) COLLATE utf8mb4_unicode_ci NULL,
-              `custom_fields`       JSON                                    NULL,
-              `created_at`          DATETIME(3)                             NOT NULL,
-              `updated_at`          DATETIME(3)                             NULL,
-              PRIMARY KEY (`country_state_city_district_id`, `language_id`),
-              CONSTRAINT `json.district_translation.custom_fields` CHECK (JSON_VALID(`custom_fields`)),
-              CONSTRAINT `fk.district_translation.language_id` FOREIGN KEY (`language_id`) REFERENCES `language` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-              CONSTRAINT `fk.district_translation.country_state_city_district_id` FOREIGN KEY (`country_state_city_district_id`) REFERENCES `country_state_city_district` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+            CREATE TABLE `country_state_region_translation` (
+              `country_state_region_id` binary(16) NOT NULL,
+              `language_id` binary(16) NOT NULL,
+              `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+              `custom_fields` json DEFAULT NULL,
+              `created_at` datetime(3) NOT NULL,
+              `updated_at` datetime(3) DEFAULT NULL,
+              PRIMARY KEY (`country_state_region_id`,`language_id`),
+              KEY `fk.country_state_region_translation.language_id` (`language_id`),
+              CONSTRAINT `fk.country_state_region_translation.country_state_region_id` FOREIGN KEY (`country_state_region_id`) REFERENCES `country_state_region` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+              CONSTRAINT `fk.country_state_region_translation.language_id` FOREIGN KEY (`language_id`) REFERENCES `language` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+              CONSTRAINT `json.country_state_region_translation.custom_fields` CHECK (json_valid(`custom_fields`))
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
         ');
     }

@@ -94,7 +94,7 @@ abstract class ZipCodeRule extends Rule
         }
 
         // Japanese post codes are separated by dashes but otherwise numeric, replace dashes for numeric expressions
-        if ($address->getCountry() && $address->getCountry()->getIso3() === 'JPN') {
+        if ($address->getCountry() && $address->getCountry()->iso3 === 'JPN') {
             $zipCode = str_replace('-', '', $zipCode);
         }
 

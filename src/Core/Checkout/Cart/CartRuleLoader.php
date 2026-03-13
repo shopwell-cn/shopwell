@@ -220,7 +220,7 @@ class CartRuleLoader implements ResetInterface
 
         $country = $context->getShippingLocation()->getCountry();
 
-        $isReachedCustomerTaxFreeAmount = $country->getCustomerTax()->getEnabled() && $this->isReachedCountryTaxFreeAmount($context, $country, $cartNetAmount);
+        $isReachedCustomerTaxFreeAmount = $country->customerTax->enabled && $this->isReachedCountryTaxFreeAmount($context, $country, $cartNetAmount);
 
         if ($isReachedCustomerTaxFreeAmount) {
             return CartPrice::TAX_STATE_FREE;
@@ -267,11 +267,11 @@ class CartRuleLoader implements ResetInterface
         float $cartNetAmount = 0,
     ): bool {
         $countryTaxFreeLimit = $country->getCustomerTax();
-        if (!$countryTaxFreeLimit->getEnabled()) {
+        if (!$countryTaxFreeLimit->enabled) {
             return false;
         }
 
-        $countryTaxFreeLimitAmount = $countryTaxFreeLimit->getAmount() / $this->fetchCurrencyFactor($countryTaxFreeLimit->getCurrencyId(), $context);
+        $countryTaxFreeLimitAmount = $countryTaxFreeLimit->amount / $this->fetchCurrencyFactor($countryTaxFreeLimit->currencyId, $context);
 
         $currency = $context->getCurrency();
 

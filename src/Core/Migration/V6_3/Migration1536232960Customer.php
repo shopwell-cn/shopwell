@@ -33,6 +33,8 @@ class Migration1536232960Customer extends MigrationStep
               `customer_number` varchar(255) NOT NULL,
               `gender` tinyint(1) NOT NULL DEFAULT 0,
               `nickname` varchar(255) NOT NULL,
+              `company` varchar(255) DEFAULT NULL,
+              `vat_ids` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`vat_ids`)),
               `phone_number` varchar(255) NULL,
               `avatar_id` binary(16) DEFAULT NULL,
               `password` varchar(1024) DEFAULT NULL,
