@@ -39,12 +39,6 @@ class ThemeMergedConfigBuilder
      */
     public function getPlainThemeConfiguration(string $themeId, Context $context): array
     {
-        $isLegacy = !Feature::isActive('v6.8.0.0');
-
-        if ($isLegacy) {
-            $translate = \func_num_args() === 3 ? func_get_arg(2) : false;
-        }
-
         $criteria = new Criteria()
             ->setTitle('theme-service::load-config');
 
@@ -65,20 +59,10 @@ class ThemeMergedConfigBuilder
         $themeConfigFieldFactory = new ThemeConfigFieldFactory();
         $configFields = [];
 
-        if ($isLegacy) {
-            $labels = array_replace_recursive($baseTheme->getLabels() ?? [], $theme->getLabels() ?? []);
-            $helpTexts = array_replace_recursive($baseTheme->getHelpTexts() ?? [], $theme->getHelpTexts() ?? []);
-        }
-
         if ($theme->getParentThemeId()) {
             foreach ($this->getParentThemes($this->themes, $theme) as $parentTheme) {
                 $configuredParentTheme = $this->mergeStaticConfig($parentTheme);
                 $baseThemeConfig = array_replace_recursive($baseThemeConfig, $configuredParentTheme);
-
-                if ($isLegacy) {
-                    $labels = array_replace_recursive($labels, $parentTheme->getLabels() ?? []);
-                    $helpTexts = array_replace_recursive($helpTexts, $parentTheme->getHelpTexts() ?? []);
-                }
             }
         }
 
@@ -97,16 +81,6 @@ class ThemeMergedConfigBuilder
         }
 
         $configFields = json_decode((string) json_encode($configFields, \JSON_THROW_ON_ERROR), true, 512, \JSON_THROW_ON_ERROR);
-
-        if ($isLegacy && $translate) {
-            if ($labels !== []) {
-                $configFields = $this->translateLabels($configFields, $labels);
-            }
-
-            if ($helpTexts !== []) {
-                $configFields = $this->translateHelpTexts($configFields, $helpTexts);
-            }
-        }
 
         // Check if the theme is a database copy of a physical theme.
         // If so, use the technical name of the parent theme.
@@ -172,23 +146,12 @@ class ThemeMergedConfigBuilder
      */
     public function getThemeConfigurationFieldStructure(string $themeId, Context $context): array
     {
-        $isLegacy = !Feature::isActive('v6.8.0.0');
-        if ($isLegacy) {
-            $translate = \func_num_args() === 3 ? func_get_arg(2) : false;
-            $themeConfig = $this->getPlainThemeConfiguration($themeId, $context, $translate);
-        } else {
-            $themeConfig = $this->getPlainThemeConfiguration($themeId, $context);
-        }
+        $themeConfig = $this->getPlainThemeConfiguration($themeId, $context);
 
         $themeTechnicalName = (string) $themeConfig['themeTechnicalName'];
         $mergedFieldConfig = $themeConfig['fields'];
 
         $translations = [];
-        if ($isLegacy && $translate) {
-            $translations = $this->getTranslations($themeId, $context);
-            $mergedFieldConfig = $this->translateLabels($mergedFieldConfig, $translations);
-        }
-
         $outputStructure = [];
 
         foreach ($mergedFieldConfig as $fieldName => $fieldConfig) {
@@ -457,32 +420,6 @@ class ThemeMergedConfigBuilder
         }
 
         return $themeConfiguration;
-    }
-
-    /**
-     * @return array<string, mixed>
-     */
-    private function getTranslations(string $themeId, Context $context): array
-    {
-        $theme = $this->themeRepository->search(new Criteria([$themeId]), $context)->getEntities()->first();
-        if (!$theme) {
-            throw ThemeException::couldNotFindThemeById($themeId);
-        }
-
-        $translations = $theme->getLabels() ?: [];
-
-        if ($theme->getTechnicalName() !== StorefrontPluginRegistry::BASE_THEME_NAME) {
-            $criteria = new Criteria()
-                ->setTitle('theme-service::load-translations');
-
-            $themes = $this->themeRepository->search($criteria, $context)->getEntities();
-            foreach ($this->getParentThemes($themes, $theme) as $parentTheme) {
-                $parentTranslations = $parentTheme->getLabels() ?: [];
-                $translations = array_replace_recursive($parentTranslations, $translations);
-            }
-        }
-
-        return $translations;
     }
 
     /**
