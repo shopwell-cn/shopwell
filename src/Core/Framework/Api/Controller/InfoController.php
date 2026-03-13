@@ -54,7 +54,6 @@ class InfoController extends AbstractController
         private readonly ParameterBagInterface $params,
         private readonly Kernel $kernel,
         private readonly BusinessEventCollector $eventCollector,
-        private readonly IncrementGatewayRegistry $incrementGatewayRegistry,
         private readonly Connection $connection,
         private readonly MigrationInfo $migrationInfo,
         private readonly AppUrlVerifier $appUrlVerifier,
@@ -169,10 +168,6 @@ class InfoController extends AbstractController
             'enableNotificationWorker' => $this->params->get('shopwell.admin_worker.enable_notification_worker'),
             'transports' => $this->params->get('shopwell.admin_worker.transports'),
         ];
-
-        if (!Feature::isActive('v6.8.0.0')) {
-            $adminWorker['enableQueueStatsWorker'] = $this->params->get('shopwell.admin_worker.enable_queue_stats_worker');
-        }
 
         $config = [
             'version' => $this->getShopwellVersion(),
@@ -379,7 +374,7 @@ WHERE app.active = 1 AND app.base_app_url is not null');
     private function getShopId(): string
     {
         try {
-            return $this->shopIdProvider->getShopId();
+            return $this->shopIdProvider->getShopId()->id;
         } catch (ShopIdChangeSuggestedException $e) {
             return $e->shopId->id;
         }

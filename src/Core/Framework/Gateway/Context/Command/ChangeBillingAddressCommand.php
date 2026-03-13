@@ -7,7 +7,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[Package('framework')]
 class ChangeBillingAddressCommand extends AbstractContextGatewayCommand
 {
-    public const COMMAND_KEY = 'context_change-billing-address';
+    public const string COMMAND_KEY = 'context_change-billing-address';
 
     public function __construct(
         public readonly string $addressId,

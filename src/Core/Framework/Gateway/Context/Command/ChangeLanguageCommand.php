@@ -7,7 +7,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[Package('framework')]
 class ChangeLanguageCommand extends AbstractContextGatewayCommand
 {
-    public const COMMAND_KEY = 'context_change-language';
+    public const string COMMAND_KEY = 'context_change-language';
 
     public function __construct(
         public readonly string $iso,

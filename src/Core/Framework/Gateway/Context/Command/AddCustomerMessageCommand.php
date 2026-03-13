@@ -7,7 +7,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[Package('framework')]
 class AddCustomerMessageCommand extends AbstractContextGatewayCommand
 {
-    public const COMMAND_KEY = 'context_add-customer-message';
+    public const string COMMAND_KEY = 'context_add-customer-message';
 
     /**
      * @internal

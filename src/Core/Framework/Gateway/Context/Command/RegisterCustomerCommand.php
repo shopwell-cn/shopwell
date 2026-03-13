@@ -7,7 +7,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[Package('framework')]
 class RegisterCustomerCommand extends AbstractContextGatewayCommand implements TokenCommandInterface
 {
-    public const COMMAND_KEY = 'context_register-customer';
+    public const string COMMAND_KEY = 'context_register-customer';
 
     /**
      * @param array<string, mixed> $data

@@ -7,7 +7,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[Package('framework')]
 class ChangeShippingLocationCommand extends AbstractContextGatewayCommand
 {
-    public const COMMAND_KEY = 'context_change-shipping-location';
+    public const string COMMAND_KEY = 'context_change-shipping-location';
 
     public function __construct(
         public readonly ?string $countryIso = null,

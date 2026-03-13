@@ -255,7 +255,6 @@ return static function (ContainerConfigurator $container): void {
             service('parameter_bag'),
             service('kernel'),
             service(BusinessEventCollector::class),
-            service('shopwell.increment.gateway.registry'),
             service(Connection::class),
             service(MigrationInfo::class),
             service(AppUrlVerifier::class),

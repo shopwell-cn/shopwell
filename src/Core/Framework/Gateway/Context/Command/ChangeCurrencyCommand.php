@@ -7,7 +7,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[Package('framework')]
 class ChangeCurrencyCommand extends AbstractContextGatewayCommand
 {
-    public const COMMAND_KEY = 'context_change-currency';
+    public const string COMMAND_KEY = 'context_change-currency';
 
     public function __construct(
         public readonly string $iso,

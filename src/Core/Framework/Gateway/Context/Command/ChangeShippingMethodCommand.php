@@ -7,7 +7,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[Package('framework')]
 class ChangeShippingMethodCommand extends AbstractContextGatewayCommand
 {
-    public const COMMAND_KEY = 'context_change-shipping-method';
+    public const string COMMAND_KEY = 'context_change-shipping-method';
 
     public function __construct(
         public readonly string $technicalName,
