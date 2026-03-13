@@ -23,6 +23,7 @@ class RedisCartPersister extends AbstractCartPersister
     final public const string PREFIX = 'cart-persister-';
     private const string SET_ONLY_IF_EXISTS = 'XX';
     private const string EXPIRES_IN_SECONDS = 'EX';
+
     /**
      * @param RedisTypeHint $redis
      *

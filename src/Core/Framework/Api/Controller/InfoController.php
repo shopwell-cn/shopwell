@@ -18,8 +18,6 @@ use Shopwell\Core\Framework\App\ShopId\ShopIdProvider;
 use Shopwell\Core\Framework\Bundle;
 use Shopwell\Core\Framework\Context;
 use Shopwell\Core\Framework\Event\BusinessEventCollector;
-use Shopwell\Core\Framework\Feature;
-use Shopwell\Core\Framework\Increment\IncrementGatewayRegistry;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\MessageQueue\Stats\StatsService;
 use Shopwell\Core\Framework\Migration\MigrationInfo;

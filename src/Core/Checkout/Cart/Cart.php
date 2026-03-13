@@ -22,6 +22,8 @@ class Cart extends Struct
 {
     use StateAwareTrait;
 
+    public bool $persisted = false;
+
     protected CartPrice $price;
 
     protected LineItemCollection $lineItems;
@@ -33,8 +35,6 @@ class Cart extends Struct
     protected TransactionCollection $transactions;
 
     protected bool $modified = false;
-    public bool $persisted = false;
-
 
     protected ?string $customerComment = null;
 

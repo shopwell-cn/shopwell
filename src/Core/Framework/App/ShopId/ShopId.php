@@ -24,10 +24,12 @@ readonly class ShopId implements \Stringable
         public int $version = 2,
     ) {
     }
+
     public function __toString(): string
     {
         return $this->id;
     }
+
     public function getFingerprint(string $identifier): ?string
     {
         return $this->fingerprints[$identifier] ?? null;
@@ -61,6 +63,7 @@ readonly class ShopId implements \Stringable
 
         throw AppException::invalidShopIdConfiguration();
     }
+
     /**
      * @return array{
      *    id: string,
@@ -76,6 +79,7 @@ readonly class ShopId implements \Stringable
             'version' => $this->version,
         ];
     }
+
     /**
      * @param array<string, mixed> $config
      */
