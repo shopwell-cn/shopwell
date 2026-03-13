@@ -18,9 +18,6 @@ $bundles = [
     Shopwell\Storefront\Storefront::class => ['all' => true],
     Shopwell\Elasticsearch\Elasticsearch::class => ['all' => true],
     Shopwell\Core\Service\Service::class => ['all' => true],
-    Shopwell\Core\Finance\Finance::class => ['all' => true],
-    Shopwell\Core\Marketing\Marketing::class => ['all' => true],
-    Shopwell\Core\Loyalty\Loyalty::class => ['all' => true],
 ];
 
 if (InstalledVersions::isInstalled('symfony/web-profiler-bundle')) {
