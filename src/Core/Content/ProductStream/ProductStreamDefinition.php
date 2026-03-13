@@ -13,6 +13,7 @@ use Shopwell\Core\Framework\DataAbstractionLayer\Field\Flag\ApiAware;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\Flag\CascadeDelete;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\Flag\PrimaryKey;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\Flag\Required;
+use Shopwell\Core\Framework\DataAbstractionLayer\Field\Flag\RestrictDelete;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\Flag\SearchRanking;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\Flag\WriteProtected;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\IdField;
@@ -76,6 +77,7 @@ class ProductStreamDefinition extends EntityDefinition
             new OneToManyAssociationField('filters', ProductStreamFilterDefinition::class, 'product_stream_id')->addFlags(new CascadeDelete()),
             new OneToManyAssociationField('productCrossSellings', ProductCrossSellingDefinition::class, 'product_stream_id'),
             new OneToManyAssociationField('productExports', ProductExportDefinition::class, 'product_stream_id', 'id'),
+            new OneToManyAssociationField('productExports', ProductExportDefinition::class, 'product_stream_id', 'id')->addFlags(new RestrictDelete()),
             new OneToManyAssociationField('categories', CategoryDefinition::class, 'product_stream_id'),
         ]);
     }
