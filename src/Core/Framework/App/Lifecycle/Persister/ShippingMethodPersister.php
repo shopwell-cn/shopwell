@@ -9,21 +9,21 @@ use Shopwell\Core\Checkout\Shipping\ShippingMethodEntity;
 use Shopwell\Core\Content\Media\MediaCollection;
 use Shopwell\Core\Content\Media\MediaService;
 use Shopwell\Core\Framework\App\Aggregate\AppShippingMethod\AppShippingMethodEntity;
-use Shopwell\Core\Framework\App\Manifest\Manifest;
+use Shopwell\Core\Framework\App\Lifecycle\AppLifecycleContext;
 use Shopwell\Core\Framework\App\Manifest\Xml\ShippingMethod\ShippingMethod;
-use Shopwell\Core\Framework\App\Source\SourceResolver;
 use Shopwell\Core\Framework\Context;
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityCollection;
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopwell\Core\Framework\Log\Package;
+use Shopwell\Core\Framework\Util\Filesystem;
 
 /**
- * @internal
+ * @internal only for use by the app-system
  */
 #[Package('framework')]
-class ShippingMethodPersister
+class ShippingMethodPersister implements PersisterInterface
 {
     private readonly FinfoMimeTypeDetector $mimeDetector;
 
@@ -37,22 +37,20 @@ class ShippingMethodPersister
         private readonly EntityRepository $appShippingMethodRepository,
         private readonly EntityRepository $mediaRepository,
         private readonly MediaService $mediaService,
-        private readonly SourceResolver $sourceResolver
     ) {
         $this->mimeDetector = new FinfoMimeTypeDetector();
     }
 
-    public function updateShippingMethods(
-        Manifest $manifest,
-        string $appId,
-        string $defaultLocale,
-        Context $context
-    ): void {
+    public function persist(AppLifecycleContext $context): void
+    {
+        $manifest = $context->manifest;
+        $appId = $context->app->getId();
+        $defaultLocale = $context->defaultLocale;
         $appName = $manifest->getMetadata()->getName();
         $manifestShipments = $manifest->getShippingMethods();
         $manifestShippingMethods = $manifestShipments?->getShippingMethods() ?? [];
 
-        $existingAppShippingMethods = $this->getExistingAppShippingMethods($appName, $context);
+        $existingAppShippingMethods = $this->getExistingAppShippingMethods($appName, $context->context);
         $existingShippingMethods = new ShippingMethodCollection();
         foreach ($existingAppShippingMethods as $existingAppShippingMethod) {
             $existingShippingMethod = $existingAppShippingMethod->getShippingMethod();
@@ -91,7 +89,7 @@ class ShippingMethodPersister
                 );
                 $existingShippingMethods->remove($shippingMethodEntity->getId());
             } else {
-                $payload['appShippingMethod']['originalMediaId'] = $this->getIconId($manifest, $manifestShippingMethod, $context);
+                $payload['appShippingMethod']['originalMediaId'] = $this->getIconId($context->appFilesystem, $appName, $manifestShippingMethod, $context->context);
                 $payload['mediaId'] = $payload['appShippingMethod']['originalMediaId'];
             }
 
@@ -99,10 +97,10 @@ class ShippingMethodPersister
         }
 
         if ($shippingMethodsToUpdate !== []) {
-            $this->shippingMethodRepository->upsert($shippingMethodsToUpdate, $context);
+            $this->shippingMethodRepository->upsert($shippingMethodsToUpdate, $context->context);
         }
 
-        $this->deactivateOldShippingMethods($existingShippingMethods, $context);
+        $this->deactivateOldShippingMethods($existingShippingMethods, $context->context);
     }
 
     /**
@@ -138,20 +136,18 @@ class ShippingMethodPersister
         });
     }
 
-    private function getIconId(Manifest $manifest, ShippingMethod $shippingMethod, Context $context): ?string
+    private function getIconId(Filesystem $fs, string $appName, ShippingMethod $shippingMethod, Context $context): ?string
     {
         $iconPath = $shippingMethod->getIcon();
         if (!$iconPath) {
             return null;
         }
 
-        $fs = $this->sourceResolver->filesystemForManifest($manifest);
-
         if (!$fs->has($iconPath)) {
             return null;
         }
 
-        $fileName = \sprintf('shipping_app_%s_%s', $manifest->getMetadata()->getName(), $shippingMethod->getIdentifier());
+        $fileName = \sprintf('shipping_app_%s_%s', $appName, $shippingMethod->getIdentifier());
         $icon = $fs->read($iconPath);
         $extension = pathinfo($iconPath, \PATHINFO_EXTENSION);
         $mimeType = $this->mimeDetector->detectMimeTypeFromBuffer($icon);

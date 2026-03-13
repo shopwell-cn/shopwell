@@ -3,7 +3,7 @@
 namespace Shopwell\Core\Framework\App\Lifecycle\Persister;
 
 use Doctrine\DBAL\Connection;
-use Shopwell\Core\Framework\App\Manifest\Manifest;
+use Shopwell\Core\Framework\App\Lifecycle\AppLifecycleContext;
 use Shopwell\Core\Framework\App\Manifest\Xml\CustomField\CustomFields;
 use Shopwell\Core\Framework\App\Manifest\Xml\CustomField\CustomFieldSet;
 use Shopwell\Core\Framework\Context;
@@ -20,7 +20,7 @@ use Shopwell\Core\System\CustomField\CustomFieldCollection;
  * @phpstan-import-type CustomFieldSetArray from CustomFieldSet
  */
 #[Package('framework')]
-class CustomFieldPersister
+class CustomFieldPersister implements PersisterInterface
 {
     /**
      * @param EntityRepository<CustomFieldSetCollection> $customFieldSetRepository
@@ -35,13 +35,10 @@ class CustomFieldPersister
     ) {
     }
 
-    /**
-     * @internal only for use by the app-system
-     */
-    public function updateCustomFields(Manifest $manifest, string $appId, Context $context): void
+    public function persist(AppLifecycleContext $context): void
     {
-        $context->scope(Context::SYSTEM_SCOPE, function (Context $context) use ($manifest, $appId): void {
-            $this->upsertCustomFieldSets($manifest->getCustomFields(), $appId, $context);
+        $context->context->scope(Context::SYSTEM_SCOPE, function (Context $innerContext) use ($context): void {
+            $this->upsertCustomFieldSets($context->manifest->getCustomFields(), $context->app->getId(), $innerContext);
         });
     }
 
@@ -62,7 +59,7 @@ class CustomFieldPersister
         foreach ($groupedByName as $name => $ids) {
             if (\count($ids) > 1) {
                 // If there are multiple custom field sets with the same name, we need to delete all the custom field sets
-                // as we can not map the fields to the correct set anymore, see https://github.com/shopwell/shopwell/issues/10738
+                // as we can not map the fields to the correct set anymore, see https://github.com/shopware/shopware/issues/10738
                 $this->deleteObsoleteIds($ids, [], [], $context);
             } else {
                 $existingCustomFieldSets[$name] = $ids[0];

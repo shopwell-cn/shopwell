@@ -4,6 +4,7 @@ namespace Shopwell\Core\Framework\App\Lifecycle\Persister;
 
 use Shopwell\Core\Framework\App\AppCollection;
 use Shopwell\Core\Framework\App\AppEntity;
+use Shopwell\Core\Framework\App\Lifecycle\AppLifecycleContext;
 use Shopwell\Core\Framework\App\Lifecycle\ScriptFileReader;
 use Shopwell\Core\Framework\Context;
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityRepository;
@@ -16,7 +17,7 @@ use Shopwell\Core\Framework\Script\ScriptCollection;
  * @internal only for use by the app-system
  */
 #[Package('framework')]
-class ScriptPersister
+class ScriptPersister implements PersisterInterface
 {
     /**
      * @param EntityRepository<ScriptCollection> $scriptRepository
@@ -29,44 +30,9 @@ class ScriptPersister
     ) {
     }
 
-    public function updateScripts(string $appId, Context $context): void
+    public function persist(AppLifecycleContext $context): void
     {
-        $app = $this->getAppWithExistingScripts($appId, $context);
-        $existingScripts = $app->getScripts();
-        \assert($existingScripts !== null);
-
-        $scriptPaths = $this->scriptReader->getScriptPathsForApp($app);
-
-        $upserts = [];
-        foreach ($scriptPaths as $scriptPath) {
-            $payload = [
-                'script' => $this->scriptReader->getScriptContent($app, $scriptPath),
-            ];
-
-            $existing = $existingScripts->filterByProperty('name', $scriptPath)->first();
-            if ($existing) {
-                $existingScripts->remove($existing->getId());
-
-                if ($existing->getScript() === $payload['script']) {
-                    // Don't update DB when content is identical
-                    continue;
-                }
-                $payload['id'] = $existing->getId();
-            } else {
-                $payload['appId'] = $appId;
-                $payload['active'] = $app->isActive();
-                $payload['name'] = $scriptPath;
-                $payload['hook'] = explode('/', $scriptPath)[0];
-            }
-
-            $upserts[] = $payload;
-        }
-
-        if ($upserts !== []) {
-            $this->scriptRepository->upsert($upserts, $context);
-        }
-
-        $this->deleteOldScripts($existingScripts, $context);
+        $this->updateScripts($context->app->getId(), $context->context);
     }
 
     public function activateAppScripts(string $appId, Context $context): void
@@ -108,7 +74,7 @@ class ScriptPersister
         $criteria->setTitle('app-scripts::refresh');
         $criteria->addFilter(new EqualsFilter('active', true));
 
-        // We don't automatically update service scripts, as that would do a request to the service on every request to shopwell
+        // We don't automatically update service scripts, as that would do a request to the service on every request to shopware
         $criteria->addFilter(new EqualsFilter('selfManaged', false));
 
         $appIds = $this->appRepository->searchIds($criteria, $context)->getIds();
@@ -116,6 +82,46 @@ class ScriptPersister
         foreach ($appIds as $appId) {
             $this->updateScripts($appId, $context);
         }
+    }
+
+    private function updateScripts(string $appId, Context $context): void
+    {
+        $app = $this->getAppWithExistingScripts($appId, $context);
+        $existingScripts = $app->getScripts();
+        \assert($existingScripts !== null);
+
+        $scriptPaths = $this->scriptReader->getScriptPathsForApp($app);
+
+        $upserts = [];
+        foreach ($scriptPaths as $scriptPath) {
+            $payload = [
+                'script' => $this->scriptReader->getScriptContent($app, $scriptPath),
+            ];
+
+            $existing = $existingScripts->filterByProperty('name', $scriptPath)->first();
+            if ($existing) {
+                $existingScripts->remove($existing->getId());
+
+                if ($existing->getScript() === $payload['script']) {
+                    // Don't update DB when content is identical
+                    continue;
+                }
+                $payload['id'] = $existing->getId();
+            } else {
+                $payload['appId'] = $appId;
+                $payload['active'] = $app->isActive();
+                $payload['name'] = $scriptPath;
+                $payload['hook'] = explode('/', $scriptPath)[0];
+            }
+
+            $upserts[] = $payload;
+        }
+
+        if ($upserts !== []) {
+            $this->scriptRepository->upsert($upserts, $context);
+        }
+
+        $this->deleteOldScripts($existingScripts, $context);
     }
 
     private function deleteOldScripts(ScriptCollection $toBeRemoved, Context $context): void

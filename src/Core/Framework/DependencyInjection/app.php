@@ -79,6 +79,7 @@ use Shopwell\Core\Framework\App\Lifecycle\Persister\CmsBlockPersister;
 use Shopwell\Core\Framework\App\Lifecycle\Persister\CustomFieldPersister;
 use Shopwell\Core\Framework\App\Lifecycle\Persister\FlowActionPersister;
 use Shopwell\Core\Framework\App\Lifecycle\Persister\FlowEventPersister;
+use Shopwell\Core\Framework\App\Lifecycle\Persister\ModulePersister;
 use Shopwell\Core\Framework\App\Lifecycle\Persister\PaymentMethodPersister;
 use Shopwell\Core\Framework\App\Lifecycle\Persister\PermissionPersister;
 use Shopwell\Core\Framework\App\Lifecycle\Persister\RuleConditionPersister;
@@ -146,7 +147,6 @@ use Shopwell\Core\Framework\Store\Services\AbstractStoreAppLifecycleService;
 use Shopwell\Core\Framework\Store\Services\ExtensionDownloader;
 use Shopwell\Core\Framework\Store\Services\StoreClient;
 use Shopwell\Core\Framework\Telemetry\Metrics\Meter;
-use Shopwell\Core\Framework\Util\HtmlSanitizer;
 use Shopwell\Core\Framework\Webhook\BusinessEventEncoder;
 use Shopwell\Core\Framework\Webhook\Hookable\HookableEventCollector;
 use Shopwell\Core\Framework\Webhook\WebhookCacheClearer;
@@ -215,56 +215,47 @@ return static function (ContainerConfigurator $container): void {
         ->args([service(HookableEventCollector::class)])
         ->tag('shopwell.app_manifest.validator');
 
-    $services->set(CustomFieldPersister::class)
-        ->args([
-            service('custom_field_set.repository'),
-            service(Connection::class),
-            service('custom_field_set_relation.repository'),
-            service('custom_field.repository'),
-        ]);
-
     $services->set(PermissionPersister::class)
         ->args([
             service(Connection::class),
             service(Privileges::class),
         ]);
 
-    $services->set(ActionButtonPersister::class)
-        ->args([service('app_action_button.repository')]);
-
-    $services->set(ScriptPersister::class)
+    $services->set(FlowActionPersister::class)
         ->args([
-            service(ScriptFileReader::class),
-            service('script.repository'),
-            service('app.repository'),
-        ]);
-
-    $services->set(ScriptFileReader::class)
-        ->args([service(SourceResolver::class)]);
-
-    $services->set(TemplatePersister::class)
-        ->args([
-            service(TemplateLoader::class),
-            service('app_template.repository'),
-            service('app.repository'),
-            service(CacheClearer::class),
-        ]);
-
-    $services->set(TemplateLoader::class)
-        ->args([service(SourceResolver::class)]);
+            service('app_flow_action.repository'),
+            service(Connection::class),
+        ])
+        ->tag('shopwell.app_lifecycle.persister', ['priority' => 0]);
 
     $services->set(WebhookPersister::class)
         ->args([
             service(Connection::class),
             service(WebhookCacheClearer::class),
-        ]);
+        ])
+        ->tag('shopwell.app_lifecycle.persister', ['priority' => -100]);
+
+    $services->set(FlowEventPersister::class)
+        ->args([
+            service('app_flow_event.repository'),
+            service(Connection::class),
+        ])
+        ->tag('shopwell.app_lifecycle.persister', ['priority' => -200]);
 
     $services->set(PaymentMethodPersister::class)
         ->args([
             service('payment_method.repository'),
             service(MediaService::class),
-            service(SourceResolver::class),
-        ]);
+        ])
+        ->tag('shopwell.app_lifecycle.persister', ['priority' => -300]);
+
+    $services->set(TaxProviderPersister::class)
+        ->args([service('tax_provider.repository')])
+        ->tag('shopwell.app_lifecycle.persister', ['priority' => -400]);
+
+    $services->set(ModulePersister::class)
+        ->args([service('app.repository')])
+        ->tag('shopwell.app_lifecycle.persister', ['priority' => -500]);
 
     $services->set(ShippingMethodPersister::class)
         ->args([
@@ -272,25 +263,59 @@ return static function (ContainerConfigurator $container): void {
             service('app_shipping_method.repository'),
             service('media.repository'),
             service(MediaService::class),
-            service(SourceResolver::class),
-        ]);
-
-    $services->set(TaxProviderPersister::class)
-        ->args([service('tax_provider.repository')]);
+        ])
+        ->tag('shopwell.app_lifecycle.persister', ['priority' => -600]);
 
     $services->set(RuleConditionPersister::class)
         ->args([
             service(ScriptFileReader::class),
             service('app_script_condition.repository'),
             service('app.repository'),
-        ]);
+        ])
+        ->tag('shopwell.app_lifecycle.persister', ['priority' => -700]);
+
+    $services->set(ActionButtonPersister::class)
+        ->args([service('app_action_button.repository')])
+        ->tag('shopwell.app_lifecycle.persister', ['priority' => -800]);
+
+    $services->set(TemplatePersister::class)
+        ->args([
+            service(TemplateLoader::class),
+            service('app_template.repository'),
+            service('app.repository'),
+            service(CacheClearer::class),
+        ])
+        ->tag('shopwell.app_lifecycle.persister', ['priority' => -900]);
+
+    $services->set(ScriptPersister::class)
+        ->args([
+            service(ScriptFileReader::class),
+            service('script.repository'),
+            service('app.repository'),
+        ])
+        ->tag('shopwell.app_lifecycle.persister', ['priority' => -1000]);
+
+    $services->set(CustomFieldPersister::class)
+        ->args([
+            service('custom_field_set.repository'),
+            service(Connection::class),
+            service('custom_field_set_relation.repository'),
+            service('custom_field.repository'),
+        ])
+        ->tag('shopwell.app_lifecycle.persister', ['priority' => -1100]);
 
     $services->set(CmsBlockPersister::class)
         ->args([
             service('app_cms_block.repository'),
             service(BlockTemplateLoader::class),
-            service(HtmlSanitizer::class),
-        ]);
+        ])
+        ->tag('shopwell.app_lifecycle.persister', ['priority' => -1200]);
+
+    $services->set(ScriptFileReader::class)
+        ->args([service(SourceResolver::class)]);
+
+    $services->set(TemplateLoader::class)
+        ->args([service(SourceResolver::class)]);
 
     $services->set(AppService::class)
         ->args([
@@ -433,17 +458,9 @@ return static function (ContainerConfigurator $container): void {
 
     $services->set(AppLifecycle::class)
         ->args([
+            tagged_iterator('shopwell.app_lifecycle.persister'),
             service('app.repository'),
             service(PermissionPersister::class),
-            service(CustomFieldPersister::class),
-            service(ActionButtonPersister::class),
-            service(TemplatePersister::class),
-            service(ScriptPersister::class),
-            service(WebhookPersister::class),
-            service(PaymentMethodPersister::class),
-            service(TaxProviderPersister::class),
-            service(RuleConditionPersister::class),
-            service(CmsBlockPersister::class),
             service('event_dispatcher'),
             service(AppRegistrationService::class),
             service(AppStateService::class),
@@ -456,13 +473,10 @@ return static function (ContainerConfigurator $container): void {
             service(ScriptExecutor::class),
             '%kernel.project_dir%',
             service(Connection::class),
-            service(FlowActionPersister::class),
             service(CustomEntitySchemaUpdater::class),
             service(CustomEntityLifecycleService::class),
             '%kernel.shopwell_version%',
-            service(FlowEventPersister::class),
             '%kernel.environment%',
-            service(ShippingMethodPersister::class),
             service('custom_entity.repository'),
             service(SourceResolver::class),
             service(ConfigReader::class),
@@ -507,9 +521,7 @@ return static function (ContainerConfigurator $container): void {
         ->tag('messenger.message_handler');
 
     $services->set(RotateAppSecretHandler::class)
-        ->args([
-            service(AppSecretRotationService::class),
-        ])
+        ->args([service(AppSecretRotationService::class)])
         ->tag('messenger.message_handler');
 
     $services->set(AppLoader::class)
@@ -779,13 +791,6 @@ return static function (ContainerConfigurator $container): void {
 
     $services->set(BlockTemplateLoader::class);
 
-    $services->set(FlowActionPersister::class)
-        ->args([
-            service('app_flow_action.repository'),
-            service(SourceResolver::class),
-            service(Connection::class),
-        ]);
-
     $services->set(AppFlowActionProvider::class)
         ->public()
         ->args([
@@ -796,12 +801,6 @@ return static function (ContainerConfigurator $container): void {
 
     $services->set(AppConfirmationDeltaProvider::class)
         ->args([tagged_iterator('shopwell.app_delta')]);
-
-    $services->set(FlowEventPersister::class)
-        ->args([
-            service('app_flow_event.repository'),
-            service(Connection::class),
-        ]);
 
     $services->set(NoDatabaseSourceResolver::class)
         ->args([service(ActiveAppsLoader::class)]);
@@ -874,7 +873,7 @@ return static function (ContainerConfigurator $container): void {
         ->tag('console.command');
 
     $services->set(SystemHeartbeatTask::class)
-        ->tag('shopware.scheduled.task');
+        ->tag('shopwell.scheduled.task');
 
     $services->set(SystemHeartbeatHandler::class)
         ->args([
@@ -885,13 +884,12 @@ return static function (ContainerConfigurator $container): void {
         ->tag('messenger.message_handler');
 
     $services->set(DeletedAppsGateway::class)
-        ->args([
-            service(Connection::class),
-        ]);
+        ->args([service(Connection::class)]);
 
     $services->set(RememberDeletedAppsSecretSubscriber::class)
         ->args([
             service('app.repository'),
             service(DeletedAppsGateway::class),
-        ])->tag('kernel.event_subscriber');
+        ])
+        ->tag('kernel.event_subscriber');
 };

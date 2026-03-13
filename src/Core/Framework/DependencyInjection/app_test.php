@@ -4,19 +4,7 @@ use Doctrine\DBAL\Connection;
 use Shopwell\Core\Framework\App\AppStateService;
 use Shopwell\Core\Framework\App\DeletedApps\DeletedAppsGateway;
 use Shopwell\Core\Framework\App\Lifecycle\AppLifecycle;
-use Shopwell\Core\Framework\App\Lifecycle\Persister\ActionButtonPersister;
-use Shopwell\Core\Framework\App\Lifecycle\Persister\CmsBlockPersister;
-use Shopwell\Core\Framework\App\Lifecycle\Persister\CustomFieldPersister;
-use Shopwell\Core\Framework\App\Lifecycle\Persister\FlowActionPersister;
-use Shopwell\Core\Framework\App\Lifecycle\Persister\FlowEventPersister;
-use Shopwell\Core\Framework\App\Lifecycle\Persister\PaymentMethodPersister;
 use Shopwell\Core\Framework\App\Lifecycle\Persister\PermissionPersister;
-use Shopwell\Core\Framework\App\Lifecycle\Persister\RuleConditionPersister;
-use Shopwell\Core\Framework\App\Lifecycle\Persister\ScriptPersister;
-use Shopwell\Core\Framework\App\Lifecycle\Persister\ShippingMethodPersister;
-use Shopwell\Core\Framework\App\Lifecycle\Persister\TaxProviderPersister;
-use Shopwell\Core\Framework\App\Lifecycle\Persister\TemplatePersister;
-use Shopwell\Core\Framework\App\Lifecycle\Persister\WebhookPersister;
 use Shopwell\Core\Framework\App\Lifecycle\Registration\AppRegistrationService;
 use Shopwell\Core\Framework\App\Source\NoDatabaseSourceResolver;
 use Shopwell\Core\Framework\App\Source\SourceResolver;
@@ -38,17 +26,9 @@ return static function (ContainerConfigurator $container): void {
     $services->set('app-life-cycle-dev', AppLifecycle::class)
         ->public()
         ->args([
+            tagged_iterator('shopwell.app_lifecycle.persister'),
             service('app.repository'),
             service(PermissionPersister::class),
-            service(CustomFieldPersister::class),
-            service(ActionButtonPersister::class),
-            service(TemplatePersister::class),
-            service(ScriptPersister::class),
-            service(WebhookPersister::class),
-            service(PaymentMethodPersister::class),
-            service(TaxProviderPersister::class),
-            service(RuleConditionPersister::class),
-            service(CmsBlockPersister::class),
             service('event_dispatcher'),
             service(AppRegistrationService::class),
             service(AppStateService::class),
@@ -61,13 +41,10 @@ return static function (ContainerConfigurator $container): void {
             service(ScriptExecutor::class),
             '%kernel.project_dir%',
             service(Connection::class),
-            service(FlowActionPersister::class),
             service(CustomEntitySchemaUpdater::class),
             service(CustomEntityLifecycleService::class),
             '%kernel.shopwell_version%',
-            service(FlowEventPersister::class),
             'dev',
-            service(ShippingMethodPersister::class),
             service('custom_entity.repository'),
             service(SourceResolver::class),
             service(ConfigReader::class),

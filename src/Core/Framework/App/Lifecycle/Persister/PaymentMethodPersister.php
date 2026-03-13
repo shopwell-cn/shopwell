@@ -8,21 +8,21 @@ use Shopwell\Core\Checkout\Payment\PaymentMethodDefinition;
 use Shopwell\Core\Checkout\Payment\PaymentMethodEntity;
 use Shopwell\Core\Content\Media\MediaService;
 use Shopwell\Core\Framework\App\Aggregate\AppPaymentMethod\AppPaymentMethodEntity;
-use Shopwell\Core\Framework\App\Manifest\Manifest;
+use Shopwell\Core\Framework\App\Lifecycle\AppLifecycleContext;
 use Shopwell\Core\Framework\App\Manifest\Xml\PaymentMethod\PaymentMethod;
-use Shopwell\Core\Framework\App\Source\SourceResolver;
 use Shopwell\Core\Framework\Context;
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Filter\MultiFilter;
 use Shopwell\Core\Framework\Log\Package;
+use Shopwell\Core\Framework\Util\Filesystem;
 
 /**
- * @internal
+ * @internal only for use by the app-system
  */
 #[Package('framework')]
-class PaymentMethodPersister
+class PaymentMethodPersister implements PersisterInterface
 {
     private readonly FinfoMimeTypeDetector $mimeDetector;
 
@@ -32,30 +32,37 @@ class PaymentMethodPersister
     public function __construct(
         private readonly EntityRepository $paymentMethodRepository,
         private readonly MediaService $mediaService,
-        private readonly SourceResolver $sourceResolver,
     ) {
         $this->mimeDetector = new FinfoMimeTypeDetector();
     }
 
-    public function updatePaymentMethods(Manifest $manifest, string $appId, string $defaultLocale, Context $context): void
+    public function persist(AppLifecycleContext $context): void
     {
-        $existingPaymentMethods = $this->getExistingPaymentMethods($manifest->getMetadata()->getName(), $appId, $context);
+        if (!$context->hasAppSecret()) {
+            return;
+        }
+
+        $manifest = $context->manifest;
+        $appId = $context->app->getId();
+        $appName = $manifest->getMetadata()->getName();
+
+        $existingPaymentMethods = $this->getExistingPaymentMethods($appName, $appId, $context->context);
 
         $payments = $manifest->getPayments();
         $paymentMethods = $payments !== null ? $payments->getPaymentMethods() : [];
         $upserts = [];
 
         foreach ($paymentMethods as $paymentMethod) {
-            $payload = $paymentMethod->toArray($defaultLocale);
-            $payload['handlerIdentifier'] = \sprintf('app\\%s_%s', $manifest->getMetadata()->getName(), $paymentMethod->getIdentifier());
-            $payload['technicalName'] = \sprintf('payment_%s_%s', $manifest->getMetadata()->getName(), $paymentMethod->getIdentifier());
+            $payload = $paymentMethod->toArray($context->defaultLocale);
+            $payload['handlerIdentifier'] = \sprintf('app\\%s_%s', $appName, $paymentMethod->getIdentifier());
+            $payload['technicalName'] = \sprintf('payment_%s_%s', $appName, $paymentMethod->getIdentifier());
 
             $existing = $existingPaymentMethods->filterByProperty('handlerIdentifier', $payload['handlerIdentifier'])->first();
             $existingAppPaymentMethod = $existing ? $existing->getAppPaymentMethod() : null;
 
             $payload['appPaymentMethod']['appId'] = $appId;
-            $payload['appPaymentMethod']['appName'] = $manifest->getMetadata()->getName();
-            $payload['appPaymentMethod']['originalMediaId'] = $this->getMediaId($manifest, $paymentMethod, $context, $existingAppPaymentMethod);
+            $payload['appPaymentMethod']['appName'] = $appName;
+            $payload['appPaymentMethod']['originalMediaId'] = $this->getMediaId($context->appFilesystem, $appName, $paymentMethod, $context->context, $existingAppPaymentMethod);
 
             if ($existing && $existingAppPaymentMethod) {
                 $existingPaymentMethods->remove($existing->getId());
@@ -80,10 +87,10 @@ class PaymentMethodPersister
         }
 
         if ($upserts !== []) {
-            $this->paymentMethodRepository->upsert($upserts, $context);
+            $this->paymentMethodRepository->upsert($upserts, $context->context);
         }
 
-        $this->deactivatePaymentMethods($existingPaymentMethods, $context);
+        $this->deactivatePaymentMethods($existingPaymentMethods, $context->context);
     }
 
     private function deactivatePaymentMethods(PaymentMethodCollection $toBeDisabled, Context $context): void
@@ -132,19 +139,17 @@ class PaymentMethodPersister
         });
     }
 
-    private function getMediaId(Manifest $manifest, PaymentMethod $paymentMethod, Context $context, ?AppPaymentMethodEntity $existing): ?string
+    private function getMediaId(Filesystem $fs, string $appName, PaymentMethod $paymentMethod, Context $context, ?AppPaymentMethodEntity $existing): ?string
     {
         if (!$iconPath = $paymentMethod->getIcon()) {
             return null;
         }
 
-        $fs = $this->sourceResolver->filesystemForManifest($manifest);
-
         if (!$fs->has($iconPath)) {
             return null;
         }
 
-        $fileName = \sprintf('payment_app_%s_%s', $manifest->getMetadata()->getName(), $paymentMethod->getIdentifier());
+        $fileName = \sprintf('payment_app_%s_%s', $appName, $paymentMethod->getIdentifier());
         $icon = $fs->read($iconPath);
         $extension = pathinfo($paymentMethod->getIcon() ?? '', \PATHINFO_EXTENSION);
         $mimeType = $this->mimeDetector->detectMimeTypeFromBuffer($icon);
