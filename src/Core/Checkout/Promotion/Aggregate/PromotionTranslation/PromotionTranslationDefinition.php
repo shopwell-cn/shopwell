@@ -15,7 +15,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[Package('checkout')]
 class PromotionTranslationDefinition extends EntityTranslationDefinition
 {
-    final public const ENTITY_NAME = 'promotion_translation';
+    final public const string ENTITY_NAME = 'promotion_translation';
 
     public function getEntityName(): string
     {

@@ -7,7 +7,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[Package('checkout')]
 class AddShippingMethodExtensionCommand extends AbstractCheckoutGatewayCommand
 {
-    public const COMMAND_KEY = 'add-shipping-method-extension';
+    public const string COMMAND_KEY = 'add-shipping-method-extension';
 
     /**
      * @param array<array-key, mixed> $extensionsPayload

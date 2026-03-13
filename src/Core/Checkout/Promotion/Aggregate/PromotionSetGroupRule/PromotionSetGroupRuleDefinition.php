@@ -15,7 +15,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[Package('checkout')]
 class PromotionSetGroupRuleDefinition extends MappingEntityDefinition
 {
-    final public const ENTITY_NAME = 'promotion_setgroup_rule';
+    final public const string ENTITY_NAME = 'promotion_setgroup_rule';
 
     public function getEntityName(): string
     {

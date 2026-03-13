@@ -15,7 +15,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[Package('checkout')]
 class PromotionCartRuleDefinition extends MappingEntityDefinition
 {
-    final public const ENTITY_NAME = 'promotion_cart_rule';
+    final public const string ENTITY_NAME = 'promotion_cart_rule';
 
     /**
      * This class is used as m:n relation between promotions and cart rules.

@@ -42,6 +42,7 @@ class Content extends Bundle
         $loader->load('landing_page.php');
         $loader->load('flow.php');
         $loader->load('measurement_system.php');
+        $loader->load('blog.php');
 
         if ($container->getParameter('kernel.environment') === 'test') {
             $loader->load('media_test.php');

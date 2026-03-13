@@ -11,9 +11,9 @@ use Shopwell\Core\Framework\Util\FloatComparator;
 #[Package('checkout')]
 class CartPrice extends Struct
 {
-    final public const TAX_STATE_GROSS = 'gross';
-    final public const TAX_STATE_NET = 'net';
-    final public const TAX_STATE_FREE = 'tax-free';
+    final public const string TAX_STATE_GROSS = 'gross';
+    final public const string TAX_STATE_NET = 'net';
+    final public const string TAX_STATE_FREE = 'tax-free';
 
     protected float $rawTotal;
 

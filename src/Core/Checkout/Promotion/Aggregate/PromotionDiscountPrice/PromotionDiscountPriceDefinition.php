@@ -17,7 +17,7 @@ use Shopwell\Core\System\Currency\CurrencyDefinition;
 #[Package('checkout')]
 class PromotionDiscountPriceDefinition extends EntityDefinition
 {
-    final public const ENTITY_NAME = 'promotion_discount_prices';
+    final public const string ENTITY_NAME = 'promotion_discount_prices';
 
     public function getEntityName(): string
     {

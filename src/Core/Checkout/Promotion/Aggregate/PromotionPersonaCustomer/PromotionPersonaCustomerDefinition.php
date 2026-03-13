@@ -15,7 +15,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[Package('checkout')]
 class PromotionPersonaCustomerDefinition extends MappingEntityDefinition
 {
-    final public const ENTITY_NAME = 'promotion_persona_customer';
+    final public const string ENTITY_NAME = 'promotion_persona_customer';
 
     /**
      * This class is used as m:n relation between promotions and customers.

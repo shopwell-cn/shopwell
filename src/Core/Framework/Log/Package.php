@@ -15,7 +15,7 @@ namespace Shopwell\Core\Framework\Log;
 #[Package('framework')]
 final class Package
 {
-    public const PACKAGE_TRACE_ATTRIBUTE_KEY = 'pTrace';
+    public const string PACKAGE_TRACE_ATTRIBUTE_KEY = 'pTrace';
 
     /**
      * @param PackageString $package

@@ -77,8 +77,8 @@ abstract class AbstractDocumentRenderer
             return false;
         }
 
-        $isCompanyTaxFree = $country->getCompanyTax()->getEnabled();
-        $isPartOfEu = $country->getIsEu();
+        $isCompanyTaxFree = $country->customerTax->enabled;
+        $isPartOfEu = $country->isEu;
 
         return $isCompanyTaxFree && $isPartOfEu;
     }
@@ -103,7 +103,7 @@ abstract class AbstractDocumentRenderer
             return false;
         }
 
-        if ($country->getCheckVatIdPattern() === false) {
+        if ($country->checkVatIdPattern === false) {
             return true;
         }
 

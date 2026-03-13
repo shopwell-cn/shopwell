@@ -157,20 +157,6 @@ class TaskScheduler
         $this->bus->dispatch($task);
     }
 
-    private function buildCriteriaForNextScheduledTask(): Criteria
-    {
-        $criteria = new Criteria();
-        $criteria->addFilter(
-            new EqualsAnyFilter('status', [
-                ScheduledTaskDefinition::STATUS_SCHEDULED,
-                ScheduledTaskDefinition::STATUS_SKIPPED,
-            ])
-        )
-        ->addAggregation(new MinAggregation('nextExecutionTime', 'nextExecutionTime'));
-
-        return $criteria;
-    }
-
     private function buildCriteriaForMinRunInterval(): Criteria
     {
         $criteria = new Criteria();

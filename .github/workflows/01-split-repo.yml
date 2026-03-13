@@ -9,6 +9,7 @@ on:
       - src/Core/**/*
       - src/Storefront/**/*
       - src/Elasticsearch/**/*
+      - src/Uniapp/**/*
 
 env:
   GITHUB_TOKEN: ${{ secrets.TOKEN }}
@@ -33,6 +34,9 @@ jobs:
           -
             local_path: 'Storefront'
             split_repository: 'storefront'
+          -
+              local_path: 'Uniapp'
+              split_repository: 'uniapp'
 
     steps:
       - name: Checkout repository

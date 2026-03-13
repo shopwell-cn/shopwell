@@ -17,7 +17,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[Package('checkout')]
 class PromotionIndividualCodeDefinition extends EntityDefinition
 {
-    final public const ENTITY_NAME = 'promotion_individual_code';
+    final public const string ENTITY_NAME = 'promotion_individual_code';
 
     public function getEntityName(): string
     {

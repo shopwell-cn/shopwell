@@ -18,9 +18,7 @@ use Symfony\Component\Validator\Constraints\NotNull;
 #[Package('checkout')]
 class ImitateCustomerTokenGenerator extends JWTGenerator
 {
-    public const HMAC_HASH_ALGORITHM = 'sha256';
-    public const OPENSSL_CIPHER_ALGORITHM = 'aes-256-cbc';
-    public const TOKEN_LIFETIME = 3600;
+    public const string OPENSSL_CIPHER_ALGORITHM = 'aes-256-cbc';
 
     /**
      * @internal

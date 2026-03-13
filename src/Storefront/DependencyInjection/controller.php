@@ -1,7 +1,5 @@
 <?php declare(strict_types=1);
 
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
-
 use GuzzleHttp\Client;
 use Shopwell\Core\System\SystemConfig\SystemConfigService;
 use Shopwell\Storefront\Framework\Captcha\BasicCaptcha;
@@ -11,6 +9,10 @@ use Shopwell\Storefront\Framework\Captcha\CaptchaRouteListener;
 use Shopwell\Storefront\Framework\Captcha\GoogleReCaptchaV2;
 use Shopwell\Storefront\Framework\Captcha\GoogleReCaptchaV3;
 use Shopwell\Storefront\Framework\Captcha\HoneypotCaptcha;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_iterator;
 
 return static function (ContainerConfigurator $container): void {
     $services = $container->services();

@@ -9,7 +9,7 @@ use Shopwell\Core\Framework\Uuid\Uuid;
 #[Package('checkout')]
 class CheckoutGatewayError extends Error
 {
-    private const KEY = 'checkout-gateway-error';
+    private const string KEY = 'checkout-gateway-error';
 
     public function __construct(
         protected readonly string $reason,

@@ -2,7 +2,6 @@
 
 namespace Shopwell\Core\Content\Cookie\Service;
 
-use Shopwell\Core\Content\Cookie\CookieException;
 use Shopwell\Core\Content\Cookie\Event\CookieGroupCollectEvent;
 use Shopwell\Core\Content\Cookie\Struct\CookieEntry;
 use Shopwell\Core\Content\Cookie\Struct\CookieEntryCollection;
@@ -11,15 +10,12 @@ use Shopwell\Core\Content\Cookie\Struct\CookieGroupCollection;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\PlatformRequest;
 use Shopwell\Core\System\SalesChannel\SalesChannelContext;
-use Shopwell\Storefront\Framework\Cookie\CookieProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @internal
- *
- * @phpstan-import-type CookieGroupArray from CookieProviderInterface
  */
 #[Package('framework')]
 class CookieProvider
@@ -39,10 +35,6 @@ class CookieProvider
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly TranslatorInterface $translator,
         array $sessionOptions = [],
-        /**
-         * @phpstan-ignore phpat.restrictNamespacesInCore (Storefront dependency is nullable. Don't do that! This will be fixed with the next major version as it is not used anymore)
-         */
-        private readonly ?CookieProviderInterface $legacyCookieProvider = null,
     ) {
         $this->sessionName = $sessionOptions['name'] ?? PlatformRequest::FALLBACK_SESSION_NAME;
     }
@@ -197,90 +189,6 @@ class CookieProvider
 
                 if (isset($entry->description)) {
                     $entry->description = $this->translator->trans($entry->description);
-                }
-            }
-        }
-    }
-
-    /**
-     * @param list<CookieGroupArray> $legacyCookieGroups
-     */
-    private function convertLegacyCookies(CookieGroupCollection $cookieGroupCollection, array $legacyCookieGroups): void
-    {
-        foreach ($legacyCookieGroups as $legacyCookieGroup) {
-            $snippetName = $legacyCookieGroup['snippet_name'] ?? null;
-            if ($snippetName === null) {
-                throw CookieException::invalidLegacyCookieGroupProvided($legacyCookieGroup);
-            }
-            $snippetName = (string) $snippetName;
-
-            $cookieGroup = $cookieGroupCollection->get($snippetName);
-            if ($cookieGroup === null) {
-                $cookieGroup = new CookieGroup($snippetName);
-                $cookieGroupCollection->add($cookieGroup);
-            }
-
-            if (\array_key_exists('snippet_description', $legacyCookieGroup)) {
-                $description = (string) $legacyCookieGroup['snippet_description'];
-                $cookieGroup->description = $description !== '' ? $description : null;
-            }
-
-            if (\array_key_exists('cookie', $legacyCookieGroup)) {
-                $cookie = (string) $legacyCookieGroup['cookie'];
-                $cookieGroup->setCookie($cookie !== '' ? $cookie : null);
-            }
-
-            if (\array_key_exists('value', $legacyCookieGroup)) {
-                $value = (string) $legacyCookieGroup['value'];
-                $cookieGroup->value = $value !== '' ? $value : null;
-            }
-
-            if (isset($legacyCookieGroup['expiration'])) {
-                $cookieGroup->expiration = (int) $legacyCookieGroup['expiration'];
-            }
-
-            if (isset($legacyCookieGroup['isRequired'])) {
-                $cookieGroup->isRequired = (bool) $legacyCookieGroup['isRequired'];
-            }
-
-            if (\array_key_exists('entries', $legacyCookieGroup)) {
-                $cookieEntries = $cookieGroup->getEntries();
-                if ($cookieEntries === null) {
-                    $cookieEntries = new CookieEntryCollection();
-                    $cookieGroup->setEntries($cookieEntries);
-                }
-
-                foreach ($legacyCookieGroup['entries'] as $entry) {
-                    $cookie = $entry['cookie'] ?? null;
-                    if ($cookie === null) {
-                        throw CookieException::invalidLegacyCookieEntryProvided($entry);
-                    }
-                    $cookieEntry = new CookieEntry((string) $cookie);
-
-                    if (\array_key_exists('snippet_name', $entry)) {
-                        $name = (string) $entry['snippet_name'];
-                        $cookieEntry->name = $name !== '' ? $name : null;
-                    }
-
-                    if (\array_key_exists('snippet_description', $entry)) {
-                        $description = (string) $entry['snippet_description'];
-                        $cookieEntry->description = $description !== '' ? $description : null;
-                    }
-
-                    if (\array_key_exists('value', $entry)) {
-                        $value = (string) $entry['value'];
-                        $cookieEntry->value = $value !== '' ? $value : null;
-                    }
-
-                    if (isset($entry['expiration'])) {
-                        $cookieEntry->expiration = (int) $entry['expiration'];
-                    }
-
-                    if (isset($entry['hidden'])) {
-                        $cookieEntry->hidden = (bool) $entry['hidden'];
-                    }
-
-                    $cookieEntries->add($cookieEntry);
                 }
             }
         }

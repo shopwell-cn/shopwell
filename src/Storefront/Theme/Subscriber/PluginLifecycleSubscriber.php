@@ -14,7 +14,6 @@ use Shopwell\Core\Framework\Plugin\Event\PluginPreDeactivateEvent;
 use Shopwell\Core\Framework\Plugin\Event\PluginPreUninstallEvent;
 use Shopwell\Core\Framework\Plugin\Event\PluginPreUpdateEvent;
 use Shopwell\Core\Framework\Plugin\PluginLifecycleService;
-use Shopwell\Storefront\Theme\Exception\InvalidThemeBundleException;
 use Shopwell\Storefront\Theme\Exception\ThemeCompileException;
 use Shopwell\Storefront\Theme\StorefrontPluginConfiguration\AbstractStorefrontPluginConfigurationFactory;
 use Shopwell\Storefront\Theme\StorefrontPluginConfiguration\StorefrontPluginConfiguration;
@@ -139,7 +138,6 @@ class PluginLifecycleSubscriber implements EventSubscriberInterface
 
     /**
      * @throws ThemeCompileException
-     * @throws InvalidThemeBundleException
      */
     private function createConfigFromClassName(string $pluginPath, string $className): StorefrontPluginConfiguration
     {

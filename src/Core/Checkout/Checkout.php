@@ -35,5 +35,8 @@ class Checkout extends Bundle
         $loader->load('rule.php');
         $loader->load('shipping.php');
         $loader->load('wallet.php');
+        $loader->load('wallet.php');
+        $loader->load('affiliate.php');
+        $loader->load('withdrawal.php');
     }
 }

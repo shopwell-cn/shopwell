@@ -5,6 +5,9 @@ namespace Shopwell\Core\Framework\PaymentProcessing\Extension;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\PaymentProcessing\PaymentProcessingException;
 
+/**
+ * @internal
+ */
 #[Package('framework')]
 class EndlessCycleDetectorExtension
 {

@@ -7,7 +7,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[Package('checkout')]
 class AddPaymentMethodExtensionCommand extends AbstractCheckoutGatewayCommand
 {
-    public const COMMAND_KEY = 'add-payment-method-extension';
+    public const string COMMAND_KEY = 'add-payment-method-extension';
 
     /**
      * @param array<array-key, mixed> $extensionsPayload

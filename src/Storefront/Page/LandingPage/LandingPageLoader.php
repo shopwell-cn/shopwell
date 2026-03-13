@@ -2,7 +2,6 @@
 
 namespace Shopwell\Storefront\Page\LandingPage;
 
-use Shopwell\Core\Content\LandingPage\LandingPageException;
 use Shopwell\Core\Content\LandingPage\SalesChannel\AbstractLandingPageRoute;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Routing\RoutingException;
@@ -36,10 +35,6 @@ class LandingPageLoader
         }
 
         $landingPage = $this->landingPageRoute->load($landingPageId, $request, $context)->getLandingPage();
-
-        if ($landingPage->getCmsPage() === null) {
-            throw LandingPageException::notFound($landingPageId);
-        }
 
         $page = $this->genericPageLoader->load($request, $context);
         $page = LandingPage::createFrom($page);

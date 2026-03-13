@@ -53,7 +53,7 @@ use Shopwell\Core\System\User\UserDefinition;
 #[Package('checkout')]
 class OrderDefinition extends EntityDefinition
 {
-    final public const ENTITY_NAME = 'order';
+    final public const string ENTITY_NAME = 'order';
 
     public function getEntityName(): string
     {

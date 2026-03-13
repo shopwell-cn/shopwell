@@ -17,7 +17,7 @@ use Shopwell\Core\System\SalesChannel\SalesChannelDefinition;
 #[Package('checkout')]
 class PromotionSalesChannelDefinition extends EntityDefinition
 {
-    final public const ENTITY_NAME = 'promotion_sales_channel';
+    final public const string ENTITY_NAME = 'promotion_sales_channel';
 
     public function getEntityName(): string
     {

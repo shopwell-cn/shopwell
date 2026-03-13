@@ -16,6 +16,7 @@ class StorefrontFrameworkException extends HttpException
     public const string MEDIA_ILLEGAL_FILE_TYPE = 'STOREFRONT__MEDIA_ILLEGAL_FILE_TYPE';
     public const string INVALID_ARGUMENT = 'STOREFRONT__INVALID_ARGUMENT';
     public const string SALES_CHANNEL_MAPPING_EXCEPTION = 'FRAMEWORK__INVALID_SALES_CHANNEL_MAPPING';
+    public const string MEDIA_VALIDATOR_MISSING = 'STOREFRONT__MEDIA_VALIDATOR_MISSING';
 
     public static function appTemplateFileNotReadable(string $path): self
     {
@@ -67,5 +68,15 @@ class StorefrontFrameworkException extends HttpException
     public static function salesChannelMappingException(string $url): self
     {
         return new SalesChannelMappingException($url);
+    }
+
+    public static function mediaValidatorMissing(string $type): self
+    {
+        return new self(
+            Response::HTTP_INTERNAL_SERVER_ERROR,
+            self::MEDIA_VALIDATOR_MISSING,
+            'No validator for {{ type }} was found.',
+            ['type' => $type],
+        );
     }
 }

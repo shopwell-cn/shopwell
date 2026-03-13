@@ -8,7 +8,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[Package('checkout')]
 class AddCartErrorCommand extends AbstractCheckoutGatewayCommand
 {
-    public const COMMAND_KEY = 'add-cart-error';
+    public const string COMMAND_KEY = 'add-cart-error';
 
     public function __construct(
         public readonly string $message,

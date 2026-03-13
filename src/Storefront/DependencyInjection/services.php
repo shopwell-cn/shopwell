@@ -1,7 +1,5 @@
 <?php declare(strict_types=1);
 
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
-
 use Doctrine\DBAL\Connection;
 use Shopwell\Core\Checkout\Cart\CartCalculator;
 use Shopwell\Core\Checkout\Cart\CartPersister;
@@ -137,9 +135,13 @@ use Shopwell\Storefront\Theme\StorefrontPluginConfiguration\StorefrontPluginConf
 use Shopwell\Storefront\Theme\ThemeConfigValueAccessor;
 use Shopwell\Storefront\Theme\ThemeRuntimeConfigService;
 use Shopwell\Storefront\Theme\ThemeScripts;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\RouterInterface;
+
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_iterator;
 
 return static function (ContainerConfigurator $container): void {
     $services = $container->services();
@@ -215,7 +217,7 @@ return static function (ContainerConfigurator $container): void {
     $services->set(MaintenanceModeResolver::class)
         ->args([
             service('request_stack'),
-            service(\Shopwell\Core\Framework\Routing\MaintenanceModeResolver::class),
+            service(Shopwell\Core\Framework\Routing\MaintenanceModeResolver::class),
         ]);
 
     $services->set(StorefrontRouteScope::class)
