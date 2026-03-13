@@ -33,6 +33,8 @@ class Cart extends Struct
     protected TransactionCollection $transactions;
 
     protected bool $modified = false;
+    public bool $persisted = false;
+
 
     protected ?string $customerComment = null;
 

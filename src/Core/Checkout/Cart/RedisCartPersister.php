@@ -20,8 +20,9 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 #[Package('checkout')]
 class RedisCartPersister extends AbstractCartPersister
 {
-    final public const PREFIX = 'cart-persister-';
-
+    final public const string PREFIX = 'cart-persister-';
+    private const string SET_ONLY_IF_EXISTS = 'XX';
+    private const string EXPIRES_IN_SECONDS = 'EX';
     /**
      * @param RedisTypeHint $redis
      *
@@ -82,6 +83,7 @@ class RedisCartPersister extends AbstractCartPersister
 
         $cart->setToken($token);
         $cart->setRuleIds($content['rule_ids']);
+        $cart->persisted = true;
 
         $this->eventDispatcher->dispatch(new CartLoadedEvent($cart, $context));
 
@@ -103,7 +105,17 @@ class RedisCartPersister extends AbstractCartPersister
 
         $content = $this->serializeCart($cart, $context);
 
-        $this->redis->set(self::PREFIX . $cart->getToken(), $content, ['EX' => $this->expireDays * 86400]);
+        $options = [self::EXPIRES_IN_SECONDS => $this->expireDays * 86400];
+
+        if ($cart->persisted) {
+            $options[] = self::SET_ONLY_IF_EXISTS;
+        }
+
+        if ($this->redis->set(self::PREFIX . $cart->getToken(), $content, $options) === false) {
+            return;
+        }
+
+        $cart->persisted = true;
 
         $this->eventDispatcher->dispatch(new CartSavedEvent($context, $cart));
     }
@@ -125,8 +137,10 @@ class RedisCartPersister extends AbstractCartPersister
         $copyContext->setRuleIds($cart->getRuleIds());
 
         $cart->setToken($newToken);
+        $cart->persisted = false;
         $this->save($cart, $copyContext);
         $cart->setToken($oldToken);
+        $cart->persisted = true;
 
         $this->delete($oldToken, $context);
     }
