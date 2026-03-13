@@ -4,7 +4,7 @@ namespace Shopwell\Core\Framework\PaymentProcessing\Request;
 
 use Shopwell\Core\Framework\Log\Package;
 
-#[Package('payment-system')]
+#[Package('framework')]
 abstract class BaseGetStatus extends Generic implements GetStatusInterface
 {
     protected string $status;

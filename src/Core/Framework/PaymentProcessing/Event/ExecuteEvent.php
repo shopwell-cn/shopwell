@@ -6,7 +6,7 @@ use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\PaymentProcessing\Extension\Context;
 use Symfony\Contracts\EventDispatcher\Event;
 
-#[Package('payment-system')]
+#[Package('framework')]
 class ExecuteEvent extends Event
 {
     protected Context $context;

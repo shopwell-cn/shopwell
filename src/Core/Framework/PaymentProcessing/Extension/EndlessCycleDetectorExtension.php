@@ -3,9 +3,9 @@
 namespace Shopwell\Core\Framework\PaymentProcessing\Extension;
 
 use Shopwell\Core\Framework\Log\Package;
-use Shopwell\Core\Framework\PaymentProcessing\PaymentGatewayException;
+use Shopwell\Core\Framework\PaymentProcessing\PaymentProcessingException;
 
-#[Package('payment-system')]
+#[Package('framework')]
 class EndlessCycleDetectorExtension
 {
     protected int $limit;
@@ -18,7 +18,7 @@ class EndlessCycleDetectorExtension
     public function onPreExecute(Context $context): void
     {
         if (\count($context->previous) >= $this->limit) {
-            throw PaymentGatewayException::possibleEndlessCycle($this->limit);
+            throw PaymentProcessingException::possibleEndlessCycle($this->limit);
         }
     }
 

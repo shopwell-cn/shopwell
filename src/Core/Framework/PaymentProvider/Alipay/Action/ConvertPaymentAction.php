@@ -9,7 +9,7 @@ use Shopwell\Core\Framework\PaymentProcessing\Request\Convert;
 use Shopwell\Core\Framework\Struct\ArrayStruct;
 use Shopwell\Core\PaymentSystem\Order\PaymentOrderEntity;
 
-#[Package('payment-system')]
+#[Package('framework')]
 class ConvertPaymentAction implements ActionInterface
 {
     /**

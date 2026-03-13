@@ -4,7 +4,7 @@ namespace Shopwell\Core\Framework\PaymentProcessing;
 
 use Shopwell\Core\Framework\Log\Package;
 
-#[Package('payment-system')]
+#[Package('framework')]
 interface GatewayFactoryInterface
 {
     public function create(array $config): Gateway;

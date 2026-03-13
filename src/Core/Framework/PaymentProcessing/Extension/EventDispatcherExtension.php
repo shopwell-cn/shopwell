@@ -7,7 +7,7 @@ use Shopwell\Core\Framework\PaymentProcessing\Event\ExecuteEvent;
 use Shopwell\Core\Framework\PaymentProcessing\GatewayEvents;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-#[Package('payment-system')]
+#[Package('framework')]
 class EventDispatcherExtension implements ExtensionInterface
 {
     public function __construct(

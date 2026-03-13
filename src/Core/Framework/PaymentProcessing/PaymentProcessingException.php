@@ -9,13 +9,13 @@ use Shopwell\Core\Framework\PaymentProcessing\Exception\RequestNotSupportedExcep
 use Shopwell\Core\Framework\Struct\Struct;
 use Symfony\Component\HttpFoundation\Response;
 
-#[Package('payment-system')]
-class PaymentGatewayException extends HttpException
+#[Package('framework')]
+class PaymentProcessingException extends HttpException
 {
-    final public const string REQUEST_NOT_SUPPORTED_EXCEPTION = 'PAYMENT__FRAMEWORK_REQUEST_NOT_SUPPORTED';
-    final public const string POSSIBLE_ENDLESS_CYCLE_EXCEPTION = 'PAYMENT__POSSIBLE_ENDLESS_CYCLE';
-    final public const string GATEWAY_FACTORY_NOT_FOUND = 'PAYMENT__GATEWAY_FACTORY_NOT_FOUND';
-    final public const string GATEWAY_NOT_FOUND = 'PAYMENT__GATEWAY_NOT_FOUND';
+    final public const string REQUEST_NOT_SUPPORTED_EXCEPTION = 'PAYMENT_PROCESSING__FRAMEWORK_REQUEST_NOT_SUPPORTED';
+    final public const string POSSIBLE_ENDLESS_CYCLE_EXCEPTION = 'PAYMENT_PROCESSING__POSSIBLE_ENDLESS_CYCLE';
+    final public const string GATEWAY_FACTORY_NOT_FOUND = 'PAYMENT_PROCESSING__GATEWAY_FACTORY_NOT_FOUND';
+    final public const string GATEWAY_NOT_FOUND = 'PAYMENT_PROCESSING__GATEWAY_NOT_FOUND';
 
     public static function requestNotSupported(Struct $request): self
     {

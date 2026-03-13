@@ -8,7 +8,7 @@ use Shopwell\Core\Framework\PaymentProcessing\Exception\ReplyException;
 use Shopwell\Core\Framework\PaymentProcessing\GatewayInterface;
 use Shopwell\Core\Framework\Struct\Struct;
 
-#[Package('payment-system')]
+#[Package('framework')]
 class Context
 {
     public ?ActionInterface $action = null;

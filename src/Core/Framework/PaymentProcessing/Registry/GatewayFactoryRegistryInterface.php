@@ -5,7 +5,7 @@ namespace Shopwell\Core\Framework\PaymentProcessing\Registry;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\PaymentProcessing\GatewayFactoryInterface;
 
-#[Package('payment-system')]
+#[Package('framework')]
 interface GatewayFactoryRegistryInterface
 {
     public function getGatewayFactory(string $name): GatewayFactoryInterface;

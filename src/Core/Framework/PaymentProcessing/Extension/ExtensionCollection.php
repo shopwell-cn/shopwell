@@ -4,7 +4,7 @@ namespace Shopwell\Core\Framework\PaymentProcessing\Extension;
 
 use Shopwell\Core\Framework\Log\Package;
 
-#[Package('payment-system')]
+#[Package('framework')]
 class ExtensionCollection implements ExtensionInterface
 {
     /**

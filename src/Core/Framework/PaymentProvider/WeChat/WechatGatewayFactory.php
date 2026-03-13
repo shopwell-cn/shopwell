@@ -6,7 +6,7 @@ use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\PaymentProcessing\GatewayFactory;
 use Shopwell\Core\Framework\Struct\ArrayStruct;
 
-#[Package('payment-system')]
+#[Package('framework')]
 class WechatGatewayFactory extends GatewayFactory
 {
     final public const string NAME = 'wechat';

@@ -4,7 +4,7 @@ namespace Shopwell\Core\Framework\PaymentProcessing;
 
 use Shopwell\Core\Framework\Log\Package;
 
-#[Package('payment-system')]
+#[Package('framework')]
 final class GatewayEvents
 {
     public const string GATEWAY_PRE_EXECUTE = 'payment_system.gateway.pre_execute';

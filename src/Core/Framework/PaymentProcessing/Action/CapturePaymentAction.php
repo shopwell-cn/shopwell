@@ -11,7 +11,7 @@ use Shopwell\Core\Framework\PaymentProcessing\Request\Convert;
 use Shopwell\Core\Framework\PaymentProcessing\Request\GetHumanStatus;
 use Shopwell\Core\Framework\Struct\ArrayStruct;
 
-#[Package('payment-system')]
+#[Package('framework')]
 class CapturePaymentAction implements ActionInterface, GatewayAwareInterface
 {
     use GatewayAwareTrait;

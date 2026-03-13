@@ -15,10 +15,9 @@ use Shopwell\Core\Framework\Struct\ArrayStruct;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Contracts\Service\Attribute\Required;
 
-#[Package('payment-system')]
+#[Package('framework')]
 abstract class GatewayFactory implements GatewayFactoryInterface
 {
-
     protected ContainerInterface $container;
 
     #[Required]
@@ -43,11 +42,11 @@ abstract class GatewayFactory implements GatewayFactoryInterface
 
         $gateway = new Gateway();
 
-        $this->buildActions($gateway, $config);
+        $this->buildActions($gateway);
 
         $gateway->container = $containerBuilder->build();
 
-        $this->buildExtensions($gateway, $config);
+        $this->buildExtensions($gateway);
 
         return $gateway;
     }
@@ -73,7 +72,7 @@ abstract class GatewayFactory implements GatewayFactoryInterface
         ];
     }
 
-    private function buildActions(Gateway $gateway, ArrayStruct $config): void
+    private function buildActions(Gateway $gateway): void
     {
         $actions = $this->getActions();
 
@@ -85,7 +84,7 @@ abstract class GatewayFactory implements GatewayFactoryInterface
         }
     }
 
-    private function buildExtensions(Gateway $gateway, ArrayStruct $config): void
+    private function buildExtensions(Gateway $gateway): void
     {
         $extensions = $this->getExtensions();
 

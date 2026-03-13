@@ -4,7 +4,7 @@ namespace Shopwell\Core\Framework\PaymentProcessing\Request;
 
 use Shopwell\Core\Framework\Log\Package;
 
-#[Package('payment-system')]
+#[Package('framework')]
 interface GetStatusInterface
 {
     public function getValue(): string;

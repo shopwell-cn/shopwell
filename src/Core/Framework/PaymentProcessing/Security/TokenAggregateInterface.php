@@ -4,5 +4,4 @@ namespace Shopwell\Core\Framework\PaymentProcessing\Security;
 
 interface TokenAggregateInterface
 {
-
 }

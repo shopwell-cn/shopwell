@@ -5,7 +5,7 @@ namespace Shopwell\Core\Framework\PaymentProcessing;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\PaymentProcessing\Exception\ReplyException;
 
-#[Package('payment-system')]
+#[Package('framework')]
 interface GatewayInterface
 {
     public function execute(mixed $request, bool $catchReply = false): ?ReplyException;

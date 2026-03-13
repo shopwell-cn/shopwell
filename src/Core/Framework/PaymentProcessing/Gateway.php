@@ -11,7 +11,7 @@ use Shopwell\Core\Framework\PaymentProcessing\Extension\ExtensionCollection;
 use Shopwell\Core\Framework\PaymentProcessing\Extension\ExtensionInterface;
 use Shopwell\Core\Framework\Struct\Struct;
 
-#[Package('payment-system')]
+#[Package('framework')]
 class Gateway implements GatewayInterface
 {
     public ContainerInterface $container;
@@ -57,7 +57,7 @@ class Gateway implements GatewayInterface
 
             if (!$context->action) {
                 if (!$action = $this->findActionSupported($context->request)) {
-                    throw PaymentGatewayException::requestNotSupported($context->request);
+                    throw PaymentProcessingException::requestNotSupported($context->request);
                 }
 
                 $context->action = $action;

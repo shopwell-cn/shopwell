@@ -9,7 +9,7 @@ use Shopwell\Core\Framework\PaymentProcessing\Model\ModelAwareInterface;
 use Shopwell\Core\Framework\PaymentProcessing\Security\TokenInterface;
 use Shopwell\Core\Framework\Struct\ArrayStruct;
 
-#[Package('payment-system')]
+#[Package('framework')]
 abstract class Generic implements ModelAwareInterface, ModelAggregateInterface
 {
     public ?TokenInterface $token = null;

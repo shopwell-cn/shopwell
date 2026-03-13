@@ -5,7 +5,7 @@ namespace Shopwell\Core\Framework\PaymentProcessing;
 use Shopwell\Core\Framework\DataAbstractionLayer\FieldSerializer\FieldEnumProviderInterface;
 use Shopwell\Core\Framework\Log\Package;
 
-#[Package('payment-system')]
+#[Package('framework')]
 class PaymentTypeRegistry implements FieldEnumProviderInterface
 {
     /**

@@ -4,7 +4,7 @@ namespace Shopwell\Core\Framework\PaymentProcessing\Request;
 
 use Shopwell\Core\Framework\Log\Package;
 
-#[Package('payment-system')]
+#[Package('framework')]
 class GetHumanStatus extends BaseGetStatus
 {
     public const string STATUS_CAPTURED = 'captured';

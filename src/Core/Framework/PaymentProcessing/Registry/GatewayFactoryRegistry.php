@@ -4,9 +4,9 @@ namespace Shopwell\Core\Framework\PaymentProcessing\Registry;
 
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\PaymentProcessing\GatewayFactoryInterface;
-use Shopwell\Core\Framework\PaymentProcessing\PaymentGatewayException;
+use Shopwell\Core\Framework\PaymentProcessing\PaymentProcessingException;
 
-#[Package('payment-system')]
+#[Package('framework')]
 class GatewayFactoryRegistry
 {
     /**
@@ -30,7 +30,7 @@ class GatewayFactoryRegistry
     public function getGatewayFactory(string $name): GatewayFactoryInterface
     {
         if (!isset($this->gatewayFactories[$name])) {
-            throw PaymentGatewayException::gatewayFactoryNotFound($name);
+            throw PaymentProcessingException::gatewayFactoryNotFound($name);
         }
 
         return $this->gatewayFactories[$name];

@@ -5,7 +5,7 @@ namespace Shopwell\Core\Framework\PaymentProcessing\Action;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Struct\Struct;
 
-#[Package('payment-system')]
+#[Package('framework')]
 interface ActionInterface
 {
     public function execute(Struct $request): void;
