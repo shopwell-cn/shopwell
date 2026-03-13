@@ -1094,7 +1094,7 @@ class EntityReader implements EntityReaderInterface
             . EntityDefinitionQueryHelper::escape($foreignKey);
 
         $query->select(
-        // build select with an internal counter loop, the counter loop will be reset if the foreign key changed (this is the reason for the sorting inject above)
+            // build select with an internal counter loop, the counter loop will be reset if the foreign key changed (this is the reason for the sorting inject above)
             '@n:=IF(@c=' . $sqlAccessor . ', @n+1, IF(@c:=' . $sqlAccessor . ',1,1)) as id_count',
 
             // add select for foreign key for join condition
@@ -1257,7 +1257,7 @@ class EntityReader implements EntityReaderInterface
             || $fieldCriteria->getSorting() !== []
             || $fieldCriteria->getFilters() !== []
             || $fieldCriteria->getPostFilters() !== []
-            ;
+        ;
     }
 
     private function addAssociationFieldsToCriteria(

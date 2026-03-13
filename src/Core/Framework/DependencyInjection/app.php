@@ -159,6 +159,7 @@ use Shopwell\Core\System\SystemConfig\Util\ConfigReader;
 use Shopwell\Storefront\Theme\ThemeAppLifecycleHandler;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+
 use function Symfony\Component\DependencyInjection\Loader\Configurator\inline_service;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_iterator;
