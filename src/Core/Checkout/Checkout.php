@@ -34,5 +34,6 @@ class Checkout extends Bundle
         $loader->load('promotion.php');
         $loader->load('rule.php');
         $loader->load('shipping.php');
+        $loader->load('wallet.php');
     }
 }

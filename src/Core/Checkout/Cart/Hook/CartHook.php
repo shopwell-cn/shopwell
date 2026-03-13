@@ -22,7 +22,7 @@ use Shopwell\Core\System\SystemConfig\Facade\SystemConfigFacadeHookFactory;
 #[Package('checkout')]
 class CartHook extends Hook implements CartAware
 {
-    final public const HOOK_NAME = 'cart';
+    final public const string HOOK_NAME = 'cart';
 
     private readonly SalesChannelContext $salesChannelContext;
 

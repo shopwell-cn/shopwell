@@ -7,12 +7,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[Package('after-sales')]
 class Counter
 {
-    private int $counter = 0;
-
-    public function getCounter(): int
-    {
-        return $this->counter;
-    }
+    public private(set) int $counter = 0;
 
     public function increment(): void
     {

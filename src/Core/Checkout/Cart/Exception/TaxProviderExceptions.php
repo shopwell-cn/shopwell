@@ -8,10 +8,10 @@ use Shopwell\Core\Framework\ShopwellHttpException;
 #[Package('checkout')]
 class TaxProviderExceptions extends ShopwellHttpException
 {
-    final public const ERROR_CODE = 'CHECKOUT__TAX_PROVIDER_EXCEPTION';
+    final public const string ERROR_CODE = 'CHECKOUT__TAX_PROVIDER_EXCEPTION';
 
-    private const DEFAULT_TEMPLATE = 'There was an error while calculating taxes';
-    private const MESSAGE_TEMPLATE = 'There were %d errors while fetching taxes from providers: ' . \PHP_EOL . '%s';
+    private const string DEFAULT_TEMPLATE = 'There was an error while calculating taxes';
+    private const string MESSAGE_TEMPLATE = 'There were %d errors while fetching taxes from providers: ' . \PHP_EOL . '%s';
 
     /**
      * @var array<string, \Throwable[]>
