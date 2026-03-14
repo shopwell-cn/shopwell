@@ -69,12 +69,43 @@ const defaultRetryStatusCodes = [408, 409, 425, 429, 500, 502, 503, 504];
 
 export function resolveUniRequest(request?: UniRequestAdapter): UniRequestAdapter {
   if (request) return request;
-  const globalAny = globalThis as typeof globalThis & {
-    uni?: { request: UniRequestAdapter };
+
+  const toAdapter = (
+    requestImpl: (options: Record<string, unknown>) => UniRequestTask,
+  ): UniRequestAdapter => {
+    return (options) =>
+      requestImpl({
+        url: options.url,
+        method: options.method,
+        data: options.data as unknown as
+          | string
+          | Record<string, unknown>
+          | ArrayBuffer
+          | undefined,
+        header: options.header as Record<string, string> | undefined,
+        timeout: options.timeout,
+        dataType: options.dataType,
+        responseType: options.responseType,
+        success: options.success,
+        fail: options.fail,
+        complete: options.complete,
+      });
   };
-  if (globalAny.uni?.request) {
-    return globalAny.uni.request.bind(globalAny.uni);
+
+  if (typeof uni !== "undefined" && uni?.request) {
+    return toAdapter(
+      uni.request.bind(uni) as unknown as (options: Record<string, unknown>) => UniRequestTask,
+    );
   }
+
+  const globalAny = globalThis as typeof globalThis & {
+    uni?: { request: (options: Record<string, unknown>) => UniRequestTask };
+  };
+
+  if (globalAny.uni?.request) {
+    return toAdapter(globalAny.uni.request.bind(globalAny.uni));
+  }
+
   throw new Error(
     "[ApiClientError] uni.request is not available. Provide a request adapter.",
   );
@@ -261,3 +292,5 @@ function delay(ms: number, signal?: AbortSignal): Promise<void> {
     if (signal) signal.addEventListener("abort", onAbort, { once: true });
   });
 }
+
+
