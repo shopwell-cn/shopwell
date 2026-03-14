@@ -13,7 +13,6 @@
         "shopwell/storefront": "self.version",
         "shopwell/administration": "self.version",
         "shopwell/elasticsearch": "self.version",
-        "shopwell/uniapp": "self.version",
         "symfony/polyfill-ctype": "*",
         "symfony/polyfill-iconv": "*",
         "symfony/polyfill-mbstring": "*",
