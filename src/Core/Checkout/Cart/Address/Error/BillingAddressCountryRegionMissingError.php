@@ -15,7 +15,7 @@ class BillingAddressCountryRegionMissingError extends CountryRegionMissingError
     ) {
         $this->message = \sprintf(
             'A country region needs to be defined for the billing address "%s %s, %s %s".',
-            $address->getFirstName(),
+            $address->getName(),
             $address->getLastName(),
             (string) $address->getZipcode(),
             $address->getCity()

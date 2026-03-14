@@ -50,13 +50,11 @@ class AddressValidationFactory implements DataValidationFactoryInterface
             ->add('salutationId', new EntityExists(entity: 'salutation', context: $frameworkContext))
             ->add('countryId', new EntityExists(entity: 'country', context: $frameworkContext))
             ->add('countryStateId', new EntityExists(entity: 'country_state', context: $frameworkContext))
-            ->add('firstName', new NotBlank(message: 'VIOLATION::FIRST_NAME_IS_BLANK_ERROR'))
-            ->add('lastName', new NotBlank(message: 'VIOLATION::LAST_NAME_IS_BLANK_ERROR'))
+            ->add('name', new NotBlank(message: 'VIOLATION::FIRST_NAME_IS_BLANK_ERROR'))
             ->add('street', new NotBlank(message: 'VIOLATION::STREET_IS_BLANK_ERROR'))
             ->add('city', new NotBlank(message: 'VIOLATION::CITY_IS_BLANK_ERROR'))
             ->add('countryId', new NotBlank(message: 'VIOLATION::COUNTRY_IS_BLANK_ERROR'), new EntityExists(entity: 'country', context: $frameworkContext))
-            ->add('firstName', new Length(max: CustomerAddressDefinition::MAX_LENGTH_FIRST_NAME, exactMessage: 'VIOLATION::FIRST_NAME_IS_TOO_LONG'))
-            ->add('lastName', new Length(max: CustomerAddressDefinition::MAX_LENGTH_LAST_NAME, exactMessage: 'VIOLATION::LAST_NAME_IS_TOO_LONG'))
+            ->add('name', new Length(max: CustomerAddressDefinition::MAX_LENGTH_NAME, exactMessage: 'VIOLATION::FIRST_NAME_IS_TOO_LONG'))
             ->add('title', new Length(max: CustomerAddressDefinition::MAX_LENGTH_TITLE, exactMessage: 'VIOLATION::TITLE_IS_TOO_LONG'))
             ->add('zipcode', new Length(max: CustomerAddressDefinition::MAX_LENGTH_ZIPCODE, exactMessage: 'VIOLATION::ZIPCODE_IS_TOO_LONG'));
 

@@ -56,12 +56,7 @@ class AddressTransformer
     public static function transform(CustomerAddressEntity $address): array
     {
         $addressArray = array_filter([
-            'company' => $address->getCompany(),
-            'department' => $address->getDepartment(),
-            'salutationId' => $address->getSalutationId(),
-            'title' => $address->getTitle(),
-            'firstName' => $address->getFirstName(),
-            'lastName' => $address->getLastName(),
+            'name' => $address->getName(),
             'street' => $address->getStreet(),
             'zipcode' => $address->getZipcode(),
             'city' => $address->getCity(),

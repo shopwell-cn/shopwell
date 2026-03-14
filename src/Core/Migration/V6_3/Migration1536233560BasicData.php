@@ -147,6 +147,13 @@ class Migration1536233560BasicData extends MigrationStep
 
         $connection->insert('system_config', [
             'id' => Uuid::randomBytes(),
+            'configuration_key' => 'core.cart.maxQuantity',
+            'configuration_value' => '{"_value": "100"}',
+            'created_at' => new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT),
+        ]);
+
+        $connection->insert('system_config', [
+            'id' => Uuid::randomBytes(),
             'configuration_key' => 'core.basicInformation.email',
             'configuration_value' => '{"_value": "doNotReply@localhost"}',
             'created_at' => new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT),
@@ -164,6 +171,19 @@ class Migration1536233560BasicData extends MigrationStep
                 'id' => Uuid::randomBytes(),
                 'configuration_key' => 'core.tax.defaultTaxRate',
                 'configuration_value' => json_encode(['_value' => Uuid::fromBytesToHex($id)], \JSON_THROW_ON_ERROR),
+                'created_at' => new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT),
+            ]);
+        }
+
+        $builder = $connection->createQueryBuilder()->select('id')
+            ->from('system_config')
+            ->where('configuration_key = "core.loginRegistration.passwordMinLength"');
+        $configId = $builder->executeQuery()->fetchOne();
+        if (!$configId) {
+            $connection->insert('system_config', [
+                'id' => Uuid::randomBytes(),
+                'configuration_key' => 'core.loginRegistration.passwordMinLength',
+                'configuration_value' => '{"_value": "8"}',
                 'created_at' => new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT),
             ]);
         }

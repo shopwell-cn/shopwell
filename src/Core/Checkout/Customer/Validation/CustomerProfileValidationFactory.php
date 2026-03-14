@@ -50,8 +50,8 @@ class CustomerProfileValidationFactory implements DataValidationFactoryInterface
     {
         $definition
             ->add('title', new Length(max: CustomerDefinition::MAX_LENGTH_TITLE))
-            ->add('firstName', new NotBlank(), new Length(max: CustomerDefinition::MAX_LENGTH_FIRST_NAME))
-            ->add('lastName', new NotBlank(), new Length(max: CustomerDefinition::MAX_LENGTH_LAST_NAME))
+            ->add('firstName', new NotBlank(), new Length(max: CustomerDefinition::MAX_LENGTH_NICKNAME))
+            ->add('lastName', new NotBlank(), new Length(max: CustomerDefinition::MAX_LENGTH_NAME))
             ->add('accountType', new Choice(choices: $this->accountTypes));
 
         $salesChannelId = $context->getSalesChannelId();

@@ -63,7 +63,7 @@ class OrderPaymentMethodChangedEvent extends Event implements SalesChannelAware,
             }
 
             $this->mailRecipientStruct = new MailRecipientStruct([
-                $orderCustomer->getEmail() => $orderCustomer->getFirstName() . ' ' . $orderCustomer->getLastName(),
+                $orderCustomer->getEmail() => $orderCustomer->getNickname() . ' ' . $orderCustomer->getLastName(),
             ]);
         }
 

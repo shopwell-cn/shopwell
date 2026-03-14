@@ -75,7 +75,7 @@ class ProductReviewSaveRoute extends AbstractProductReviewSaveRoute
 
         EmailIdnConverter::encodeDataBag($data);
         if (!$data->has('name')) {
-            $data->set('name', $customer->getFirstName());
+            $data->set('name', $customer->getNickname());
         }
 
         if (!$data->has('lastName')) {

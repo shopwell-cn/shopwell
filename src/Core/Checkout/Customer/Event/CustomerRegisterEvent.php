@@ -60,7 +60,7 @@ class CustomerRegisterEvent extends Event implements SalesChannelAware, Shopwell
     {
         if (!$this->mailRecipientStruct instanceof MailRecipientStruct) {
             $this->mailRecipientStruct = new MailRecipientStruct([
-                $this->customer->getEmail() => $this->customer->getFirstName() . ' ' . $this->customer->getLastName(),
+                $this->customer->getEmail() => $this->customer->getNickname(),
             ]);
         }
 

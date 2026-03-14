@@ -185,7 +185,6 @@ class ProductHydrator extends EntityHydrator
         $entity->unit = $this->manyToOne($row, $root, $definition->getField('unit'), $context);
         $entity->cover = $this->manyToOne($row, $root, $definition->getField('cover'), $context);
         $entity->featureSet = $this->manyToOne($row, $root, $definition->getField('featureSet'), $context);
-        $entity->cmsPage = $this->manyToOne($row, $root, $definition->getField('cmsPage'), $context);
         $entity->canonicalProduct = $this->manyToOne($row, $root, $definition->getField('canonicalProduct'), $context);
 
         $this->translate($definition, $entity, $row, $root, $context, $definition->getTranslatedFields());

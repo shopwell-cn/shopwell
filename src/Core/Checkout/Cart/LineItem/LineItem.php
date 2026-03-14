@@ -52,14 +52,16 @@ class LineItem extends Struct
 
     public bool $modifiedByApp = false;
 
+    public int $quantity;
+
+    public ?QuantityInformation $quantityInformation = null;
+
     /**
      * @var array<mixed>
      */
     protected array $payload = [];
 
     protected ?string $label = null;
-
-    protected int $quantity;
 
     protected ?PriceDefinitionInterface $priceDefinition = null;
 
@@ -80,8 +82,6 @@ class LineItem extends Struct
     protected bool $removable = false;
 
     protected bool $stackable = false;
-
-    protected ?QuantityInformation $quantityInformation = null;
 
     protected bool $shippingCostAware = true;
 

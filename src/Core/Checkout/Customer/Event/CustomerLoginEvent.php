@@ -88,7 +88,7 @@ class CustomerLoginEvent extends Event implements SalesChannelAware, ShopwellSal
     {
         return new MailRecipientStruct(
             [
-                $this->customer->getEmail() => $this->customer->getFirstName() . ' ' . $this->customer->getLastName(),
+                $this->customer->getEmail() => $this->customer->getNickname() . ' ' . $this->customer->getLastName(),
             ]
         );
     }

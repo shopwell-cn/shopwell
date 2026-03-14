@@ -87,7 +87,7 @@ class CustomerAccountRecoverRequestEvent extends Event implements SalesChannelAw
             \assert($customer !== null);
 
             $this->mailRecipientStruct = new MailRecipientStruct([
-                $customer->getEmail() => $customer->getFirstName() . ' ' . $customer->getLastName(),
+                $customer->getEmail() => $customer->getNickname() . ' ' . $customer->getLastName(),
             ]);
         }
 

@@ -58,15 +58,11 @@ class OrderCustomerDefinition extends EntityDefinition
             new IdField('id', 'id')->addFlags(new ApiAware(), new PrimaryKey(), new Required())->setDescription('Unique identity of order customer.'),
             new VersionField()->addFlags(new ApiAware()),
             new FkField('customer_id', 'customerId', CustomerDefinition::class)->setDescription('Unique identity of customer.'),
-
             new FkField('order_id', 'orderId', OrderDefinition::class)->addFlags(new Required())->setDescription('Unique identity of order.'),
             new ReferenceVersionField(OrderDefinition::class)->addFlags(new Required()),
-
             new StringField('email', 'email')->addFlags(new ApiAware(), new Required(), new SearchRanking(SearchRanking::HIGH_SEARCH_RANKING))->setDescription('Email address of the customer.'),
-            new StringField('first_name', 'firstName')->addFlags(new ApiAware(), new Required(), new SearchRanking(SearchRanking::LOW_SEARCH_RANKING))->setDescription('First name of the customer.'),
-            new StringField('last_name', 'lastName')->addFlags(new ApiAware(), new Required(), new SearchRanking(SearchRanking::HIGH_SEARCH_RANKING))->setDescription('Last name of the customer.'),
-            new StringField('company', 'company')->addFlags(new ApiAware(), new SearchRanking(SearchRanking::MIDDLE_SEARCH_RANKING))->setDescription('Name of the company.'),
-            new StringField('title', 'title')->addFlags(new ApiAware())->setDescription('Title name given to the customer like Dr, prof. etc.'),
+            new StringField('nickname', 'nickname')->addFlags(new ApiAware(), new Required(), new SearchRanking(SearchRanking::LOW_SEARCH_RANKING))->setDescription('First name of the customer.'),
+            new StringField('name', 'name')->addFlags(new ApiAware(), new SearchRanking(SearchRanking::HIGH_SEARCH_RANKING))->setDescription('Last name of the customer.'),
             new ListField('vat_ids', 'vatIds', StringField::class)->addFlags(new ApiAware())->setDescription('Unique identity of VAT.'),
             new StringField('customer_number', 'customerNumber')->addFlags(new ApiAware(), new SearchRanking(SearchRanking::HIGH_SEARCH_RANKING))->setDescription('Unique number assigned to the customer.'),
             new CustomFields()->addFlags(new ApiAware())->setDescription('Additional fields that offer a possibility to add own fields for the different program-areas.'),

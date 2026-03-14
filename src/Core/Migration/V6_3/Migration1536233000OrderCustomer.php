@@ -28,6 +28,7 @@ class Migration1536233000OrderCustomer extends MigrationStep
               `order_version_id` binary(16) NOT NULL,
               `email` varchar(254) NOT NULL,
               `gender` tinyint(1) NOT NULL DEFAULT 0,
+              `vat_ids` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`vat_ids`)),
               `nickname` varchar(255) NOT NULL,
               `name` varchar(255) NULL,
               `phone_number` varchar(100) DEFAULT NULL,

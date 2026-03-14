@@ -19,20 +19,12 @@ class OrderCustomerEntity extends Entity
 
     protected string $orderId;
 
-    protected ?string $salutationId = null;
-
-    protected string $firstName;
-
-    protected string $lastName;
-
-    protected ?string $title = null;
+    protected string $nickname;
 
     /**
      * @var list<string>|null
      */
     protected ?array $vatIds = null;
-
-    protected ?string $company = null;
 
     protected ?string $customerNumber = null;
 
@@ -56,44 +48,14 @@ class OrderCustomerEntity extends Entity
         $this->email = $email;
     }
 
-    public function getSalutationId(): ?string
+    public function getNickname(): string
     {
-        return $this->salutationId;
+        return $this->nickname;
     }
 
-    public function setSalutationId(string $salutationId): void
+    public function setNickname(string $nickname): void
     {
-        $this->salutationId = $salutationId;
-    }
-
-    public function getFirstName(): string
-    {
-        return $this->firstName;
-    }
-
-    public function setFirstName(string $firstName): void
-    {
-        $this->firstName = $firstName;
-    }
-
-    public function getLastName(): string
-    {
-        return $this->lastName;
-    }
-
-    public function setLastName(string $lastName): void
-    {
-        $this->lastName = $lastName;
-    }
-
-    public function getTitle(): ?string
-    {
-        return $this->title;
-    }
-
-    public function setTitle(string $title): void
-    {
-        $this->title = $title;
+        $this->nickname = $nickname;
     }
 
     /**

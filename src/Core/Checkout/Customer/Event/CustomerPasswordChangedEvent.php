@@ -54,7 +54,7 @@ class CustomerPasswordChangedEvent extends Event implements SalesChannelAware, S
     public function getMailStruct(): MailRecipientStruct
     {
         return new MailRecipientStruct([
-            $this->customer->getEmail() => $this->customer->getFirstName() . ' ' . $this->customer->getLastName(),
+            $this->customer->getEmail() => $this->customer->getNickname() . ' ' . $this->customer->getLastName(),
         ]);
     }
 

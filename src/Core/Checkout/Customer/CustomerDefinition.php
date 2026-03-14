@@ -35,7 +35,6 @@ use Shopwell\Core\Framework\DataAbstractionLayer\Field\Flag\WriteProtected;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\FloatField;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\IdField;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\IntField;
-use Shopwell\Core\Framework\DataAbstractionLayer\Field\JsonField;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\ListField;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\ManyToManyAssociationField;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\ManyToManyIdField;
@@ -59,8 +58,8 @@ class CustomerDefinition extends EntityDefinition
 {
     public const string ENTITY_NAME = 'customer';
 
-    public const int MAX_LENGTH_FIRST_NAME = 255;
-    public const int MAX_LENGTH_LAST_NAME = 255;
+    public const int MAX_LENGTH_NICKNAME = 255;
+    public const int MAX_LENGTH_NAME = 255;
     public const int MAX_LENGTH_TITLE = 100;
 
     public function getEntityName(): string
@@ -107,12 +106,11 @@ class CustomerDefinition extends EntityDefinition
             new FkField('default_shipping_address_id', 'defaultShippingAddressId', CustomerAddressDefinition::class)->addFlags(new ApiAware(), new Required(), new NoConstraint())->setDescription('Unique identity of default shipping address.'),
             new AutoIncrementField(),
             new NumberRangeField('customer_number', 'customerNumber', 255)->addFlags(new ApiAware(), new Required(), new SearchRanking(SearchRanking::HIGH_SEARCH_RANKING))->setDescription('Unique  number assigned to identity a customer.'),
-            new StringField('first_name', 'firstName', self::MAX_LENGTH_FIRST_NAME)->addFlags(new ApiAware(), new Required(), new SearchRanking(SearchRanking::MIDDLE_SEARCH_RANKING))->setDescription('First name of the customer.'),
-            new StringField('last_name', 'lastName', self::MAX_LENGTH_LAST_NAME)->addFlags(new ApiAware(), new Required(), new SearchRanking(SearchRanking::HIGH_SEARCH_RANKING))->setDescription('Last name of the customer.'),
+            new StringField('nickname', 'nickname', self::MAX_LENGTH_NICKNAME)->addFlags(new ApiAware(), new Required(), new SearchRanking(SearchRanking::MIDDLE_SEARCH_RANKING))->setDescription('First name of the customer.'),
+            new StringField('name', 'name', self::MAX_LENGTH_NAME)->addFlags(new ApiAware(), new SearchRanking(SearchRanking::HIGH_SEARCH_RANKING))->setDescription('Last name of the customer.'),
             new StringField('company', 'company')->addFlags(new ApiAware(), new IgnoreInOpenapiSchema(), new SearchRanking(SearchRanking::HIGH_SEARCH_RANKING))->setDescription('Company name of the customer.'),
             new PasswordField('password', 'password', \PASSWORD_DEFAULT, [], PasswordField::FOR_CUSTOMER)->removeFlag(ApiAware::class),
             new EmailField('email', 'email')->addFlags(new ApiAware(), new Required(), new SearchRanking(SearchRanking::MIDDLE_SEARCH_RANKING, false))->setDescription('Email ID of the customer.'),
-            new StringField('title', 'title', self::MAX_LENGTH_TITLE)->addFlags(new ApiAware())->setDescription('Titles or honorifics like Mr, Mrs, etc.'),
             new ListField('vat_ids', 'vatIds', StringField::class)->addFlags(new ApiAware(), new IgnoreInOpenapiSchema())->setDescription('Unique identity of VAT.'),
             new StringField('affiliate_code', 'affiliateCode')->addFlags(new ApiAware())->setDescription('An affiliate code is an identification option with which website operators can mark outgoing links.'),
             new StringField('campaign_code', 'campaignCode')->addFlags(new ApiAware())->setDescription('A campaign code is the globally unique identifier for a campaign.'),
@@ -124,7 +122,6 @@ class CustomerDefinition extends EntityDefinition
             new BoolField('guest', 'guest')->addFlags(new ApiAware())->setDescription('Boolean value is `true` if it is to be a guest account.'),
             new DateTimeField('first_login', 'firstLogin')->addFlags(new ApiAware())->setDescription('To capture date and time of customer\'s first login.'),
             new DateTimeField('last_login', 'lastLogin')->addFlags(new ApiAware())->setDescription('To capture date and time of customer\'s last login.'),
-            new JsonField('newsletter_sales_channel_ids', 'newsletterSalesChannelIds')->addFlags(new WriteProtected(Context::SYSTEM_SCOPE))->removeFlag(ApiAware::class),
             new DateField('birthday', 'birthday')->addFlags(new ApiAware())->setDescription('To capture customer\'s birthday details.'),
             new DateTimeField('last_order_date', 'lastOrderDate')->addFlags(new ApiAware(), new WriteProtected(Context::SYSTEM_SCOPE))->setDescription('Captures last order date.'),
             new IntField('order_count', 'orderCount')->addFlags(new ApiAware(), new WriteProtected(Context::SYSTEM_SCOPE))->setDescription('Captures the number of orders placed.'),

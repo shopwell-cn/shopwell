@@ -65,12 +65,12 @@ class RevocationRequestFormValidationFactory implements DataValidationFactoryInt
             ->add(
                 'firstName',
                 new Regex(pattern: ContactFormValidationFactory::DOMAIN_NAME_REGEX, match: false),
-                new Length(min: 0, max: CustomerDefinition::MAX_LENGTH_FIRST_NAME)
+                new Length(min: 0, max: CustomerDefinition::MAX_LENGTH_NICKNAME)
             )
             ->add(
                 'lastName',
                 new Regex(pattern: ContactFormValidationFactory::DOMAIN_NAME_REGEX, match: false),
-                new Length(min: 0, max: CustomerDefinition::MAX_LENGTH_LAST_NAME)
+                new Length(min: 0, max: CustomerDefinition::MAX_LENGTH_NAME)
             )
             ->add(
                 'email',
@@ -95,7 +95,7 @@ class RevocationRequestFormValidationFactory implements DataValidationFactoryInt
                 'firstName',
                 new NotBlank(),
                 new Regex(pattern: ContactFormValidationFactory::DOMAIN_NAME_REGEX, match: false),
-                new Length(min: 0, max: CustomerDefinition::MAX_LENGTH_FIRST_NAME)
+                new Length(min: 0, max: CustomerDefinition::MAX_LENGTH_NICKNAME)
             );
         }
 
@@ -104,7 +104,7 @@ class RevocationRequestFormValidationFactory implements DataValidationFactoryInt
                 'lastName',
                 new NotBlank(),
                 new Regex(pattern: ContactFormValidationFactory::DOMAIN_NAME_REGEX, match: false),
-                new Length(min: 0, max: CustomerDefinition::MAX_LENGTH_LAST_NAME)
+                new Length(min: 0, max: CustomerDefinition::MAX_LENGTH_NAME)
             );
         }
 

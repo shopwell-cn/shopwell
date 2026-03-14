@@ -23,7 +23,6 @@ use Shopwell\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Sorting\FieldSorting;
 use Shopwell\Core\Framework\Extensions\ExtensionDispatcher;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Plugin\Exception\DecorationPatternException;
 use Shopwell\Core\Framework\Routing\StoreApiRouteScope;
@@ -102,7 +101,6 @@ class CartOrderRoute extends AbstractCartOrderRoute
                 ->addAssociation('primaryOrderDelivery')
                 ->addAssociation('primaryOrderTransaction')
                 ->addAssociation('orderCustomer.customer')
-                ->addAssociation('orderCustomer.salutation')
                 ->addAssociation('deliveries.shippingMethod')
                 ->addAssociation('deliveries.shippingOrderAddress.country')
                 ->addAssociation('deliveries.shippingOrderAddress.countryState')
@@ -132,11 +130,6 @@ class CartOrderRoute extends AbstractCartOrderRoute
             Profiler::trace('checkout-order::event-listeners', function () use ($event): void {
                 $this->eventDispatcher->dispatch($event);
             });
-
-            if (!Feature::isActive('v6.8.0.0')) {
-                // cart will delete immediately after order is created to avoid inconsistencies.
-                $this->cartPersister->delete($context->getToken(), $context);
-            }
 
             return new CartOrderRouteResponse($orderEntity);
         });

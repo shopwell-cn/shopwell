@@ -37,10 +37,8 @@ class CustomerTransformer
         return [
             'customerId' => $customer->getId(),
             'email' => $customer->getEmail(),
-            'firstName' => $customer->getFirstName(),
-            'lastName' => $customer->getLastName(),
-            'salutationId' => $customer->getSalutationId(),
-            'title' => $customer->getTitle(),
+            'nickname' => $customer->getNickname(),
+            'name' => $customer->name,
             'vatIds' => $customer->getVatIds(),
             'company' => $customer->getCompany(),
             'customerNumber' => $customer->getCustomerNumber(),

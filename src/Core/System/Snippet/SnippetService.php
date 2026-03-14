@@ -147,6 +147,7 @@ class SnippetService
                     $snippetSetId,
                     $fallbackLocale,
                     $salesChannelId,
+                    $unusedThemes
                 ) => array_replace_recursive(
                     $snippets,
                     $this->fetchSnippetsFromDatabase($snippetSetId, $unusedThemes)

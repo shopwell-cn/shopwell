@@ -32,9 +32,7 @@ class OrderAddressDefinition extends EntityDefinition
 {
     final public const string ENTITY_NAME = 'order_address';
 
-    public const int MAX_LENGTH_FIRST_NAME = 255;
-
-    public const int MAX_LENGTH_LAST_NAME = 255;
+    public const int MAX_LENGTH_NAME = 255;
 
     public function getEntityName(): string
     {
@@ -73,14 +71,10 @@ class OrderAddressDefinition extends EntityDefinition
             new FkField('order_id', 'orderId', OrderDefinition::class)->addFlags(new Required())->setDescription('Unique identity of order.'),
             new ReferenceVersionField(OrderDefinition::class, 'order_version_id')->addFlags(new Required()),
 
-            new StringField('first_name', 'firstName', self::MAX_LENGTH_FIRST_NAME)->addFlags(new ApiAware(), new Required(), new SearchRanking(SearchRanking::LOW_SEARCH_RANKING))->setDescription('First name of the customer.'),
-            new StringField('last_name', 'lastName', self::MAX_LENGTH_LAST_NAME)->addFlags(new ApiAware(), new Required(), new SearchRanking(SearchRanking::HIGH_SEARCH_RANKING))->setDescription('Last name of the customer.'),
+            new StringField('name', 'name', self::MAX_LENGTH_NAME)->addFlags(new ApiAware(), new Required(), new SearchRanking(SearchRanking::LOW_SEARCH_RANKING))->setDescription('First name of the customer.'),
             new StringField('street', 'street')->addFlags(new ApiAware(), new Required(), new SearchRanking(SearchRanking::MIDDLE_SEARCH_RANKING))->setDescription('Street address'),
             new StringField('zipcode', 'zipcode')->addFlags(new ApiAware(), new SearchRanking(SearchRanking::HIGH_SEARCH_RANKING))->setDescription('Zip code of the country.'),
             new StringField('city', 'city')->addFlags(new ApiAware(), new Required(), new SearchRanking(SearchRanking::MIDDLE_SEARCH_RANKING))->setDescription('Name of the city.'),
-            new StringField('company', 'company')->addFlags(new ApiAware(), new SearchRanking(SearchRanking::HIGH_SEARCH_RANKING))->setDescription('Name of the company.'),
-            new StringField('department', 'department')->addFlags(new ApiAware())->setDescription('Name of the department.'),
-            new StringField('title', 'title')->addFlags(new ApiAware())->setDescription('Title name given to customer like DR. , Prof., etc.'),
             new StringField('phone_number', 'phoneNumber')->addFlags(new ApiAware())->setDescription('Phone number of the customer.'),
             new StringField('additional_address_line1', 'additionalAddressLine1')->addFlags(new ApiAware(), new SearchRanking(SearchRanking::MIDDLE_SEARCH_RANKING))->setDescription('Additional address input if necessary.'),
             new StringField('additional_address_line2', 'additionalAddressLine2')->addFlags(new ApiAware(), new SearchRanking(SearchRanking::MIDDLE_SEARCH_RANKING))->setDescription('Additional address input if necessary.'),

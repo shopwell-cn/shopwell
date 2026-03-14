@@ -3,10 +3,8 @@
 namespace Shopwell\Core\Checkout\Cart\Address;
 
 use Shopwell\Core\Checkout\Cart\Address\Error\BillingAddressCountryRegionMissingError;
-use Shopwell\Core\Checkout\Cart\Address\Error\BillingAddressSalutationMissingError;
 use Shopwell\Core\Checkout\Cart\Address\Error\ShippingAddressBlockedError;
 use Shopwell\Core\Checkout\Cart\Address\Error\ShippingAddressCountryRegionMissingError;
-use Shopwell\Core\Checkout\Cart\Address\Error\ShippingAddressSalutationMissingError;
 use Shopwell\Core\Checkout\Cart\Cart;
 use Shopwell\Core\Checkout\Cart\CartValidatorInterface;
 use Shopwell\Core\Checkout\Cart\Error\ErrorCollection;
@@ -73,23 +71,13 @@ class AddressValidator implements CartValidatorInterface, ResetInterface
             return;
         }
 
-        if (!$customer->getActiveBillingAddress()->getSalutationId()) {
-            $errors->add(new BillingAddressSalutationMissingError($customer->getActiveBillingAddress()));
-
-            return;
-        }
-
-        if (!$customer->getActiveShippingAddress()->getSalutationId() && $validateShipping) {
-            $errors->add(new ShippingAddressSalutationMissingError($customer->getActiveShippingAddress()));
-        }
-
-        if ($customer->getActiveBillingAddress()->getCountry()?->getForceStateInRegistration()) {
+        if ($customer->getActiveBillingAddress()->getCountry()?->forceStateInRegistration) {
             if (!$customer->getActiveBillingAddress()->getCountryState()) {
                 $errors->add(new BillingAddressCountryRegionMissingError($customer->getActiveBillingAddress()));
             }
         }
 
-        if ($customer->getActiveShippingAddress()->getCountry()?->getForceStateInRegistration()) {
+        if ($customer->getActiveShippingAddress()->getCountry()?->forceStateInRegistration) {
             if (!$customer->getActiveShippingAddress()->getCountryState()) {
                 $errors->add(new ShippingAddressCountryRegionMissingError($customer->getActiveShippingAddress()));
             }

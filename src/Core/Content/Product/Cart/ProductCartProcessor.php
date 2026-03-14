@@ -88,7 +88,7 @@ class ProductCartProcessor implements CartProcessorInterface, CartDataCollectorI
 
                 // no matter if we fetched data or not, we need to set the hash to all products in case it changed
                 // so the next time we need to calculate and there is no data, we know to fetch it again
-                $lineItem->setDataContextHash($hash);
+                $lineItem->dataContextHash = $hash;
             }
 
             // run price calculator in batch
@@ -223,12 +223,12 @@ class ProductCartProcessor implements CartProcessorInterface, CartDataCollectorI
 
         $minPurchase = 1;
         $steps = 1;
-        $available = $item->getQuantity();
+        $available = $item->quantity;
 
-        if ($item->getQuantityInformation() !== null) {
-            $minPurchase = $item->getQuantityInformation()->getMinPurchase();
-            $available = $item->getQuantityInformation()->getMaxPurchase() ?? 0;
-            $steps = $item->getQuantityInformation()->getPurchaseSteps() ?? 1;
+        if ($item->quantityInformation !== null) {
+            $minPurchase = $item->quantityInformation->getMinPurchase();
+            $available = $item->quantityInformation->getMaxPurchase() ?? 0;
+            $steps = $item->quantityInformation->getPurchaseSteps() ?? 1;
         }
 
         if ($available < $minPurchase) {

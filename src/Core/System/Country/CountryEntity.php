@@ -27,6 +27,10 @@ class CountryEntity extends Entity
 
     public bool $checkVatIdPattern;
 
+    public bool $vatIdRequired;
+
+    public bool $forceStateInRegistration;
+
     public ?string $vatIdPattern = null;
 
     public TaxFreeConfig $companyTax;
@@ -124,16 +128,6 @@ class CountryEntity extends Entity
     public function setShippingAvailable(bool $shippingAvailable): void
     {
         $this->shippingAvailable = $shippingAvailable;
-    }
-
-    public function getDisplayStateInRegistration(): bool
-    {
-        return $this->displayStateInRegistration;
-    }
-
-    public function setDisplayStateInRegistration(bool $displayStateInRegistration): void
-    {
-        $this->displayStateInRegistration = $displayStateInRegistration;
     }
 
     public function getStates(): ?CountryStateCollection
