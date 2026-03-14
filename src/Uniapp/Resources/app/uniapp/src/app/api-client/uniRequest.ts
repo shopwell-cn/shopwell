@@ -1,38 +1,16 @@
 import type { UniRequestMethod, UniRequestOptions } from "@/app/api-client/types";
 import { appendQuery, joinUrl, normalizeHeaderRecord } from "@/app/api-client/utils";
 
-export type UniRequestAdapter = <T>(
-  options: UniRuntimeRequestOptions<T>,
+export type UniRequestAdapter = (
+  options: UniNamespace.RequestOptions,
 ) => UniRequestTask;
 
 export type UniRequestTask = {
   abort?: () => void;
 };
 
-export type UniRuntimeRequestOptions<T> = {
-  url: string;
-  method?: UniRequestMethod;
-  data?: unknown;
-  header?: Record<string, string>;
-  timeout?: number;
-  dataType?: "json" | "text";
-  responseType?: "text" | "arraybuffer";
-  success?: (res: UniRequestSuccess<T>) => void;
-  fail?: (err: UniRequestError) => void;
-  complete?: (res: UniRequestSuccess<T> | UniRequestError) => void;
-};
-
-export type UniRequestSuccess<T> = {
-  data: T;
-  statusCode: number;
-  header?: Record<string, string | string[]>;
-  errMsg?: string;
-  cookies?: string[];
-};
-
-export type UniRequestError = {
-  errMsg: string;
-};
+export type UniRequestSuccess = UniNamespace.RequestSuccessCallbackResult;
+export type UniRequestError = UniNamespace.GeneralCallbackResult;
 
 export type UniResponse<T> = {
   ok: boolean;
@@ -42,14 +20,14 @@ export type UniResponse<T> = {
   headers: Record<string, string>;
   data: T;
   _data: T;
-  raw: UniRequestSuccess<T>;
+  raw: UniRequestSuccess;
 };
 
 export type UniRequestContext = {
   url: string;
   method: UniRequestMethod;
   headers: Record<string, string>;
-  body?: unknown;
+  body?: UniNamespace.RequestOptions["data"];
   query?: Record<string, unknown>;
   timeout?: number;
 };
@@ -60,7 +38,7 @@ type RequestConfig = {
   method: UniRequestMethod;
   headers?: Record<string, string>;
   query?: Record<string, unknown>;
-  body?: unknown;
+  body?: UniNamespace.RequestOptions["data"];
   request: UniRequestAdapter;
   options?: UniRequestOptions;
 };
@@ -70,40 +48,8 @@ const defaultRetryStatusCodes = [408, 409, 425, 429, 500, 502, 503, 504];
 export function resolveUniRequest(request?: UniRequestAdapter): UniRequestAdapter {
   if (request) return request;
 
-  const toAdapter = (
-    requestImpl: (options: Record<string, unknown>) => UniRequestTask,
-  ): UniRequestAdapter => {
-    return (options) =>
-      requestImpl({
-        url: options.url,
-        method: options.method,
-        data: options.data as unknown as
-          | string
-          | Record<string, unknown>
-          | ArrayBuffer
-          | undefined,
-        header: options.header as Record<string, string> | undefined,
-        timeout: options.timeout,
-        dataType: options.dataType,
-        responseType: options.responseType,
-        success: options.success,
-        fail: options.fail,
-        complete: options.complete,
-      });
-  };
-
   if (typeof uni !== "undefined" && uni?.request) {
-    return toAdapter(
-      uni.request.bind(uni) as unknown as (options: Record<string, unknown>) => UniRequestTask,
-    );
-  }
-
-  const globalAny = globalThis as typeof globalThis & {
-    uni?: { request: (options: Record<string, unknown>) => UniRequestTask };
-  };
-
-  if (globalAny.uni?.request) {
-    return toAdapter(globalAny.uni.request.bind(globalAny.uni));
+    return (options) => uni.request(options);
   }
 
   throw new Error(
@@ -138,7 +84,7 @@ type RawRequestConfig = {
   url: string;
   method: UniRequestMethod;
   headers: Record<string, string>;
-  body?: unknown;
+  body?: UniNamespace.RequestOptions["data"];
   timeout?: number;
   signal?: AbortSignal;
 };
@@ -163,20 +109,20 @@ function rawRequest<T>(config: RawRequestConfig): Promise<UniResponse<T>> {
       config.signal.removeEventListener("abort", onAbort);
     };
 
-    const task = config.request<T>({
+    const task = config.request({
       url: config.url,
       method: config.method,
       data: config.body,
       header: config.headers,
       timeout: config.timeout,
       dataType: "json",
-      success: (res) => {
+      success: (res: UniRequestSuccess) => {
         if (settled) return;
         settled = true;
         cleanup();
         resolve(toUniResponse(res, config.url));
       },
-      fail: (err) => {
+      fail: (err: UniRequestError) => {
         if (settled) return;
         settled = true;
         cleanup();
@@ -190,7 +136,7 @@ function rawRequest<T>(config: RawRequestConfig): Promise<UniResponse<T>> {
   });
 }
 
-function toUniResponse<T>(res: UniRequestSuccess<T>, url: string): UniResponse<T> {
+function toUniResponse<T>(res: UniRequestSuccess, url: string): UniResponse<T> {
   const status = res.statusCode;
   return {
     ok: status >= 200 && status < 300,
@@ -198,8 +144,8 @@ function toUniResponse<T>(res: UniRequestSuccess<T>, url: string): UniResponse<T
     statusText: undefined,
     url,
     headers: normalizeHeaderRecord(res.header),
-    data: res.data,
-    _data: res.data,
+    data: res.data as T,
+    _data: res.data as T,
     raw: res,
   };
 }
@@ -292,5 +238,3 @@ function delay(ms: number, signal?: AbortSignal): Promise<void> {
     if (signal) signal.addEventListener("abort", onAbort, { once: true });
   });
 }
-
-
