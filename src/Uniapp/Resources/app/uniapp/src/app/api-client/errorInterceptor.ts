@@ -1,6 +1,6 @@
-import type { ApiError } from "./ApiError";
-import { ApiClientError } from "./ApiError";
-import type { UniResponse } from "./uniRequest";
+import type { ApiError } from "@/app/api-client/ApiError";
+import { ApiClientError } from "@/app/api-client/ApiError";
+import type { UniResponse } from "@/app/api-client/uniRequest";
 
 type ErrorResponse = { errors: Array<ApiError> };
 

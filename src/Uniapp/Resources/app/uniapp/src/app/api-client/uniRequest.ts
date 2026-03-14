@@ -1,5 +1,5 @@
-import type { UniRequestMethod, UniRequestOptions } from "./types";
-import { appendQuery, joinUrl, normalizeHeaderRecord } from "./utils";
+import type { UniRequestMethod, UniRequestOptions } from "@/app/api-client/types";
+import { appendQuery, joinUrl, normalizeHeaderRecord } from "@/app/api-client/utils";
 
 export type UniRequestAdapter = <T>(
   options: UniRuntimeRequestOptions<T>,

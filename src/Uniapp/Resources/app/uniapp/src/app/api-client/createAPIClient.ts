@@ -1,9 +1,9 @@
 import defu from "defu";
 import { createHooks } from "hookable";
 import type { operations } from "../../../api-types/storeApiTypes";
-import { type ClientHeaders, createHeaders } from "./defaultHeaders";
-import { createPathWithParams } from "./transformPathToQuery";
-import { errorInterceptor } from "./errorInterceptor";
+import { type ClientHeaders, createHeaders } from "@/app/api-client/defaultHeaders";
+import { createPathWithParams } from "@/app/api-client/transformPathToQuery";
+import { errorInterceptor } from "@/app/api-client/errorInterceptor";
 import type {
   GlobalRequestOptions,
   InvokeParameters,
