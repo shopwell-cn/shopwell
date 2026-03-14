@@ -34,9 +34,6 @@ jobs:
           -
             local_path: 'Storefront'
             split_repository: 'storefront'
-          -
-              local_path: 'Uniapp'
-              split_repository: 'uniapp'
 
     steps:
       - name: Checkout repository
