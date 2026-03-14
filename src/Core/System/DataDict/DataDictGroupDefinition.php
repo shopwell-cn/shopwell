@@ -23,7 +23,7 @@ use Shopwell\Core\System\DataDict\Aggregate\DataDictItem\DataDictItemDefinition;
 #[Package('data-services')]
 class DataDictGroupDefinition extends EntityDefinition
 {
-    final public const string ENTITY_NAME = 'dict_group';
+    final public const string ENTITY_NAME = 'data_dict_group';
 
     public function getEntityName(): string
     {

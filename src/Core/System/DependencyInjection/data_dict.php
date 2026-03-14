@@ -8,6 +8,7 @@ use Shopwell\Core\Framework\DataAbstractionLayer\Dbal\Common\IteratorFactory;
 use Shopwell\Core\Framework\DataAbstractionLayer\Indexing\ChildCountUpdater;
 use Shopwell\Core\Framework\DataAbstractionLayer\Indexing\TreeUpdater;
 use Shopwell\Core\System\DataDict\Aggregate\DataDictGroupTranslation\DataDictGroupTranslationDefinition;
+use Shopwell\Core\System\DataDict\Aggregate\DataDictItem\DataDictItemDefinition;
 use Shopwell\Core\System\DataDict\Aggregate\DataDictItemTranslation\DataDictItemTranslationDefinition;
 use Shopwell\Core\System\DataDict\CachedDataDictLoader;
 use Shopwell\Core\System\DataDict\DataAbstractionLayer\DataDictItemIndexer;
@@ -24,7 +25,7 @@ return static function (ContainerConfigurator $container): void {
     $services->set(DataDictGroupDefinition::class)->tag('shopwell.entity.definition');
     $services->set(DataDictGroupTranslationDefinition::class)->tag('shopwell.entity.definition');
     $services->set(DataDictItemTranslationDefinition::class)->tag('shopwell.entity.definition');
-    $services->set(DataDictGroupTranslationDefinition::class)->tag('shopwell.entity.definition');
+    $services->set(DataDictItemDefinition::class)->tag('shopwell.entity.definition');
 
     $services->set(DataDictItemIndexer::class)
         ->args([

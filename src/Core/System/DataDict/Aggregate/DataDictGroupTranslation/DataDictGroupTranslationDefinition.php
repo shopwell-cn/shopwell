@@ -15,7 +15,7 @@ use Shopwell\Core\System\DataDict\DataDictGroupDefinition;
 #[Package('data-services')]
 class DataDictGroupTranslationDefinition extends EntityTranslationDefinition
 {
-    final public const string ENTITY_NAME = 'dict_group_translation';
+    final public const string ENTITY_NAME = 'data_dict_group_translation';
 
     public function getEntityName(): string
     {

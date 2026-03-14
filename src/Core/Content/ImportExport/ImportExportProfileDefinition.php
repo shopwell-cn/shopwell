@@ -14,7 +14,6 @@ use Shopwell\Core\Framework\DataAbstractionLayer\Field\JsonField;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\OneToManyAssociationField;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\StringField;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\TranslatedField;
-use Shopwell\Core\Framework\DataAbstractionLayer\Field\TranslationsAssociationField;
 use Shopwell\Core\Framework\DataAbstractionLayer\FieldCollection;
 use Shopwell\Core\Framework\Log\Package;
 
@@ -54,7 +53,6 @@ class ImportExportProfileDefinition extends EntityDefinition
             new JsonField('update_by', 'updateBy', [], []),
             new JsonField('config', 'config', [], [])->setDescription('Specifies detailed information about the component.'),
             new OneToManyAssociationField('importExportLogs', ImportExportLogDefinition::class, 'profile_id')->addFlags(new SetNullOnDelete()),
-            new TranslationsAssociationField(ImportExportProfileTranslationDefinition::class, 'import_export_profile_id')->addFlags(new Required()),
         ]);
     }
 }
