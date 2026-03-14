@@ -191,7 +191,7 @@ function rawRequest<T>(config: RawRequestConfig): Promise<UniResponse<T>> {
 }
 
 function toUniResponse<T>(res: UniRequestSuccess<T>, url: string): UniResponse<T> {
-  const status = typeof res.statusCode === "number" ? res.statusCode : 0;
+  const status = res.statusCode;
   return {
     ok: status >= 200 && status < 300,
     status,
