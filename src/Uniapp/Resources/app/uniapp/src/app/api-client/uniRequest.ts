@@ -1,13 +1,15 @@
 import type { UniRequestMethod, UniRequestOptions } from "@/app/api-client/types";
 import { appendQuery, joinUrl, normalizeHeaderRecord } from "@/app/api-client/utils";
 
+export type UniRequestOptionsCompat = Omit<UniNamespace.RequestOptions, "method"> & {
+  method?: UniRequestMethod;
+};
+
 export type UniRequestAdapter = (
-  options: UniNamespace.RequestOptions,
+  options: UniRequestOptionsCompat,
 ) => UniRequestTask;
 
-export type UniRequestTask = {
-  abort?: () => void;
-};
+export type UniRequestTask = UniNamespace.RequestTask;
 
 export type UniRequestSuccess = UniNamespace.RequestSuccessCallbackResult;
 export type UniRequestError = UniNamespace.GeneralCallbackResult;
@@ -27,7 +29,7 @@ export type UniRequestContext = {
   url: string;
   method: UniRequestMethod;
   headers: Record<string, string>;
-  body?: UniNamespace.RequestOptions["data"];
+  body?: UniRequestOptionsCompat["data"];
   query?: Record<string, unknown>;
   timeout?: number;
 };
@@ -38,7 +40,7 @@ type RequestConfig = {
   method: UniRequestMethod;
   headers?: Record<string, string>;
   query?: Record<string, unknown>;
-  body?: UniNamespace.RequestOptions["data"];
+  body?: UniRequestOptionsCompat["data"];
   request: UniRequestAdapter;
   options?: UniRequestOptions;
 };
@@ -49,7 +51,11 @@ export function resolveUniRequest(request?: UniRequestAdapter): UniRequestAdapte
   if (request) return request;
 
   if (typeof uni !== "undefined" && uni?.request) {
-    return (options) => uni.request(options);
+    const uniRequest = uni.request as (
+      options: UniNamespace.RequestOptions,
+    ) => UniNamespace.RequestTask;
+
+    return (options) => uniRequest(options as UniNamespace.RequestOptions);
   }
 
   throw new Error(
@@ -84,7 +90,7 @@ type RawRequestConfig = {
   url: string;
   method: UniRequestMethod;
   headers: Record<string, string>;
-  body?: UniNamespace.RequestOptions["data"];
+  body?: UniRequestOptionsCompat["data"];
   timeout?: number;
   signal?: AbortSignal;
 };
