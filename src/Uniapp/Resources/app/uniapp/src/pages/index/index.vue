@@ -8,17 +8,29 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import {createAPIClient} from "@/app/api-client";
-const title = ref('Hello')
+import { ref } from "vue";
+import { onLoad } from "@dcloudio/uni-app";
+import { createAPIClient } from "@/app/api-client";
+
+const title = ref("Hello");
 
 const api = createAPIClient({
-    baseURL: "/store-api",
-    accessToken: "SWSCCE9HBLFGALDJUWHBMLNKTG",
+  baseURL: "http://127.0.0.1:8083/store-api",
+  accessToken: "SWSCCE9HBLFGALDJUWHBMLNKTG",
 });
 
-const result = await api.invoke("readCart get /checkout/cart");
-console.log(result.status, result.data);
+const loadCart = async () => {
+  try {
+    const result = await api.invoke("readCart get /checkout/cart");
+    console.log(result.status, result.data);
+  } catch (error) {
+    console.error("[cart] request failed", error);
+  }
+};
+
+onLoad(() => {
+  void loadCart();
+});
 </script>
 
 <style>
@@ -48,3 +60,4 @@ console.log(result.status, result.data);
   color: #8f8f94;
 }
 </style>
+

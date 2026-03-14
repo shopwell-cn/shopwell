@@ -918,6 +918,12 @@ class Migration1536233560BasicData extends MigrationStep
             `customer_tax` = JSON_OBJECT("enabled", 0, "currencyId", :currencyId, "amount", 0);',
             ['currencyId' => Defaults::CURRENCY]
         );
+
+        $connection->executeStatement(
+            'UPDATE `country` SET
+            `company_tax` = JSON_OBJECT("enabled", 0, "currencyId", :currencyId, "amount", 0);',
+            ['currencyId' => Defaults::CURRENCY]
+        );
     }
 
     private function createCountryStates(Connection $connection, string $countryId, string $countryCode): void
