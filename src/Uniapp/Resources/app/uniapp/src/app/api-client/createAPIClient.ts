@@ -182,7 +182,7 @@ export function createAPIClient<
   return {
     invoke,
     /**
-     * Default headers used in every client request (if not overriden in specific request).
+     * Default headers used in every client request (if not overridden in specific request).
      */
     defaultHeaders,
     hook: apiClientHooks.hook,
