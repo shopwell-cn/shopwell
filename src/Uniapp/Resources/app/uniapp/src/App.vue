@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { onLaunch, onShow, onHide } from "@dcloudio/uni-app";
+import {createAPIClient} from "@/app/api-client";
 onLaunch(() => {
   console.log("App Launch");
 });
@@ -9,5 +10,8 @@ onShow(() => {
 onHide(() => {
   console.log("App Hide");
 });
+
+
+
 </script>
 <style></style>

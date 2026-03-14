@@ -9,7 +9,16 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import {createAPIClient} from "@/app/api-client";
 const title = ref('Hello')
+
+const api = createAPIClient({
+    baseURL: "/store-api",
+    accessToken: "SWSCCE9HBLFGALDJUWHBMLNKTG",
+});
+
+const result = await api.invoke("readCart get /checkout/cart");
+console.log(result.status, result.data);
 </script>
 
 <style>
