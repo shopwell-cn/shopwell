@@ -23,7 +23,7 @@ class FooterPageletLoadedHook extends PageLoadedHook
 {
     use SalesChannelContextAwareTrait;
 
-    final public const HOOK_NAME = 'footer-pagelet-loaded';
+    final public const string HOOK_NAME = 'footer-pagelet-loaded';
 
     public function __construct(
         private readonly FooterPagelet $page,
