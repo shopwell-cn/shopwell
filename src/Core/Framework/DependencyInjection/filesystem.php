@@ -12,6 +12,7 @@ use Shopwell\Core\Framework\Adapter\Filesystem\Plugin\CopyBatchInputFactory;
 use Shopwell\Core\Framework\App\ActiveAppsLoader;
 use Shopwell\Core\Framework\Plugin\Util\AssetService;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_iterator;
 
