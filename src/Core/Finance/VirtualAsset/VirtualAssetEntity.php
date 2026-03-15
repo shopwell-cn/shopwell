@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Shopwell\Core\Checkout\Points;
+namespace Shopwell\Core\Finance\VirtualAsset;
 
 use Shopwell\Core\Framework\DataAbstractionLayer\Attribute\Entity;
 use Shopwell\Core\Framework\DataAbstractionLayer\Attribute\Field;
@@ -10,13 +10,13 @@ use Shopwell\Core\Framework\DataAbstractionLayer\Entity as EntityStruct;
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityCustomFieldsTrait;
 use Shopwell\Core\Framework\Log\Package;
 
-#[Package('checkout')]
-#[Entity(PointsEntity::ENTITY_NAME, since: '6.8.0.0')]
-class PointsEntity extends EntityStruct
+#[Package('fundamentals@framework')]
+#[Entity(VirtualAssetEntity::ENTITY_NAME, since: '6.8.0.0')]
+class VirtualAssetEntity extends EntityStruct
 {
     use EntityCustomFieldsTrait;
 
-    final public const string ENTITY_NAME = 'points';
+    final public const string ENTITY_NAME = 'virtual_asset';
 
     #[PrimaryKey]
     #[Field(type: FieldType::UUID, api: true)]

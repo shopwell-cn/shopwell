@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Shopwell\Core\Checkout\Wallet\Aggregate\WalletCustomerWithdrawMethod;
+namespace Shopwell\Core\Finance\WithdrawMethod\DataAbstractionLayer;
 
 use Shopwell\Core\Framework\DataAbstractionLayer\Attribute\Entity;
 use Shopwell\Core\Framework\DataAbstractionLayer\Attribute\Field;
@@ -10,7 +10,7 @@ use Shopwell\Core\Framework\DataAbstractionLayer\Entity as EntityStruct;
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityCustomFieldsTrait;
 use Shopwell\Core\Framework\Log\Package;
 
-#[Package('checkout')]
+#[Package('fundamentals@checkout')]
 #[Entity(WalletCustomerWithdrawMethodEntity::ENTITY_NAME, since: '6.8.0.0', collectionClass: WalletCustomerWithdrawMethodCollection::class)]
 class WalletCustomerWithdrawMethodEntity extends EntityStruct
 {

@@ -12,6 +12,7 @@ $bundles = [
     Shopwell\Core\System\System::class => ['all' => true],
     Shopwell\Core\Content\Content::class => ['all' => true],
     Shopwell\Core\Checkout\Checkout::class => ['all' => true],
+    Shopwell\Core\Finance\Finance::class => ['all' => true],
     Shopwell\Core\DevOps\DevOps::class => ['all' => true],
     Shopwell\Core\Maintenance\Maintenance::class => ['all' => true],
     Shopwell\Administration\Administration::class => ['all' => true],

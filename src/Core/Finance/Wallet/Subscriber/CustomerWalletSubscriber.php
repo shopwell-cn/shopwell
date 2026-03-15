@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Shopwell\Core\Checkout\Wallet\Subscriber;
+namespace Shopwell\Core\Finance\Wallet\Subscriber;
 
 use Doctrine\DBAL\Connection;
 use Shopwell\Core\Checkout\Customer\CustomerEvents;
@@ -14,7 +14,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 /**
  * @internal
  */
-#[Package('checkout')]
+#[Package('fundamentals@framework')]
 readonly class CustomerWalletSubscriber implements EventSubscriberInterface
 {
     public function __construct(private Connection $connection)
