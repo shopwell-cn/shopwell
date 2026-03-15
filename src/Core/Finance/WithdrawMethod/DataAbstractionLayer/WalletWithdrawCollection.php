@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Shopwell\Core\Checkout\Wallet\Aggregate\WalletWithdraw;
+namespace Shopwell\Core\Finance\WithdrawMethod\DataAbstractionLayer;
 
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityCollection;
 use Shopwell\Core\Framework\Log\Package;
@@ -8,7 +8,7 @@ use Shopwell\Core\Framework\Log\Package;
 /**
  * @extends EntityCollection<WalletWithdrawEntity>
  */
-#[Package('checkout')]
+#[Package('fundamentals@checkout')]
 class WalletWithdrawCollection extends EntityCollection
 {
     public function getApiAlias(): string

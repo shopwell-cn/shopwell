@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Shopwell\Core\Checkout\Wallet\Aggregate\WalletFreeze;
+namespace Shopwell\Core\Finance\WithdrawMethod\DataAbstractionLayer;
 
 use Shopwell\Core\Framework\DataAbstractionLayer\Attribute\CustomFields;
 use Shopwell\Core\Framework\DataAbstractionLayer\Attribute\Entity;
@@ -12,13 +12,13 @@ use Shopwell\Core\Framework\DataAbstractionLayer\Entity as EntityStruct;
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityCustomFieldsTrait;
 use Shopwell\Core\Framework\Log\Package;
 
-#[Package('checkout')]
-#[Entity(WalletFreezeEntity::ENTITY_NAME, since: '6.8.0.0', collectionClass: WalletFreezeCollection::class)]
-class WalletFreezeEntity extends EntityStruct
+#[Package('fundamentals@checkout')]
+#[Entity(WithdrawMethodEntity::ENTITY_NAME, since: '6.8.0.0', collectionClass: WithdrawMethodCollection::class)]
+class WithdrawMethodEntity extends EntityStruct
 {
     use EntityCustomFieldsTrait;
 
-    final public const string ENTITY_NAME = 'wallet_freeze';
+    final public const string ENTITY_NAME = 'wallet_withdraw_method';
 
     #[PrimaryKey]
     #[Field(type: FieldType::UUID, api: true)]

@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Shopwell\Core\Checkout\Affiliate;
+namespace Shopwell\Core\Finance\Affiliate;
 
 use Shopwell\Core\Framework\Log\Package;
 
-#[Package('checkout')]
+#[Package('fundamentals@framework')]
 class AffiliateEntity
 {
 }

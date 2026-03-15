@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Shopwell\Core\Checkout\Points\Subscriber;
+namespace Shopwell\Core\Finance\VirtualAsset\Subscriber;
 
 use Doctrine\DBAL\Connection;
 use Shopwell\Core\Checkout\Customer\CustomerEvents;
@@ -14,8 +14,8 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 /**
  * @internal
  */
-#[Package('checkout')]
-readonly class CustomerPointsSubscriber implements EventSubscriberInterface
+#[Package('fundamentals@framework')]
+readonly class CustomerVirtualAssetSubscriber implements EventSubscriberInterface
 {
     public function __construct(private Connection $connection)
     {
@@ -44,7 +44,7 @@ readonly class CustomerPointsSubscriber implements EventSubscriberInterface
 
     private function createCustomerPoints(string $customerId): void
     {
-        $this->connection->insert('points', [
+        $this->connection->insert('virtual_asset', [
             'id' => Uuid::randomBytes(),
             'referenced_id' => $customerId,
             'created_at' => new \DateTime()->format(Defaults::STORAGE_DATE_TIME_FORMAT),
