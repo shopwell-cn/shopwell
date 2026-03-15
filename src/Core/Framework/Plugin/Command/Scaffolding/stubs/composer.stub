@@ -5,7 +5,7 @@
     "version": "1.0.0",
     "license": "MIT",
     "require": {
-        "shopwell/core": "~6.7.0"
+        "shopwell/core": "~6.78.0"
     },
     "extra": {
         "shopwell-plugin-class": "{{ namespace }}\\{{ className }}",

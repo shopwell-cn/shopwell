@@ -13,7 +13,7 @@ use Shopwell\Core\Installer\Requirements\Struct\RequirementsCheckCollection;
 #[Package('framework')]
 class FilesystemRequirementsValidator implements RequirementsValidatorInterface
 {
-    private const NEEDED_DIRECTORY_PATHS = [
+    private const array NEEDED_DIRECTORY_PATHS = [
         '.',
         'var/cache/',
         'public/',

@@ -15,7 +15,7 @@ use Symfony\Component\HttpKernel\Event\RequestEvent;
 #[Package('framework')]
 class InstallerLocaleListener implements EventSubscriberInterface
 {
-    final public const FALLBACK_LOCALE = 'en';
+    final public const string FALLBACK_LOCALE = 'en';
 
     /**
      * @var array<string, string>
