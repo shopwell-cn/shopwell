@@ -1,7 +1,5 @@
 <?php declare(strict_types=1);
 
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
-
 use Doctrine\DBAL\Connection;
 use OpenSearch\Client;
 use Shopwell\Core\Content\Product\DataAbstractionLayer\SearchKeywordUpdater;
@@ -90,6 +88,10 @@ use Shopwell\Elasticsearch\Product\SearchKeywordReplacement;
 use Shopwell\Elasticsearch\Product\StopwordTokenFilter;
 use Shopwell\Elasticsearch\Profiler\DataCollector;
 use Shopwell\Elasticsearch\TokenQueryBuilder;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_iterator;
 
 return static function (ContainerConfigurator $container): void {
     $services = $container->services();
@@ -446,7 +448,7 @@ return static function (ContainerConfigurator $container): void {
 
     $services->alias('shopwell.elasticsearch.logger', 'monolog.logger.elasticsearch');
 
-    $services->set('_dummy_es_env_usage', \ArrayIterator::class)
+    $services->set('_dummy_es_env_usage', ArrayIterator::class)
         ->public()
         ->lazy()
         ->args([['%env(bool:SHOPWELL_ES_ENABLED)%', '%env(bool:SHOPWELL_ES_INDEXING_ENABLED)%', '%env(string:OPENSEARCH_URL)%', '%env(string:SHOPWELL_ES_INDEX_PREFIX)%', '%env(bool:SHOPWELL_ES_THROW_EXCEPTION)%', '%env(int:SHOPWELL_ES_INDEXING_BATCH_SIZE)%']]);
@@ -647,11 +649,9 @@ return static function (ContainerConfigurator $container): void {
         ->tag('shopwell.elastic.admin-searcher-index', ['key' => 'product_stream']);
 
     $services->set(ProductCriteriaParser::class)
-        ->decorate(CriteriaParser::class)
         ->args([
             service(EntityDefinitionQueryHelper::class),
             service(CustomFieldService::class),
-            service('.inner'),
         ]);
 
     $services->set(AdminElasticsearchEntitySearcher::class)

@@ -27,7 +27,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 #[Package('checkout')]
 class CustomerGroupSubscriber implements EventSubscriberInterface
 {
-    private const ROUTE_NAME = 'frontend.account.customer-group-registration.page';
+    private const string ROUTE_NAME = 'frontend.account.customer-group-registration.page';
 
     /**
      * @internal

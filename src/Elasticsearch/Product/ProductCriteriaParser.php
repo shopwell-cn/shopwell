@@ -28,7 +28,6 @@ class ProductCriteriaParser extends CriteriaParser
     public function __construct(
         EntityDefinitionQueryHelper $helper,
         CustomFieldService $customFieldService,
-        private readonly CriteriaParser $decorated
     ) {
         parent::__construct($helper, $customFieldService);
     }
