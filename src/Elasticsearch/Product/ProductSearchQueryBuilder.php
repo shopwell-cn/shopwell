@@ -45,7 +45,6 @@ class ProductSearchQueryBuilder extends AbstractProductSearchQueryBuilder
 
         $searchConfig = $this->configLoader->load($context);
 
-        /** @phpstan-ignore arguments.count (This ignore should be removed when the deprecated method signature is updated) */
         $tokens = $this->tokenizer->tokenize($originalTerm, $searchConfig[0]['min_search_length'] ?? null);
         $tokens = $this->tokenFilter->filter($tokens, $context);
 

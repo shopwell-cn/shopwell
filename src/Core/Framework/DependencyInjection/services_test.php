@@ -6,6 +6,7 @@ use Monolog\Handler\NullHandler;
 use Shopwell\Core\Framework\App\Payment\Handler\AppPaymentHandler;
 use Shopwell\Core\Framework\App\Payment\Payload\PaymentPayloadService;
 use Shopwell\Core\Framework\Test\Filesystem\Adapter\MemoryAdapterFactory;
+use Shopwell\Core\Framework\Test\TestCacheClearer;
 use Shopwell\Core\Framework\Test\TestCaseHelper\TestBrowser;
 use Shopwell\Core\System\StateMachine\StateMachineRegistry;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -45,6 +46,13 @@ return static function (ContainerConfigurator $container): void {
             service('mailer.transports'),
             service('messenger.default_bus'),
             service('debug.event_dispatcher')->ignoreOnInvalid(),
+        ]);
+
+    $services->set(TestCacheClearer::class)
+        ->args([
+            [service('cache.object'), service('cache.http')],
+            service('cache_clearer'),
+            '%kernel.cache_dir%',
         ]);
 
     $services->alias('test.browser', 'test.client');

@@ -16,7 +16,7 @@ use Shopwell\Core\Maintenance\System\Struct\DatabaseConnectionInformation;
 #[Package('framework')]
 class EnvConfigWriter
 {
-    private const FLEX_DOTENV = <<<'EOT'
+    private const string FLEX_DOTENV = <<<'EOT'
 ###> symfony/lock ###
 # Choose one of the stores below
 # postgresql+advisory://db_user:db_password@localhost/db_name

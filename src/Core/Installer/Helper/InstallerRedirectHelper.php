@@ -10,7 +10,7 @@ use Shopwell\Core\Framework\Log\Package;
 #[Package('framework')]
 class InstallerRedirectHelper
 {
-    private const ALLOWED_PARAM_NAME_PATTERN = '/^[a-zA-Z0-9_\-]+$/';
+    private const string ALLOWED_PARAM_NAME_PATTERN = '/^[a-zA-Z0-9_\-]+$/';
 
     /**
      * @var array<string, string>

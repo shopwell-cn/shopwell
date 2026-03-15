@@ -14,9 +14,9 @@ use Shopwell\Core\Installer\Requirements\Struct\SystemCheck;
 #[Package('framework')]
 class ConfigurationRequirementsValidator implements RequirementsValidatorInterface
 {
-    private const MAX_EXECUTION_TIME_REQUIREMENT = 30;
-    private const MEMORY_LIMIT_REQUIREMENT = '512M';
-    private const OPCACHE_MEMORY_RECOMMENDATION = '256M';
+    private const int MAX_EXECUTION_TIME_REQUIREMENT = 30;
+    private const string MEMORY_LIMIT_REQUIREMENT = '512M';
+    private const string OPCACHE_MEMORY_RECOMMENDATION = '256M';
 
     public function __construct(private readonly IniConfigReader $iniConfigReader)
     {
