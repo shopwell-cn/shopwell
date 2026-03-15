@@ -1601,3 +1601,20 @@ parameters:
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Core/Content/Media/Event/MediaIndexerEvent.php
+		-
+			message: '#^Method Shopwell\\Elasticsearch\\Framework\\Indexing\\IndexingDto\:\:__construct\(\) has parameter \$ids with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Elasticsearch/Framework/Indexing/IndexingDto.php
+
+		-
+			message: '#^Method Shopwell\\Elasticsearch\\Framework\\Indexing\\IndexingDto\:\:getIds\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Elasticsearch/Framework/Indexing/IndexingDto.php
+
+		-
+			message: '#^Property Shopwell\\Elasticsearch\\Framework\\Indexing\\IndexingDto\:\:\$ids type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Elasticsearch/Framework/Indexing/IndexingDto.php

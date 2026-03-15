@@ -93,8 +93,6 @@ class Framework extends Bundle
         $loader->load('telemetry.php');
         $loader->load('notification.php');
         $loader->load('sso.php');
-        $loader->load('payment-processing.php');
-        $loader->load('payment-provider.php');
 
         if ($container->getParameter('kernel.environment') === 'test') {
             $loader->load('services_test.php');
