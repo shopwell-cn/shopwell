@@ -4,7 +4,6 @@ namespace Shopwell\Core\Content\Media\Infrastructure\Path;
 
 use League\Flysystem\FilesystemOperator;
 use Shopwell\Core\Content\Media\Core\Application\AbstractMediaUrlGenerator;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 
 /**
@@ -43,10 +42,6 @@ class MediaUrlGenerator extends AbstractMediaUrlGenerator
 
     private function encodeFilePath(string $filePath): string
     {
-        if (!Feature::isActive('v6.8.0.0')) {
-            return $filePath;
-        }
-
         $segments = explode('/', $filePath);
 
         foreach ($segments as $index => $segment) {

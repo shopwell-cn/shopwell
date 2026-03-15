@@ -2,7 +2,6 @@
 
 namespace Shopwell\Elasticsearch;
 
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\HttpException;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Elasticsearch\Framework\Exception\EmptyQueryException;
@@ -168,12 +167,8 @@ class ElasticsearchException extends HttpException
     /**
      * @deprecated tag:v6.8.0 - reason:return-type-change - Will only return `self` in the future
      */
-    public static function operatorNotAllowed(string $operator): self|\InvalidArgumentException
+    public static function operatorNotAllowed(string $operator): self
     {
-        if (!Feature::isActive('v6.8.0.0')) {
-            return new \InvalidArgumentException('Operator ' . $operator . ' not allowed');
-        }
-
         return new self(
             Response::HTTP_INTERNAL_SERVER_ERROR,
             self::OPERATOR_NOT_ALLOWED,

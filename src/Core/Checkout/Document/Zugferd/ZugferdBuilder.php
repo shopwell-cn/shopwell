@@ -16,7 +16,6 @@ use Shopwell\Core\Checkout\Order\Aggregate\OrderLineItem\OrderLineItemEntity;
 use Shopwell\Core\Checkout\Order\OrderEntity;
 use Shopwell\Core\Checkout\Payment\PaymentMethodEntity;
 use Shopwell\Core\Framework\Context;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
@@ -46,11 +45,6 @@ class ZugferdBuilder
 
         $deliveryDate = $order->getPrimaryOrderDelivery()?->getShippingDateLatest();
         $transaction = $order->getPrimaryOrderTransaction();
-
-        if (!Feature::isActive('v6.8.0.0')) {
-            $deliveryDate = $order->getDeliveries()?->first()?->getShippingDateLatest();
-            $transaction = $order->getTransactions()?->last();
-        }
 
         if ($deliveryDate instanceof \DateTimeImmutable) {
             $deliveryDate = \DateTime::createFromImmutable($deliveryDate);

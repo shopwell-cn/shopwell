@@ -8,7 +8,6 @@ use Shopwell\Core\Content\ImportExport\Struct\Config;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\Field;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\ManyToOneAssociationField;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\OneToOneAssociationField;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Struct\Struct;
 
@@ -30,10 +29,6 @@ class ToOneSerializer extends FieldSerializer
     public function serialize(Config $config, Field $toOne, $record): iterable
     {
         if (!$toOne instanceof ManyToOneAssociationField && !$toOne instanceof OneToOneAssociationField) {
-            if (!Feature::isActive('v6.8.0.0')) {
-                /** @phpstan-ignore shopwell.domainException (Will be removed in v6.8.0.0) */
-                throw new \InvalidArgumentException('Expected *ToOneField');
-            }
             throw ImportExportException::invalidInstanceType('toOne', ManyToOneAssociationField::class . '|' . OneToOneAssociationField::class);
         }
 
@@ -58,10 +53,6 @@ class ToOneSerializer extends FieldSerializer
     public function deserialize(Config $config, Field $toOne, $records): mixed
     {
         if (!$toOne instanceof ManyToOneAssociationField && !$toOne instanceof OneToOneAssociationField) {
-            if (!Feature::isActive('v6.8.0.0')) {
-                /** @phpstan-ignore shopwell.domainException (Will be removed in v6.8.0.0) */
-                throw new \InvalidArgumentException('Expected *ToOneField');
-            }
             throw ImportExportException::invalidInstanceType('toOne', ManyToOneAssociationField::class . '|' . OneToOneAssociationField::class);
         }
 

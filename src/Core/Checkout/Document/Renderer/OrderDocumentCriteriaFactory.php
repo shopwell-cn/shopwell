@@ -5,7 +5,6 @@ namespace Shopwell\Core\Checkout\Document\Renderer;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Sorting\FieldSorting;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 
 #[Package('after-sales')]
@@ -42,12 +41,6 @@ final class OrderDocumentCriteriaFactory
             'orderCustomer.customer',
             'orderCustomer.salutation',
         ]);
-
-        if (!Feature::isActive('v6.8.0.0')) {
-            $criteria->getAssociation('transactions')
-                ->addAssociations(['paymentMethod', 'stateMachineState'])
-                ->addSorting(new FieldSorting('createdAt'));
-        }
 
         $criteria->getAssociation('lineItems')->addSorting(new FieldSorting('position'));
         $criteria->getAssociation('deliveries')->addSorting(new FieldSorting('createdAt'));

@@ -10,10 +10,8 @@ use Lcobucci\JWT\Signer\Rsa\Sha512;
 use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Validation\Constraint;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
-use Lcobucci\JWT\Validation\Validator;
 use phpseclib3\Crypt\PublicKeyLoader;
 use phpseclib3\Math\BigInteger;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\JWT\JWTException;
 use Shopwell\Core\Framework\JWT\Struct\JWKCollection;
 use Shopwell\Core\Framework\JWT\Struct\JWKStruct;
@@ -40,11 +38,7 @@ final readonly class HasValidRSAJWKSignature implements Constraint
 
         $signer = $this->getSigner($token->headers()->get('alg'));
 
-        if (Feature::isActive('v6.8.0.0')) {
-            new SignedWith($signer, InMemory::plainText($pem))->assert($token);
-        } else {
-            new Validator()->assert($token, new SignedWith($signer, InMemory::plainText($pem)));
-        }
+        new SignedWith($signer, InMemory::plainText($pem))->assert($token);
     }
 
     private function validateAlgorithm(Token $token): void

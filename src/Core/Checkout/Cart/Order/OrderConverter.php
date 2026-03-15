@@ -34,7 +34,6 @@ use Shopwell\Core\Framework\Context;
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopwell\Core\Framework\DataAbstractionLayer\Exception\InconsistentCriteriaIdsException;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Criteria;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Uuid\Uuid;
 use Shopwell\Core\System\NumberRange\ValueGenerator\NumberRangeValueGeneratorInterface;
@@ -311,10 +310,6 @@ class OrderConverter
 
         $orderShippingAddressId = $order->getPrimaryOrderDelivery()?->getShippingOrderAddressId();
 
-        if (!Feature::isActive('v6.8.0.0')) {
-            $orderShippingAddressId = $order->getDeliveries()?->first()?->getShippingOrderAddressId() ?? '';
-        }
-
         $orderAddresses = $this->orderAddressRepository->search(new Criteria(\array_filter([$orderBillingAddressId, $orderShippingAddressId])), $context)->getEntities();
         $orderBillingAddress = $orderAddresses->get($orderBillingAddressId);
         $orderShippingAddress = $orderShippingAddressId ? $orderAddresses->get($orderShippingAddressId) : null;
@@ -354,10 +349,6 @@ class OrderConverter
         }
 
         $shippingMethodId = $order->getPrimaryOrderDelivery()?->getShippingMethodId();
-
-        if (!Feature::isActive('v6.8.0.0')) {
-            $shippingMethodId = $order->getDeliveries()?->first()?->getShippingMethodId();
-        }
 
         if ($shippingMethodId !== null) {
             $options[SalesChannelContextService::SHIPPING_METHOD_ID] = $shippingMethodId;
@@ -412,10 +403,6 @@ class OrderConverter
     {
         // Ensure primary delivery is first, so `$deliveries->first()` returns the primary delivery.
         $keys = \array_filter(\array_unique([$primaryOrderDeliveryId, ...$orderDeliveries->getKeys()]));
-
-        if (!Feature::isActive('v6.8.0.0')) {
-            $keys = $orderDeliveries->getKeys();
-        }
 
         $cartDeliveries = new DeliveryCollection();
         foreach ($keys as $id) {

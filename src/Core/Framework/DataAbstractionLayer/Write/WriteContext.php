@@ -5,7 +5,6 @@ namespace Shopwell\Core\Framework\DataAbstractionLayer\Write;
 use Shopwell\Core\Framework\Context;
 use Shopwell\Core\Framework\DataAbstractionLayer\DataAbstractionLayerException;
 use Shopwell\Core\Framework\DataAbstractionLayer\Exception\UnableToLoadPathException;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Struct\StateAwareTrait;
 use Shopwell\Core\Framework\Uuid\Uuid;
@@ -98,10 +97,6 @@ class WriteContext
         $path = $this->buildPathName($entity, $propertyName);
 
         if (!$this->has($entity, $propertyName)) {
-            if (Feature::isActive('v6.8.0.0')) {
-                /** @phpstan-ignore shopwell.domainException (Will be fixed with next major) */
-                throw new \InvalidArgumentException(\sprintf('Unable to load %s: %s', $path, print_r($this->paths, true)));
-            }
             throw DataAbstractionLayerException::unableToLoadPath($path, $this->paths);
         }
 

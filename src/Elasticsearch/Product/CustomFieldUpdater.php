@@ -5,7 +5,6 @@ namespace Shopwell\Elasticsearch\Product;
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityWriteResult;
 use Shopwell\Core\Framework\DataAbstractionLayer\Event\EntityWrittenContainerEvent;
 use Shopwell\Core\Framework\DataAbstractionLayer\Event\EntityWrittenEvent;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\System\CustomField\Aggregate\CustomFieldSetRelation\CustomFieldSetRelationDefinition;
 use Shopwell\Core\System\CustomField\CustomFieldDefinition;
@@ -53,21 +52,6 @@ class CustomFieldUpdater implements EventSubscriberInterface
             $this->customFieldsCreated($customFieldWrittenEvent);
             $this->customFieldsUpdated($containerEvent, $customFieldWrittenEvent);
         }
-    }
-
-    /**
-     * @deprecated tag:v6.8.0 - Use ElasticsearchCustomFieldsMappingHelper::getTypeFromCustomFieldType instead
-     *
-     * @return array{type: string}
-     */
-    public static function getTypeFromCustomFieldType(string $type): array
-    {
-        Feature::triggerDeprecationOrThrow(
-            'v6.8.0.0',
-            Feature::deprecatedMethodMessage(self::class, __METHOD__, 'v6.8.0.0', 'Use ElasticsearchCustomFieldsMappingHelper::getTypeFromCustomFieldType instead')
-        );
-
-        return ElasticsearchCustomFieldsMappingHelper::getTypeFromCustomFieldType($type);
     }
 
     private function customFieldRelationsUpdated(EntityWrittenEvent $customFieldRelationWrittenEvent): void

@@ -19,7 +19,6 @@ use Shopwell\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Sorting\FieldSorting;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Plugin\Exception\DecorationPatternException;
 use Shopwell\Core\Framework\Routing\StoreApiRouteScope;
@@ -171,10 +170,6 @@ class SetPaymentOrderRoute extends AbstractSetPaymentOrderRoute
         }
 
         $lastTransaction = $order->getPrimaryOrderTransaction();
-
-        if (!Feature::isActive('v6.8.0.0')) {
-            $lastTransaction = $transactions->last();
-        }
 
         if ($lastTransaction === null) {
             return false;

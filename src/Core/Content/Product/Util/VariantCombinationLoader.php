@@ -5,7 +5,6 @@ namespace Shopwell\Core\Content\Product\Util;
 use Doctrine\DBAL\Connection;
 use Shopwell\Core\Framework\Context;
 use Shopwell\Core\Framework\DataAbstractionLayer\Doctrine\FetchModeHelper;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Uuid\Uuid;
 
@@ -26,10 +25,6 @@ class VariantCombinationLoader
     {
         $query = $this->connection->createQueryBuilder();
         $query->select('LOWER(HEX(product.id))', 'product.option_ids as options', 'product.product_number as productNumber', 'product.type as type');
-
-        if (!Feature::isActive('v6.8.0.0')) {
-            $query->addSelect('product.states as productStates');
-        }
 
         $query->from('product');
         $query->where('product.parent_id = :id');

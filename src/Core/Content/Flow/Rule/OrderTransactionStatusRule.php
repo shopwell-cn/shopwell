@@ -2,9 +2,6 @@
 
 namespace Shopwell\Core\Content\Flow\Rule;
 
-use Shopwell\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionEntity;
-use Shopwell\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStates;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Rule\FlowRule;
 use Shopwell\Core\Framework\Rule\Rule;
@@ -51,30 +48,6 @@ class OrderTransactionStatusRule extends FlowRule
     {
         if (!$scope instanceof FlowRuleScope || $this->stateIds === null) {
             return false;
-        }
-
-        if (!Feature::isActive('v6.8.0.0')) {
-            if (!$transactions = $scope->getOrder()->getTransactions()) {
-                return false;
-            }
-
-            /** @var OrderTransactionEntity $last */
-            $last = $transactions->last();
-            $paymentMethodId = $last->getStateId();
-
-            foreach ($transactions->getElements() as $transaction) {
-                $technicalName = $transaction->getStateMachineState()?->getTechnicalName();
-                if ($technicalName !== null
-                    && $technicalName !== OrderTransactionStates::STATE_FAILED
-                    && $technicalName !== OrderTransactionStates::STATE_CANCELLED
-                ) {
-                    $paymentMethodId = $transaction->getStateId();
-
-                    break;
-                }
-            }
-
-            return RuleComparison::stringArray($paymentMethodId, $this->stateIds, $this->operator);
         }
 
         if (!$scope->getOrder()->getPrimaryOrderTransaction()) {

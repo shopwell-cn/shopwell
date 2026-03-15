@@ -3,7 +3,6 @@
 namespace Shopwell\Elasticsearch\Admin;
 
 use Psr\Log\LoggerInterface;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 
 /**
@@ -26,21 +25,6 @@ class AdminElasticsearchHelper
 
     public function isEnabled(): bool
     {
-        return $this->adminEsEnabled;
-    }
-
-    /**
-     * @deprecated tag:v6.8.0 - use \Shopwell\Elasticsearch\Admin\AdminElasticsearchHelper::isEnabled instead
-     */
-    public function getEnabled(): bool
-    {
-        Feature::triggerDeprecationOrThrow('v6.8.0.0', Feature::deprecatedMethodMessage(
-            __CLASS__,
-            __METHOD__,
-            'v6.8.0.0',
-            'isEnabled'
-        ));
-
         return $this->adminEsEnabled;
     }
 

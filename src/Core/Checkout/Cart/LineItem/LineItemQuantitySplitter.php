@@ -3,12 +3,9 @@
 namespace Shopwell\Core\Checkout\Cart\LineItem;
 
 use Shopwell\Core\Checkout\Cart\CartException;
-use Shopwell\Core\Checkout\Cart\Price\QuantityPriceCalculator;
 use Shopwell\Core\Checkout\Cart\Price\Struct\CalculatedPrice;
-use Shopwell\Core\Checkout\Cart\Price\Struct\QuantityPriceDefinition;
 use Shopwell\Core\Checkout\Cart\Tax\Struct\CalculatedTax;
 use Shopwell\Core\Checkout\Cart\Tax\Struct\CalculatedTaxCollection;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\System\SalesChannel\SalesChannelContext;
 
@@ -18,7 +15,7 @@ class LineItemQuantitySplitter
     /**
      * @internal
      */
-    public function __construct(private readonly QuantityPriceCalculator $quantityPriceCalculator)
+    public function __construct()
     {
     }
 
@@ -48,31 +45,21 @@ class LineItemQuantitySplitter
         // change the quantity to 1 single item
         $tmpItem->setQuantity($quantity);
 
-        $definition = new QuantityPriceDefinition($unitPrice, $taxRules, $tmpItem->getQuantity());
-
-        if (Feature::isActive('v6.8.0.0')) {
-            $taxes = new CalculatedTaxCollection();
-            foreach ($lineItemPrice->getCalculatedTaxes() as $tax) {
-                $taxes->add(new CalculatedTax($tax->getTax() / $item->getQuantity() * $quantity, $tax->getTaxRate(), $tax->getPrice() / $item->getQuantity() * $quantity, $tax->getLabel()));
-            }
-
-            $price = new CalculatedPrice(
-                $unitPrice,
-                $unitPrice * $quantity,
-                $taxes,
-                $taxRules,
-                $tmpItem->getQuantity(),
-                $lineItemPrice->getReferencePrice(),
-                $lineItemPrice->getListPrice(),
-                $lineItemPrice->getRegulationPrice(),
-            );
-        } else {
-            $price = $this->quantityPriceCalculator->calculate($definition, $context);
-
-            $price->assign([
-                'listPrice' => $lineItemPrice->getListPrice() ?? null,
-            ]);
+        $taxes = new CalculatedTaxCollection();
+        foreach ($lineItemPrice->getCalculatedTaxes() as $tax) {
+            $taxes->add(new CalculatedTax($tax->getTax() / $item->getQuantity() * $quantity, $tax->getTaxRate(), $tax->getPrice() / $item->getQuantity() * $quantity, $tax->getLabel()));
         }
+
+        $price = new CalculatedPrice(
+            $unitPrice,
+            $unitPrice * $quantity,
+            $taxes,
+            $taxRules,
+            $tmpItem->getQuantity(),
+            $lineItemPrice->getReferencePrice(),
+            $lineItemPrice->getListPrice(),
+            $lineItemPrice->getRegulationPrice(),
+        );
 
         $tmpItem->setPrice($price);
 

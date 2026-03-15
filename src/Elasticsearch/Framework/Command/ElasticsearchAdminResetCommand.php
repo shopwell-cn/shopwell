@@ -4,12 +4,9 @@ namespace Shopwell\Elasticsearch\Framework\Command;
 
 use Doctrine\DBAL\Connection;
 use OpenSearch\Client;
-use Shopwell\Core\Framework\Feature;
-use Shopwell\Core\Framework\Increment\Exception\IncrementGatewayNotFoundException;
 use Shopwell\Core\Framework\Increment\IncrementGatewayRegistry;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Elasticsearch\Admin\AdminElasticsearchHelper;
-use Shopwell\Elasticsearch\Admin\AdminSearchIndexingMessage;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -63,15 +60,6 @@ class ElasticsearchAdminResetCommand extends Command
         }
 
         $this->connection->executeStatement('TRUNCATE admin_elasticsearch_index_task');
-
-        if (!Feature::isActive('v6.8.0.0')) {
-            try {
-                $gateway = $this->gatewayRegistry->get(IncrementGatewayRegistry::MESSAGE_QUEUE_POOL);
-                $gateway->reset('message_queue_stats', AdminSearchIndexingMessage::class);
-            } catch (IncrementGatewayNotFoundException) {
-                // In case message_queue pool is disabled
-            }
-        }
 
         $io->success('Admin Elasticsearch indices deleted and queue cleared');
 

@@ -10,7 +10,6 @@ use Shopwell\Core\Framework\Adapter\Request\RequestParamHelper;
 use Shopwell\Core\Framework\DataAbstractionLayer\Cache\EntityCacheKeyGenerator;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Plugin\Exception\DecorationPatternException;
 use Shopwell\Core\Framework\Routing\StoreApiRouteScope;
@@ -58,9 +57,7 @@ class FindProductVariantRoute extends AbstractFindProductVariantRoute
             }
         }
 
-        if (Feature::isActive('v6.8.0.0') || Feature::isActive('CACHE_REWORK')) {
-            $this->cacheTagCollector->addTag(EntityCacheKeyGenerator::buildProductTag($productId));
-        }
+        $this->cacheTagCollector->addTag(EntityCacheKeyGenerator::buildProductTag($productId));
 
         $variantId = $this->searchForOptions($productId, $context, $options);
 

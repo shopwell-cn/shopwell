@@ -5,10 +5,8 @@ namespace Shopwell\Core\Checkout\Cart\Price;
 use Shopwell\Core\Checkout\Cart\Price\Struct\CalculatedPrice;
 use Shopwell\Core\Checkout\Cart\Price\Struct\CartPrice;
 use Shopwell\Core\Checkout\Cart\Price\Struct\PriceCollection;
-use Shopwell\Core\Checkout\Cart\Price\Struct\QuantityPriceDefinition;
 use Shopwell\Core\Checkout\Cart\Tax\PercentageTaxRuleBuilder;
 use Shopwell\Core\Checkout\Cart\Tax\Struct\CalculatedTaxCollection;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\System\SalesChannel\SalesChannelContext;
 
@@ -20,7 +18,6 @@ class PercentagePriceCalculator
      */
     public function __construct(
         private readonly CashRounding $rounding,
-        private readonly QuantityPriceCalculator $priceCalculator,
         private readonly PercentageTaxRuleBuilder $percentageTaxRuleBuilder
     ) {
     }
@@ -40,23 +37,18 @@ class PercentagePriceCalculator
 
         $rules = $this->percentageTaxRuleBuilder->buildCollectionRules($prices->getCalculatedTaxes(), $totalPrice);
 
-        if (Feature::isActive('v6.8.0.0')) {
-            $taxes = $context->getTaxState() !== CartPrice::TAX_STATE_FREE ? $prices->getCalculatedTaxes() : new CalculatedTaxCollection();
-            foreach ($taxes as $tax) {
-                $tax->setTax($this->round($tax->getTax() / 100 * $percentage, $context));
-                $tax->setPrice($this->round($tax->getPrice() / 100 * $percentage, $context));
-            }
-
-            return new CalculatedPrice(
-                $discount,
-                $discount,
-                $taxes,
-                $rules,
-            );
+        $taxes = $context->getTaxState() !== CartPrice::TAX_STATE_FREE ? $prices->getCalculatedTaxes() : new CalculatedTaxCollection();
+        foreach ($taxes as $tax) {
+            $tax->setTax($this->round($tax->getTax() / 100 * $percentage, $context));
+            $tax->setPrice($this->round($tax->getPrice() / 100 * $percentage, $context));
         }
-        $definition = new QuantityPriceDefinition($discount, $rules, 1);
 
-        return $this->priceCalculator->calculate($definition, $context);
+        return new CalculatedPrice(
+            $discount,
+            $discount,
+            $taxes,
+            $rules,
+        );
     }
 
     private function round(float $price, SalesChannelContext $context): float

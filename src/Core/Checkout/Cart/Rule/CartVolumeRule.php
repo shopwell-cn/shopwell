@@ -4,9 +4,7 @@ namespace Shopwell\Core\Checkout\Cart\Rule;
 
 use Shopwell\Core\Checkout\Cart\Cart;
 use Shopwell\Core\Checkout\Cart\CartException;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
-use Shopwell\Core\Framework\Rule\Exception\UnsupportedValueException;
 use Shopwell\Core\Framework\Rule\Rule;
 use Shopwell\Core\Framework\Rule\RuleComparison;
 use Shopwell\Core\Framework\Rule\RuleConfig;
@@ -38,10 +36,6 @@ class CartVolumeRule extends Rule
         }
 
         if ($this->volume === null) {
-            if (!Feature::isActive('v6.8.0.0')) {
-                // @phpstan-ignore-next-line
-                throw new UnsupportedValueException(\gettype($this->volume), self::class);
-            }
             throw CartException::unsupportedValue(\gettype($this->volume), self::class);
         }
 

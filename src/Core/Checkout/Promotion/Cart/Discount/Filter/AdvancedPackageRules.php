@@ -12,10 +12,8 @@ use Shopwell\Core\Checkout\Cart\Rule\LineItemScope;
 use Shopwell\Core\Checkout\Promotion\Cart\Discount\DiscountLineItem;
 use Shopwell\Core\Checkout\Promotion\Cart\Discount\DiscountPackage;
 use Shopwell\Core\Checkout\Promotion\Cart\Discount\DiscountPackageCollection;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Plugin\Exception\DecorationPatternException;
-use Shopwell\Core\Framework\Rule\Rule;
 use Shopwell\Core\System\SalesChannel\SalesChannelContext;
 
 #[Package('checkout')]
@@ -43,30 +41,13 @@ class AdvancedPackageRules extends SetGroupScopeFilter
 
     private function isRulesFilterValid(LineItem $item, PriceDefinitionInterface $priceDefinition, SalesChannelContext $context): bool
     {
-        if (Feature::isActive('v6.8.0.0')) {
-            if (!$priceDefinition instanceof FilterableInterface) {
-                return true;
-            }
+        if (!$priceDefinition instanceof FilterableInterface) {
+            return true;
+        }
 
-            $filter = $priceDefinition->getFilter();
-            if ($filter === null) {
-                return true;
-            }
-        } else {
-            // if the price definition doesnt allow filters,
-            // then return valid for the item
-            if (!method_exists($priceDefinition, 'getFilter')) {
-                return true;
-            }
-
-            /** @var Rule|null $filter */
-            $filter = $priceDefinition->getFilter();
-
-            // if the definition exists, but is empty
-            // this means we have no restrictions and thus its valid
-            if (!$filter instanceof Rule) {
-                return true;
-            }
+        $filter = $priceDefinition->getFilter();
+        if ($filter === null) {
+            return true;
         }
 
         return $filter->match(new LineItemScope($item, $context));

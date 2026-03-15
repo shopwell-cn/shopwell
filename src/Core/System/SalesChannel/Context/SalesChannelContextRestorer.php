@@ -14,7 +14,6 @@ use Shopwell\Core\Framework\Context;
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopwell\Core\Framework\DataAbstractionLayer\Exception\InconsistentCriteriaIdsException;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Criteria;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Uuid\Uuid;
 use Shopwell\Core\System\SalesChannel\Event\SalesChannelContextRestorerOrderCriteriaEvent;
@@ -83,10 +82,6 @@ class SalesChannelContextRestorer
         }
 
         $shippingMethodId = $order->getPrimaryOrderDelivery()?->getShippingMethodId();
-
-        if (!Feature::isActive('v6.8.0.0')) {
-            $shippingMethodId = $order->getDeliveries()?->first()?->getShippingMethodId();
-        }
 
         if ($shippingMethodId !== null) {
             $options[SalesChannelContextService::SHIPPING_METHOD_ID] = $shippingMethodId;
@@ -212,10 +207,6 @@ class SalesChannelContextRestorer
             }
 
             return $transaction->getPaymentMethodId();
-        }
-
-        if (!Feature::isActive('v6.8.0.0')) {
-            return $transactions->last() ? $transactions->last()->getPaymentMethodId() : null;
         }
 
         return $order->getPrimaryOrderTransaction()?->getPaymentMethodId();

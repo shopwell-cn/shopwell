@@ -14,14 +14,12 @@ use Shopwell\Core\Checkout\Document\Service\PdfRenderer;
 use Shopwell\Core\Framework\Context;
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Criteria;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Plugin\Exception\DecorationPatternException;
 use Shopwell\Core\Framework\Routing\StoreApiRouteScope;
 use Shopwell\Core\PlatformRequest;
 use Shopwell\Core\System\SalesChannel\SalesChannelContext;
 use Symfony\Component\HttpFoundation\HeaderUtils;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -83,14 +81,6 @@ final class DocumentRoute extends AbstractDocumentRoute
         );
 
         if ($document === null) {
-            if (!Feature::isActive('v6.8.0.0')) {
-                /*
-                 * this response code needs to be removed also in the api-schema-docs:
-                 * src/Core/Framework/Api/ApiDefinition/Generator/Schema/StoreApi/paths/document.json
-                 */
-                return new JsonResponse(null, JsonResponse::HTTP_NO_CONTENT);
-            }
-
             throw DocumentException::documentFileTypeUnavailable(
                 $documentId,
                 $fileTypes
@@ -116,10 +106,6 @@ final class DocumentRoute extends AbstractDocumentRoute
          * handle param fileType
          */
         if ($fileType !== null) {
-            if (!Feature::isActive('v6.8.0.0')) {
-                return [$fileType];
-            }
-
             if (!isset($supportedTypesMapping[$fileType])) {
                 throw DocumentException::documentFileTypeNotSupported($fileType);
             }

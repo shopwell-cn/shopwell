@@ -11,7 +11,6 @@ use Shopwell\Core\Framework\Context;
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopwell\Core\Framework\DataAbstractionLayer\Pricing\CashRoundingConfig;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Criteria;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Routing\ApiRouteScope;
 use Shopwell\Core\PlatformRequest;
@@ -53,17 +52,11 @@ class PriceActionController extends AbstractController
         $output = (string) $request->request->get('output', 'gross');
         $preCalculated = $request->request->getBoolean('calculated', true);
 
-        $taxRate = null;
-        if (Feature::isActive('v6.8.0.0')) {
-            $criteria = new Criteria([$taxId])
-                ->addFields(['taxRate']);
+        $criteria = new Criteria([$taxId])
+            ->addFields(['taxRate']);
 
-            $tax = $this->taxRepository->search($criteria, $context)->getEntities()->first();
-            $taxRate = $tax?->get('taxRate');
-        } else {
-            $tax = $this->taxRepository->search(new Criteria([$taxId]), $context)->getEntities()->first();
-            $taxRate = $tax?->getTaxRate();
-        }
+        $tax = $this->taxRepository->search($criteria, $context)->getEntities()->first();
+        $taxRate = $tax?->get('taxRate');
 
         if ($taxRate === null) {
             throw CartException::taxRuleNotFound($taxId);
@@ -90,16 +83,11 @@ class PriceActionController extends AbstractController
             throw CartException::pricesParameterIsMissing();
         }
 
-        if (Feature::isActive('v6.8.0.0')) {
-            $criteria = new Criteria([$taxId])
-                ->addFields(['taxRate']);
+        $criteria = new Criteria([$taxId])
+            ->addFields(['taxRate']);
 
-            $tax = $this->taxRepository->search($criteria, $context)->getEntities()->first();
-            $taxRate = $tax?->get('taxRate');
-        } else {
-            $tax = $this->taxRepository->search(new Criteria([$taxId]), $context)->getEntities()->first();
-            $taxRate = $tax?->getTaxRate();
-        }
+        $tax = $this->taxRepository->search($criteria, $context)->getEntities()->first();
+        $taxRate = $tax?->get('taxRate');
 
         if ($taxRate === null) {
             throw CartException::taxRuleNotFound($taxId);

@@ -5,7 +5,6 @@ namespace Shopwell\Core\Framework\App\Command;
 use Shopwell\Core\Framework\Adapter\Console\ShopwellStyle;
 use Shopwell\Core\Framework\App\ShopIdChangeResolver\Resolver;
 use Shopwell\Core\Framework\Context;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -36,15 +35,6 @@ class ChangeShopIdCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new ShopwellStyle($input, $output);
-
-        if ($input->hasArgument('command') && $input->getArgument('command') === 'app:url-change:resolve') {
-            Feature::triggerDeprecationOrThrow(
-                'v6.8.0.0',
-                $deprecationMessage = 'The command alias "app:url-change:resolve" is deprecated and will be removed in v6.8.0. Use "app:shop-id:change" instead.'
-            );
-
-            $io->warning($deprecationMessage);
-        }
 
         $availableStrategies = $this->shopIdChangeResolver->getAvailableStrategies();
         $strategy = $input->getArgument('strategy');

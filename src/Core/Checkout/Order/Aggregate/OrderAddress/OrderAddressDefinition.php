@@ -9,7 +9,6 @@ use Shopwell\Core\Framework\DataAbstractionLayer\Field\CustomFields;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\FkField;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\Flag\ApiAware;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\Flag\CascadeDelete;
-use Shopwell\Core\Framework\DataAbstractionLayer\Field\Flag\Deprecated;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\Flag\PrimaryKey;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\Flag\Required;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\Flag\RestrictDelete;
@@ -22,7 +21,6 @@ use Shopwell\Core\Framework\DataAbstractionLayer\Field\ReferenceVersionField;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\StringField;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\VersionField;
 use Shopwell\Core\Framework\DataAbstractionLayer\FieldCollection;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\System\Country\Aggregate\CountryState\CountryStateDefinition;
 use Shopwell\Core\System\Country\CountryDefinition;
@@ -61,7 +59,7 @@ class OrderAddressDefinition extends EntityDefinition
 
     protected function defineFields(): FieldCollection
     {
-        $fields = new FieldCollection([
+        return new FieldCollection([
             new IdField('id', 'id')->addFlags(new ApiAware(), new PrimaryKey(), new Required())->setDescription('Unique identity of order\'s address.'),
             new VersionField()->addFlags(new ApiAware()),
 
@@ -86,13 +84,5 @@ class OrderAddressDefinition extends EntityDefinition
             // We need to cascade delete the order deliveries, because when deleting an order, the cascade delete will be triggered first
             new OneToManyAssociationField('orderDeliveries', OrderDeliveryDefinition::class, 'shipping_order_address_id', 'id')->addFlags(new CascadeDelete()),
         ]);
-
-        if (!Feature::isActive('v6.8.0.0')) {
-            $fields->add(
-                new StringField('vat_id', 'vatId')->addFlags(new ApiAware(), new Deprecated('v6.7.6.0', 'v6.8.0.0'))->setDescription('Unique identity of VAT.'),
-            );
-        }
-
-        return $fields;
     }
 }

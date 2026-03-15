@@ -284,7 +284,6 @@ return static function (ContainerConfigurator $container): void {
     $services->set(PercentagePriceCalculator::class)
         ->args([
             service(CashRounding::class),
-            service(QuantityPriceCalculator::class),
             service(PercentageTaxRuleBuilder::class),
         ]);
 
@@ -525,8 +524,7 @@ return static function (ContainerConfigurator $container): void {
     $services->set(RuleLoader::class)
         ->args([service('rule.repository')]);
 
-    $services->set(LineItemQuantitySplitter::class)
-        ->args([service(QuantityPriceCalculator::class)]);
+    $services->set(LineItemQuantitySplitter::class);
 
     $services->set(PriceDefinitionFactory::class);
 

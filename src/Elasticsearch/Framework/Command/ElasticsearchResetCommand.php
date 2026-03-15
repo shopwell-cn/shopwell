@@ -4,12 +4,9 @@ namespace Shopwell\Elasticsearch\Framework\Command;
 
 use Doctrine\DBAL\Connection;
 use OpenSearch\Client;
-use Shopwell\Core\Framework\Feature;
-use Shopwell\Core\Framework\Increment\Exception\IncrementGatewayNotFoundException;
 use Shopwell\Core\Framework\Increment\IncrementGatewayRegistry;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Elasticsearch\Framework\ElasticsearchOutdatedIndexDetector;
-use Shopwell\Elasticsearch\Framework\Indexing\ElasticsearchIndexingMessage;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -60,16 +57,6 @@ class ElasticsearchResetCommand extends Command
         }
 
         $this->connection->executeStatement('TRUNCATE elasticsearch_index_task');
-
-        if (!Feature::isActive('v6.8.0.0')) {
-            try {
-                $gateway = $this->gatewayRegistry->get(IncrementGatewayRegistry::MESSAGE_QUEUE_POOL);
-                $gateway->reset('message_queue_stats', ElasticsearchIndexingMessage::class);
-            } catch (IncrementGatewayNotFoundException) {
-                // In case message_queue pool is disabled
-            }
-        }
-
         $this->connection->executeStatement('DELETE FROM `messenger_messages` WHERE `headers` LIKE "%ElasticsearchIndexingMessage%"');
 
         $io->success('Elasticsearch indices deleted and queue cleared');

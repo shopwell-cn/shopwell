@@ -13,7 +13,6 @@ use Shopwell\Core\Defaults;
 use Shopwell\Core\Framework\Context;
 use Shopwell\Core\Framework\DataAbstractionLayer\Dbal\EntityDefinitionQueryHelper;
 use Shopwell\Core\Framework\Event\OrderAware;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Uuid\Uuid;
 use Shopwell\Core\System\StateMachine\Exception\IllegalTransitionException;
@@ -106,22 +105,12 @@ class SetOrderStateAction extends FlowAction implements DelayableAction, Transac
 
         $data = new ParameterBag();
 
-        if (!Feature::isActive('v6.8.0.0')) {
-            if ($machine === self::ORDER) {
-                $machineId = $orderId;
-            } elseif ($machine === self::ORDER_DELIVERY) {
-                $machineId = $this->getMachineIdFromOrderDelivery($orderId, $context);
-            } else {
-                $machineId = $this->getMachineId($machine, $orderId);
-            }
-        } else {
-            $machineId = match ($machine) {
-                self::ORDER => $orderId,
-                self::ORDER_DELIVERY => $this->getMachineIdFromOrderDelivery($orderId, $context),
-                self::ORDER_TRANSACTION => $this->getMachineIdFromOrderTransaction($orderId, $context),
-                default => $this->getMachineId($machine, $orderId),
-            };
-        }
+        $machineId = match ($machine) {
+            self::ORDER => $orderId,
+            self::ORDER_DELIVERY => $this->getMachineIdFromOrderDelivery($orderId, $context),
+            self::ORDER_TRANSACTION => $this->getMachineIdFromOrderTransaction($orderId, $context),
+            default => $this->getMachineId($machine, $orderId),
+        };
 
         if (!$machineId) {
             throw FlowException::stateMachineNotFound($machine);

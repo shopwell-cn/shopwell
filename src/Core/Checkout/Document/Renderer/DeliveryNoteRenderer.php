@@ -14,7 +14,6 @@ use Shopwell\Core\Checkout\Order\OrderEntity;
 use Shopwell\Core\Defaults;
 use Shopwell\Core\Framework\Context;
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityRepository;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Plugin\Exception\DecorationPatternException;
 use Shopwell\Core\System\NumberRange\ValueGenerator\NumberRangeValueGeneratorInterface;
@@ -125,12 +124,6 @@ final class DeliveryNoteRenderer extends AbstractDocumentRenderer
                     }
 
                     $deliveries = $order->getPrimaryOrderDelivery();
-
-                    if ($order->getDeliveries()) {
-                        if (!Feature::isActive('v6.8.0.0')) {
-                            $deliveries = $order->getDeliveries()->first();
-                        }
-                    }
 
                     $language = $order->getLanguage();
                     if ($language === null) {

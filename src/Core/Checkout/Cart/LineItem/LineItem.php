@@ -45,16 +45,16 @@ class LineItem extends Struct
      */
     public ?string $dataContextHash = null;
 
-    /**
-     * Used as a unique id to identify a line item over multiple nested levels
-     */
-    public string $uniqueIdentifier;
-
     public bool $modifiedByApp = false;
 
     public int $quantity;
 
     public ?QuantityInformation $quantityInformation = null;
+
+    /**
+     * Used as a unique id to identify a line item over multiple nested levels
+     */
+    protected string $uniqueIdentifier;
 
     /**
      * @var array<mixed>
@@ -264,6 +264,11 @@ class LineItem extends Struct
         }
 
         return $this;
+    }
+
+    public function getUniqueIdentifier(): string
+    {
+        return $this->uniqueIdentifier;
     }
 
     /**

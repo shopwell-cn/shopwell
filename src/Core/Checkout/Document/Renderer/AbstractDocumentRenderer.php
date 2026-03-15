@@ -9,7 +9,6 @@ use Shopwell\Core\Checkout\Customer\Validation\Constraint\CustomerVatIdentificat
 use Shopwell\Core\Checkout\Document\Struct\DocumentGenerateOperation;
 use Shopwell\Core\Checkout\Order\OrderEntity;
 use Shopwell\Core\Framework\Context;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Uuid\Uuid;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -62,10 +61,6 @@ abstract class AbstractDocumentRenderer
         }
 
         $orderDelivery = $order->getPrimaryOrderDelivery();
-
-        if (!Feature::isActive('v6.8.0.0')) {
-            $orderDelivery = $order->getDeliveries()?->first();
-        }
 
         if (!$orderDelivery) {
             return false;

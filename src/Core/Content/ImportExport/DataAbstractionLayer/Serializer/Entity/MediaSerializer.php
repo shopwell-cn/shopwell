@@ -17,9 +17,7 @@ use Shopwell\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopwell\Core\Framework\DataAbstractionLayer\Event\EntityWrittenEvent;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
-use Shopwell\Core\Framework\Util\UrlEncoder;
 use Shopwell\Core\Framework\Uuid\Uuid;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\Service\ResetInterface;
@@ -64,10 +62,6 @@ class MediaSerializer extends AbstractMediaSerializer implements ResetInterface
 
         if (empty($url)) {
             return $deserialized;
-        }
-
-        if (!Feature::isActive('v6.8.0.0')) {
-            $url = UrlEncoder::encodeUrl($url);
         }
 
         if (!filter_var($url, \FILTER_VALIDATE_URL)) {

@@ -6,7 +6,6 @@ use Shopwell\Core\Framework\Context;
 use Shopwell\Core\Framework\DataAbstractionLayer\Dbal\EntityHydrator;
 use Shopwell\Core\Framework\DataAbstractionLayer\Entity;
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityDefinition;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Uuid\Uuid;
 
@@ -85,9 +84,6 @@ class ProductHydrator extends EntityHydrator
         }
         if (isset($row[$root . '.displayGroup'])) {
             $entity->displayGroup = $row[$root . '.displayGroup'];
-        }
-        if (!Feature::isActive('v6.8.0.0') && isset($row[$root . '.states'])) {
-            $entity->states = $definition->decode('states', self::value($row, $root, 'states'));
         }
         if (isset($row[$root . '.variantListingConfig'])) {
             $entity->variantListingConfig = $definition->decode('variantListingConfig', self::value($row, $root, 'variantListingConfig'));

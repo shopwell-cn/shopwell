@@ -20,7 +20,6 @@ use Shopwell\Core\Framework\DataAbstractionLayer\Field\Flag\ApiAware;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\Flag\CascadeDelete;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\Flag\Choice;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\Flag\Computed;
-use Shopwell\Core\Framework\DataAbstractionLayer\Field\Flag\Deprecated;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\Flag\PrimaryKey;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\Flag\Required;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\Flag\WriteProtected;
@@ -28,7 +27,6 @@ use Shopwell\Core\Framework\DataAbstractionLayer\Field\FloatField;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\IdField;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\IntField;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\JsonField;
-use Shopwell\Core\Framework\DataAbstractionLayer\Field\ListField;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\LongTextField;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\ManyToOneAssociationField;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\OneToManyAssociationField;
@@ -39,7 +37,6 @@ use Shopwell\Core\Framework\DataAbstractionLayer\Field\ReferenceVersionField;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\StringField;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\VersionField;
 use Shopwell\Core\Framework\DataAbstractionLayer\FieldCollection;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 
 #[Package('checkout')]
@@ -82,7 +79,7 @@ class OrderLineItemDefinition extends EntityDefinition
 
     protected function defineFields(): FieldCollection
     {
-        $fields = new FieldCollection([
+        return new FieldCollection([
             new IdField('id', 'id')->addFlags(new ApiAware(), new PrimaryKey(), new Required())->setDescription('Unique identity of OrderLineItem.'),
             new VersionField()->addFlags(new ApiAware()),
 
@@ -131,14 +128,5 @@ class OrderLineItemDefinition extends EntityDefinition
             new ParentAssociationField(self::class)->addFlags(new ApiAware()),
             new ChildrenAssociationField(self::class)->addFlags(new ApiAware(), new Required()),
         ]);
-
-        if (!Feature::isActive('v6.8.0.0')) {
-            $fields->add(
-                new ListField('states', 'states', StringField::class)
-                    ->addFlags(new ApiAware(), new Required(), new Deprecated('v6.7.6.0', 'v6.8.0.0', 'payload.productType'))->setDescription('Internal field.'),
-            );
-        }
-
-        return $fields;
     }
 }

@@ -39,7 +39,6 @@ use Shopwell\Core\Framework\DataAbstractionLayer\Field\Flag\ApiAware;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\Flag\ApiCriteriaAware;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\Flag\CascadeDelete;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\Flag\Choice;
-use Shopwell\Core\Framework\DataAbstractionLayer\Field\Flag\Deprecated;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\Flag\Immutable;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\Flag\Inherited;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\Flag\NoConstraint;
@@ -68,7 +67,6 @@ use Shopwell\Core\Framework\DataAbstractionLayer\Field\TranslationsAssociationFi
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\VariantListingConfigField;
 use Shopwell\Core\Framework\DataAbstractionLayer\Field\VersionField;
 use Shopwell\Core\Framework\DataAbstractionLayer\FieldCollection;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\System\CustomField\Aggregate\CustomFieldSet\CustomFieldSetDefinition;
 use Shopwell\Core\System\DeliveryTime\DeliveryTimeDefinition;
@@ -137,7 +135,7 @@ class ProductDefinition extends EntityDefinition
 
     protected function defineFields(): FieldCollection
     {
-        $fields = new FieldCollection([
+        return new FieldCollection([
             new IdField('id', 'id')->addFlags(new ApiAware(), new PrimaryKey(), new Required())->setDescription('Unique identity of the product.'),
             new VersionField()->addFlags(new ApiAware()),
             new ParentFkField(self::class)->addFlags(new ApiAware()),
@@ -193,6 +191,7 @@ class ProductDefinition extends EntityDefinition
             new ChildCountField()->addFlags(new ApiAware()),
             new BoolField('custom_field_set_selection_active', 'customFieldSetSelectionActive')->addFlags(new Inherited())->setDescription('When boolean value is `true`, the customFieldSetSelection for products gets enabled.'),
             new IntField('sales', 'sales')->addFlags(new ApiAware(), new WriteProtected())->setDescription('Frequency of the product sales.'),
+            new StringField('type', 'type')->addFlags(new ApiAware(), new Immutable(), new Required(), new Choice([self::TYPE_PHYSICAL, self::TYPE_DIGITAL]))->setDescription('The type of the product, e.g., physical or digital.'),
             new OneToManyAssociationField('downloads', ProductDownloadDefinition::class, 'product_id')->addFlags(new ApiAware(), new CascadeDelete())->setDescription('Downloadable files associated with the product (e.g., manuals, digital content)'),
 
             new TranslatedField('metaDescription')->addFlags(new ApiAware(), new Inherited()),
@@ -264,28 +263,5 @@ class ProductDefinition extends EntityDefinition
 
             new TranslationsAssociationField(ProductTranslationDefinition::class, 'product_id')->addFlags(new ApiAware(), new Inherited(), new Required()),
         ]);
-
-        if (Feature::isActive('v6.8.0.0')) {
-            $fields->add(
-                new StringField('type', 'type')->addFlags(new ApiAware(), new Immutable(), new Required(), new Choice([
-                    self::TYPE_PHYSICAL,
-                    self::TYPE_DIGITAL,
-                ]))->setDescription('The type of the product, e.g., physical or digital.'),
-            );
-        } else {
-            $fields->add(
-                new StringField('type', 'type')->addFlags(new ApiAware(), new Immutable(), new Choice([
-                    self::TYPE_PHYSICAL,
-                    self::TYPE_DIGITAL,
-                ]))->setDescription('The type of the product, e.g., physical or digital.'),
-            );
-
-            $fields->add(
-                new ListField('states', 'states', StringField::class)
-                    ->addFlags(new ApiAware(), new WriteProtected(), new Deprecated('v6.7.6.0', 'v6.8.0.0', 'type'))->setDescription('Internal field.'),
-            );
-        }
-
-        return $fields;
     }
 }

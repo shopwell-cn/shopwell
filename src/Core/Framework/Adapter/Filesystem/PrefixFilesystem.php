@@ -6,7 +6,6 @@ use League\Flysystem\DirectoryListing;
 use League\Flysystem\FilesystemOperator;
 use League\Flysystem\StorageAttributes;
 use Shopwell\Core\Framework\Adapter\AdapterException;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 
 #[Package('framework')]
@@ -22,11 +21,6 @@ class PrefixFilesystem implements FilesystemOperator
         string $prefix
     ) {
         if ($prefix === '') {
-            if (!Feature::isActive('v6.8.0.0')) {
-                // @phpstan-ignore-next-line
-                throw new \InvalidArgumentException('The prefix must not be empty.');
-            }
-
             throw AdapterException::invalidArgument('The prefix must not be empty.');
         }
         $this->prefix = trim($prefix, '/') . '/';

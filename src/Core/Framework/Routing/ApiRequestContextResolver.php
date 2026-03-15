@@ -9,11 +9,9 @@ use Shopwell\Core\Framework\Api\Context\AdminApiSource;
 use Shopwell\Core\Framework\Api\Context\ContextSource;
 use Shopwell\Core\Framework\Api\Context\SalesChannelApiSource;
 use Shopwell\Core\Framework\Api\Context\SystemSource;
-use Shopwell\Core\Framework\Api\Exception\MissingPrivilegeException;
 use Shopwell\Core\Framework\Api\Util\AccessKeyHelper;
 use Shopwell\Core\Framework\Context;
 use Shopwell\Core\Framework\DataAbstractionLayer\Pricing\CashRoundingConfig;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Uuid\Uuid;
 use Shopwell\Core\PlatformRequest;
@@ -337,10 +335,6 @@ class ApiRequestContextResolver implements RequestContextResolverInterface
             ['id' => Uuid::fromHexToBytes($currencyId)]
         );
         if ($rounding === false) {
-            if (!Feature::isActive('v6.8.0.0')) {
-                // @phpstan-ignore-next-line
-                throw new \RuntimeException(\sprintf('No cash rounding for currency "%s" found', $currencyId));
-            }
             throw RoutingException::currencyNotFound($currencyId);
         }
 
@@ -442,10 +436,6 @@ class ApiRequestContextResolver implements RequestContextResolverInterface
         $specificAppPrivileged = \in_array($appPrivilegeName, $permissions, true);
 
         if (!($specificAppPrivileged || $allAppsPrivileged)) {
-            if (!Feature::isActive('v6.8.0.0')) {
-                // @phpstan-ignore-next-line
-                throw new MissingPrivilegeException([$appPrivilegeName]);
-            }
             throw RoutingException::missingPrivileges([$appPrivilegeName]);
         }
 

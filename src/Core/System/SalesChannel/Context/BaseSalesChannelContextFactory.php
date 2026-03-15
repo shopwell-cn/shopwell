@@ -17,7 +17,6 @@ use Shopwell\Core\Framework\DataAbstractionLayer\PartialEntity;
 use Shopwell\Core\Framework\DataAbstractionLayer\Pricing\CashRoundingConfig;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Uuid\Uuid;
 use Shopwell\Core\System\Country\Aggregate\CountryState\CountryStateCollection;
@@ -80,13 +79,6 @@ class BaseSalesChannelContextFactory extends AbstractBaseSalesChannelContextFact
         $criteria->setTitle('base-context-factory::sales-channel');
         $criteria->addAssociation('currency');
         $criteria->addAssociation('domains');
-
-        if (!Feature::isActive('v6.8.0.0')) {
-            $criteria->getAssociation('languages')
-                ->addFilter(new EqualsFilter('id', $context->getLanguageId()))
-                ->addAssociation('translationCode')
-                ->addAssociation('locale');
-        }
 
         $salesChannel = $this->salesChannelRepository->search($criteria, $context)->getEntities()->get($salesChannelId);
         if (!$salesChannel instanceof SalesChannelEntity) {
@@ -151,11 +143,7 @@ class BaseSalesChannelContextFactory extends AbstractBaseSalesChannelContextFact
             $itemRounding
         );
 
-        if (!Feature::isActive('v6.8.0.0')) {
-            $languageInfo = $this->getLanguageInfoDeprecated($salesChannel->getLanguages(), $context->getLanguageId());
-        } else {
-            $languageInfo = $this->getLanguageInfo($context);
-        }
+        $languageInfo = $this->getLanguageInfo($context);
 
         $domainId = \is_string($options[SalesChannelContextService::DOMAIN_ID] ?? null) ? $options[SalesChannelContextService::DOMAIN_ID] : null;
 

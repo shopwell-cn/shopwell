@@ -35,7 +35,6 @@ use Shopwell\Core\Framework\DataAbstractionLayer\Entity;
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopwell\Core\Framework\DataAbstractionLayer\Exception\InconsistentCriteriaIdsException;
 use Shopwell\Core\Framework\DataAbstractionLayer\Search\Criteria;
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\System\SalesChannel\Context\SalesChannelContextService;
 use Shopwell\Core\System\SalesChannel\SalesChannelContext;
@@ -218,12 +217,6 @@ class RecalculationService
             $orderData['deliveries'][0]['stateId'] = $order->getPrimaryOrderDelivery()->getStateId();
         }
 
-        if (!Feature::isActive('v6.8.0.0')) {
-            if ($order->getDeliveries()?->first()?->getStateId() && isset($orderData['deliveries'][0])) {
-                $orderData['deliveries'][0]['stateId'] = $order->getDeliveries()->first()->getStateId();
-            }
-        }
-
         if ($allowLineItemsDeletion) {
             $this->deleteOldLineItems($orderData, $order, $context);
         }
@@ -289,10 +282,6 @@ class RecalculationService
         $delivery = $cart->getDeliveries()->getPrimaryDelivery(
             $cart->getExtensionOfType(OrderConverter::ORIGINAL_PRIMARY_ORDER_DELIVERY, IdStruct::class)?->getId()
         );
-
-        if (!Feature::isActive('v6.8.0.0')) {
-            $delivery = $cart->getDeliveries()->first();
-        }
 
         if (!$delivery) {
             return;

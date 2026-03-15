@@ -2,7 +2,6 @@
 
 namespace Shopwell\Core\Content\Flow\Rule;
 
-use Shopwell\Core\Framework\Feature;
 use Shopwell\Core\Framework\Log\Package;
 use Shopwell\Core\Framework\Rule\FlowRule;
 use Shopwell\Core\Framework\Rule\Rule;
@@ -49,19 +48,6 @@ class OrderDeliveryStatusRule extends FlowRule
     {
         if (!$scope instanceof FlowRuleScope) {
             return false;
-        }
-
-        if (!Feature::isActive('v6.8.0.0')) {
-            if (!$deliveries = $scope->getOrder()->getDeliveries()) {
-                return false;
-            }
-
-            $deliveryStateIds = [];
-            foreach ($deliveries->getElements() as $delivery) {
-                $deliveryStateIds[] = $delivery->getStateId();
-            }
-
-            return RuleComparison::uuids($deliveryStateIds, $this->stateIds, $this->operator);
         }
 
         if (!$scope->getOrder()->getPrimaryOrderDelivery()) {

@@ -160,7 +160,7 @@ class CustomerEntity extends Entity implements \Stringable
 
     public function __toString(): string
     {
-        return $this->getNickname() . ' ' . $this->getLastName();
+        return $this->getNickname();
     }
 
     public function getGroupId(): string
