@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Shopwell\Core\Checkout\Points;
+namespace Shopwell\Core\Checkout\Wallet\Aggregate\WalletCustomerWithdrawMethod;
 
 use Shopwell\Core\Framework\DataAbstractionLayer\Attribute\Entity;
 use Shopwell\Core\Framework\DataAbstractionLayer\Attribute\Field;
@@ -11,23 +11,14 @@ use Shopwell\Core\Framework\DataAbstractionLayer\EntityCustomFieldsTrait;
 use Shopwell\Core\Framework\Log\Package;
 
 #[Package('checkout')]
-#[Entity(PointsEntity::ENTITY_NAME, since: '6.8.0.0')]
-class PointsEntity extends EntityStruct
+#[Entity(WalletCustomerWithdrawMethodEntity::ENTITY_NAME, since: '6.8.0.0', collectionClass: WalletCustomerWithdrawMethodCollection::class)]
+class WalletCustomerWithdrawMethodEntity extends EntityStruct
 {
     use EntityCustomFieldsTrait;
 
-    final public const string ENTITY_NAME = 'points';
+    final public const string ENTITY_NAME = 'wallet_customer_withdraw_method';
 
     #[PrimaryKey]
     #[Field(type: FieldType::UUID, api: true)]
     public string $id;
-
-    #[Field(type: FieldType::INT, api: true)]
-    public float $version;
-
-    #[Field(type: FieldType::STRING, api: true)]
-    public string $identifier;
-
-    #[Field(type: FieldType::STRING, api: true)]
-    public string $referencedId;
 }

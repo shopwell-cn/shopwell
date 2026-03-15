@@ -1,33 +1,35 @@
 <?php declare(strict_types=1);
 
-namespace Shopwell\Core\Checkout\Points;
+namespace Shopwell\Core\Checkout\Wallet\Aggregate\WalletFreeze;
 
+use Shopwell\Core\Framework\DataAbstractionLayer\Attribute\CustomFields;
 use Shopwell\Core\Framework\DataAbstractionLayer\Attribute\Entity;
 use Shopwell\Core\Framework\DataAbstractionLayer\Attribute\Field;
 use Shopwell\Core\Framework\DataAbstractionLayer\Attribute\FieldType;
+use Shopwell\Core\Framework\DataAbstractionLayer\Attribute\ForeignKey;
 use Shopwell\Core\Framework\DataAbstractionLayer\Attribute\PrimaryKey;
 use Shopwell\Core\Framework\DataAbstractionLayer\Entity as EntityStruct;
 use Shopwell\Core\Framework\DataAbstractionLayer\EntityCustomFieldsTrait;
 use Shopwell\Core\Framework\Log\Package;
 
 #[Package('checkout')]
-#[Entity(PointsEntity::ENTITY_NAME, since: '6.8.0.0')]
-class PointsEntity extends EntityStruct
+#[Entity(WalletFreezeEntity::ENTITY_NAME, since: '6.8.0.0', collectionClass: WalletFreezeCollection::class)]
+class WalletFreezeEntity extends EntityStruct
 {
     use EntityCustomFieldsTrait;
 
-    final public const string ENTITY_NAME = 'points';
+    final public const string ENTITY_NAME = 'wallet_freeze';
 
     #[PrimaryKey]
     #[Field(type: FieldType::UUID, api: true)]
     public string $id;
 
-    #[Field(type: FieldType::INT, api: true)]
-    public float $version;
+    #[ForeignKey(entity: 'customer', api: true)]
+    public string $walletId;
 
-    #[Field(type: FieldType::STRING, api: true)]
-    public string $identifier;
-
-    #[Field(type: FieldType::STRING, api: true)]
-    public string $referencedId;
+    /**
+     * @var array<mixed>|null
+     */
+    #[CustomFields(true)]
+    protected ?array $customFields = null;
 }
